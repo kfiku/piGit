@@ -20,7 +20,7 @@ class RepoModel extends EventEmitter {
   name: string;
   branch: string;
 
-  ahade: number;
+  ahead: number;
   behind: number;
 
   modified: string[];
@@ -48,7 +48,7 @@ class RepoModel extends EventEmitter {
         console.log(status);
         this.modified = status.modified;
         this.created = status.created;
-        this.ahade = status.ahade;
+        this.ahead = status.ahead;
         this.behind = status.behind;
         this.branch = status.tracking.replace('origin/', '');
         this.emit('change');
@@ -149,7 +149,7 @@ class GitWatchApp extends React.Component <AppProps, {}> {
             name={repoModel.name}
             branch={repoModel.branch}
 
-            ahade={repoModel.ahade}
+            ahead={repoModel.ahead}
             behind={repoModel.behind}
 
             added={repoModel.added}

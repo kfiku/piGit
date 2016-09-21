@@ -3,7 +3,7 @@ import * as React from "react";
 export interface RepoProps {
   name: string,
   branch: string,
-  ahade: number,
+  ahead: number,
   behind: number,
   modified: string[],
   added: string[],
@@ -37,7 +37,7 @@ export class Repo extends React.Component<RepoProps, {}> {
             <span className="tag is-dark">{this.props.branch}</span>
           </h5>
 
-          { this.props.ahade ? 'ahade: ' + this.props.ahade: '' }
+          { this.props.ahead ? 'ahead: ' + this.props.ahead: '' }
           { this.props.behind ? 'behind: ' + this.props.behind: '' }
           { modifiedBox }
         </div>
