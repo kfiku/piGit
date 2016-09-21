@@ -37,6 +37,7 @@ class RepoModel extends EventEmitter {
         this.name = basename(dir);
 
         this.updateStatus();
+        this.fetch();
         callback(null, true);
       }
     });
@@ -52,13 +53,20 @@ class RepoModel extends EventEmitter {
         this.behind = status.behind;
         this.branch = status.tracking.replace('origin/', '');
         this.emit('change');
-        this.updateStatusTI = setTimeout(this.updateStatus.bind(this), 60*60*1000); // 1min;
+
+        clearTimeout(this.updateStatusTI);
+        this.updateStatusTI = setTimeout(this.fetch.bind(this), 60*60*1000); // 1min;
       }
     });
   }
 
+  fetch () {
+    this.git.fetch(this.updateStatus.bind(this));
+  }
+
   remove () {
     this.git = undefined;
+    clearTimeout(this.updateStatusTI);
     this.emit('remove');
   }
 
@@ -155,6 +163,7 @@ class GitWatchApp extends React.Component <AppProps, {}> {
             added={repoModel.added}
             modified={repoModel.modified}
             onDelete={repoModel.remove.bind(repoModel, repoModel.dir) }
+            onRefresh={repoModel.fetch.bind(repoModel) }
           />
         );
       });
@@ -164,7 +173,7 @@ class GitWatchApp extends React.Component <AppProps, {}> {
       <div>
         <Nav dialog={this.props.model.dialog.bind(this.props.model)}/>
         <section className="section">
-          <div className="tile is-ancestor is-multiline">
+          <div className="columns is-multiline">
             {reposCollection}
           </div>
         </section>
