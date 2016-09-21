@@ -1,0 +1,52 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "dev": "concurrently 'npm start' 'npm run css-w' 'npm run ts-w'",
+    "start": "electron .",
+    "css": "postcss -o src/css/bundle.css -u precss src/css/all.css",
+    "css-w": "npm run css -- -w",
+    "ts-w": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electron/electron-quick-start.git"
+  },
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/electron/electron-quick-start/issues"
+  },
+  "homepage": "https://github.com/electron/electron-quick-start#readme",
+  "devDependencies": {
+    "css-loader": "^0.25.0",
+    "electron": "^1.3.4",
+    "postcss": "^5.2.0",
+    "postcss-cli": "^2.6.0",
+    "source-map-loader": "^0.1.5",
+    "style-loader": "^0.13.1",
+    "ts-loader": "^0.8.2",
+    "typescript": "^1.8.10",
+    "typings": "^1.3.3"
+  },
+  "dependencies": {
+    "async": "^2.0.1",
+    "bulma": "^0.1.2",
+    "classnames": "~2.2.5",
+    "concurrently": "^2.2.0",
+    "director": "~1.2.8",
+    "electron-settings": "^2.2.1",
+    "font-awesome": "^4.6.3",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "simple-git": "^1.48.0"
+  }
+}

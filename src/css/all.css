@@ -1,0 +1,14 @@
+@import "../../node_modules/bulma/css/bulma.css";
+
+$fs: 16px;
+
+body {
+  margin: 0;
+  // font-family: sans;
+  // font-size: $fs;
+  bg: #eee;
+}
+
+.main-nav {
+  background: #ccc;
+}
