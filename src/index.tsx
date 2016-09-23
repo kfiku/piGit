@@ -1,18 +1,19 @@
-import { stat } from "fs";
-import { join, basename } from "path";
-import { EventEmitter } from "events";
+import { stat } from 'fs';
+import { join, basename } from 'path';
+import { EventEmitter } from 'events';
 
 import * as electron from 'electron';
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import * as async from "async";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import * as async from 'async';
 
-import { Hello } from "./components/Hello";
-import { Nav } from "./components/Nav";
-import { Repo } from "./components/Repo";
+import { Hello } from './components/Hello';
+import { Nav } from './components/Nav';
+import { Repo } from './components/Repo';
 
-var electronSettings = require('electron-settings');
-var SimpleGit = require('simple-git');
+const electronSettings = require('electron-settings');
+const simpleGit = require('simple-git');
+const glob = require('glob');
 
 class RepoModel extends EventEmitter {
   updateStatusTI: any;
@@ -30,10 +31,10 @@ class RepoModel extends EventEmitter {
     super();
 
     this.validateDir(dir, (err) => {
-      if(err) {
+      if (err) {
         callback(err);
       } else {
-        this.git = SimpleGit(dir);
+        this.git = simpleGit(dir);
         this.name = basename(dir);
 
         this.updateStatus();
@@ -45,7 +46,7 @@ class RepoModel extends EventEmitter {
 
   updateStatus () {
     this.git.status((err, status) => {
-      if(!err) {
+      if (!err) {
         console.log(status);
         this.modified = status.modified;
         this.created = status.created;
@@ -55,7 +56,7 @@ class RepoModel extends EventEmitter {
         this.emit('change');
 
         clearTimeout(this.updateStatusTI);
-        this.updateStatusTI = setTimeout(this.fetch.bind(this), 60*60*1000); // 1min;
+        this.updateStatusTI = setTimeout(this.fetch.bind(this), 60 * 60 * 1000); // 1min;
       }
     });
   }
@@ -88,7 +89,7 @@ class Repos extends EventEmitter {
       this.add(rps, (err) => {
         this.inform();
       });
-    })
+    });
   }
 
   inform () {
@@ -100,7 +101,20 @@ class Repos extends EventEmitter {
       properties: ['openDirectory', 'multiSelections']
     });
 
-    this.add(repos);
+    let reposToAdd = [];
+
+    async.each(repos, (repo, callback) => {
+      glob(repo + '/**/.git', (err, gitDirs: string[]) => {
+        // console.log(gitDirs);
+        gitDirs.map((r) => {
+          reposToAdd.push(join(r, '..'));
+        });
+
+        callback();
+      });
+    }, (err) => {
+      this.add(reposToAdd);
+    });
   }
 
   add (dirs, callback?) {
@@ -111,16 +125,20 @@ class Repos extends EventEmitter {
     dirs = dirs.filter((d, i) => dirs.lastIndexOf(d) === i && this.reposStr.indexOf(d) === -1);
 
     async.each(dirs, (dir: string, cb) => {
+      let id = this.repos.length;
       const repo = new RepoModel(dir, (err) => {
         if (!err) {
           repo.on('change', this.inform.bind(this));
           repo.on('remove', this.remove.bind(this, repo.dir));
-          this.repos.push(repo);
+        } else {
+          this.repos[id] = undefined;
         }
         cb();
       });
+      this.repos[id] = repo;
     }, (err) => {
       if (!err) {
+        this.repos = this.repos.filter(r => !!r);
         this.inform();
         this.save();
       }
@@ -142,7 +160,7 @@ class Repos extends EventEmitter {
   }
 }
 
-export interface AppProps { model }
+export interface AppProps { model; }
 
 class GitWatchApp extends React.Component <AppProps, {}> {
   render() {
@@ -172,8 +190,8 @@ class GitWatchApp extends React.Component <AppProps, {}> {
     return (
       <div>
         <Nav dialog={this.props.model.dialog.bind(this.props.model)}/>
-        <section className="section">
-          <div className="columns is-multiline">
+        <section className='section'>
+          <div className='columns is-multiline'>
             {reposCollection}
           </div>
         </section>
@@ -186,12 +204,12 @@ class GitWatchApp extends React.Component <AppProps, {}> {
 
 let repos = new Repos();
 
-function render () {
+const render = () => {
   ReactDOM.render(
     <GitWatchApp model={repos}/>,
-    document.getElementById("example")
+    document.getElementById('example')
   );
-}
+};
 
 repos.on('change', render);
 render();
