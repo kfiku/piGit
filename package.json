@@ -5,10 +5,12 @@
   "main": "main.js",
   "scripts": {
     "dev": "concurrently 'npm lint' 'npm start' 'npm run css-w' 'npm run ts-w'",
-    "start": "electron .",
+    "build": "npm run lint && npm run css && npm run ts",
+    "start": "npm run build && electron .",
     "css": "postcss -o src/css/bundle.css -u precss src/css/all.css",
+    "ts": "tsc",
     "css-w": "npm run css -- -w",
-    "ts-w": "tsc -w",
+    "ts-w": "npm run ts -- -w",
     "lint": "tslint src/**/*.tsx -c tslint.json"
   },
   "repository": {
