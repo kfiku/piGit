@@ -4,11 +4,12 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "dev": "concurrently 'npm start' 'npm run css-w' 'npm run ts-w'",
+    "dev": "concurrently 'npm lint' 'npm start' 'npm run css-w' 'npm run ts-w'",
     "start": "electron .",
     "css": "postcss -o src/css/bundle.css -u precss src/css/all.css",
     "css-w": "npm run css -- -w",
-    "ts-w": "tsc -w"
+    "ts-w": "tsc -w",
+    "lint": "tslint src/**/*.tsx -c tslint.json"
   },
   "repository": {
     "type": "git",
