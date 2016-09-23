@@ -7,7 +7,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as async from 'async';
 
-import { Hello } from './components/Hello';
 import { Nav } from './components/Nav';
 import { Repo } from './components/Repo';
 
