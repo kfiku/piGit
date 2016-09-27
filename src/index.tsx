@@ -62,14 +62,14 @@ class RepoModel extends EventEmitter {
   }
 
   fetch () {
-    this.emit('change');
     this.progressing = true;
+    this.emit('change');
     this.git.fetch(this.updateStatus.bind(this));
   }
 
   pull () {
-    this.emit('change');
     this.progressing = true;
+    this.emit('change');
     this.git.pull(this.updateStatus.bind(this));
   }
 
@@ -161,6 +161,12 @@ class Repos extends EventEmitter {
     this.save();
   }
 
+  reloadAll () {
+    this.repos.map(r => {
+      r.fetch();
+    });
+  }
+
   save () {
     this.reposStr = this.repos.map(r => r.dir);
     electronSettings.set('repos', this.reposStr);
@@ -198,7 +204,11 @@ class GitWatchApp extends React.Component <AppProps, {}> {
 
     return (
       <div>
-        <Nav dialog={this.props.model.dialog.bind(this.props.model)}/>
+        <Nav
+          dialog={this.props.model.dialog.bind(this.props.model)}
+          reloadAll={this.props.model.reloadAll.bind(this.props.model)}
+        />
+
         <section className='section'>
           <div className='columns is-multiline'>
             {reposCollection}

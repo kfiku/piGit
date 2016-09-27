@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export interface NavProps { dialog: any; }
+export interface NavProps { dialog: any; reloadAll: any; }
 
 export class Nav extends React.Component<NavProps, {}> {
   render() {
@@ -14,6 +14,13 @@ export class Nav extends React.Component<NavProps, {}> {
                   <i className='fa fa-plus'></i>
                 </span>
                 <span>Add Repo</span>
+              </button>
+
+              <button onClick={this.props.reloadAll} className='button' >
+                <span className='icon'>
+                  <i className='fa fa-refresh'></i>
+                </span>
+                <span>Reload all</span>
               </button>
             </span>
           </div>
