@@ -19,6 +19,7 @@ class RepoModel extends EventEmitter {
   git: any;
   name: string;
   branch: string;
+  progressing = false;
 
   ahead: number;
   behind: number;
@@ -45,8 +46,8 @@ class RepoModel extends EventEmitter {
 
   updateStatus () {
     this.git.status((err, status) => {
+      this.progressing = false;
       if (!err) {
-        console.log(status);
         this.modified = status.modified;
         this.created = status.created;
         this.ahead = status.ahead;
@@ -61,7 +62,15 @@ class RepoModel extends EventEmitter {
   }
 
   fetch () {
+    this.emit('change');
+    this.progressing = true;
     this.git.fetch(this.updateStatus.bind(this));
+  }
+
+  pull () {
+    this.emit('change');
+    this.progressing = true;
+    this.git.pull(this.updateStatus.bind(this));
   }
 
   remove () {
@@ -104,7 +113,6 @@ class Repos extends EventEmitter {
 
     async.each(repos, (repo, callback) => {
       glob(repo + '/**/.git', (err, gitDirs: string[]) => {
-        // console.log(gitDirs);
         gitDirs.map((r) => {
           reposToAdd.push(join(r, '..'));
         });
@@ -168,19 +176,21 @@ class GitWatchApp extends React.Component <AppProps, {}> {
 
     if (repos) {
       reposCollection = repos.map((repoModel) => {
-        return (
+        return  (
           <Repo
             key={repoModel.dir}
             name={repoModel.name}
             branch={repoModel.branch}
+            progressing={repoModel.progressing}
 
             ahead={repoModel.ahead}
             behind={repoModel.behind}
 
             added={repoModel.added}
             modified={repoModel.modified}
-            onDelete={repoModel.remove.bind(repoModel, repoModel.dir) }
-            onRefresh={repoModel.fetch.bind(repoModel) }
+            onDelete={repoModel.remove.bind(repoModel, repoModel.dir)}
+            onRefresh={repoModel.fetch.bind(repoModel)}
+            onPull={repoModel.pull.bind(repoModel)}
           />
         );
       });

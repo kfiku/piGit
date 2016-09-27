@@ -5,10 +5,12 @@ export interface RepoProps {
   branch: string;
   ahead: number;
   behind: number;
+  progressing: boolean;
   modified: string[];
   added: string[];
   onDelete: () => any;
   onRefresh: () => any;
+  onPull: () => any;
 }
 
 export class Repo extends React.Component<RepoProps, {}> {
@@ -36,7 +38,7 @@ export class Repo extends React.Component<RepoProps, {}> {
       ));
 
       addedBox = (
-        <div>
+        <div>z
           added: {this.props.added.length}
           <ul>
             {addedNodes}
@@ -45,16 +47,36 @@ export class Repo extends React.Component<RepoProps, {}> {
       );
     }
 
+    let progressing;
+    if (this.props.progressing) {
+      progressing = <button className='button is-small is-info is-loading'>Loading</button>;
+    }
+
     return (
       <div className='column is-4'>
         <div className='notification is-info'>
           <button onClick={ this.props.onDelete } className='delete'></button>
 
-          <div>
-            <span className='title is-4'>{this.props.name + ' '}</span>
-            <span className='tag is-dark'>{this.props.branch}</span>
-            <span className='tag is-warning' onClick={ this.props.onRefresh }>refresh</span>
-          </div>
+          <header>
+            <span className='title is-5'>{this.props.name + ' '}</span>
+            <small className=''>@ {this.props.branch}</small>
+          </header>
+
+          <nav>
+            <button className='button is-small is-warning' onClick={ this.props.onRefresh }>
+              <span className='icon is-small'>
+                <i className='fa fa-refresh'></i>
+              </span>
+              <span>refresh</span>
+            </button>
+            <button className='button is-small is-success' onClick={ this.props.onPull }>
+              <span className='icon is-small'>
+                <i className='fa fa-arrow-down'></i>
+              </span>
+              <span>pull</span>
+            </button>
+            { progressing }
+          </nav>
 
           { this.props.ahead ? 'ahead: ' + this.props.ahead : '' }
           { this.props.behind ? 'behind: ' + this.props.behind : '' }
