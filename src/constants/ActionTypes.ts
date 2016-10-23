@@ -1,0 +1,6 @@
+export const ADD_REPO = 'ADD_REPO'
+// export const DELETE_REPO = 'DELETE_REPO'
+// export const EDIT_REPO = 'EDIT_REPO'
+// export const COMPLETE_REPO = 'COMPLETE_REPO'
+// export const COMPLETE_ALL = 'COMPLETE_ALL'
+// export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
