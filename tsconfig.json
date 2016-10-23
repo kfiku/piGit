@@ -7,7 +7,6 @@
     "jsx": "react"
   },
   "files": [
-    "./typings/index.d.ts",
     "./src/index.tsx"
   ]
 }
