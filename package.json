@@ -4,7 +4,7 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "dev": "concurrently 'npm lint' 'npm start' 'npm run css-w' 'npm run ts-w'",
+    "dev": "concurrently 'npm run lint' 'npm start -- dev' 'npm run css-w' 'npm run ts-w'",
     "clean": "find src -name \"*.js*\" -type f -delete",
     "start": "electron .",
     "css": "postcss -o src/css/bundle.css -u precss src/css/all.css",
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/electron/electron-quick-start#readme",
   "devDependencies": {
+    "chokidar": "^1.6.0",
     "css-loader": "^0.25.0",
     "electron": "^1.3.4",
     "postcss": "^5.2.0",
@@ -38,10 +39,19 @@
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
-    "typescript": "^1.8.10",
+    "tslint": "^3.15.1",
+    "typescript": "^2.0",
     "typings": "^1.3.3"
   },
   "dependencies": {
+    "@types/async": "^2.0.32",
+    "@types/electron": "^1.4.24",
+    "@types/glob": "^5.0.30",
+    "@types/node": "^6.0.45",
+    "@types/react": "^0.14.41",
+    "@types/react-dom": "^0.14.18",
+    "@types/react-redux": "^4.4.32",
+    "@types/redux": "^3.6.31",
     "async": "^2.0.1",
     "bulma": "^0.1.2",
     "classnames": "~2.2.5",
@@ -53,6 +63,8 @@
     "precss": "^1.4.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
     "simple-git": "^1.48.0"
   }
 }
