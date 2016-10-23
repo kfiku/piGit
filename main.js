@@ -1,4 +1,6 @@
-const electron = require('electron')
+const env = process.argv[2] || 'prod'
+
+const electron = require('electron');
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -22,6 +24,20 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  if (env === 'dev') {
+    const chokidar = require('chokidar');
+
+    // One-liner for current directory, ignores .dotfiles
+    chokidar.watch('src', {
+        ignored: /[\/\\]\./,
+        persistent: true
+      })
+      .on('all', (event, path) => {
+        mainWindow.reload();
+      }
+    );
+  }
 }
 
 // This method will be called when Electron has finished
