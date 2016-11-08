@@ -10,18 +10,14 @@ import actions from '../actions';
 import { Nav } from '../components/Nav';
 import { Repos } from '../components/Repos';
 
-const reloadAll = () => {
-  console.log('reload all');
-};
-
-const App: any = ({repos, actions}) => (
+const app: any = ({repos, actions}) => (
   <div>
-    <Nav addRepo={actions.addRepo} reloadAll={reloadAll} />
-    <Repos repos={repos} />
+    <Nav addRepo={actions.addRepo} reloadAll={actions.reloadAll} reload={actions.reload} repos={repos} />
+    <Repos reload={actions.reload} pull={actions.pull} repos={repos} />
   </div>
 );
 
-App.propTypes = {
+app.propTypes = {
   repos: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
@@ -37,7 +33,7 @@ const mapDispatchToProps = dispatch => ({
 const connected = connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(app);
 
-export default connected
+export default connected;
 

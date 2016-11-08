@@ -5,10 +5,12 @@ import { join, basename } from 'path';
 import * as electron from 'electron';
 import * as glob from 'glob';
 
-import { Repo } from './Repo';
+import { Repo, StateRepo } from './Repo';
 
 export interface ReposProps {
-  repos: {id: number, dir: string}[];
+  reload: any;
+  pull: any;
+  repos: StateRepo[];
 }
 
 export class Repos extends React.Component<ReposProps, {}> {
@@ -20,13 +22,15 @@ export class Repos extends React.Component<ReposProps, {}> {
           <Repo
             key={repo.dir}
             repo={repo}
+            onRefresh={this.props.reload}
+            onPull={this.props.pull}
           />
         );
       });
     }
 
     return (
-      <div>{reposCollection}</div>
+      <div className='columns is-multiline'>{reposCollection}</div>
     );
   }
 }
