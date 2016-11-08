@@ -14,7 +14,6 @@ let mainWindow
 function createWindow () {
 
   electronSettings.get('window').then((win) => {
-    console.log(win);
     // Create the browser window.
     mainWindow = new BrowserWindow(win || {x: 100, y: 100, width: 800, height: 600})
 
