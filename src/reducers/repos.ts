@@ -1,11 +1,8 @@
-import { ADD_REPO/*, DELETE_REPO, EDIT_REPO, COMPLETE_REPO, COMPLETE_ALL, CLEAR_COMPLETED*/ } from '../constants/ActionTypes'
+import { ADD_REPO, RELOADING, UPDATE, RELOAD_ALL } from '../constants/ActionTypes';
 
-const initialState = [
-
-];
+const initialState = [];
 
 export default function repos(state = initialState, action) {
-  console.log(action);
   switch (action.type) {
     case ADD_REPO:
       return [
@@ -14,8 +11,29 @@ export default function repos(state = initialState, action) {
           dir: action.dir
         },
         ...state
-      ]
+      ];
+    case RELOAD_ALL:
+      return state.map((repo) => {
+        return repo;
+      });
 
+    case RELOADING:
+      return state.map((repo) => {
+        if (repo.dir === action.dir) {
+          repo.progressing = true;
+        }
+        return repo;
+      });
+
+    case UPDATE:
+      return state.map((repo) => {
+        if (repo.dir === action.data.dir) {
+          action.data.id = repo.id;
+          repo = action.data;
+          repo.progressing = false;
+        }
+        return repo;
+      });
     // case DELETE_REPO:
     //   return state.filter(repo =>
     //     repo.id !== action.id
@@ -46,6 +64,6 @@ export default function repos(state = initialState, action) {
     //   return state.filter(repo => repo.completed === false)
 
     default:
-      return state
+      return state;
   }
 }
