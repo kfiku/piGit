@@ -4,21 +4,13 @@ import { createStore, StoreEnhancer } from 'redux';
 import { Provider } from 'react-redux';
 
 import App from './containers/App';
-import reducer from './reducers'
+import createAppStore from './store';
 
-const electronSettings = require('electron-settings');
-electronSettings.get('state').then((state: StoreEnhancer<{}>) => {
-  
-  const store = createStore(reducer, state);
-
-  store.subscribe(() => {
-    electronSettings.set('state', store.getState());
-  });
-
+createAppStore((err, store) => {
   ReactDOM.render(
     <Provider store={store}>
       <App />
     </Provider>,
     document.getElementById('example')
   );
-  });
+});
