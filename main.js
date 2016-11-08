@@ -1,43 +1,57 @@
 const env = process.argv[2] || 'prod'
 
 const electron = require('electron');
+const electronSettings = require('electron-settings');
+
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/src/index.html`)
+  electronSettings.get('window').then((win) => {
+    console.log(win);
+    // Create the browser window.
+    mainWindow = new BrowserWindow(win || {x: 100, y: 100, width: 800, height: 600})
 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null
-  })
+    // and load the index.html of the app.
+    mainWindow.loadURL(`file://${__dirname}/src/index.html`)
 
-  if (env === 'dev') {
-    const chokidar = require('chokidar');
+    // Emitted when the window is closed.
+    mainWindow.on('closed', function () {
+      // Dereference the window object, usually you would store windows
+      // in an array if your app supports multi windows, this is the time
+      // when you should delete the corresponding element.
 
-    // One-liner for current directory, ignores .dotfiles
-    chokidar.watch('src', {
-        ignored: /[\/\\]\./,
-        persistent: true
-      })
-      .on('all', (event, path) => {
-        mainWindow.reload();
-      }
-    );
-  }
+      mainWindow = null
+    })
+
+    let ti;
+    mainWindow.on('resize', () => {
+      clearTimeout(ti);
+      ti = setTimeout(() => {
+        electronSettings.set('window', mainWindow.getBounds());
+      }, 1000);
+    });
+
+    if (env === 'dev') {
+      const chokidar = require('chokidar');
+
+      // One-liner for current directory, ignores .dotfiles
+      chokidar.watch('src', {
+          ignored: /[\/\\]\./,
+          persistent: true
+        })
+        .on('all', (event, path) => {
+          mainWindow.reload();
+        }
+      );
+    }
+  });
 }
 
 // This method will be called when Electron has finished
