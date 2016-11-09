@@ -1,4 +1,4 @@
-import { ADD_REPO, RELOADING, UPDATE, RELOAD_ALL } from '../constants/ActionTypes';
+import { ADD_REPO, RELOADING, UPDATE, DELETE, RELOAD_ALL } from '../constants/ActionTypes';
 
 const initialState = [];
 
@@ -6,11 +6,11 @@ export default function repos(state = initialState, action) {
   switch (action.type) {
     case ADD_REPO:
       return [
+        ...state,
         {
           id: state.reduce((maxId, repo) => Math.max(repo.id, maxId), -1) + 1,
           dir: action.dir
-        },
-        ...state
+        }
       ];
     case RELOAD_ALL:
       return state.map((repo) => {
@@ -33,6 +33,11 @@ export default function repos(state = initialState, action) {
           repo.progressing = false;
         }
         return repo;
+      });
+
+    case DELETE:
+      return state.filter((repo) => {
+        return repo.dir !== action.dir;
       });
     // case DELETE_REPO:
     //   return state.filter(repo =>

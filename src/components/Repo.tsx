@@ -22,7 +22,7 @@ export interface RepoProps {
 export class Repo extends React.Component<RepoProps, {}> {
   constructor(props) {
     super(props);
-    props.onRefresh(props.repo.dir);
+    setTimeout(() => { props.onRefresh(props.repo.dir); }, 200);
   }
 
   render() {
@@ -63,10 +63,10 @@ export class Repo extends React.Component<RepoProps, {}> {
       progressing = <button className='button is-small is-info is-loading'>Loading</button>;
     }
 
-    // <button onClick={ this.state.onDelete } className='delete'></button>
     return (
       <div className='column is-4'>
         <div className='notification is-info'>
+          <button onClick={ this.props.onDelete.bind(this, this.props.repo.dir) } className='delete'></button>
           <header>
             <span className='title is-5'>{this.props.repo.name + ' '}</span>
             <small className=''>@ {this.props.repo.branch}</small>

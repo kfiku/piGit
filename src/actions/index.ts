@@ -1,4 +1,4 @@
-import { ADD_REPO, UPDATE, RELOADING, RELOAD_ALL } from '../constants/ActionTypes';
+import { ADD_REPO, UPDATE, DELETE, RELOADING, RELOAD_ALL } from '../constants/ActionTypes';
 import { ActionCreatorsMapObject } from 'redux';
 
 import gitRepos from '../helpers/Repos';
@@ -10,6 +10,10 @@ const actions: ActionCreatorsMapObject = {
 
   reloadAll: () => {
     return { type: RELOAD_ALL };
+  },
+
+  delete: (dir: string) => {
+    return { type: DELETE, dir };
   },
 
   reload: (dir) => {

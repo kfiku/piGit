@@ -10,6 +10,7 @@ import { Repo, StateRepo } from './Repo';
 export interface ReposProps {
   reload: any;
   pull: any;
+  delete: any;
   repos: StateRepo[];
 }
 
@@ -23,6 +24,7 @@ export class Repos extends React.Component<ReposProps, {}> {
             key={repo.dir}
             repo={repo}
             onRefresh={this.props.reload}
+            onDelete={this.props.delete}
             onPull={this.props.pull}
           />
         );

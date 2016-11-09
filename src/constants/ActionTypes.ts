@@ -1,4 +1,5 @@
 export const ADD_REPO = 'ADD_REPO';
+export const DELETE = 'DELETE';
 export const UPDATE = 'UPDATE';
 export const RELOADING = 'RELOADING';
 export const RELOAD_ALL = 'RELOAD_ALL';
