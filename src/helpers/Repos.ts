@@ -37,7 +37,7 @@ export class Repo {
         newState.modified = status.modified;
         newState.ahead = status.ahead;
         newState.behind = status.behind;
-        newState.branch = status.tracking.replace('origin/', '');
+        newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
         this.state = newState;
 
@@ -52,11 +52,27 @@ export class Repo {
   }
 
   fetch (callback) {
-    this.git.fetch(this.updateStatus.bind(this, callback));
+    this.git.fetch((err) => {
+       if (err) {
+          // TODO: make it pretty :)
+          alert(err);
+          callback(err);
+        } else {
+          this.updateStatus(callback);
+        }
+    });
   }
 
   pull (callback) {
-    this.git.pull(this.updateStatus.bind(this, callback));
+    this.git.pull((err) => {
+      if (err) {
+        // TODO: make it pretty :)
+        alert(err);
+        callback(err);
+      } else {
+        this.updateStatus(callback);
+      }
+    });
   }
 
   remove () {
