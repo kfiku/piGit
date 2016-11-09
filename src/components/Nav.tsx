@@ -3,8 +3,10 @@ import { StateRepo } from './Repo';
 
 import * as React from 'react';
 import * as electron from 'electron';
-import * as glob from 'glob';
+// import * as glob from 'glob';
 import * as async from 'async';
+
+import walk from '../helpers/DirWalk';
 
 export interface NavProps {
   addRepo: any;
@@ -14,10 +16,11 @@ export interface NavProps {
 }
 
 export class Nav extends React.Component <NavProps, {}> {
-  isProgressing = false;
+  isReloadingAll = false;
+  isAddingRepo = false;
 
   reloadAll () {
-    this.isProgressing = true;
+    this.isReloadingAll = true;
     // this.props.reloadAll();
     this.props.repos.map((repo) => {
       this.props.reload(repo.dir);
@@ -25,6 +28,8 @@ export class Nav extends React.Component <NavProps, {}> {
   }
 
   dialog () {
+    this.isAddingRepo = true;
+
     let repos = electron.remote.dialog.showOpenDialog({
       properties: ['openDirectory', 'multiSelections']
     });
@@ -32,16 +37,20 @@ export class Nav extends React.Component <NavProps, {}> {
     let reposToAdd = [];
 
     async.each(repos, (repo, callback) => {
-      glob(repo + '/**/.git', (err, gitDirs: string[]) => {
-        gitDirs.map((r) => {
-          reposToAdd.push(join(r, '..'));
-        });
+      walk(repo, (err, gitDirs) => {
+        if (!err) {
+          gitDirs.map((r) => {
+            reposToAdd.push(join(r, '..'));
+          });
 
-        callback();
-      });
+          callback();
+        }
+      }, '.git', 6);
     }, (err) => {
       if (!err) {
+        this.isAddingRepo = false;
         reposToAdd.map(repo => {
+          console.log('adding repo', repo);
           this.props.addRepo(repo);
         });
       }
@@ -49,14 +58,15 @@ export class Nav extends React.Component <NavProps, {}> {
   }
 
   render() {
-    if (this.isProgressing) {
+    if (this.isReloadingAll) {
       let progressingRepos = this.props.repos.filter(repo => repo.progressing);
       if (progressingRepos.length <= 0) {
-        this.isProgressing = false;
+        this.isReloadingAll = false;
       }
     }
 
-    let progressing = this.isProgressing ? '...' : '';
+    let reloadingAll = this.isReloadingAll ? '...' : '';
+    let adding = this.isAddingRepo ? '...' : '';
 
     return (
       <div>
@@ -68,6 +78,7 @@ export class Nav extends React.Component <NavProps, {}> {
                   <i className='fa fa-plus'></i>
                 </span>
                 <span>Add Repo</span>
+                { adding }
               </button>
 
               <button onClick={this.reloadAll.bind(this)} className='button' >
@@ -75,7 +86,7 @@ export class Nav extends React.Component <NavProps, {}> {
                   <i className='fa fa-refresh'></i>
                 </span>
                 <span>Reload all</span>
-                { progressing }
+                { reloadingAll }
               </button>
             </span>
           </div>

@@ -59,7 +59,6 @@
     "director": "~1.2.8",
     "electron-settings": "^2.2.1",
     "font-awesome": "^4.6.3",
-    "glob": "^7.1.0",
     "precss": "^1.4.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
