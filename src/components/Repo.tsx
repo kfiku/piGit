@@ -58,14 +58,25 @@ export class Repo extends React.Component<RepoProps, {}> {
       );
     }
 
+    let repoClassName = 'is-success';
+
+    if (this.props.repo.behind) {
+      repoClassName = 'is-danger';
+    } else if (this.props.repo.ahead) {
+      repoClassName = 'is-warning';
+    } else if (modifiedBox) {
+      repoClassName = 'is-info';
+    }
+
     let progressing;
     if (this.props.repo.progressing) {
-      progressing = <button className='button is-small is-info is-loading'>Loading</button>;
+      progressing = <button className={ 'button is-small is-loading ' + repoClassName }>Loading</button>;
     }
+
 
     return (
       <div className='column is-4'>
-        <div className='notification is-info'>
+        <div className={ 'notification ' + repoClassName }>
           <button onClick={ this.props.onDelete.bind(this, this.props.repo.dir) } className='delete'></button>
           <header>
             <span className='title is-5'>{this.props.repo.name + ' '}</span>
@@ -73,14 +84,14 @@ export class Repo extends React.Component<RepoProps, {}> {
           </header>
 
           <nav>
-            <button onClick={ this.props.onRefresh.bind(this, this.props.repo.dir) } className='button is-small is-warning'>
+            <button onClick={ this.props.onRefresh.bind(this, this.props.repo.dir) } className='button is-small is-light'>
               <span className='icon is-small'>
                 <i className='fa fa-refresh'></i>
               </span>
               <span>refresh</span>
             </button>
 
-            <button onClick={ this.props.onPull.bind(this, this.props.repo.dir) }  className='button is-small is-success'>
+            <button onClick={ this.props.onPull.bind(this, this.props.repo.dir) }  className='button is-small is-dark'>
               <span className='icon is-small'>
                 <i className='fa fa-arrow-down'></i>
               </span>

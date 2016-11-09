@@ -4,9 +4,13 @@ body {
   margin: 0;
   // font-family: sans;
   // font-size: $fs;
-  bg: #eee;
+  background: #eee;
 }
 
 .main-nav {
   background: #ccc;
+}
+
+.repos {
+  padding: 20px;
 }

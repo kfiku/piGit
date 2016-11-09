@@ -32,7 +32,7 @@ export class Repos extends React.Component<ReposProps, {}> {
     }
 
     return (
-      <div className='columns is-multiline'>{reposCollection}</div>
+      <div className='repos columns is-multiline'>{reposCollection}</div>
     );
   }
 }

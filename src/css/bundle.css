@@ -2,9 +2,13 @@ body {
   margin: 0;
   // font-family: sans;
   // font-size: 16px;
-  bg: #eee;
+  background: #eee;
 }
 
 .main-nav {
   background: #ccc;
+}
+
+.repos {
+  padding: 20px;
 }
