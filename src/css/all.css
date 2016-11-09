@@ -1,9 +1,6 @@
-$fs: 16px;
-
+html,
 body {
   margin: 0;
-  // font-family: sans;
-  // font-size: $fs;
   background: #eee;
 }
 
