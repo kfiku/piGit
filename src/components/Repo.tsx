@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as moment from 'moment';
 
 export interface StateRepo {
   id: number;
@@ -10,6 +11,7 @@ export interface StateRepo {
   modified: any[];
   added: any[];
   progressing?: boolean;
+  lastUpdate?: number;
 }
 
 export interface RepoProps {
@@ -22,7 +24,10 @@ export interface RepoProps {
 export class Repo extends React.Component<RepoProps, {}> {
   constructor(props) {
     super(props);
-    setTimeout(() => { props.onRefresh(props.repo.dir); }, 200);
+
+    if (!this.props.repo.branch) {
+      setTimeout(() => { props.onRefresh(props.repo.dir); }, 200);
+    }
   }
 
   render() {
@@ -34,7 +39,7 @@ export class Repo extends React.Component<RepoProps, {}> {
 
       modifiedBox = (
         <div>
-          modified: {this.props.repo.modified.length}
+          Modified: {this.props.repo.modified.length}
           <ul>
             {modifiedNodes}
           </ul>
@@ -49,8 +54,8 @@ export class Repo extends React.Component<RepoProps, {}> {
       ));
 
       addedBox = (
-        <div>z
-          added: {this.props.repo.added.length}
+        <div>
+          Added: {this.props.repo.added.length}
           <ul>
             {addedNodes}
           </ul>
@@ -73,15 +78,24 @@ export class Repo extends React.Component<RepoProps, {}> {
       progressing = <button className={ 'button is-small is-loading ' + repoClassName }>Loading</button>;
     }
 
+    let lastUpdated = 'Updated: ' + moment(this.props.repo.lastUpdate).fromNow();
 
     return (
-      <div className='column is-4'>
+      <div className='repo-el column is-4'>
         <div className={ 'notification ' + repoClassName }>
           <button onClick={ this.props.onDelete.bind(this, this.props.repo.dir) } className='delete'></button>
           <header>
             <span className='title is-5'>{this.props.repo.name + ' '}</span>
             <small className=''>@ {this.props.repo.branch}</small>
           </header>
+
+          <article>
+            <span>{ this.props.repo.ahead ? 'Ahead: ' + this.props.repo.ahead + ' | ' : '' }</span>
+            <span>{ this.props.repo.behind ? 'Behind: ' + this.props.repo.behind + ' | ' : '' }</span>
+            <span>{ lastUpdated }</span>
+            { modifiedBox }
+            { addedBox }
+          </article>
 
           <nav>
             <button onClick={ this.props.onRefresh.bind(this, this.props.repo.dir) } className='button is-small is-light'>
@@ -100,11 +114,6 @@ export class Repo extends React.Component<RepoProps, {}> {
 
             { progressing }
           </nav>
-
-          { this.props.repo.ahead ? 'ahead: ' + this.props.repo.ahead : '' }
-          { this.props.repo.behind ? 'behind: ' + this.props.repo.behind : '' }
-          { modifiedBox }
-          { addedBox }
         </div>
       </div>
     );

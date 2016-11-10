@@ -19,11 +19,24 @@ export class Nav extends React.Component <NavProps, {}> {
   isReloadingAll = false;
   isAddingRepo = false;
 
+  constructor (props) {
+    super(props);
+
+    this.reloadTimeout();
+  }
+
+  reloadTimeout () {
+    setTimeout(() => {
+      this.reloadAll();
+      this.reloadTimeout();
+    }, 10 * 60 * 1000); // reload every 10 minute
+  }
+
   reloadAll () {
     this.isReloadingAll = true;
     // this.props.reloadAll();
-    this.props.repos.map((repo) => {
-      this.props.reload(repo.dir);
+    this.props.repos.map((repo, id) => {
+      setTimeout(this.props.reload.bind(this, repo.dir), id * 50);
     });
   }
 

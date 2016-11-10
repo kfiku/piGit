@@ -11,3 +11,9 @@ body {
 .repos {
   padding: 20px;
 }
+
+.repo-el {
+  article {
+    margin: 6px 0;
+  }
+}

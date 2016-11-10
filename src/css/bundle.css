@@ -1,5 +1,4 @@
-html,
-body {
+html, body {
   margin: 0;
   background: #eee;
 }
@@ -10,4 +9,8 @@ body {
 
 .repos {
   padding: 20px;
+}
+
+.repo-el article {
+  margin: 6px 0;
 }

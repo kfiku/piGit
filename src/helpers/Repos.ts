@@ -34,6 +34,7 @@ export class Repo {
       if (!err) {
         let newState = this.state;
 
+        newState.lastUpdate = Date.now();
         newState.modified = status.modified;
         newState.ahead = status.ahead;
         newState.behind = status.behind;
