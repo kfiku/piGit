@@ -1,4 +1,4 @@
-import { createStore, StoreEnhancer, Store, applyMiddleware } from 'redux';
+import { createStore, StoreEnhancer, Store, applyMiddleware, compose } from 'redux';
 import reducer from '../reducers';
 
 const thunkMiddleware = require('redux-thunk').default;
@@ -12,13 +12,15 @@ const createAppStore = (callback) => {
   electronSettings.get('state').then((state: StoreEnhancer<{}>) => {
 
     const loggerMiddleware = createLogger();
+    const composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
     store = createStore(
       reducer,
       state,
-      applyMiddleware(
-        thunkMiddleware, // lets us dispatch() functions
-        // loggerMiddleware // neat middleware that logs actions
+      composeEnhancers(
+        applyMiddleware(
+          thunkMiddleware, // lets us dispatch() functions
+          // loggerMiddleware // neat middleware that logs actions
       )
      );
 

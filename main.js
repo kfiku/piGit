@@ -2,6 +2,14 @@ const env = process.argv[2] || 'prod'
 
 const electron = require('electron');
 const electronSettings = require('electron-settings');
+const installExtension = require('electron-devtools-installer');
+
+// console.log(installExtension);
+installExtension.default(installExtension.REDUX_DEVTOOLS);
+
+// import installExtension, {
+//   REDUX_DEVTOOLS
+// } from 'electron-devtools-installer';
 
 // Module to control application life.
 const app = electron.app
