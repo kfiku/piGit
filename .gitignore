@@ -40,7 +40,7 @@ jspm_packages
 typings
 
 #sublime
-*.sublime-*
+*.sublime-wo*
 
 src/**/*.js
 src/**/*.map
