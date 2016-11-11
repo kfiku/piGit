@@ -38,7 +38,6 @@ function createWindow () {
           persistent: true
         })
         .on('all', (event, path) => {
-          console.log(event, path);
           mainWindow.reload();
         }
       );
