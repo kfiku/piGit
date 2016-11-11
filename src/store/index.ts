@@ -1,28 +1,31 @@
+const env = process.env.NODE_ENV || 'prod';
+
 import { createStore, StoreEnhancer, Store, applyMiddleware, compose } from 'redux';
 import reducer from '../reducers';
 
 const thunkMiddleware = require('redux-thunk').default;
 const createLogger = require('redux-logger');
-
-let store: Store<{}>;
+const electronSettings = require('electron-settings');
 
 const createAppStore = (callback) => {
-  const electronSettings = require('electron-settings');
-
   electronSettings.get('state').then((state: StoreEnhancer<{}>) => {
 
     const loggerMiddleware = createLogger();
-    const composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    let composeEnhancers = compose;
+    if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+      composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+    };
 
-    store = createStore(
+    let store = createStore(
       reducer,
       state,
       composeEnhancers(
         applyMiddleware(
           thunkMiddleware, // lets us dispatch() functions
           // loggerMiddleware // neat middleware that logs actions
+        )
       )
-     );
+    );
 
     let ti;
     store.subscribe(() => {

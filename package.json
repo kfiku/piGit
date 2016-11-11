@@ -4,7 +4,7 @@
   "description": "electron app to watch git repos",
   "main": "main.js",
   "scripts": {
-    "dev": "concurrently 'npm run lint' 'npm start -- dev' 'npm run css-w' 'npm run ts-w'",
+    "dev": "export NODE_ENV=dev && concurrently 'npm run lint' 'npm run css-w' 'npm run ts-w' 'npm start -- dev'",
     "clean": "find src -name \"*.js*\" -type f -delete",
     "start": "electron .",
     "css": "postcss -o src/css/bundle.css -u precss src/css/all.css",

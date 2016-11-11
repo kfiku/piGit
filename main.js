@@ -1,39 +1,24 @@
-const env = process.argv[2] || 'prod'
+// setting env var
+const env = process.env.NODE_ENV || 'prod';
 
 const electron = require('electron');
-const electronSettings = require('electron-settings');
-const installExtension = require('electron-devtools-installer');
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
 
-// console.log(installExtension);
+const installExtension = require('electron-devtools-installer');
 installExtension.default(installExtension.REDUX_DEVTOOLS);
 
-// import installExtension, {
-//   REDUX_DEVTOOLS
-// } from 'electron-devtools-installer';
+const electronSettings = require('electron-settings');
 
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow () {
 
   electronSettings.get('window').then((win) => {
-    // Create the browser window.
     mainWindow = new BrowserWindow(win || {x: 100, y: 100, width: 800, height: 600})
-
-    // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/src/index.html`)
 
-    // Emitted when the window is closed.
     mainWindow.on('closed', function () {
-      // Dereference the window object, usually you would store windows
-      // in an array if your app supports multi windows, this is the time
-      // when you should delete the corresponding element.
-
       mainWindow = null
     })
 
@@ -46,14 +31,14 @@ function createWindow () {
     });
 
     if (env === 'dev') {
+      // simple livereload
       const chokidar = require('chokidar');
-
-      // One-liner for current directory, ignores .dotfiles
-      chokidar.watch('src', {
+      chokidar.watch('src/**/*.{js, css}', {
           ignored: /[\/\\]\./,
           persistent: true
         })
         .on('all', (event, path) => {
+          console.log(event, path);
           mainWindow.reload();
         }
       );
