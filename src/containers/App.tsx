@@ -12,7 +12,7 @@ import { Repos } from '../components/Repos';
 
 const app: any = ({repos, actions}) => (
   <div>
-    <Nav addRepo={actions.addRepo} reloadAll={actions.reloadAll} reload={actions.reload} repos={repos} />
+    <Nav />
     <Repos reload={actions.reload} delete={actions.delete} pull={actions.pull} repos={repos} />
   </div>
 );

@@ -1,110 +1,66 @@
-import { join } from 'path';
-import { StateRepo } from './Repo';
-
 import * as React from 'react';
-import * as electron from 'electron';
-// import * as glob from 'glob';
-import * as async from 'async';
+import { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-import walk from '../helpers/DirWalk';
+import actions from '../actions';
 
-export interface NavProps {
-  addRepo: any;
-  reload: any;
-  reloadAll: any;
-  repos: StateRepo[];
-}
 
-export class Nav extends React.Component <NavProps, {}> {
-  isReloadingAll = false;
-  isAddingRepo = false;
+// constructor (props) {
+//     super(props);
 
-  constructor (props) {
-    super(props);
+//     this.reloadTimeout();
+//   }
 
-    this.reloadTimeout();
-  }
+//   reloadTimeout () {
+//     setTimeout(() => {
+//       this.reloadAll();
+//       this.reloadTimeout();
+//     }, 10 * 60 * 1000); // reload every 10 minute
+//   }
 
-  reloadTimeout () {
-    setTimeout(() => {
-      this.reloadAll();
-      this.reloadTimeout();
-    }, 10 * 60 * 1000); // reload every 10 minute
-  }
 
-  reloadAll () {
-    this.isReloadingAll = true;
-    // this.props.reloadAll();
-    this.props.repos.map((repo, id) => {
-      setTimeout(this.props.reload.bind(this, repo.dir), id * 50);
-    });
-  }
+const NavComponent: any = ({app, actions})  => {
+  return (
+    <div>
+      <nav className='nav main-nav'>
+        <div className='nav-left'>
+          <span className='nav-item'>
+            <button onClick={ actions.addRepos } className={ 'button' + (app.addingRepos ? ' is-loading' : '') } >
+              <span className='icon'>
+                <i className='fa fa-plus'></i>
+              </span>
+              <span>Add Repo</span>
+            </button>
 
-  dialog () {
-    this.isAddingRepo = true;
+            <button className='button' >
+              <span className='icon'>
+                <i className='fa fa-refresh'></i>
+              </span>
+              <span>Reload all</span>
+            </button>
+          </span>
+        </div>
+      </nav>
+    </div>
+  );
+};
 
-    let repos = electron.remote.dialog.showOpenDialog({
-      properties: ['openDirectory', 'multiSelections']
-    });
+NavComponent.propTypes = {
+  app: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
+};
 
-    let reposToAdd = [];
 
-    async.each(repos, (repo, callback) => {
-      walk(repo, (err, gitDirs) => {
-        if (!err) {
-          gitDirs.map((r) => {
-            reposToAdd.push(join(r, '..'));
-          });
+const mapStateToProps = state => ({
+  app: state.app
+});
 
-          callback();
-        }
-      }, '.git', 6);
-    }, (err) => {
-      if (!err) {
-        this.isAddingRepo = false;
-        reposToAdd.map(repo => {
-          console.log('adding repo', repo);
-          this.props.addRepo(repo);
-        });
-      }
-    });
-  }
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(actions, dispatch)
+});
 
-  render() {
-    if (this.isReloadingAll) {
-      let progressingRepos = this.props.repos.filter(repo => repo.progressing);
-      if (progressingRepos.length <= 0) {
-        this.isReloadingAll = false;
-      }
-    }
-
-    let reloadingAll = this.isReloadingAll ? '...' : '';
-    let adding = this.isAddingRepo ? '...' : '';
-
-    return (
-      <div>
-        <nav className='nav main-nav'>
-          <div className='nav-left'>
-            <span className='nav-item'>
-              <button onClick={this.dialog.bind(this)} className='button' >
-                <span className='icon'>
-                  <i className='fa fa-plus'></i>
-                </span>
-                <span>Add Repo</span>
-                { adding }
-              </button>
-
-              <button onClick={this.reloadAll.bind(this)} className='button' >
-                <span className='icon'>
-                  <i className='fa fa-refresh'></i>
-                </span>
-                <span>Reload all</span>
-                { reloadingAll }
-              </button>
-            </span>
-          </div>
-        </nav>
-      </div>
-    );
-  }
-}
+export const Nav = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavComponent);

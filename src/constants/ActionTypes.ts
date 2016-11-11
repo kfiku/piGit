@@ -1,4 +1,6 @@
 export const ADD_REPO = 'ADD_REPO';
+export const ADDING_REPO = 'ADDING_REPO';
+export const ADDING_REPO_END = 'ADDING_REPO_END';
 export const DELETE = 'DELETE';
 export const UPDATE = 'UPDATE';
 export const RELOADING = 'RELOADING';

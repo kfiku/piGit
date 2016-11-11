@@ -8,13 +8,17 @@ const createLogger = require('redux-logger');
 const electronSettings = require('electron-settings');
 
 const createAppStore = (callback) => {
-  electronSettings.get('state').then((state: StoreEnhancer<{}>) => {
+  electronSettings.get('state').then((state: any) => {
 
     const loggerMiddleware = createLogger();
     let composeEnhancers = compose;
     if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
       composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
     };
+
+    if (state && state.app) {
+      state.app.addingRepos = false;
+    }
 
     let store = createStore(
       reducer,

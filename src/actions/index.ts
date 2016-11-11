@@ -1,10 +1,37 @@
-import { ADD_REPO, UPDATE, DELETE, RELOADING, RELOAD_ALL } from '../constants/ActionTypes';
+import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
+         UPDATE,
+         DELETE,
+         RELOADING,
+         RELOAD_ALL } from '../constants/ActionTypes';
+import { resolve } from 'path';
 import { ActionCreatorsMapObject } from 'redux';
 
-import gitRepos from '../helpers/Repos';
+import gitRepos from '../helpers/GitRepos';
+import * as electron from 'electron';
 
 const actions: ActionCreatorsMapObject = {
-  addRepo: (dir: string) => {
+  addRepos: () => {
+    return (dispatch) => {
+      let dirs = electron.remote.dialog.showOpenDialog({
+        properties: ['openDirectory', 'multiSelections']
+      });
+
+      dispatch({ type: ADDING_REPO });
+
+      gitRepos.searchRepos(
+        dirs,
+        (gitDir) => {
+          dispatch({ type: ADD_REPO, dir: resolve(gitDir, '..') });
+        },
+        (err, gitDirs) => {
+          dispatch({ type: ADDING_REPO_END });
+          console.log(err, dirs);
+        });
+      // return { type: ADD_REPO, dirs };
+    };
+  },
+
+  addRepo: (dir) => {
     return { type: ADD_REPO, dir };
   },
 
