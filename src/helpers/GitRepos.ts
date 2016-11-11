@@ -1,7 +1,11 @@
 import { stat } from 'fs';
 import { join, basename } from 'path';
 
+import { eachSeries } from 'async';
 const simpleGit = require('simple-git');
+
+import walk from './DirWalk';
+
 
 export class Repo {
   updateStatusTI: any;
@@ -90,6 +94,22 @@ export class Repo {
 
 export class Repos {
   private repos = {};
+
+  searchRepos(dirs: string[],
+              steps: (dir: string) => void,
+              callback: (err: any, dirs?: string[]) => void) {
+
+    let gitDirsToAdd = [];
+
+    eachSeries(dirs, (dir, cb) => {
+      walk(dir, steps, (err, gitDirs) => {
+        gitDirsToAdd = gitDirsToAdd.concat(gitDirs);
+        cb();
+      }, '.git', 6);
+    }, () => {
+      callback(null, gitDirsToAdd);
+    });
+  }
 
   fetch (dir: string, callback) {
     if (!this.repos[dir]) {

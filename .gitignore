@@ -39,6 +39,9 @@ jspm_packages
 #typings
 typings
 
+#coverage
+coverage
+
 #sublime
 *.sublime-wo*
 

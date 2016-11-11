@@ -3,39 +3,51 @@ import { join, basename, resolve } from 'path';
 
 const ignores = ['node_modules', 'bower_components', 'friendsofsymfony', 'sonata'];
 
-const walk = function(dir: string, done, name = undefined, depth = 5) {
+const walk = (dir: string,
+              step: (dir: string) => void,
+              done: (err: any, dirs?: string[]) => void,
+              name: string = undefined,
+              depth = 5) => {
+
   let results = [];
+  let pending;
+
+  const addResult = (filename, filepath) => {
+    if (!name || filename === name ) {
+      step(filepath);
+      results.push(filepath);
+    }
+  };
+
   readdir(dir, function(err, list) {
     if (err) {
       return done(err);
     }
 
-    let pending = list.length;
+    pending = list.length;
+
     if (!pending) {
       return done(null, results);
     }
 
     list.forEach((filename) => {
-      let file = resolve(dir, filename);
+      let filepath = resolve(dir, filename);
 
       if (ignores.indexOf(filename) > -1) {
-        console.log('IGNORE', filename);
         if (!--pending) {
           done(null, results);
         }
       } else {
-        if (filename === name ) {
-          results.push(file);
-        }
+        addResult(filename, filepath);
 
         if (depth === 0) {
           if (!--pending) {
             done(null, results);
           }
         } else {
-          stat(file, (err2, stat) => {
+          stat(filepath, (err2, stat) => {
             if (stat && stat.isDirectory()) {
-              walk(file, function(err3, res) {
+              walk(filepath, step, (err3, res) => {
                 results = results.concat(res);
                 if (!--pending) {
                   done(null, results);
@@ -43,9 +55,8 @@ const walk = function(dir: string, done, name = undefined, depth = 5) {
               }, name, depth - 1);
             } else {
               // console.log(filename, name);
-              if (!name || filename === name ) {
-                results.push(file);
-              }
+              addResult(filename, filepath);
+
               if (!--pending) {
                 done(null, results);
               }

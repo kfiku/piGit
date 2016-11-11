@@ -5,13 +5,17 @@
   "main": "main.js",
   "scripts": {
     "dev": "export NODE_ENV=dev && concurrently 'npm run lint' 'npm run css-w' 'npm run ts-w' 'npm start -- dev'",
+    "lint": "tslint src/**/*.tsx src/**/*.ts -c tslint.json",
     "clean": "find src -name \"*.js*\" -type f -delete",
+    "test": "npm run test:cov",
+    "test:cov": "ts-node ./node_modules/istanbul/lib/cli.js cover -e .ts ./node_modules/.bin/_mocha test/unit/**/*.ts",
+    "test:unit": "npm run clean && ts-node ./node_modules/.bin/_mocha test/unit/**/*.ts",
     "start": "electron .",
     "css": "postcss -o src/css/bundle.css -u precss src/css/all.css",
     "ts": "tsc",
     "css-w": "npm run css -- -w",
     "ts-w": "npm run ts -- -w",
-    "lint": "tslint src/**/*.tsx src/**/*.ts -c tslint.json"
+    "test:unit-w": "chokidar test/unit/**/*.ts src/**/*.ts -c 'npm run test:unit' "
   },
   "repository": {
     "type": "git",
@@ -29,16 +33,23 @@
   },
   "homepage": "https://github.com/kfiku/gitWatch",
   "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.46",
+    "chai": "^3.5.0",
     "chokidar": "^1.6.0",
+    "chokidar-cli": "^1.2.0",
     "css-loader": "^0.25.0",
     "electron": "^1.4.5",
     "electron-devtools-installer": "^2.0.1",
+    "istanbul": "^1.0.0-alpha.2",
     "postcss": "^5.2.0",
     "postcss-cli": "^2.6.0",
     "precss": "^1.4.0",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
+    "ts-node": "^1.7.0",
     "tslint": "^4.0.0-dev.1",
     "typescript": "^2.0",
     "typings": "^1.3.3"
