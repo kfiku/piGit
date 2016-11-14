@@ -9,11 +9,13 @@ import actions from '../actions';
 
 import { Nav } from '../components/Nav';
 import { Repos } from '../components/Repos';
+import { Message } from '../components/Message';
 
 const app: any = ({repos, actions}) => (
   <div>
     <Nav />
     <Repos reload={actions.reload} delete={actions.delete} pull={actions.pull} repos={repos} />
+    <Message />
   </div>
 );
 

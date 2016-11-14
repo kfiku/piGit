@@ -1,9 +1,11 @@
 import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
-         RELOADING, UPDATE, DELETE, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END } from '../constants/ActionTypes';
+         RELOADING, UPDATE, DELETE, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
+         MESSAGE } from '../constants/ActionTypes';
 
 const initialState = {
   addingRepos: false,
-  reloadingAllRepos: false
+  reloadingAllRepos: false,
+  message: '',
 };
 
 export default function app(state = initialState, action) {
@@ -27,6 +29,11 @@ export default function app(state = initialState, action) {
     case RELOADING_ALL_REPOS_END:
       newState = JSON.parse(JSON.stringify(state));
       newState.reloadingAllRepos = false;
+      return newState;
+
+    case MESSAGE:
+      newState = JSON.parse(JSON.stringify(state));
+      newState.message = action.msg;
       return newState;
 
     default:

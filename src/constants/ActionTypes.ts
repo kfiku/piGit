@@ -6,6 +6,8 @@ export const UPDATE = 'UPDATE';
 export const RELOADING = 'RELOADING';
 export const RELOADING_ALL_REPOS = 'RELOADING_ALL_REPOS';
 export const RELOADING_ALL_REPOS_END = 'RELOADING_ALL_REPOS_END';
+
+export const MESSAGE = 'MESSAGE';
 // export const DELETE_REPO = 'DELETE_REPO'
 // export const EDIT_REPO = 'EDIT_REPO'
 // export const COMPLETE_REPO = 'COMPLETE_REPO'

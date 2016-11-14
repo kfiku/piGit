@@ -1,7 +1,9 @@
 import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
          UPDATE,
          DELETE,
-         RELOADING, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END } from '../constants/ActionTypes';
+         RELOADING, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
+         MESSAGE } from '../constants/ActionTypes';
+
 import { resolve } from 'path';
 import { ActionCreatorsMapObject } from 'redux';
 
@@ -10,7 +12,7 @@ import * as electron from 'electron';
 
 const actions: ActionCreatorsMapObject = {
   addRepos: () => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
       let dirs = electron.remote.dialog.showOpenDialog({
         properties: ['openDirectory', 'multiSelections']
       });
@@ -19,15 +21,18 @@ const actions: ActionCreatorsMapObject = {
 
       gitRepos.searchRepos(
         dirs,
-        (gitDir) => {
-          console.log(this.default.addRepo);
-          dispatch(this.default.addRepo(resolve(gitDir, '..')));
+        (gitDir) => { // steps
+          const newRepoDit = resolve(gitDir, '..');
+          const repoByDir = getState().repos.filter(s => s.dir === newRepoDit);
+          if (repoByDir.length === 0) {
+            dispatch(this.default.addRepo(newRepoDit));
+          } else {
+            dispatch(this.default.message(`Repo '${newRepoDit}' is already there ;-)`));
+          }
         },
         (err, gitDirs) => {
           dispatch({ type: ADDING_REPO_END });
-          console.log(err, dirs);
         });
-      // return { type: ADD_REPO, dirs };
     };
   },
 
@@ -72,6 +77,10 @@ const actions: ActionCreatorsMapObject = {
         dispatch({ type: UPDATE, data });
       });
     };
+  },
+
+  message: (msg) => {
+    return { type: MESSAGE, msg };
   }
 };
 
