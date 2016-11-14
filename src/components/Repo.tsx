@@ -63,7 +63,7 @@ export class Repo extends React.Component<RepoProps, {}> {
       );
     }
 
-    let repoClassName = 'is-primary';
+    let repoClassName = 'is-success';
 
     if (this.props.repo.behind) {
       repoClassName = 'is-danger';
