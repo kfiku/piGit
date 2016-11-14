@@ -5,21 +5,6 @@ import { connect } from 'react-redux';
 
 import actions from '../actions';
 
-
-// constructor (props) {
-//     super(props);
-
-//     this.reloadTimeout();
-//   }
-
-//   reloadTimeout () {
-//     setTimeout(() => {
-//       this.reloadAll();
-//       this.reloadTimeout();
-//     }, 10 * 60 * 1000); // reload every 10 minute
-//   }
-
-
 const NavComponent: any = ({app, actions})  => {
   return (
     <div>
@@ -41,6 +26,19 @@ const NavComponent: any = ({app, actions})  => {
             </button>
           </span>
         </div>
+
+        { /*
+        <div className='nav-right'>
+          <span className='nav-item'>
+            <button className='button' >
+              <span className='icon'>
+                <i className='fa fa-paypal'></i>
+              </span>
+              <span>Donate</span>
+            </button>
+          </span>
+        </div>
+        */ }
       </nav>
     </div>
   );

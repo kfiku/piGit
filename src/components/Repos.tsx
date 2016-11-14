@@ -1,11 +1,7 @@
 import * as React from 'react';
-
-import { stat } from 'fs';
-import { join, basename } from 'path';
-import * as electron from 'electron';
-import * as glob from 'glob';
-
 import { Repo, StateRepo } from './Repo';
+
+let dragula = require('react-dragula');
 
 export interface ReposProps {
   reload: any;
@@ -15,6 +11,13 @@ export interface ReposProps {
 }
 
 export class Repos extends React.Component<ReposProps, {}> {
+  dragulaDecorator(componentBackingInstance) {
+    if (componentBackingInstance) {
+      let options = { };
+      dragula([componentBackingInstance], options);
+    }
+  }
+
   render() {
     let reposCollection;
     if (this.props.repos) {
@@ -32,7 +35,7 @@ export class Repos extends React.Component<ReposProps, {}> {
     }
 
     return (
-      <div className='repos columns is-multiline'>{reposCollection}</div>
+      <div className='repos columns is-multiline' ref={this.dragulaDecorator}>{reposCollection}</div>
     );
   }
 }
