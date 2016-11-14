@@ -18,6 +18,7 @@ const createAppStore = (callback) => {
 
     if (state && state.app) {
       state.app.addingRepos = false;
+      state.app.reloadingAllRepos = false;
     }
 
     let store = createStore(

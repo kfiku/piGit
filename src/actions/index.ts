@@ -1,8 +1,7 @@
 import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
          UPDATE,
          DELETE,
-         RELOADING,
-         RELOAD_ALL } from '../constants/ActionTypes';
+         RELOADING, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END } from '../constants/ActionTypes';
 import { resolve } from 'path';
 import { ActionCreatorsMapObject } from 'redux';
 
@@ -21,7 +20,8 @@ const actions: ActionCreatorsMapObject = {
       gitRepos.searchRepos(
         dirs,
         (gitDir) => {
-          dispatch({ type: ADD_REPO, dir: resolve(gitDir, '..') });
+          console.log(this.default.addRepo);
+          dispatch(this.default.addRepo(resolve(gitDir, '..')));
         },
         (err, gitDirs) => {
           dispatch({ type: ADDING_REPO_END });
@@ -31,12 +31,25 @@ const actions: ActionCreatorsMapObject = {
     };
   },
 
-  addRepo: (dir) => {
-    return { type: ADD_REPO, dir };
+  reloadAllRepos: () => {
+     return (dispatch, getState) => {
+      dispatch({ type: RELOADING_ALL_REPOS });
+
+      getState().repos.map((r, id) => {
+        // console.log(r, r.dir, id);
+        setTimeout(() => {
+          this.default.reload(r.dir)(dispatch);
+        }, 50 * id);
+      });
+
+      setTimeout(() => {
+        dispatch({ type: RELOADING_ALL_REPOS_END });
+      }, 1000);
+     };
   },
 
-  reloadAll: () => {
-    return { type: RELOAD_ALL };
+  addRepo: (dir) => {
+    return { type: ADD_REPO, dir };
   },
 
   delete: (dir: string) => {

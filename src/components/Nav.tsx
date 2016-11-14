@@ -33,7 +33,7 @@ const NavComponent: any = ({app, actions})  => {
               <span>Add Repo</span>
             </button>
 
-            <button className='button' >
+            <button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' is-loading' : '') } >
               <span className='icon'>
                 <i className='fa fa-refresh'></i>
               </span>
@@ -57,7 +57,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(actions, dispatch)
 });
 
 export const Nav = connect(
