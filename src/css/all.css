@@ -18,6 +18,10 @@ body {
 }
 
 .repo-el {
+  .title {
+    cursor: move;
+  }
+
   article {
     margin: 6px 0;
   }

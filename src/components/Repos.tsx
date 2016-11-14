@@ -13,7 +13,9 @@ export interface ReposProps {
 export class Repos extends React.Component<ReposProps, {}> {
   dragulaDecorator(componentBackingInstance) {
     if (componentBackingInstance) {
-      let options = { };
+      let options = { moves: (el, container, handle) => {
+        return handle.classList.contains('title');
+      }};
       dragula([componentBackingInstance], options);
     }
   }
