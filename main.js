@@ -10,10 +10,13 @@ installExtension.default(installExtension.REDUX_DEVTOOLS);
 
 const electronSettings = require('electron-settings');
 
+if (env === 'dev') {
+  require('electron-debug')({showDevTools: true});
+}
+
 let mainWindow
 
 function createWindow () {
-
   electronSettings.get('window').then((win) => {
     mainWindow = new BrowserWindow(win || {x: 100, y: 100, width: 800, height: 600})
     mainWindow.loadURL(`file://${__dirname}/src/index.html`)
@@ -30,10 +33,12 @@ function createWindow () {
       }, 1000);
     });
 
+    mainWindow.setMenu(null)
+
     if (env === 'dev') {
       // simple livereload
       const chokidar = require('chokidar');
-      chokidar.watch('src/**/*.{js, css}', {
+      chokidar.watch('src/**/*.(js|css)', {
           ignored: /[\/\\]\./,
           persistent: true
         })
@@ -41,6 +46,7 @@ function createWindow () {
           mainWindow.reload();
         }
       );
+    } else {
     }
   });
 }
@@ -67,5 +73,3 @@ app.on('activate', function () {
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
