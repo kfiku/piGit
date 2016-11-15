@@ -10,7 +10,7 @@
     "test": "npm run test:cov",
     "test:cov": "npm run ts && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/unit/**/*.js",
     "test:unit": "npm run clean && ts-node ./node_modules/.bin/_mocha test/unit/**/*.ts",
-    "build": "npm run lint && npm run css && npm run ts && npm test",
+    "build": "npm run lint && npm run css && npm run ts",
     "start": "electron .",
     "css": "postcss -o src/css/bundle.css -u precss src/css/all.css",
     "ts": "tsc",
