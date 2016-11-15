@@ -4,10 +4,11 @@
   "description": "electron app to watch git repos",
   "main": "main.js",
   "scripts": {
+    "test": "npm run test:cov",
+    "postinstall": "npm run build",
     "dev": "export NODE_ENV=dev && concurrently 'npm run lint' 'npm run css-w' 'npm run ts-w' 'npm start -- dev'",
     "lint": "tslint src/**/*.tsx src/**/*.ts -c tslint.json",
     "clean": "find src -name \"*.js*\" -type f -delete",
-    "test": "npm run test:cov",
     "test:cov": "npm run ts && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/unit/**/*.js",
     "test:unit": "npm run clean && ts-node ./node_modules/.bin/_mocha test/unit/**/*.ts",
     "build": "npm run lint && npm run css && npm run ts",
