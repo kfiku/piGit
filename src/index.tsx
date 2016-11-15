@@ -11,6 +11,6 @@ createAppStore((err, store) => {
     <Provider store={store}>
       <App />
     </Provider>,
-    document.getElementById('example')
+    document.getElementById('root')
   );
 });

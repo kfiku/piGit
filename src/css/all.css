@@ -1,20 +1,33 @@
+$nav-height: 52px;
+
 html,
 body {
+  height: 100%;
   margin: 0;
   background: #eee;
+  overflow: hidden;
+}
+
+body {
+  padding-top: $nav-height;
 }
 
 .main-nav {
   width: 100%;
+  height: $nav-height;
   background: #ccc;
   position: fixed;
   top: 0;
   left: 0;
 }
 
-.repos {
-  margin-top: 40px;
-  padding: 20px;
+#root {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.repos-box {
+  padding: 20px 20px;
 }
 
 .repo-el {
