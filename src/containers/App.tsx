@@ -14,7 +14,7 @@ import { Message } from '../components/Message';
 const app: any = ({repos, actions}) => (
   <div>
     <Nav />
-    <Repos reload={actions.reload} delete={actions.delete} pull={actions.pull} repos={repos} />
+    <Repos reload={actions.reload} delete={actions.delete} pull={actions.pull} reorder={actions.reorderRepo} repos={repos} />
     <Message />
   </div>
 );

@@ -1,4 +1,5 @@
-import { ADD_REPO, RELOADING, UPDATE, DELETE } from '../constants/ActionTypes';
+import { ADD_REPO, RELOADING, UPDATE, DELETE, REORDER_REPO } from '../constants/ActionTypes';
+import reorderArray from '../helpers/ReorderArray';
 
 const initialState = [];
 
@@ -30,6 +31,9 @@ export default function repos(state = initialState, action) {
         }
         return repo;
       });
+
+    case REORDER_REPO:
+      return reorderArray(state, action.fromIndex, action.toIndex);
 
     case DELETE:
       return state.filter((repo) => {

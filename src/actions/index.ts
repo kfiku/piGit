@@ -1,6 +1,7 @@
 import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
          UPDATE,
          DELETE,
+         REORDER_REPO,
          RELOADING, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
          MESSAGE } from '../constants/ActionTypes';
 
@@ -55,6 +56,10 @@ const actions: ActionCreatorsMapObject = {
 
   addRepo: (dir) => {
     return { type: ADD_REPO, dir };
+  },
+
+  reorderRepo: (fromIndex, toIndex) => {
+    return { type: REORDER_REPO, fromIndex, toIndex };
   },
 
   delete: (dir: string) => {
