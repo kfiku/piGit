@@ -37,7 +37,9 @@ export class Repos extends React.Component<ReposProps, {}> {
     }
 
     return (
-      <div className='repos columns is-multiline' ref={this.dragulaDecorator}>{reposCollection}</div>
+      <div className='repos-box'>
+        <div className='repos columns is-multiline' ref={this.dragulaDecorator}>{reposCollection}</div>
+      </div>
     );
   }
 }
