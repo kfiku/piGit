@@ -16,6 +16,7 @@ export class Repos extends React.Component<ReposProps, {}> {
     if (el) {
       let options = {
         animation: 200,
+        group: 'repos',
         handle: '.title',
         forceFallback: true,
         onUpdate: (event) => {
@@ -45,7 +46,18 @@ export class Repos extends React.Component<ReposProps, {}> {
 
     return (
       <div className='repos-box'>
-        <div className='repos columns is-multiline' ref={this.sortable.bind(this)}>{reposCollection}</div>
+        {/*
+        <div className='g1' ref={this.sortable.bind(this)}>
+          <h3>g1</h3>
+        </div>
+        <div className='g2' ref={this.sortable.bind(this)}>
+          <h3>g2</h3>
+        </div>
+        <div className='g3' ref={this.sortable.bind(this)}>
+          <h3>g3</h3>
+        </div>
+        */}
+        <div className='g4 repos columns is-multiline' ref={this.sortable.bind(this)}>{reposCollection}</div>
       </div>
     );
   }
