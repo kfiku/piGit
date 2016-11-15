@@ -47,3 +47,5 @@ coverage
 
 src/**/*.js
 src/**/*.map
+test/**/*.js
+test/**/*.map
