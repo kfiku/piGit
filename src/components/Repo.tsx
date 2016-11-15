@@ -30,6 +30,19 @@ export class Repo extends React.Component<RepoProps, {}> {
     }
   }
 
+  updateDate(el) {
+    setTimeout(() => {
+      el.innerHTML = moment(this.props.repo.lastUpdate).fromNow();
+      this.updateDate(el);
+    }, 5 * 60 * 1000); // 5 minutes
+  }
+
+  onClick() {
+    // let myNotification = new Notification('Title', {
+    //   body: 'Lorem Ipsum Dolor Sit Amet'
+    // });
+  }
+
   render() {
     let modifiedBox;
     if (this.props.repo.modified && this.props.repo.modified.length) {
@@ -81,7 +94,7 @@ export class Repo extends React.Component<RepoProps, {}> {
     let lastUpdated = 'Updated: ' + moment(this.props.repo.lastUpdate).fromNow();
 
     return (
-      <div className='repo-el column is-4'>
+      <div onClick={ this.onClick.bind(this) } className='repo-el column is-4'>
         <div className={ 'notification ' + repoClassName }>
           <button onClick={ this.props.onDelete.bind(this, this.props.repo.dir) } className='delete'></button>
           <header>
@@ -92,7 +105,7 @@ export class Repo extends React.Component<RepoProps, {}> {
           <article>
             <span>{ this.props.repo.ahead ? 'Ahead: ' + this.props.repo.ahead + ' | ' : '' }</span>
             <span>{ this.props.repo.behind ? 'Behind: ' + this.props.repo.behind + ' | ' : '' }</span>
-            <span>{ lastUpdated }</span>
+            <span ref={ this.updateDate.bind(this) }>{ lastUpdated }</span>
             { modifiedBox }
             { addedBox }
           </article>
