@@ -32,8 +32,12 @@ export class Repo extends React.Component<RepoProps, {}> {
 
   updateDate(el) {
     setTimeout(() => {
-      el.innerHTML = moment(this.props.repo.lastUpdate).fromNow();
-      this.updateDate(el);
+      if (el && el.innerHTML) {
+        el.innerHTML = moment(this.props.repo.lastUpdate).fromNow();
+        this.updateDate(el);
+      } else {
+        console.log(el);
+      }
     }, 5 * 60 * 1000); // 5 minutes
   }
 
@@ -98,7 +102,7 @@ export class Repo extends React.Component<RepoProps, {}> {
         <div className={ 'notification ' + repoClassName }>
           <button onClick={ this.props.onDelete.bind(this, this.props.repo.dir) } className='delete'></button>
           <header>
-            <span className='title is-5'>{this.props.repo.name + ' '}</span>
+            <span title={this.props.repo.dir + ' '} className='title is-5'>{this.props.repo.name + ' '}</span>
             <small className=''>@ {this.props.repo.branch}</small>
           </header>
 
