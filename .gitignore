@@ -47,5 +47,8 @@ coverage
 
 src/**/*.js
 src/**/*.map
+src/css/bundle.css
 test/**/*.js
 test/**/*.map
+
+start.sh
