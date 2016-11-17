@@ -41,7 +41,7 @@
     "chai": "^3.5.0",
     "chokidar": "^1.6.0",
     "chokidar-cli": "^1.2.0",
-    "css-loader": "^0.25.0",
+    "css-loader": "^0.26.0",
     "devtron": "^1.4.0",
     "electron": "^1.4.5",
     "electron-devtools-installer": "^2.0.1",
