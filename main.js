@@ -4,13 +4,11 @@ const env = process.env.NODE_ENV || 'prod';
 const electron = require('electron');
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
-
-const installExtension = require('electron-devtools-installer');
-installExtension.default(installExtension.REDUX_DEVTOOLS);
-
 const electronSettings = require('electron-settings');
 
 if (env === 'dev') {
+  const installExtension = require('electron-devtools-installer');
+  installExtension.default(installExtension.REDUX_DEVTOOLS);
   require('electron-debug')({showDevTools: true});
 }
 
