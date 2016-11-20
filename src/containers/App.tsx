@@ -13,8 +13,17 @@ import { Message } from '../components/Message';
 
 const app: any = ({repos, actions}) => (
   <div>
-    <Nav />
-    <Repos reload={actions.reload} delete={actions.delete} pull={actions.pull} reorder={actions.reorderRepo} repos={repos} />
+    <Nav/>
+    <Repos reloadRepo={actions.reloadRepo}
+           deleteRepo={actions.deleteRepo}
+           pullRepo={actions.pullRepo}
+           reorderRepo={actions.reorderRepo}
+
+           reorderGroup={actions.reorderGroup}
+           deleteGroup={actions.deleteGroup}
+           startEditGroup={actions.startEditGroup}
+           editGroup={actions.editGroup}
+           repos={repos}/>
     <Message />
   </div>
 );

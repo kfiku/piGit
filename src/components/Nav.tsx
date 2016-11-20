@@ -17,6 +17,13 @@ const NavComponent: any = ({app, actions})  => {
             <span>Add Repo</span>
           </button>
 
+          <button onClick={ actions.addGroup } className='button'>
+            <span className='icon'>
+              <i className='fa fa-folder'></i>
+            </span>
+            <span>Add Group</span>
+          </button>
+
           <button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' is-loading' : '') } >
             <span className='icon'>
               <i className='fa fa-refresh'></i>

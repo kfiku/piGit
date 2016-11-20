@@ -1,8 +1,9 @@
 import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
-         UPDATE,
-         DELETE,
+         UPDATE_REPO,
+         DELETE_REPO,
          REORDER_REPO,
          RELOADING, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
+         ADD_GROUP, REORDER_GROUP, DELETE_GROUP, START_EDITING_GROUP, EDIT_GROUP,
          MESSAGE } from '../constants/ActionTypes';
 
 import { resolve } from 'path';
@@ -41,11 +42,13 @@ const actions: ActionCreatorsMapObject = {
      return (dispatch, getState) => {
       dispatch({ type: RELOADING_ALL_REPOS });
 
-      getState().repos.map((r, id) => {
-        // console.log(r, r.dir, id);
-        setTimeout(() => {
-          this.default.reload(r.dir)(dispatch);
-        }, 50 * id);
+      getState().repos.map((groups, gid) => {
+        groups.repos.map((r, rid) => {
+          // console.log(r, r.dir, id);
+          setTimeout(() => {
+            this.default.reloadRepo(r.dir)(dispatch);
+          }, 50 * (gid + rid));
+        });
       });
 
       setTimeout(() => {
@@ -58,30 +61,50 @@ const actions: ActionCreatorsMapObject = {
     return { type: ADD_REPO, dir };
   },
 
-  reorderRepo: (fromIndex, toIndex) => {
-    return { type: REORDER_REPO, fromIndex, toIndex };
+  addGroup: () => {
+    return { type: ADD_GROUP };
   },
 
-  delete: (dir: string) => {
-    return { type: DELETE, dir };
+  reorderRepo: (params) => {
+    return { type: REORDER_REPO, params };
   },
 
-  reload: (dir) => {
+  deleteRepo: (dir: string) => {
+    return { type: DELETE_REPO, dir };
+  },
+
+  reloadRepo: (dir) => {
     return (dispatch) => {
       dispatch({ type: RELOADING, dir });
       gitRepos.fetch(dir, (err, data) => {
-        dispatch({ type: UPDATE, data });
+        dispatch({ type: UPDATE_REPO, data });
       });
     };
   },
 
-  pull: (dir) => {
+  pullRepo: (dir) => {
     return (dispatch) => {
       dispatch({ type: RELOADING, dir });
       gitRepos.pull(dir, (err, data) => {
-        dispatch({ type: UPDATE, data });
+        dispatch({ type: UPDATE_REPO, data });
       });
     };
+  },
+
+  reorderGroup: (params) => {
+    return { type: REORDER_GROUP, params };
+  },
+
+  deleteGroup: (id: number) => {
+    return { type: DELETE_GROUP, id };
+  },
+
+  startEditGroup: (id: number) => {
+    return { type: START_EDITING_GROUP, id };
+  },
+
+  editGroup: (id: number, title) => {
+    return { type: EDIT_GROUP, id, title };
   },
 
   message: (msg) => {
