@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run lint && npm run test:cov",
     "postinstall": "npm run build",
-    "dev": "export NODE_ENV=dev && concurrently 'npm run lint' 'npm run css-w' 'npm run ts-w' 'npm start -- dev'",
+    "dev": "export NODE_ENV=dev && concurrently 'npm run css-w' 'npm run ts-w' 'npm start -- dev'",
     "lint": "tslint src/**/*.tsx src/**/*.ts -c tslint.json",
     "clean": "find src -name \"*.js*\" -type f -delete",
     "test:cov": "npm run ts && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/unit/**/*.js",
@@ -37,7 +37,6 @@
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.32",
-    "@types/node": "^6.0.46",
     "chai": "^3.5.0",
     "chokidar": "^1.6.0",
     "chokidar-cli": "^1.2.0",
@@ -50,7 +49,6 @@
     "postcss": "^5.2.0",
     "postcss-cli": "^2.6.0",
     "precss": "^1.4.0",
-    "style-loader": "^0.13.1",
     "ts-node": "^1.7.0",
     "tslint": "^4.0.0-dev.1",
     "typescript": "^2.0"
@@ -58,7 +56,6 @@
   "dependencies": {
     "@types/async": "^2.0.32",
     "@types/electron": "^1.4.24",
-    "@types/glob": "^5.0.30",
     "@types/moment": "^2.13.0",
     "@types/node": "^6.0.45",
     "@types/react": "^0.14.41",
