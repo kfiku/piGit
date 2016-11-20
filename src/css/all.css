@@ -30,6 +30,13 @@ body {
   padding: 20px 20px;
 }
 
+.repos {
+  min-height: 100px;
+  & > div {
+    width: 100%;
+  }
+}
+
 .repo-el {
   .title {
     cursor: move;
@@ -38,6 +45,10 @@ body {
   article {
     margin: 6px 0;
   }
+}
+
+.message-header.control {
+  margin-bottom: 0;
 }
 
 

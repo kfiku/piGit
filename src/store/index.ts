@@ -10,6 +10,8 @@ const electronSettings = require('electron-settings');
 const createAppStore = (callback) => {
   electronSettings.get('state').then((state: any) => {
 
+    // console.log('loaded stater', state);
+
     const loggerMiddleware = createLogger();
     let composeEnhancers = compose;
     if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
@@ -19,6 +21,15 @@ const createAppStore = (callback) => {
     if (state && state.app) {
       state.app.addingRepos = false;
       state.app.reloadingAllRepos = false;
+    }
+
+    if (state.repos[0] && !state.repos[0].title) {
+      state.repos = [{title: 'default', repos: state.repos}];
+    } else {
+      state.repos = state.repos.map(group => {
+        group.editing = false;
+        return group;
+      });
     }
 
     let store = createStore(
