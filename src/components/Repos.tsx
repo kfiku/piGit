@@ -109,7 +109,7 @@ export class Repos extends React.Component<ReposProps, {}> {
       let deleteBtn = <button onClick={ this.props.deleteGroup.bind(this, id) } className='delete'/>
 
       if (group.title === 'default') {
-        groupTitle = <span> { group.title }</span>;
+        groupTitle = <span>{ group.title }</span>;
         deleteBtn = <span/>;
       }
 
