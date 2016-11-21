@@ -103,12 +103,21 @@ export class Repos extends React.Component<ReposProps, {}> {
 
   renderReposGroups(groups) {
     return groups.map((group, id) => {
-      let groupTitle = (<span onClick={ this.props.startEditGroup.bind(this, id) }>
+      let groupTitle = <span onClick={ this.props.startEditGroup.bind(this, id) }>
                           { group.title }
-                        </span>);
-      if (group.editing) {
-        groupTitle = <input onKeyPress={ this.onChangeGroupName.bind(this, id) } className='input' defaultValue={ group.title }/>;
+                        </span>;
+      let deleteBtn = <button onClick={ this.props.deleteGroup.bind(this, id) } className='delete'/>
+
+      if (group.title === 'default') {
+        groupTitle = <span> { group.title }</span>;
+        deleteBtn = <span/>;
       }
+
+      if (group.editing) {
+        groupTitle = (<input onKeyPress={ this.onChangeGroupName.bind(this, id) }
+                             className='input' defaultValue={ group.title }/>);
+      }
+
 
       return (
         <div className='message' key={ group.title }>
@@ -122,7 +131,7 @@ export class Repos extends React.Component<ReposProps, {}> {
             </p>
 
             <p className='control'>
-              <button onClick={ this.props.deleteGroup.bind(this, id) } className='delete' style={{float: 'right'}} />
+              { deleteBtn }
             </p>
           </div>
           <div className='message-body'>
