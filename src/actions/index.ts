@@ -42,12 +42,14 @@ const actions: ActionCreatorsMapObject = {
      return (dispatch, getState) => {
       dispatch({ type: RELOADING_ALL_REPOS });
 
+      let i = 0;
       getState().repos.map((groups, gid) => {
         groups.repos.map((r, rid) => {
           // console.log(r, r.dir, id);
           setTimeout(() => {
             this.default.reloadRepo(r.dir)(dispatch);
-          }, 50 * (gid + rid));
+          }, 100 * i);
+          i++;
         });
       });
 
