@@ -78,7 +78,7 @@ const actions: ActionCreatorsMapObject = {
   reloadRepo: (dir) => {
     return (dispatch) => {
       dispatch({ type: RELOADING, dir });
-      gitRepos.fetch(dir, (err, data) => {
+      gitRepos.refresh(dir, (err, data) => {
         dispatch({ type: UPDATE_REPO, data });
       });
     };

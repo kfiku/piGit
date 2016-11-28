@@ -33,7 +33,7 @@ export class Repo {
     });
   }
 
-  updateStatus (callback) {
+  updateStatus (callback, params: { remoteHeads?: string[] } = undefined) {
     this.git.status((err, status) => {
       if (!err) {
         let newState = this.state;
@@ -57,6 +57,22 @@ export class Repo {
   }
 
   fetch (callback) {
+    this.git.fetch((err) => {
+       if (err) {
+          // TODO: make it pretty :)
+          alert(err);
+          callback(err);
+        } else {
+          this.updateStatus(callback);
+        }
+    });
+  }
+
+  refresh (callback) {
+    // this.git.listRemote(['--heads'], (err, remoteHeads) => {
+    //   console.log(err, remoteHeads);
+    //   this.updateStatus(callback, { remoteHeads });
+    // })
     this.git.fetch((err) => {
        if (err) {
           // TODO: make it pretty :)
@@ -109,6 +125,18 @@ export class Repos {
     }, () => {
       callback(null, gitDirsToAdd);
     });
+  }
+
+  refresh (dir: string, callback) {
+    if (!this.repos[dir]) {
+      this.repos[dir] = new Repo(dir, (err) => {
+        this.refresh(dir, callback);
+      });
+    } else {
+      this.repos[dir].refresh((err, data) => {
+        callback(err, data);
+      });
+    }
   }
 
   fetch (dir: string, callback) {
