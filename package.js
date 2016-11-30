@@ -1,9 +1,10 @@
+var pkg = require('./package.json');
 var packager = require('electron-packager');
 
 packager({
     dir: './',
-    name: 'piGit',
-    'app-version': '0.0.1',
+    name: pkg.name,
+    'app-version': pkg.version,
     // all: true,
     platform: 'linux',
     arch: 'x64',
