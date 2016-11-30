@@ -4,8 +4,8 @@ electron app, written in typescript and react to watch git repos
 
 App is in early development. To try it out just
 ```
-git clone https://github.com/kfiku/gitWatch.git
-cd gitWatch
+git clone https://github.com/kfiku/piGit.git
+cd piGit
 npm install
 ```
 

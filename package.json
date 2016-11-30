@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kfiku/piWatch.git"
+    "url": "git+https://github.com/kfiku/piGit.git"
   },
   "keywords": [
     "Electron",
@@ -36,9 +36,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kfiku/piWatch/issues"
+    "url": "https://github.com/kfiku/piGit/issues"
   },
-  "homepage": "https://github.com/kfiku/piWatch",
+  "homepage": "https://github.com/kfiku/piGit",
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.32",
