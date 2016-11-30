@@ -1,23 +1,24 @@
+var pkg = require('./package.json');
 var installer = require('electron-installer-debian');
 
 var options = {
-  name: 'pi-git',
-  productName: 'piGit',
+  name: pkg.name.toLowerCase(),
+  productName: pkg.name,
   genericName: 'Git Utility',
-  src: 'release/piGit-linux-x64/',
+  src: 'release/PiGit-linux-x64/',
   dest: 'release/installers/',
   icon: 'logo/piGit.png',
   arch: 'amd64',
-  maintainer: 'Grzegorz Klimek <kfiku.com@gmail.com>',
-  homepage: 'https://github.com/kfiku',
-  version: '0.0.1',
+  maintainer: `${pkg.author.name} <${pkg.author.email}>`,
+  homepage: pkg.homepage,
+  version: pkg.version,
   categories: [
     "Utility"
   ],
   // lintianOverrides: [
   //   "changelog-file-missing-in-native-package"
   // ],
-  bin: 'piGit'
+  bin: 'PiGit'
 }
 
 console.log('Creating package (this may take a while)')

@@ -32,7 +32,6 @@ function createWindow () {
     const saveWindowBounds = function () {
       clearTimeout(ti);
       ti = setTimeout(() => {
-        console.log('saveWindowBounds')
         electronSettings.set('window', mainWindow.getBounds());
       }, 1000);
     }
