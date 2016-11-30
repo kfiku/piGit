@@ -1,5 +1,5 @@
 {
-  "name": "piGit",
+  "name": "PiGit",
   "version": "0.1.0",
   "description": "electron app to watch git repos",
   "main": "main.js",
@@ -48,7 +48,7 @@
     "concurrently": "^3.1.0",
     "css-loader": "^0.26.0",
     "devtron": "^1.4.0",
-    "electron": "^1.4.5",
+    "electron": "^1.4.10",
     "electron-devtools-installer": "^2.0.1",
     "electron-installer-debian": "^0.4.0",
     "electron-debug": "^1.1.0",

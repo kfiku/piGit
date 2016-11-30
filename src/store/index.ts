@@ -22,14 +22,15 @@ const createAppStore = (callback) => {
       state.app.addingRepos = false;
       state.app.reloadingAllRepos = false;
     }
-
-    if (state.repos[0] && !state.repos[0].title) {
-      state.repos = [{title: 'default', repos: state.repos}];
-    } else {
-      state.repos = state.repos.map(group => {
-        group.editing = false;
-        return group;
-      });
+    if (state && state.repos) {
+      if (state.repos[0] && !state.repos[0].title) {
+        state.repos = [{title: 'default', repos: state.repos}];
+      } else {
+        state.repos = state.repos.map(group => {
+          group.editing = false;
+          return group;
+        });
+      }
     }
 
     let store = createStore(
