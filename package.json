@@ -1,6 +1,6 @@
 {
   "name": "piGit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "electron app to watch git repos",
   "main": "main.js",
   "scripts": {
@@ -30,9 +30,9 @@
     "watch"
   ],
   "author": {
-    "name" : "Grzegorz Klimek",
-    "email" : "kfiku.com@gmail.com",
-    "url" : "https://github.com/kfiku"
+    "name": "Grzegorz Klimek",
+    "email": "kfiku.com@gmail.com",
+    "url": "https://github.com/kfiku"
   },
   "license": "MIT",
   "bugs": {
@@ -45,17 +45,20 @@
     "chai": "^3.5.0",
     "chokidar": "^1.6.0",
     "chokidar-cli": "^1.2.0",
+    "concurrently": "^3.1.0",
     "css-loader": "^0.26.0",
     "devtron": "^1.4.0",
     "electron": "^1.4.5",
     "electron-devtools-installer": "^2.0.1",
     "electron-installer-debian": "^0.4.0",
+    "electron-debug": "^1.1.0",
     "electron-packager": "^8.3.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.1.2",
     "postcss": "^5.2.0",
     "postcss-cli": "^2.6.0",
     "precss": "^1.4.0",
+    "release-it": "^2.5.1",
     "ts-node": "^1.7.0",
     "tslint": "^4.0.0-dev.1",
     "typescript": "^2.0"
@@ -74,9 +77,6 @@
     "async": "^2.0.1",
     "bulma": "^0.2.3",
     "classnames": "~2.2.5",
-    "concurrently": "^3.1.0",
-    "director": "~1.2.8",
-    "electron-debug": "^1.1.0",
     "electron-settings": "^2.2.1",
     "font-awesome": "^4.6.3",
     "moment": "^2.16.0",
