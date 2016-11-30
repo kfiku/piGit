@@ -51,4 +51,6 @@ src/css/bundle.css
 test/**/*.js
 test/**/*.map
 
+release
+
 start.sh
