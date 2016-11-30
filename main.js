@@ -1,6 +1,7 @@
 // setting env var
 const env = process.env.NODE_ENV || 'prod';
 
+
 const electron = require('electron');
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
@@ -14,25 +15,32 @@ if (env === 'dev') {
 
 let mainWindow
 
+
+
 function createWindow () {
   electronSettings.get('window').then((win) => {
+    win = win || {x: 100, y: 100, width: 800, height: 600}
     win.icon = __dirname + '/logo/piGit.png';
-    mainWindow = new BrowserWindow(win || {x: 100, y: 100, width: 800, height: 600})
-    mainWindow.loadURL(`file://${__dirname}/src/index.html`)
+    mainWindow = new BrowserWindow(win);
+    mainWindow.loadURL(`file://${__dirname}/src/index.html`);
 
     mainWindow.on('closed', function () {
       mainWindow = null
-    })
-
-    let ti;
-    mainWindow.on('resize', () => {
-      clearTimeout(ti);
-      ti = setTimeout(() => {
-        electronSettings.set('window', mainWindow.getBounds());
-      }, 1000);
     });
 
-    mainWindow.setMenu(null)
+    let ti;
+    const saveWindowBounds = function () {
+      clearTimeout(ti);
+      ti = setTimeout(() => {
+        console.log('saveWindowBounds')
+        electronSettings.set('window', mainWindow.getBounds());
+      }, 1000);
+    }
+
+    mainWindow.on('resize', saveWindowBounds);
+    mainWindow.on('move', saveWindowBounds);
+
+    mainWindow.setMenu(null);
 
     if (env === 'dev') {
       // simple livereload
@@ -71,4 +79,3 @@ app.on('activate', function () {
     createWindow()
   }
 })
-
