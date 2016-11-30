@@ -1,6 +1,6 @@
 {
   "name": "piGit",
-  "version": "1.2.0",
+  "version": "0.1.0",
   "description": "electron app to watch git repos",
   "main": "main.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kfiku/gitWatch.git"
+    "url": "git+https://github.com/kfiku/piWatch.git"
   },
   "keywords": [
     "Electron",
@@ -36,9 +36,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kfiku/gitWatch/issues"
+    "url": "https://github.com/kfiku/piWatch/issues"
   },
-  "homepage": "https://github.com/kfiku/gitWatch",
+  "homepage": "https://github.com/kfiku/piWatch",
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.32",
