@@ -106,7 +106,7 @@ export class Repos extends React.Component<ReposProps, {}> {
       let groupTitle = <span onClick={ this.props.startEditGroup.bind(this, id) }>
                           { group.title }
                         </span>;
-      let deleteBtn = <button onClick={ this.props.deleteGroup.bind(this, id) } className='delete'/>
+      let deleteBtn = <button onClick={ this.props.deleteGroup.bind(this, id) } className='delete'/>;
 
       if (group.title === 'default') {
         groupTitle = <span>{ group.title }</span>;

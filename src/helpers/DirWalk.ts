@@ -3,32 +3,17 @@ import { exec } from 'child_process';
 import { join, basename, resolve } from 'path';
 
 const ignores = ['node_modules', 'bower_components', 'friendsofsymfony', 'sonata', 'symfony'];
-let isTree;// = false; // FORCE NODE IMPLEMENTATION
+let isTree; // = false; // FORCE NODE IMPLEMENTATION
 
 const checkIsTreeCommand = (callback) => {
-  if(isTree === undefined) {
+  if (isTree === undefined) {
     exec('which tree', (err, a, b) => {
       isTree = !err;
       callback(isTree);
-    })
+    });
   } else {
     callback(isTree);
   }
-}
-
-const walk = (dir: string,
-              step: (dir: string) => void,
-              done: (err: any, dirs?: string[]) => void,
-              name: string = undefined,
-              depth = 5) => {
-
-  checkIsTreeCommand((exists) => {
-    if(exists) {
-      treeWalk(dir, step, done, name, depth);
-    } else {
-      nodeWalk(dir, step, done, name, depth);
-    }
-  })
 };
 
 const treeWalk = (dir: string,
@@ -47,7 +32,7 @@ const treeWalk = (dir: string,
   };
 
   // USE NODE IMPLEMENTATION
-  exec(`tree ${resolve(dir)} -d -a -f -L 6 ${name ? '-P "'+ name + '"' : '' } -I '${ignores.join('|')}' ${name ? ' | grep -E "'+ name + '$"' : '' }`, (err, files) => {
+  exec(`tree ${resolve(dir)} -d -a -f -L 6 ${name ? '-P "' + name + '"' : ''} -I '${ignores.join('|')}' ${name ? ' | grep -E "' + name + '$"' : '' }`, (err, files) => {
     if (err) {
       return done(err);
     }
@@ -62,7 +47,7 @@ const treeWalk = (dir: string,
 
     done(null, results);
   });
-}
+};
 
 
 const nodeWalk = (dir: string,
@@ -109,7 +94,7 @@ const nodeWalk = (dir: string,
         } else {
           stat(filepath, (err2, stat) => {
             if (stat && stat.isDirectory()) {
-              walk(filepath, step, (err3, res) => {
+              nodeWalk(filepath, step, (err3, res) => {
                 results = results.concat(res);
                 if (!--pending) {
                   done(null, results);
@@ -128,6 +113,21 @@ const nodeWalk = (dir: string,
       }
     });
   });
-}
+};
+
+const walk = (dir: string,
+              step: (dir: string) => void,
+              done: (err: any, dirs?: string[]) => void,
+              name: string = undefined,
+              depth = 5) => {
+
+  checkIsTreeCommand((exists) => {
+    if (exists) {
+      treeWalk(dir, step, done, name, depth);
+    } else {
+      nodeWalk(dir, step, done, name, depth);
+    }
+  });
+};
 
 export default walk;
