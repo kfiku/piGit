@@ -8,6 +8,7 @@
   },
   "files": [
     "./src/index.tsx",
-    "./test/unit/helpers/GitReposTest.ts"
+    "./test/unit/helpers/GitReposTest.ts",
+    "./test/unit/helpers/DirWalkTest.ts"
   ]
 }
