@@ -145,7 +145,7 @@ export class Repos extends React.Component<ReposProps, {}> {
 
       return (
         //
-        <div className='message' key={ group.title }>
+        <div className='message' key={ group.id }>
           { confirmDelete }
           <div className='message-header control is-grouped'>
             <p className='control mover icon is-small'>

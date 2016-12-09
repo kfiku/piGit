@@ -5,12 +5,13 @@ import { ADD_REPO, RELOADING, UPDATE_REPO, DELETE_REPO, REORDER_REPO,
        } from '../constants/ActionTypes';
 import reorderArray from '../helpers/ReorderArray';
 import clone from '../helpers/Clone';
+import newId from '../helpers/newId';
 
 const initialState = [
   {
     title: 'default',
     editing: false,
-    confirmDelete: false;
+    confirmDelete: false,
     repos: []
   }
 ];
@@ -81,6 +82,7 @@ export default function repos(state = initialState, action) {
       newState = clone(state);
 
       newState.push({
+        id: newId(),
         title: 'New group',
         editing: true,
         repos: []

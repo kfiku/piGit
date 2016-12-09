@@ -2,6 +2,7 @@ const env = process.env.NODE_ENV || 'prod';
 
 import { createStore, StoreEnhancer, Store, applyMiddleware, compose } from 'redux';
 import reducer from '../reducers';
+import newId from '../helpers/newId';
 
 const thunkMiddleware = require('redux-thunk').default;
 const createLogger = require('redux-logger');
@@ -27,6 +28,9 @@ const createAppStore = (callback) => {
         state.repos = [{title: 'default', repos: state.repos}];
       } else {
         state.repos = state.repos.map(group => {
+          if (!group.id) {
+            group.id = newId();
+          }
           group.editing = false;
           group.confirmDelete = false;
           return group;
