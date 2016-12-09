@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import actions from '../actions';
 
-const MessageComponent: any = ({app, actions})  => {
+const MessageComponent: any = ({app, actions}) => {
   if (app.message !== '') {
     // if message is there
     return (
@@ -15,8 +15,8 @@ const MessageComponent: any = ({app, actions})  => {
           <section className='modal-card-body'>
             { app.message }
           </section>
-          <footer onClick={ actions.message.bind(actions, '') } className='modal-card-foot'>
-            <a className='button is-primary'>OK</a>
+          <footer className='modal-card-foot'>
+            <a onClick={ actions.message.bind(actions, '') } className='button is-primary'>OK</a>
           </footer>
         </div>
       </div>
