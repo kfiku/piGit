@@ -1,7 +1,20 @@
 import { stat, readdir } from 'fs';
+import { exec } from 'child_process';
 import { join, basename, resolve } from 'path';
 
-const ignores = ['node_modules', 'bower_components', 'friendsofsymfony', 'sonata'];
+const ignores = ['node_modules', 'bower_components', 'friendsofsymfony', 'sonata', 'symfony'];
+let isTree;// = false; // FORCE NODE IMPLEMENTATION
+
+const checkIsTreeCommand = (callback) => {
+  if(isTree === undefined) {
+    exec('which tree', (err, a, b) => {
+      isTree = !err;
+      callback(isTree);
+    })
+  } else {
+    callback(isTree);
+  }
+}
 
 const walk = (dir: string,
               step: (dir: string) => void,
@@ -9,6 +22,20 @@ const walk = (dir: string,
               name: string = undefined,
               depth = 5) => {
 
+  checkIsTreeCommand((exists) => {
+    if(exists) {
+      treeWalk(dir, step, done, name, depth);
+    } else {
+      nodeWalk(dir, step, done, name, depth);
+    }
+  })
+};
+
+const treeWalk = (dir: string,
+                  step: (dir: string) => void,
+                  done: (err: any, dirs?: string[]) => void,
+                  name: string = undefined,
+                  depth = 5) => {
   let results = [];
   let pending;
 
@@ -19,6 +46,41 @@ const walk = (dir: string,
     }
   };
 
+  // USE NODE IMPLEMENTATION
+  exec(`tree ${resolve(dir)} -d -a -f -L 6 ${name ? '-P "'+ name + '"' : '' } -I '${ignores.join('|')}' ${name ? ' | grep -E "'+ name + '$"' : '' }`, (err, files) => {
+    if (err) {
+      return done(err);
+    }
+
+    let filesArr = files.split('\n');
+    filesArr.map((f, key) => {
+      let filepath = f.split(' /')[1] && '/' + f.split(' /')[1];
+      if (filepath) {
+        addResult(basename(filepath), filepath);
+      }
+    });
+
+    done(null, results);
+  });
+}
+
+
+const nodeWalk = (dir: string,
+                  step: (dir: string) => void,
+                  done: (err: any, dirs?: string[]) => void,
+                  name: string = undefined,
+                  depth = 5) => {
+  let results = [];
+  let pending;
+
+  const addResult = (filename, filepath) => {
+    if (!name || filename === name ) {
+      step(filepath);
+      results.push(filepath);
+    }
+  };
+
+  // USE NODE IMPLEMENTATION
   readdir(dir, function(err, list) {
     if (err) {
       return done(err);
@@ -66,6 +128,6 @@ const walk = (dir: string,
       }
     });
   });
-};
+}
 
 export default walk;
