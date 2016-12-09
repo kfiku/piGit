@@ -107,14 +107,14 @@ export class Repos extends React.Component<ReposProps, {}> {
     return (
       <div className='modal is-active'>
         <div className='modal-background'></div>
-        <div className='modal-card'>
-          <section className='modal-card-body'>
-            Do you realy won't to remove dir '{ group.title }' with all repos inside?
-          </section>
-          <footer className='modal-card-foot'>
+        <div className='modal-content'>
+          <div className='box'>
+            <h3 className='title is-5'>Do you realy won't to remove dir '{ group.title }' with all repos inside?</h3>
+            <hr/>
             <a onClick={ this.props.deleteGroup.bind(this, id) } className='button is-danger'>Yes</a>
+            &nbsp;
             <a onClick={ this.props.cancelDeleteGroup.bind(this, id) } className='button'>No</a>
-          </footer>
+          </div>
         </div>
       </div>
     );
