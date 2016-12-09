@@ -32,7 +32,10 @@ const treeWalk = (dir: string,
   };
 
   // USE NODE IMPLEMENTATION
-  exec(`tree ${resolve(dir)} -d -a -f -L 6 ${name ? '-P "' + name + '"' : ''} -I '${ignores.join('|')}' ${name ? ' | grep -E "' + name + '$"' : '' }`, (err, files) => {
+  exec(`tree ${resolve(dir)} -d -a -f -L ${depth} ` +
+          `${name ? '-P "' + name + '"' : ''} ` +
+          `-I '${ignores.join('|')}' ` +
+          `${name ? ' | grep -E "' + name + '$"' : '' }`, (err, files) => {
     if (err) {
       return done(err);
     }
