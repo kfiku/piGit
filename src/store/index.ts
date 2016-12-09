@@ -28,6 +28,7 @@ const createAppStore = (callback) => {
       } else {
         state.repos = state.repos.map(group => {
           group.editing = false;
+          group.confirmDelete = false;
           return group;
         });
       }

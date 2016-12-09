@@ -21,6 +21,8 @@ const app: any = ({repos, actions}) => (
 
            reorderGroup={actions.reorderGroup}
            deleteGroup={actions.deleteGroup}
+           confirmDeleteGroup={actions.confirmDeleteGroup}
+           cancelDeleteGroup={actions.cancelDeleteGroup}
            startEditGroup={actions.startEditGroup}
            editGroup={actions.editGroup}
            repos={repos}/>

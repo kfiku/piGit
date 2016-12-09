@@ -1,5 +1,7 @@
 import { ADD_REPO, RELOADING, UPDATE_REPO, DELETE_REPO, REORDER_REPO,
-         ADD_GROUP, REORDER_GROUP, DELETE_GROUP, START_EDITING_GROUP, EDIT_GROUP
+         ADD_GROUP, REORDER_GROUP,
+         DELETE_GROUP, DELETE_GROUP_CONFIRM, DELETE_GROUP_CANCEL,
+         START_EDITING_GROUP, EDIT_GROUP
        } from '../constants/ActionTypes';
 import reorderArray from '../helpers/ReorderArray';
 import clone from '../helpers/Clone';
@@ -8,6 +10,7 @@ const initialState = [
   {
     title: 'default',
     editing: false,
+    confirmDelete: false;
     repos: []
   }
 ];
@@ -89,6 +92,24 @@ export default function repos(state = initialState, action) {
       newState = clone(state);
       newState = reorderArray(newState, action.params.oldIndex, action.params.newIndex);
       return newState;
+
+    case DELETE_GROUP_CONFIRM:
+      return state.map((group, id) => {
+        if (id === action.id) {
+          group.confirmDelete = true;
+        }
+
+        return group;
+      });
+
+    case DELETE_GROUP_CANCEL:
+      return state.map((group, id) => {
+        if (id === action.id) {
+          group.confirmDelete = false;
+        }
+
+        return group;
+      });
 
     case DELETE_GROUP:
       return state.filter((group, id) => {

@@ -1,6 +1,6 @@
 import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
          UPDATE_REPO,
-         DELETE_REPO,
+         DELETE_REPO, DELETE_GROUP_CONFIRM, DELETE_GROUP_CANCEL,
          REORDER_REPO,
          RELOADING, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
          ADD_GROUP, REORDER_GROUP, DELETE_GROUP, START_EDITING_GROUP, EDIT_GROUP,
@@ -95,6 +95,14 @@ const actions: ActionCreatorsMapObject = {
 
   reorderGroup: (params) => {
     return { type: REORDER_GROUP, params };
+  },
+
+  confirmDeleteGroup: (id: number) => {
+    return { type: DELETE_GROUP_CONFIRM, id };
+  },
+
+  cancelDeleteGroup: (id: number) => {
+    return { type: DELETE_GROUP_CANCEL, id };
   },
 
   deleteGroup: (id: number) => {

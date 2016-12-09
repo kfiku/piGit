@@ -13,6 +13,8 @@ export interface ReposProps {
 
   reorderGroup: any;
   deleteGroup: any;
+  confirmDeleteGroup: any;
+  cancelDeleteGroup: any;
   startEditGroup: any;
   editGroup: any;
   repos: { title: string, repos: StateRepo[] }[];
@@ -101,12 +103,30 @@ export class Repos extends React.Component<ReposProps, {}> {
     });
   }
 
+  renderRepoConfirmDelete (group, id) {
+    return (
+      <div className='modal is-active'>
+        <div className='modal-background'></div>
+        <div className='modal-card'>
+          <section className='modal-card-body'>
+            Do you realy won't to remove dir '{ group.title }' with all repos inside?
+          </section>
+          <footer className='modal-card-foot'>
+            <a onClick={ this.props.deleteGroup.bind(this, id) } className='button is-danger'>Yes</a>
+            <a onClick={ this.props.cancelDeleteGroup.bind(this, id) } className='button'>No</a>
+          </footer>
+        </div>
+      </div>
+    );
+  }
+
   renderReposGroups(groups) {
     return groups.map((group, id) => {
       let groupTitle = <span onClick={ this.props.startEditGroup.bind(this, id) }>
                           { group.title }
                         </span>;
-      let deleteBtn = <button onClick={ this.props.deleteGroup.bind(this, id) } className='delete'/>;
+      let deleteBtn = <button onClick={ this.props.confirmDeleteGroup.bind(this, id) } className='delete'/>;
+      let confirmDelete;
 
       if (group.title === 'default') {
         groupTitle = <span>{ group.title }</span>;
@@ -118,9 +138,15 @@ export class Repos extends React.Component<ReposProps, {}> {
                              className='input' defaultValue={ group.title }/>);
       }
 
+      if (group.confirmDelete) {
+        confirmDelete =  this.renderRepoConfirmDelete(group, id);
+      }
+
 
       return (
+        //
         <div className='message' key={ group.title }>
+          { confirmDelete }
           <div className='message-header control is-grouped'>
             <p className='control mover icon is-small'>
               <i className='fa fa-arrows-v' />
@@ -134,6 +160,7 @@ export class Repos extends React.Component<ReposProps, {}> {
               { deleteBtn }
             </p>
           </div>
+
           <div className='message-body'>
             <div className='repos columns is-multiline'
               data-repos-id={ id }
