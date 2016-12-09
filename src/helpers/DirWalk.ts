@@ -31,11 +31,12 @@ const treeWalk = (dir: string,
     }
   };
 
-  // USE NODE IMPLEMENTATION
-  exec(`tree ${resolve(dir)} -d -a -f -L ${depth} ` +
-          `${name ? '-P "' + name + '"' : ''} ` +
-          `-I '${ignores.join('|')}' ` +
-          `${name ? ' | grep -E "' + name + '$"' : '' }`, (err, files) => {
+  let fulldir = resolve(dir);
+  let include = name ? '-P "' + name + '"' : '';
+  let exclude = '-I "' + ignores.join('|') + '"';
+  let grep = name ? ' | grep -E "' + name + '$"' : '';
+
+  exec(`tree ${fulldir} -d -a -f -L ${depth} ${include} ${exclude} ${grep}`, (err, files) => {
     if (err) {
       return done(err);
     }
