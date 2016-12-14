@@ -1,0 +1,150 @@
+@import 'vars';
+
+$nav-height: 52px;
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: $g2;
+  font-family: $default-font;
+  font-size: 16px;
+}
+
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+.repos {
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+
+  margin-bottom: 200px;
+}
+
+
+.repo {
+  width: $repo-size;
+  height: $repo-size;
+  position: relative;
+  margin: ($repo-size - $repo-size-diff + $repo-space) / 2;
+  margin-bottom: - $repo-size-diff - $repo-size-diff + $repo-space;
+  // padding: $repo-size-diff / 2;
+
+  text-align: center;
+
+  .title {
+    margin-top: $repo-size-diff / 2;
+    font-size: 1.5em;
+    line-height: 1em;
+    color: #9e3f8a;
+    position: relative;
+    font-family: $styled-font;
+    word-break: break-all;
+    // font-weight: 600;
+    z-index: 1;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: -$repo-size-diff / 2;
+    left: -$repo-size-diff / 2;
+    display: block;
+    width: $repo-bg-size;
+    height: $repo-bg-size;
+    background: $g1;
+    border-radius: 16px;
+    z-index: 0;
+    transform: rotate(45deg);
+  }
+}
+
+@for $i from 2 to 10 {
+  $cols: $i;
+  $full-sp: $repo-space * ($i - 1.5);
+
+  /**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+  @media screen and (min-width: ($i + 0.5) * $repo-full-size + $full-sp - $repo-space)
+                and (max-width: ($i + 1  ) * $repo-full-size + $full-sp + $repo-space) {
+    .repo:nth-of-type(#{($i) * 2}n + #{$i + 1}) {
+      margin-left: $repo-size + $repo-size-diff + $repo-space;
+    }
+  }
+
+  /**
+   * if second row fits one less cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+  @media screen and (min-width: ($i      ) * $repo-full-size + $full-sp + 1)
+                and (max-width: ($i + 0.5) * $repo-full-size + $full-sp - $repo-space - 1) {
+    .repo:nth-of-type(#{$i * 2 - 1}n + #{$i + 1}) {
+      margin-left: $repo-size + $repo-size-diff + $repo-space;
+    }
+  }
+}
+// .main-nav {
+//   width: 100%;
+//   height: $nav-height;
+//   background: $g2;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+// }
+
+
+
+// #root {
+//   height: 100%;
+//   overflow-y: auto;
+// }
+
+// .repos-box {
+//   padding: 20px 20px;
+// }
+
+// .repos {
+//   min-height: 100px;
+//   & > div {
+//     width: 100%;
+//   }
+// }
+
+// .repo-el {
+//   .title {
+//     cursor: move;
+//   }
+
+//   article {
+//     margin: 6px 0;
+//   }
+// }
+
+// .message-header.control {
+//   margin-bottom: 0;
+// }
+
+
+// .gu-mirror {
+//   position: fixed !important;
+//   margin: 0 !important;
+//   z-index: 9999 !important;
+//   opacity: 0.8;
+// }
+// .gu-hide {
+//   display: none !important;
+// }
+// .gu-unselectable {
+//   user-select: none !important;
+// }
+// .gu-transit {
+//   opacity: 0.2;
+// }
