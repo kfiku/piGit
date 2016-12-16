@@ -11,9 +11,12 @@ import { Nav } from '../components/Nav';
 import { Repos } from '../components/Repos';
 import { Message } from '../components/Message';
 
-const app: any = ({repos, actions}) => (
+const app: any = ({repos, actions}) => {
+  return (
   <div>
+    {/* * /}
     <Nav/>
+    {/* */}
     <Repos reloadRepo={actions.reloadRepo}
            deleteRepo={actions.deleteRepo}
            pullRepo={actions.pullRepo}
@@ -27,8 +30,28 @@ const app: any = ({repos, actions}) => (
            editGroup={actions.editGroup}
            repos={repos}/>
     <Message />
+    {/* */}
+
+    {/* * /}
+    <div className='repo'>
+      <div className='name'>electron</div>
+    </div>
+
+    <div className='repo'>
+      <div className='name'>PiGit</div>
+    </div>
+
+    <div className='repo'>
+      <div className='name'>electron-installer</div>
+    </div>
+
+    <div className='repo'>
+      <div className='name'>LoanJs</div>
+    </div>
+    {/* */}
   </div>
-);
+  );
+};
 
 app.propTypes = {
   repos: PropTypes.array.isRequired,

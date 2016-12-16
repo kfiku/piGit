@@ -7,8 +7,5 @@ $g1: #ddd;
 $g2: #bbb;
 
 /* SIZES */
-$repo-space: 10px;
-$repo-size: 160px;
-$repo-bg-size: 200px;
-$repo-size-diff: $repo-bg-size - $repo-size;
-$repo-full-size: $repo-size + ($repo-size - $repo-size-diff + $repo-space);
+$repo-size: 260px;
+$repo-bg-size: 65%;

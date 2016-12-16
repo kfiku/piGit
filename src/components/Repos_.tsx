@@ -27,14 +27,12 @@ export class Repos extends React.Component<ReposProps, {}> {
         let options = {
           animation: 150,
           handle: '.title',
-          draggable: '.repo',
+          draggable: '.repo-el',
           forceFallback: true,
           group: 'shared-repos',
           onUpdate: this.onUpdateRepo.bind(this),
           onAdd: this.onAddRepo.bind(this)
         };
-
-        console.log(el);
 
         Sortable.create(el, options);
       }, 200);
@@ -124,33 +122,30 @@ export class Repos extends React.Component<ReposProps, {}> {
 
   renderReposGroups(groups) {
     return groups.map((group, id) => {
-      // let groupTitle = <span onClick={ this.props.startEditGroup.bind(this, id) }>
-      //                     { group.title }
-      //                   </span>;
-      // let deleteBtn = <button onClick={ this.props.confirmDeleteGroup.bind(this, id) } className='delete'/>;
-      // let confirmDelete;
+      let groupTitle = <span onClick={ this.props.startEditGroup.bind(this, id) }>
+                          { group.title }
+                        </span>;
+      let deleteBtn = <button onClick={ this.props.confirmDeleteGroup.bind(this, id) } className='delete'/>;
+      let confirmDelete;
 
-      // if (group.title === 'default') {
-      //   groupTitle = <span>{ group.title }</span>;
-      //   deleteBtn = <span/>;
-      // }
+      if (group.title === 'default') {
+        groupTitle = <span>{ group.title }</span>;
+        deleteBtn = <span/>;
+      }
 
-      // if (group.editing) {
-      //   groupTitle = (<input onKeyPress={ this.onChangeGroupName.bind(this, id) }
-      //                        className='input' defaultValue={ group.title }/>);
-      // }
+      if (group.editing) {
+        groupTitle = (<input onKeyPress={ this.onChangeGroupName.bind(this, id) }
+                             className='input' defaultValue={ group.title }/>);
+      }
 
-      // if (group.confirmDelete) {
-      //   confirmDelete =  this.renderRepoConfirmDelete(group, id);
-      // }
+      if (group.confirmDelete) {
+        confirmDelete =  this.renderRepoConfirmDelete(group, id);
+      }
 
 
       return (
-        <div className='group repos'
-             key={ group.id }
-             ref={ this.sortableRepos.bind(this) }
-             data-repos-id={ id }>
-          {/* * /}
+        //
+        <div className='message' key={ group.id }>
           { confirmDelete }
           <div className='message-header control is-grouped'>
             <p className='control mover icon is-small'>
@@ -165,20 +160,25 @@ export class Repos extends React.Component<ReposProps, {}> {
               { deleteBtn }
             </p>
           </div>
-          { this.renderRepos(group.repos) }
-          {/* */}
-          <div className="repo"><div className="title" title="/var/www/github/electron-quick-start ">electron-quick-start </div></div><div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
-          <div className="repo"><div className="title" title="/var/www/github/electron-quick-start ">electron-quick-start </div></div><div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
-          <div className="repo"><div className="title" title="/var/www/github/electron-quick-start ">electron-quick-start </div></div><div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
-        </div>
-      );
+
+          <div className='message-body'>
+            <div className='repos columns is-multiline'
+              data-repos-id={ id }
+              ref={ this.sortableRepos.bind(this) }
+              >
+              { this.renderRepos(group.repos) }
+            </div>
+          </div>
+        </div>);
     });
   }
 
   render() {
     return (
-      <div className='groups' ref={ this.sortableGroups.bind(this) }>
-        { this.renderReposGroups(this.props.repos) }
+      <div>
+        <div className='repos-box' ref={ this.sortableGroups.bind(this) }>
+          { this.renderReposGroups(this.props.repos) }
+        </div>
       </div>
     );
   }

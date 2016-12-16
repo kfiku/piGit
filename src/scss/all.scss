@@ -1,7 +1,5 @@
 @import 'vars';
 
-$nav-height: 52px;
-
 html,
 body {
   height: 100%;
@@ -9,6 +7,7 @@ body {
   background: $g2;
   font-family: $default-font;
   font-size: 16px;
+  // overflow-y: scroll;
 }
 
 *, *:after, *:before {
@@ -17,7 +16,7 @@ body {
 
 .repos {
   display: flex;
-  align-content: flex-start;
+  // align-content: flex-middle;
   flex-wrap: wrap;
 
   margin-bottom: 200px;
@@ -28,14 +27,14 @@ body {
   width: $repo-size;
   height: $repo-size;
   position: relative;
-  margin: ($repo-size - $repo-size-diff + $repo-space) / 2;
-  margin-bottom: - $repo-size-diff - $repo-size-diff + $repo-space;
+  padding: $repo-size / 8;
+  margin-bottom: - $repo-size / 2;
   // padding: $repo-size-diff / 2;
 
   text-align: center;
 
   .title {
-    margin-top: $repo-size-diff / 2;
+    margin-top: $repo-size / 3.5;
     font-size: 1.5em;
     line-height: 1em;
     color: #9e3f8a;
@@ -49,8 +48,8 @@ body {
   &:after {
     content: '';
     position: absolute;
-    top: -$repo-size-diff / 2;
-    left: -$repo-size-diff / 2;
+    top: (100% - $repo-bg-size)/2;
+    left: (100% - $repo-bg-size)/2;
     display: block;
     width: $repo-bg-size;
     height: $repo-bg-size;
@@ -60,10 +59,8 @@ body {
     transform: rotate(45deg);
   }
 }
-
-@for $i from 2 to 10 {
+@for $i from 1 to 10 {
   $cols: $i;
-  $full-sp: $repo-space * ($i - 1.5);
 
   /**
    * if second row fits the same cols than first
@@ -71,25 +68,40 @@ body {
    *   ♦ ♦ ♦ ♦
    *  ♦ ♦ ♦ ♦
    */
-  @media screen and (min-width: ($i + 0.5) * $repo-full-size + $full-sp - $repo-space)
-                and (max-width: ($i + 1  ) * $repo-full-size + $full-sp + $repo-space) {
+  @media screen and (min-width: ($i + 0.5) * $repo-size)
+                and (max-width: ($i + 1.5) * $repo-size) {
+    .repo {
+      width: 100% / ($i + 0.5);
+      height: 100vw / ($i + 0.5);
+    }
+
     .repo:nth-of-type(#{($i) * 2}n + #{$i + 1}) {
-      margin-left: $repo-size + $repo-size-diff + $repo-space;
+      margin-left: 100% / ($i + 0.5) / 2;
+      // &:after {
+      //   background: pink;
+      // }
     }
   }
 
-  /**
-   * if second row fits one less cols than first
-   *  ♦ ♦ ♦ ♦
-   *   ♦ ♦ ♦
-   *  ♦ ♦ ♦ ♦
-   */
-  @media screen and (min-width: ($i      ) * $repo-full-size + $full-sp + 1)
-                and (max-width: ($i + 0.5) * $repo-full-size + $full-sp - $repo-space - 1) {
-    .repo:nth-of-type(#{$i * 2 - 1}n + #{$i + 1}) {
-      margin-left: $repo-size + $repo-size-diff + $repo-space;
-    }
-  }
+//   /**
+//    * if second row fits one less cols than first
+//    *  ♦ ♦ ♦ ♦
+//    *   ♦ ♦ ♦
+//    *  ♦ ♦ ♦ ♦
+//    */
+  // @media screen and (min-width: ($i      ) * $repo-size)
+  //               and (max-width: ($i + 0.5) * $repo-size) {
+  //   .repo {
+  //     width: 100% / ($i + 0.5);
+  //   }
+
+  //   .repo:nth-of-type(#{$i * 2 - 1}n + #{$i + 1}) {
+  //     margin-left: 100% / ($i + 0.5) / 2;
+  //     &:after {
+  //       background: yellow;
+  //     }
+  //   }
+  // }
 }
 // .main-nav {
 //   width: 100%;
