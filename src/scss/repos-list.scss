@@ -1,0 +1,263 @@
+.group {
+  margin: 0 0 $repo-size/2;
+
+  & > header {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: $group-header-height/2;
+    padding: $group-header-height/2 0;
+
+    position: relative;
+    z-index: 3;
+
+    // background: linear-gradient(to bottom, $g2 0%, $g1 100%);
+
+    .icon {
+      display: block;
+      width: $group-header-height;
+      height: $group-header-height;
+      margin-right: $group-header-height/2;
+      // background: $g1;
+
+      // svg {
+      //   fill: $g3;
+      // }
+
+      // &:hover {
+      //   svg { fill: $g5; }
+      // }
+    }
+
+    .icon-move {
+      cursor: move;
+    }
+
+    .title {
+      flex-grow: 1;
+
+      font-size: $group-header-height * 0.75;
+      line-height: $group-header-height;
+
+      font-family: $styled-font;
+      word-break: break-all;
+      font-weight: 600;
+
+      // FONF FIXES
+      transform: translateY($group-header-height/6);
+    }
+  }
+
+  & > hr {
+    border: 0;
+    margin: 0;
+    border-bottom: $group-header-height/10 dashed $g4;
+  }
+}
+
+
+.repos {
+  display: flex;
+  // align-content: flex-middle;
+  flex-wrap: wrap;
+  min-height: $repo-size;
+  margin-top: -$repo-size/8;
+
+  // background: rgba(pink, 0.1);
+  // border: 1px dashed $g3;
+}
+
+
+.repo {
+  width: $repo-size;
+  height: $repo-size;
+  position: relative;
+  padding: $repo-size / 8;
+  margin-bottom: - $repo-size / 2;
+  text-align: center;
+
+  &:hover {
+    z-index:4;
+  }
+
+  &:hover,
+  &.progressing {
+    .icon {
+      opacity: 1;
+    }
+  }
+
+  &.progressing {
+    .icon-refresh {
+      svg {
+        fill: $green;
+      }
+
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  .icon {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: $repo-icon-size;
+    height: $repo-icon-size;
+
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.3s;
+  }
+
+  svg {
+    fill: $g3;
+  }
+
+  .icon-move {
+    top: (100% - $repo-bg-size) / 4;
+    left: 50% - $repo-icon-size / 2;
+    cursor: move;
+  }
+
+  .icon-refresh {
+    bottom: (100% - $repo-bg-size) / 4;
+    left: 50% - $repo-icon-size / 2;
+  }
+
+  .icon-pull {
+    top: 50% - $repo-icon-size / 2;
+    left: (100% - $repo-bg-size) / 4;
+  }
+
+  .icon-x {
+    top: 50% - $repo-icon-size / 2;
+    right: (100% - $repo-bg-size) / 4;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .title {
+    margin-top: $repo-size / 3.5;
+    font-size: 1.25em;
+    line-height: 1em;
+    // color: #9e3f8a;
+    // font-family: $styled-font;
+    // font-family: $styled2-font;
+    word-break: break-all;
+    // font-weight: 600;
+  }
+
+  .branch {
+    font-size: 0.75em;
+    color: $g4;
+  }
+
+  .status {
+    margin: 4px 0;
+
+    .ahead {
+      color: $orange;
+    }
+
+    .behind {
+      color: $red;
+    }
+
+    .modified {
+      color: $blue;
+    }
+  }
+
+  .updated {
+    font-size: 0.75em;
+    color: $g4;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: (100% - $repo-bg-size) / 2;
+    left: (100% - $repo-bg-size) / 2;
+    display: block;
+    width: $repo-bg-size;
+    height: $repo-bg-size;
+    background: $g1;
+    border-radius: 16px;
+    z-index: 0;
+    transform: rotate(45deg);
+  }
+
+  &.behind {
+    &:after {
+      background: $red-bg;
+    }
+  }
+
+  &.ahead {
+    &:after {
+      background: $orange-bg;
+    }
+  }
+
+  &.modified {
+    &:after {
+      background: $blue-bg;
+    }
+  }
+
+  &.sortable-drag {
+    margin-left: 0 !important;
+
+    &:after {
+      box-shadow: 0 3px 20px rgba(black, 0.3);
+    }
+  }
+}
+
+@for $i from 1 to 10 {
+  $cols: $i;
+
+  /**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+  @media screen and (min-width: ($i + 0.5) * $repo-size)
+                and (max-width: ($i + 1.5) * $repo-size - 1) {
+    .repo {
+      width: 100% / ($i);
+      height: 100vw / ($i);
+    }
+
+    .repo:nth-of-type(#{($i) * 2}n + #{$i + 1}) {
+      margin-left: 100% / ($i) / 2;
+      // &:after {
+      //   background: pink;
+      // }
+      //
+    }
+  }
+
+//   /**
+//    * if second row fits one less cols than first
+//    *  ♦ ♦ ♦ ♦
+//    *   ♦ ♦ ♦
+//    *  ♦ ♦ ♦ ♦
+//    */
+  // @media screen and (min-width: ($i      ) * $repo-size)
+  //               and (max-width: ($i + 0.5) * $repo-size) {
+  //   .repo {
+  //     width: 100% / ($i + 0.5);
+  //   }
+
+  //   .repo:nth-of-type(#{$i * 2 - 1}n + #{$i + 1}) {
+  //     margin-left: 100% / ($i + 0.5) / 2;
+  //     &:after {
+  //       background: yellow;
+  //     }
+  //   }
+  // }
+}
