@@ -106,7 +106,7 @@ export class Repos extends React.Component<ReposProps, {}> {
     });
   }
 
-  renderRepoConfirmDelete (group, id) {
+  renderRepoConfirmDelete (group) {
     return (
       <div className='modal is-active'>
         <div className='modal-background'></div>
@@ -114,9 +114,9 @@ export class Repos extends React.Component<ReposProps, {}> {
           <div className='box'>
             <h3 className='title is-5'>Do you realy won't to remove dir '{ group.title }' with all repos inside?</h3>
             <hr/>
-            <a onClick={ this.props.deleteGroup.bind(this, id) } className='button is-danger'>Yes</a>
+            <a onClick={ this.props.deleteGroup.bind(this, group.id) } className='button is-danger'>Yes</a>
             &nbsp;
-            <a onClick={ this.props.cancelDeleteGroup.bind(this, id) } className='button'>No</a>
+            <a onClick={ this.props.cancelDeleteGroup.bind(this, group.id) } className='button'>No</a>
           </div>
         </div>
       </div>
@@ -139,7 +139,6 @@ export class Repos extends React.Component<ReposProps, {}> {
         <header>
           <input className='title' defaultValue={ group.title }
                  onKeyPress={ this.onChangeGroupName.bind(this, group.id) } />
-
           <Isvg className='icon icon-x' src='./svg/right-arrow-6.svg'/>
         </header>
       );
@@ -150,77 +149,32 @@ export class Repos extends React.Component<ReposProps, {}> {
       <header>
         <Isvg className='icon icon-move' src='./svg/sort.svg' title='Reorder this group'/>
         <span onClick={ this.props.startEditGroup.bind(this, group.id) } className='title'>{ group.title }</span>
-        <Isvg className='icon icon-x' src='./svg/x.svg' title='Remove this group'/>
+
+        <i className='icon icon-x' title='Remove this group'
+        onClick={ this.props.confirmDeleteGroup.bind(this, group.id) }>
+          <Isvg src='./svg/x.svg' />
+        </i>
       </header>
     );
   }
 
   renderGroups(groups) {
     return groups.map((group, id) => {
-      let groupTitle = <span >
-                          { group.title }
-                        </span>;
-      let deleteBtn = <button onClick={ this.props.confirmDeleteGroup.bind(this, id) } className='delete'/>;
-      let confirmDelete;
-
-      if (group.title === 'default') {
-        groupTitle = <span>{ group.title }</span>;
-        deleteBtn = <span/>;
-      }
-
-      if (group.editing) {
-        groupTitle = (<input onKeyPress={ this.onChangeGroupName.bind(this, id) }
-                             className='input' defaultValue={ group.title }/>);
-      }
-
-      if (group.confirmDelete) {
-        confirmDelete = this.renderRepoConfirmDelete(group, id);
-      }
-
+      console.log(group.confirmDelete);
 
       return (
         <div className='group' key={ group.id }>
-          { confirmDelete }
+          { group.confirmDelete ?
+            this.renderRepoConfirmDelete(group) : ''
+          }
 
           { this.renderGroupHeader(group) }
 
           <hr/>
 
-          {/* * /}
-          <div className='message-header control is-grouped'>
-            <p className='control mover icon is-small'>
-              <i className='fa fa-arrows-v' />
-            </p>
-
-            <p className='control is-expanded'>
-              { groupTitle }
-            </p>
-
-            <p className='control'>
-              { deleteBtn }
-            </p>
-          </div>
-          {/* */}
-
           <div className='repos' ref={ this.sortableRepos.bind(this) } data-repos-id={ id }>
             { this.renderRepos(group.repos) }
           </div>
-
-          {/* * /}
-          <div className='repo'>
-            <Isvg className='icon icon-move'    src='./svg/move.svg'       title='Reorder this repo'/>
-            <Isvg className='icon icon-x'       src='./svg/x.svg'          title='Delete this repo'/>
-            <Isvg className='icon icon-pull'    src='./svg/download-5.svg' title='Pull this repo'/>
-            <Isvg className='icon icon-refresh' src='./svg/spin-1.svg'     title='Refresh this repo'/>
-            <div className='title' title='/var/www/github/electron-quick-start'>
-              electron-quick-start
-            </div>
-          </div>
-
-          <div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
-          <div className="repo"><div className="title" title="/var/www/github/electron-quick-start ">electron-quick-start </div></div><div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
-          <div className="repo"><div className="title" title="/var/www/github/electron-quick-start ">electron-quick-start </div></div><div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
-          {/* */}
         </div>
       );
     });
