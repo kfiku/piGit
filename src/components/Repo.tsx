@@ -54,7 +54,7 @@ export class Repo extends React.Component<RepoProps, {}> {
       cls = 'behind';
     } else if (this.props.repo.ahead) {
       cls = 'ahead';
-    } else if (this.props.repo.modified.length) {
+    } else if (this.props.repo.modified && this.props.repo.modified.length) {
       cls = 'modified';
     }
 
@@ -91,7 +91,7 @@ export class Repo extends React.Component<RepoProps, {}> {
           <div className='status'>
             <span className='ahead'>{ this.props.repo.ahead ? 'Ahead: ' + this.props.repo.ahead + ' ' : '' }</span>
             <span className='behind'>{ this.props.repo.behind ? 'Behind: ' + this.props.repo.behind + ' ' : '' }</span>
-            <span className='modified'>{ this.props.repo.modified.length ? 'Modified: ' + this.props.repo.modified.length + ' ' : '' }</span>
+            <span className='modified'>{ this.props.repo.modified && this.props.repo.modified.length ? 'Modified: ' + this.props.repo.modified.length + ' ' : '' }</span>
           </div>
 
           <div className='updated' ref={ this.updateDate.bind(this) } >
