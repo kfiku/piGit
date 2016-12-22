@@ -160,8 +160,6 @@ export class Repos extends React.Component<ReposProps, {}> {
 
   renderGroups(groups) {
     return groups.map((group, id) => {
-      console.log(group.confirmDelete);
-
       return (
         <div className='group' key={ group.id }>
           { group.confirmDelete ?
