@@ -10,22 +10,15 @@
     position: relative;
     z-index: 3;
 
-    // background: linear-gradient(to bottom, $g2 0%, $g1 100%);
+    &.editing {
+      background: $g1;
+    }
 
     .icon {
       display: block;
       width: $group-header-height;
       height: $group-header-height;
       margin-right: $group-header-height/2;
-      // background: $g1;
-
-      // svg {
-      //   fill: $g3;
-      // }
-
-      // &:hover {
-      //   svg { fill: $g5; }
-      // }
     }
 
     .icon-move {
@@ -33,19 +26,26 @@
     }
 
     .title {
+      height: $group-header-height;
       flex-grow: 1;
 
-      font-size: $group-header-height * 0.75;
+      font-size: $group-header-height;
       line-height: $group-header-height;
 
       font-family: $styled-font;
       word-break: break-all;
-      font-weight: 600;
+      font-weight: 400;
 
       color: $g7;
+    }
 
-      // FONF FIXES
-      transform: translateY($group-header-height/6);
+    input.title {
+      padding: 0;
+      margin: 0;
+      border: 0;
+      outline: 0;
+      background: none;
+
     }
   }
 
@@ -59,13 +59,9 @@
 
 .repos {
   display: flex;
-  // align-content: flex-middle;
   flex-wrap: wrap;
   min-height: $repo-size / 2;
   margin-top: -$repo-size/8;
-
-  // background: rgba(pink, 0.1);
-  // border: 1px dashed $g3;
 }
 
 
