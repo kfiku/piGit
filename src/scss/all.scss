@@ -4,7 +4,7 @@ html,
 body {
   height: 100%;
   margin: 0;
-  background: $g2;
+  background: $g3;
   font-family: $default-font;
   font-size: 16px;
   // overflow-y: scroll;
@@ -14,95 +14,16 @@ body {
   box-sizing: border-box;
 }
 
-.repos {
-  display: flex;
-  // align-content: flex-middle;
-  flex-wrap: wrap;
 
-  margin-bottom: 200px;
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
 }
 
 
-.repo {
-  width: $repo-size;
-  height: $repo-size;
-  position: relative;
-  padding: $repo-size / 8;
-  margin-bottom: - $repo-size / 2;
-  // padding: $repo-size-diff / 2;
+@import 'icons';
+@import 'repos-list';
 
-  text-align: center;
-
-  .title {
-    margin-top: $repo-size / 3.5;
-    font-size: 1.5em;
-    line-height: 1em;
-    color: #9e3f8a;
-    position: relative;
-    font-family: $styled-font;
-    word-break: break-all;
-    // font-weight: 600;
-    z-index: 1;
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: (100% - $repo-bg-size)/2;
-    left: (100% - $repo-bg-size)/2;
-    display: block;
-    width: $repo-bg-size;
-    height: $repo-bg-size;
-    background: $g1;
-    border-radius: 16px;
-    z-index: 0;
-    transform: rotate(45deg);
-  }
-}
-@for $i from 1 to 10 {
-  $cols: $i;
-
-  /**
-   * if second row fits the same cols than first
-   *  ♦ ♦ ♦ ♦
-   *   ♦ ♦ ♦ ♦
-   *  ♦ ♦ ♦ ♦
-   */
-  @media screen and (min-width: ($i + 0.5) * $repo-size)
-                and (max-width: ($i + 1.5) * $repo-size) {
-    .repo {
-      width: 100% / ($i + 0.5);
-      height: 100vw / ($i + 0.5);
-    }
-
-    .repo:nth-of-type(#{($i) * 2}n + #{$i + 1}) {
-      margin-left: 100% / ($i + 0.5) / 2;
-      // &:after {
-      //   background: pink;
-      // }
-    }
-  }
-
-//   /**
-//    * if second row fits one less cols than first
-//    *  ♦ ♦ ♦ ♦
-//    *   ♦ ♦ ♦
-//    *  ♦ ♦ ♦ ♦
-//    */
-  // @media screen and (min-width: ($i      ) * $repo-size)
-  //               and (max-width: ($i + 0.5) * $repo-size) {
-  //   .repo {
-  //     width: 100% / ($i + 0.5);
-  //   }
-
-  //   .repo:nth-of-type(#{$i * 2 - 1}n + #{$i + 1}) {
-  //     margin-left: 100% / ($i + 0.5) / 2;
-  //     &:after {
-  //       background: yellow;
-  //     }
-  //   }
-  // }
-}
 // .main-nav {
 //   width: 100%;
 //   height: $nav-height;
