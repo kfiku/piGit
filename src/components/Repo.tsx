@@ -89,12 +89,20 @@ export class Repo extends React.Component<RepoProps, {}> {
           </div>
 
           <div className='status'>
-            <span className='ahead'>{ this.props.repo.ahead ? 'Ahead: ' + this.props.repo.ahead + ' ' : '' }</span>
-            <span className='behind'>{ this.props.repo.behind ? 'Behind: ' + this.props.repo.behind + ' ' : '' }</span>
-            <span className='modified'>{ this.props.repo.modified && this.props.repo.modified.length ? 'Modified: ' + this.props.repo.modified.length + ' ' : '' }</span>
+            { this.props.repo.ahead ?
+              <span className='ahead'>Ahead: { this.props.repo.ahead }</span> : ''
+            }
+
+            { this.props.repo.behind ?
+              <span className='behind'>Behind: { this.props.repo.behind }</span> : ''
+            }
+
+            { (this.props.repo.modified && this.props.repo.modified.length) ?
+              <span className='modified'>Modified: { this.props.repo.modified.length }</span> : ''
+            }
           </div>
 
-          <div className='updated' ref={ this.updateDate.bind(this) } >
+          <div className='updated' title='Updated from now' ref={ this.updateDate.bind(this) } >
             { moment(this.props.repo.lastUpdate).fromNow() }
           </div>
         </div>
