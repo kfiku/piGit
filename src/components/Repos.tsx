@@ -34,8 +34,6 @@ export class Repos extends React.Component<ReposProps, {}> {
           onAdd: this.onAddRepo.bind(this)
         };
 
-        console.log(el);
-
         Sortable.create(el, options);
       }, 200);
 

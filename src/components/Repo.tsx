@@ -64,7 +64,8 @@ export class Repo extends React.Component<RepoProps, {}> {
           <Isvg src='./svg/move.svg' />
         </i>
 
-        <i className='icon icon-x' title='Delete this repo'>
+        <i className='icon icon-x' title='Delete this repo'
+        onClick={ this.props.onDelete.bind(this, this.props.repo.dir) } >
           <Isvg src='./svg/x.svg'/>
         </i>
 
