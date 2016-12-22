@@ -187,6 +187,9 @@
     border-radius: 16px;
     z-index: 0;
     transform: rotate(45deg);
+
+    will-change: background;
+    transition: background 1s;
   }
 
   &.behind {
