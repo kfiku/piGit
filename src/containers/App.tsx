@@ -14,9 +14,11 @@ import { Message } from '../components/Message';
 const app: any = ({repos, actions}) => {
   return (
   <div>
-    {/* * /}
-    <Nav/>
     {/* */}
+    <Nav/>
+    <div className='nav-h'/>
+    {/* */}
+
     <Repos reloadRepo={actions.reloadRepo}
            deleteRepo={actions.deleteRepo}
            pullRepo={actions.pullRepo}
