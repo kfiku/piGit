@@ -19,14 +19,14 @@ const NavComponent: any = ({app, actions})  => {
 
       <button onClick={ actions.addGroup } className='button'>
         <i className='icon icon-add'>
-          <Isvg src='./svg/add.svg'/>
+          <Isvg src='./svg/folder.svg'/>
         </i>
         <span>Add Group</span>
       </button>
 
       <button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' is-loading' : '') } >
         <i className='icon icon-refresh'>
-          <Isvg src='./svg/spin-1.svg'/>
+          <Isvg src='./svg/reload.svg'/>
         </i>
         <span>Reload all</span>
       </button>

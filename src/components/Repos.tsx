@@ -136,7 +136,10 @@ export class Repos extends React.Component<ReposProps, {}> {
     } else if (group.editing) {
       // on group editing
       return (
-        <header>
+        <header className='editing'>
+          <i className='icon icon-edit'>
+            <Isvg src='./svg/edit.svg' />
+          </i>
           <input className='title' defaultValue={ group.title }
                  onKeyPress={ this.onChangeGroupName.bind(this, group.id) } />
           <Isvg className='icon icon-x' src='./svg/right-arrow-6.svg'/>
@@ -150,6 +153,10 @@ export class Repos extends React.Component<ReposProps, {}> {
         <Isvg className='icon icon-move' src='./svg/sort.svg' title='Reorder this group'/>
         <span onClick={ this.props.startEditGroup.bind(this, group.id) } className='title'>{ group.title }</span>
 
+        <i className='icon icon-edit' title='Edit group name'
+        onClick={ this.props.startEditGroup.bind(this, group.id) }>
+          <Isvg src='./svg/edit.svg' />
+        </i>
         <i className='icon icon-x' title='Remove this group'
         onClick={ this.props.confirmDeleteGroup.bind(this, group.id) }>
           <Isvg src='./svg/x.svg' />

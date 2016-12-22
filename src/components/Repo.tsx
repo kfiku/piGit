@@ -76,7 +76,7 @@ export class Repo extends React.Component<RepoProps, {}> {
 
         <i className='icon icon-refresh' title='Refresh this repo'
         onClick={ this.props.onRefresh.bind(this, this.props.repo.dir) }>
-          <Isvg src='./svg/spin-1.svg'/>
+          <Isvg src='./svg/reload.svg'/>
         </i>
 
         <div className='content'>
