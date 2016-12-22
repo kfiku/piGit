@@ -126,11 +126,11 @@ export class Repos extends React.Component<ReposProps, {}> {
   renderGroupHeader(group) {
     if (group.title === 'default') {
       // on default group
+      // <Isvg className='icon icon-refresh' src='./svg/spin-1.svg' title='Refresh all repos from this group'/>
       return (
         <header>
           <Isvg className='icon icon-move' src='./svg/sort.svg' title='Reorder this group'/>
           <span className='title'>{ group.title }</span>
-          <Isvg className='icon icon-refresh' src='./svg/spin-1.svg' title='Refresh all repos from this group'/>
         </header>
       );
     } else if (group.editing) {
@@ -145,11 +145,11 @@ export class Repos extends React.Component<ReposProps, {}> {
       );
     }
 
+    // <Isvg className='icon icon-refresh' src='./svg/spin-1.svg' title='Refresh all repos from this group'/>
     return (
       <header>
         <Isvg className='icon icon-move' src='./svg/sort.svg' title='Reorder this group'/>
         <span onClick={ this.props.startEditGroup.bind(this, group.id) } className='title'>{ group.title }</span>
-          <Isvg className='icon icon-refresh' src='./svg/spin-1.svg' title='Refresh all repos from this group'/>
         <Isvg className='icon icon-x' src='./svg/x.svg' title='Remove this group'/>
       </header>
     );
