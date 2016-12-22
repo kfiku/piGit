@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Repo, StateRepo } from './Repo';
 import Sortable = require('sortablejs');
 
-// let Sortable = require('react-sortablejs');
+const Isvg = require('react-inlinesvg');
 
 export interface ReposProps {
   reloadRepo: any;
@@ -26,7 +26,7 @@ export class Repos extends React.Component<ReposProps, {}> {
       setTimeout(() => {
         let options = {
           animation: 150,
-          handle: '.title',
+          handle: '.icon-move',
           draggable: '.repo',
           forceFallback: true,
           group: 'shared-repos',
@@ -71,9 +71,9 @@ export class Repos extends React.Component<ReposProps, {}> {
     if (el) {
       let options = {
         animation: 150,
-        handle: '.mover',
-        draggable: '.message',
-        // forceFallback: true,
+        handle: '.icon-move',
+        draggable: '.group',
+        forceFallback: true,
         onUpdate: this.onUpdateGroup.bind(this),
       };
 
@@ -96,12 +96,15 @@ export class Repos extends React.Component<ReposProps, {}> {
 
   renderRepos(repos) {
     return repos.map(repo => {
-      return (<Repo key={repo.dir}
-                    repo={repo}
-                    onRefresh={this.props.reloadRepo}
-                    onDelete={this.props.deleteRepo}
-                    onPull={this.props.pullRepo}
-                  />);
+      return (
+        <Repo
+          key={repo.dir}
+          repo={repo}
+          onRefresh={this.props.reloadRepo}
+          onDelete={this.props.deleteRepo}
+          onPull={this.props.pullRepo}
+        />
+      );
     });
   }
 
@@ -122,42 +125,76 @@ export class Repos extends React.Component<ReposProps, {}> {
     );
   }
 
-  renderReposGroups(groups) {
+  renderGroupHeader(group) {
+    if (group.title === 'default') {
+      // on default group
+      return (
+        <header>
+          <Isvg className='icon icon-move' src='./svg/sort.svg' title='Reorder this group'/>
+          <span className='title'>{ group.title }</span>
+          <Isvg className='icon icon-refresh' src='./svg/spin-1.svg' title='Refresh all repos from this group'/>
+        </header>
+      );
+    } else if (group.editing) {
+      // on group editing
+      return (
+        <header>
+          <input className='title' defaultValue={ group.title }
+                 onKeyPress={ this.onChangeGroupName.bind(this, group.id) } />
+
+          <Isvg className='icon icon-x' src='./svg/right-arrow-6.svg'/>
+        </header>
+      );
+    }
+
+    return (
+      <header>
+        <Isvg className='icon icon-move' src='./svg/sort.svg' title='Reorder this group'/>
+        <span onClick={ this.props.startEditGroup.bind(this, group.id) } className='title'>{ group.title }</span>
+          <Isvg className='icon icon-refresh' src='./svg/spin-1.svg' title='Refresh all repos from this group'/>
+        <Isvg className='icon icon-x' src='./svg/x.svg' title='Remove this group'/>
+      </header>
+    );
+  }
+
+  renderGroups(groups) {
     return groups.map((group, id) => {
-      // let groupTitle = <span onClick={ this.props.startEditGroup.bind(this, id) }>
-      //                     { group.title }
-      //                   </span>;
-      // let deleteBtn = <button onClick={ this.props.confirmDeleteGroup.bind(this, id) } className='delete'/>;
-      // let confirmDelete;
+      let groupTitle = <span >
+                          { group.title }
+                        </span>;
+      let deleteBtn = <button onClick={ this.props.confirmDeleteGroup.bind(this, id) } className='delete'/>;
+      let confirmDelete;
 
-      // if (group.title === 'default') {
-      //   groupTitle = <span>{ group.title }</span>;
-      //   deleteBtn = <span/>;
-      // }
+      if (group.title === 'default') {
+        groupTitle = <span>{ group.title }</span>;
+        deleteBtn = <span/>;
+      }
 
-      // if (group.editing) {
-      //   groupTitle = (<input onKeyPress={ this.onChangeGroupName.bind(this, id) }
-      //                        className='input' defaultValue={ group.title }/>);
-      // }
+      if (group.editing) {
+        groupTitle = (<input onKeyPress={ this.onChangeGroupName.bind(this, id) }
+                             className='input' defaultValue={ group.title }/>);
+      }
 
-      // if (group.confirmDelete) {
-      //   confirmDelete =  this.renderRepoConfirmDelete(group, id);
-      // }
+      if (group.confirmDelete) {
+        confirmDelete = this.renderRepoConfirmDelete(group, id);
+      }
 
 
       return (
-        <div className='group repos'
-             key={ group.id }
-             ref={ this.sortableRepos.bind(this) }
-             data-repos-id={ id }>
-          {/* * /}
+        <div className='group' key={ group.id }>
           { confirmDelete }
+
+          { this.renderGroupHeader(group) }
+
+          <hr/>
+
+          {/* * /}
           <div className='message-header control is-grouped'>
             <p className='control mover icon is-small'>
               <i className='fa fa-arrows-v' />
             </p>
 
-            <p className='control  is-expanded'>
+            <p className='control is-expanded'>
               { groupTitle }
             </p>
 
@@ -165,11 +202,27 @@ export class Repos extends React.Component<ReposProps, {}> {
               { deleteBtn }
             </p>
           </div>
-          { this.renderRepos(group.repos) }
           {/* */}
+
+          <div className='repos' ref={ this.sortableRepos.bind(this) } data-repos-id={ id }>
+            { this.renderRepos(group.repos) }
+          </div>
+
+          {/* * /}
+          <div className='repo'>
+            <Isvg className='icon icon-move'    src='./svg/move.svg'       title='Reorder this repo'/>
+            <Isvg className='icon icon-x'       src='./svg/x.svg'          title='Delete this repo'/>
+            <Isvg className='icon icon-pull'    src='./svg/download-5.svg' title='Pull this repo'/>
+            <Isvg className='icon icon-refresh' src='./svg/spin-1.svg'     title='Refresh this repo'/>
+            <div className='title' title='/var/www/github/electron-quick-start'>
+              electron-quick-start
+            </div>
+          </div>
+
+          <div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
           <div className="repo"><div className="title" title="/var/www/github/electron-quick-start ">electron-quick-start </div></div><div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
           <div className="repo"><div className="title" title="/var/www/github/electron-quick-start ">electron-quick-start </div></div><div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
-          <div className="repo"><div className="title" title="/var/www/github/electron-quick-start ">electron-quick-start </div></div><div className="repo"><div className="title" title="/var/www/github/syntaxhighlighter ">syntaxhighlighter </div></div><div className="repo"><div className="title" title="/var/www/github/LoanJS ">LoanJS </div></div><div className="repo"><div className="title" title="/var/www/github/redux ">redux </div></div><div className="repo"><div className="title" title="/var/www/github/piGit ">piGit </div></div><div className="repo"><div className="title" title="/var/www/github/todomvc ">todomvc </div></div><div className="repo"><div className="title" title="/var/www/github/blog.kfiku.com ">blog.kfiku.com </div></div>
+          {/* */}
         </div>
       );
     });
@@ -178,7 +231,7 @@ export class Repos extends React.Component<ReposProps, {}> {
   render() {
     return (
       <div className='groups' ref={ this.sortableGroups.bind(this) }>
-        { this.renderReposGroups(this.props.repos) }
+        { this.renderGroups(this.props.repos) }
       </div>
     );
   }
