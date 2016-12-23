@@ -1,0 +1,75 @@
+@import 'vars';
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: $g3;
+  font-family: $default-font;
+  font-size: 16px;
+  // overflow-y: scroll;
+}
+
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+
+@import 'icons';
+@import 'repos-list';
+@import 'main-nav';
+
+
+
+// #root {
+//   height: 100%;
+//   overflow-y: auto;
+// }
+
+// .repos-box {
+//   padding: 20px 20px;
+// }
+
+// .repos {
+//   min-height: 100px;
+//   & > div {
+//     width: 100%;
+//   }
+// }
+
+// .repo-el {
+//   .title {
+//     cursor: move;
+//   }
+
+//   article {
+//     margin: 6px 0;
+//   }
+// }
+
+// .message-header.control {
+//   margin-bottom: 0;
+// }
+
+
+// .gu-mirror {
+//   position: fixed !important;
+//   margin: 0 !important;
+//   z-index: 9999 !important;
+//   opacity: 0.8;
+// }
+// .gu-hide {
+//   display: none !important;
+// }
+// .gu-unselectable {
+//   user-select: none !important;
+// }
+// .gu-transit {
+//   opacity: 0.2;
+// }

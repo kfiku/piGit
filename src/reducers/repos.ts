@@ -9,6 +9,7 @@ import newId from '../helpers/newId';
 
 const initialState = [
   {
+    id: '',
     title: 'default',
     editing: false,
     confirmDelete: false,
@@ -97,7 +98,7 @@ export default function repos(state = initialState, action) {
 
     case DELETE_GROUP_CONFIRM:
       return state.map((group, id) => {
-        if (id === action.id) {
+        if (group.id === action.id) {
           group.confirmDelete = true;
         }
 
@@ -106,7 +107,7 @@ export default function repos(state = initialState, action) {
 
     case DELETE_GROUP_CANCEL:
       return state.map((group, id) => {
-        if (id === action.id) {
+        if (group.id === action.id) {
           group.confirmDelete = false;
         }
 
@@ -115,12 +116,12 @@ export default function repos(state = initialState, action) {
 
     case DELETE_GROUP:
       return state.filter((group, id) => {
-        return id !== action.id;
+        return group.id !== action.id;
       });
 
     case START_EDITING_GROUP:
       return state.map((group, id) => {
-        if (id === action.id) {
+        if (group.id === action.id) {
           group.editing = true;
         }
 
@@ -129,7 +130,7 @@ export default function repos(state = initialState, action) {
 
     case EDIT_GROUP:
       return state.map((group, id) => {
-        if (id === action.id) {
+        if (group.id === action.id) {
           group.editing = false;
           group.title = action.title;
         }

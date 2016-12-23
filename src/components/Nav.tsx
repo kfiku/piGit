@@ -5,33 +5,31 @@ import { connect } from 'react-redux';
 
 import actions from '../actions';
 
+const Isvg = require('react-inlinesvg');
+
 const NavComponent: any = ({app, actions})  => {
   return (
     <nav className='nav main-nav'>
-      <div className='nav-left'>
-        <span className='nav-item'>
-          <button onClick={ actions.addRepos } className={ 'button' + (app.addingRepos ? ' is-loading' : '') } >
-            <span className='icon'>
-              <i className='fa fa-plus'></i>
-            </span>
-            <span>Add Repo</span>
-          </button>
+      <button onClick={ actions.addRepos } className={ 'button' + (app.addingRepos ? ' is-loading' : '') } >
+        <i className='icon icon-add'>
+          <Isvg src='./svg/add.svg'/>
+        </i>
+        <span>Add Repo</span>
+      </button>
 
-          <button onClick={ actions.addGroup } className='button'>
-            <span className='icon'>
-              <i className='fa fa-folder'></i>
-            </span>
-            <span>Add Group</span>
-          </button>
+      <button onClick={ actions.addGroup } className='button'>
+        <i className='icon icon-add'>
+          <Isvg src='./svg/folder.svg'/>
+        </i>
+        <span>Add Group</span>
+      </button>
 
-          <button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' is-loading' : '') } >
-            <span className='icon'>
-              <i className='fa fa-refresh'></i>
-            </span>
-            <span>Reload all</span>
-          </button>
-        </span>
-      </div>
+      <button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' is-loading' : '') } >
+        <i className='icon icon-refresh'>
+          <Isvg src='./svg/reload.svg'/>
+        </i>
+        <span>Reload all</span>
+      </button>
 
       { /*
       <div className='nav-right'>

@@ -1,0 +1,21 @@
+.icon {
+  cursor: pointer;
+
+  svg {
+    fill: $g4;
+    will-change: fill;
+    transition: fill 0.4s;
+  }
+
+  &:hover {
+    svg { fill: $g7; }
+  }
+}
+
+.icon-x {
+  &:hover {
+    svg {
+      fill: $red;
+    }
+  }
+}

@@ -1,0 +1,303 @@
+.group {
+  margin: 0;
+
+  & > header {
+    display: flex;
+    flex-wrap: wrap;
+    // margin-left: $group-header-height/2;
+    padding: $group-header-height/2 0;
+
+    position: relative;
+    z-index: 3;
+
+    &.editing {
+      background: $g0;
+    }
+
+    .icon {
+      display: block;
+      width: $group-header-height;
+      height: $group-header-height;
+      margin-right: $group-header-height/2;
+
+      &:first-child {
+        margin-left: $group-header-height/2;
+      }
+    }
+
+    .icon-move {
+      cursor: move;
+    }
+
+    .title {
+      height: $group-header-height;
+      flex-grow: 1;
+
+      font-size: $group-header-height;
+      line-height: $group-header-height;
+
+      font-family: $styled-font;
+      word-break: break-all;
+      font-weight: 400;
+
+      color: $g7;
+    }
+
+    input.title {
+      padding: 0;
+      margin: 0;
+      border: 0;
+      outline: 0;
+      background: none;
+
+    }
+  }
+
+  & > hr {
+    border: 0;
+    margin: 0;
+    border-bottom: $group-header-height/10 dashed $g4;
+  }
+}
+
+
+.repos {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: $repo-size / 2;
+  margin-top: -$repo-size/8;
+}
+
+
+.repo {
+  width: $repo-size;
+  position: relative;
+
+  &:hover {
+    z-index:4;
+  }
+
+  &:hover,
+  &.progressing {
+    .icon {
+      opacity: 1;
+    }
+  }
+
+  &.progressing {
+    .icon-refresh {
+      svg {
+        fill: $green;
+      }
+
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  .icon {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: $repo-icon-size;
+    height: $repo-icon-size;
+
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.3s;
+  }
+
+  svg {
+    fill: $g3;
+  }
+
+  $pos-middle: 50% - $repo-icon-size / 2;
+  $pos-from-side: (100% - $repo-bg-size + 10) / 4;
+
+  .icon-move {
+    top: $pos-from-side;
+    left: $pos-middle;
+    cursor: move;
+  }
+
+  .icon-refresh {
+    bottom: $pos-from-side;
+    left: $pos-middle;
+  }
+
+  .icon-pull {
+    top: $pos-middle;
+    left: $pos-from-side;
+  }
+
+  .icon-x {
+    top: $pos-middle;
+    right: $pos-from-side;
+  }
+
+  .content {
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+
+    // CENTERING
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    & > div {
+      margin: 4px 0;
+    }
+  }
+
+  .title {
+    margin-top: $repo-size / 3.5;
+    font-size: 1em;
+    line-height: 1em;
+    // color: #9e3f8a;
+    // font-family: $styled-font;
+    // font-family: $styled2-font;
+    word-break: break-all;
+    // font-weight: 600;
+  }
+
+  .branch {
+    font-size: 0.75em;
+    color: $g4;
+  }
+
+  .status {
+    .ahead {
+      color: $orange;
+    }
+
+    .behind {
+      color: $red;
+    }
+
+    .modified {
+      color: $blue;
+    }
+
+    &:empty {
+      &:after {
+        content: 'clean';
+        color: $green;
+      }
+    }
+  }
+
+  .updated {
+    font-size: 0.75em;
+    color: $g4;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: (100% - $repo-bg-size) / 2;
+    left: (100% - $repo-bg-size) / 2;
+    display: block;
+    width: $repo-bg-size;
+    height: $repo-bg-size;
+    background: $g0;
+    border-radius: 16px;
+    z-index: 0;
+    transform: rotate(45deg);
+
+    will-change: background;
+    transition: background 1s;
+  }
+
+  &.behind {
+    &:after {
+      background: $red-bg;
+    }
+  }
+
+  &.ahead {
+    &:after {
+      background: $orange-bg;
+    }
+  }
+
+  &.modified {
+    &:after {
+      background: $blue-bg;
+    }
+  }
+
+  &.sortable-ghost {
+    &:after {
+      border: 2px dashed $g5;
+    }
+  }
+
+  &.sortable-fallback {
+    margin-left: 0 !important;
+
+    &:after {
+      box-shadow: 0 3px 20px rgba(black, 0.3);
+    }
+  }
+}
+
+@for $i from 1 to 10 {
+  $cols: $i;
+
+
+  /**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    *  3 6 9
+    *  - 2 -> 3 -
+    *  4 9 14
+    *  - 3 -> 5 -
+    *  5 12 19
+    *  - 4 -> 7 -
+    *  6 15 24
+    *  - 5 -> 9 -
+    */
+  @media screen and (min-width: ($i + 0.5) * $repo-size)
+                and (max-width: ($i + 1.5) * $repo-size - 1) {
+
+    .group {
+      margin-bottom: 100% / $i / 2;
+    }
+
+    .repo {
+      width: 100% / $i;
+      padding-bottom: 100% / $i;
+      margin-bottom: -100% / $i / 2;
+    }
+
+    .repo:nth-of-type(#{($i + $i - 1)}n + #{$i + 1}) {
+      margin-left: 100% / ($i) / 2;
+
+      // &:after {
+      //   background: pink;
+      // }
+    }
+  }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+  // @media screen and (min-width: ($i      ) * $repo-size)
+  //               and (max-width: ($i + 0.5) * $repo-size) {
+  //   .repo {
+  //     width: 100% / ($i + 0.5);
+  //   }
+
+  //   .repo:nth-of-type(#{$i * 2 - 1}n + #{$i + 1}) {
+  //     margin-left: 100% / ($i + 0.5) / 2;
+  //     &:after {
+  //       background: yellow;
+  //     }
+  //   }
+  // }
+}
