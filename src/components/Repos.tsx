@@ -79,10 +79,21 @@ export class Repos extends React.Component<ReposProps, {}> {
     }
   }
 
-  onChangeGroupName (id, e) {
+  focusInput (el) {
+    if (el) {
+      el.focus();
+    }
+  }
+
+  onKeyUpGroupName (id, e) {
     if (e.key === 'Enter') {
       this.props.editGroup(id, e.target.value);
     }
+  }
+
+  onChangeGroupName (id, e) {
+    const inpt = document.querySelector('#groupInput_' + id);
+    this.props.editGroup(id, inpt.value);
   }
 
   onUpdateGroup(event) {
@@ -140,9 +151,15 @@ export class Repos extends React.Component<ReposProps, {}> {
           <i className='icon icon-edit'>
             <Isvg src='./svg/edit.svg' />
           </i>
-          <input className='title' defaultValue={ group.title }
-                 onKeyPress={ this.onChangeGroupName.bind(this, group.id) } />
-          <Isvg className='icon icon-x' src='./svg/right-arrow-6.svg'/>
+
+          <input id={ 'groupInput_' + group.id } className='title' defaultValue={ group.title } ref={ this.focusInput.bind(this) }
+                 onKeyPress={ this.onKeyUpGroupName.bind(this, group.id) } />
+
+          <i className='icon icon-save' title='Save Title'
+          onClick={ this.onChangeGroupName.bind(this, group.id) }>
+            <Isvg src='./svg/right-arrow-6.svg'/>
+          </i>
+
         </header>
       );
     }
@@ -150,16 +167,19 @@ export class Repos extends React.Component<ReposProps, {}> {
     // <Isvg className='icon icon-refresh' src='./svg/spin-1.svg' title='Refresh all repos from this group'/>
     return (
       <header>
-        <Isvg className='icon icon-move' src='./svg/sort.svg' title='Reorder this group'/>
+        <i className='icon icon-move' title='Reorder this group'>
+          <Isvg src='./svg/sort.svg'/>
+        </i>
+
         <span onClick={ this.props.startEditGroup.bind(this, group.id) } className='title'>{ group.title }</span>
 
         <i className='icon icon-edit' title='Edit group name'
         onClick={ this.props.startEditGroup.bind(this, group.id) }>
           <Isvg src='./svg/edit.svg' />
         </i>
-        <i className='icon icon-x' title='Remove this group'
+        <i className='icon icon-x' title='Remove this group with all repos'
         onClick={ this.props.confirmDeleteGroup.bind(this, group.id) }>
-          <Isvg src='./svg/x.svg' />
+          <Isvg src='./svg/garbage.svg' />
         </i>
       </header>
     );
