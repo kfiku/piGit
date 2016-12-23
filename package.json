@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run lint && npm run test:cov",
     "postinstall": "npm run build",
-    "dev": "export NODE_ENV=dev && concurrently 'npm run css-w' 'npm run ts-w' 'npm start -- dev'",
+    "dev": "export NODE_ENV=dev && npm run css && concurrently 'npm run css-w' 'npm run ts-w' 'npm start -- dev'",
     "lint": "tslint src/**/*.tsx src/**/*.ts -c tslint.json",
     "clean": "find src -name \"*.js*\" -type f -delete",
     "test:cov": "npm run ts && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/unit/**/*.js",
