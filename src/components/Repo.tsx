@@ -35,7 +35,7 @@ export class Repo extends React.Component<RepoProps, {}> {
   updateDate(el) {
     setTimeout(() => {
       if (el && el.innerHTML) {
-        el.innerHTML = 'Updated: ' + moment(this.props.repo.lastUpdate).fromNow();
+        el.innerHTML = moment(this.props.repo.lastUpdate).fromNow();
         this.updateDate(el);
       }
     }, 5 * 60 * 1000); // 5 minutes

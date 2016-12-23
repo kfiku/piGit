@@ -92,7 +92,7 @@ export class Repos extends React.Component<ReposProps, {}> {
   }
 
   onChangeGroupName (id, e) {
-    const inpt = document.querySelector('#groupInput_' + id);
+    const inpt = document.querySelector('input#groupInput_' + id) as HTMLInputElement;
     this.props.editGroup(id, inpt.value);
   }
 
@@ -212,4 +212,4 @@ export class Repos extends React.Component<ReposProps, {}> {
       </div>
     );
   }
-}
+};
