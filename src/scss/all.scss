@@ -21,9 +21,15 @@ body {
 }
 
 
+@import 'animations';
 @import 'icons';
-@import 'repos-list';
+
 @import 'main-nav';
+
+@import 'group';
+
+@import 'repos';
+@import 'repo';
 
 
 
