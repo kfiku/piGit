@@ -14,10 +14,9 @@ import { Message } from '../components/Message';
 const app: any = ({repos, actions}) => {
   return (
   <div>
-    {/* */}
     <Nav/>
+    /** NAV IS POS FIXED SO THIS IS NAV HEIGHT EMPTY DIV */
     <div className='nav-h'/>
-    {/* */}
 
     <Repos reloadRepo={actions.reloadRepo}
            deleteRepo={actions.deleteRepo}
@@ -32,25 +31,6 @@ const app: any = ({repos, actions}) => {
            editGroup={actions.editGroup}
            repos={repos}/>
     <Message />
-    {/* */}
-
-    {/* * /}
-    <div className='repo'>
-      <div className='name'>electron</div>
-    </div>
-
-    <div className='repo'>
-      <div className='name'>PiGit</div>
-    </div>
-
-    <div className='repo'>
-      <div className='name'>electron-installer</div>
-    </div>
-
-    <div className='repo'>
-      <div className='name'>LoanJs</div>
-    </div>
-    {/* */}
   </div>
   );
 };

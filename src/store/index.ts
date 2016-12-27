@@ -10,9 +10,6 @@ const electronSettings = require('electron-settings');
 
 const createAppStore = (callback) => {
   electronSettings.get('state').then((state: any) => {
-
-    // console.log('loaded stater', state);
-
     const loggerMiddleware = createLogger();
     let composeEnhancers = compose;
     if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {

@@ -7,7 +7,8 @@ import actions from '../actions';
 
 const Isvg = require('react-inlinesvg');
 
-const NavComponent: any = ({app, actions})  => {
+const NavComponent: any = ({app, actions}) => {
+  console.info('### RENDER NAV COMPONENT');
   return (
     <nav className='nav main-nav'>
       <button onClick={ actions.addRepos } className={ 'button' + (app.addingRepos ? ' is-loading' : '') } >
@@ -30,19 +31,6 @@ const NavComponent: any = ({app, actions})  => {
         </i>
         <span>Reload all</span>
       </button>
-
-      { /*
-      <div className='nav-right'>
-        <span className='nav-item'>
-          <button className='button' >
-            <span className='icon'>
-              <i className='fa fa-paypal'></i>
-            </span>
-            <span>Donate</span>
-          </button>
-        </span>
-      </div>
-      */ }
     </nav>
   );
 };
