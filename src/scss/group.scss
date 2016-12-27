@@ -1,0 +1,55 @@
+.group {
+  & > header {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: $group-header-height/2;
+    padding: $group-header-height/2 0;
+
+    position: relative;
+    z-index: 3;
+
+    &.editing {
+      background: $g1;
+    }
+
+    .icon {
+      display: block;
+      width: $group-header-height;
+      height: $group-header-height;
+      margin-right: $group-header-height/2;
+    }
+
+    .icon-move {
+      cursor: move;
+    }
+
+    .title {
+      height: $group-header-height;
+      flex-grow: 1;
+
+      font-size: $group-header-height;
+      line-height: $group-header-height;
+
+      font-family: $styled-font;
+      word-break: break-all;
+      font-weight: 400;
+
+      color: $g7;
+    }
+
+    input.title {
+      padding: 0;
+      margin: 0;
+      border: 0;
+      outline: 0;
+      background: none;
+
+    }
+  }
+
+  & > hr {
+    border: 0;
+    margin: 0;
+    border-bottom: $group-header-height/10 dashed $g4;
+  }
+}

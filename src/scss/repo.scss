@@ -1,74 +1,3 @@
-.group {
-  margin: 0;
-
-  & > header {
-    display: flex;
-    flex-wrap: wrap;
-    // margin-left: $group-header-height/2;
-    padding: $group-header-height/2 0;
-
-    position: relative;
-    z-index: 3;
-
-    &.editing {
-      background: $g0;
-    }
-
-    .icon {
-      display: block;
-      width: $group-header-height;
-      height: $group-header-height;
-      margin-right: $group-header-height/2;
-
-      &:first-child {
-        margin-left: $group-header-height/2;
-      }
-    }
-
-    .icon-move {
-      cursor: move;
-    }
-
-    .title {
-      height: $group-header-height;
-      flex-grow: 1;
-
-      font-size: $group-header-height;
-      line-height: $group-header-height;
-
-      font-family: $styled-font;
-      word-break: break-all;
-      font-weight: 400;
-
-      color: $g7;
-    }
-
-    input.title {
-      padding: 0;
-      margin: 0;
-      border: 0;
-      outline: 0;
-      background: none;
-
-    }
-  }
-
-  & > hr {
-    border: 0;
-    margin: 0;
-    border-bottom: $group-header-height/10 dashed $g4;
-  }
-}
-
-
-.repos {
-  display: flex;
-  flex-wrap: wrap;
-  min-height: $repo-size / 2;
-  margin-top: -$repo-size/8;
-}
-
-
 .repo {
   width: $repo-size;
   position: relative;
@@ -110,28 +39,25 @@
     fill: $g3;
   }
 
-  $pos-middle: 50% - $repo-icon-size / 2;
-  $pos-from-side: (100% - $repo-bg-size + 10) / 4;
-
   .icon-move {
-    top: $pos-from-side;
-    left: $pos-middle;
+    top: (100% - $repo-bg-size) / 4;
+    left: 50% - $repo-icon-size / 2;
     cursor: move;
   }
 
   .icon-refresh {
-    bottom: $pos-from-side;
-    left: $pos-middle;
+    bottom: (100% - $repo-bg-size) / 4;
+    left: 50% - $repo-icon-size / 2;
   }
 
   .icon-pull {
-    top: $pos-middle;
-    left: $pos-from-side;
+    top: 50% - $repo-icon-size / 2;
+    left: (100% - $repo-bg-size) / 4;
   }
 
   .icon-x {
-    top: $pos-middle;
-    right: $pos-from-side;
+    top: 50% - $repo-icon-size / 2;
+    right: (100% - $repo-bg-size) / 4;
   }
 
   .content {
@@ -250,14 +176,6 @@
     *  ♦ ♦ ♦ ♦
     *   ♦ ♦ ♦
     *  ♦ ♦ ♦ ♦
-    *  3 6 9
-    *  - 2 -> 3 -
-    *  4 9 14
-    *  - 3 -> 5 -
-    *  5 12 19
-    *  - 4 -> 7 -
-    *  6 15 24
-    *  - 5 -> 9 -
     */
   @media screen and (min-width: ($i + 0.5) * $repo-size)
                 and (max-width: ($i + 1.5) * $repo-size - 1) {
@@ -275,9 +193,9 @@
     .repo:nth-of-type(#{($i + $i - 1)}n + #{$i + 1}) {
       margin-left: 100% / ($i) / 2;
 
-      // &:after {
-      //   background: pink;
-      // }
+      &:after {
+        background: pink;
+      }
     }
   }
 
