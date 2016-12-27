@@ -200,7 +200,7 @@
     width: $repo-bg-size;
     height: $repo-bg-size;
     background: $g0;
-    border-radius: 16px;
+    border-radius: $repo-bg-size / 5;
     z-index: 0;
     transform: rotate(45deg);
 
