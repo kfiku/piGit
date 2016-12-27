@@ -1,23 +1,23 @@
 // setting env var
 const env = process.env.NODE_ENV || 'prod';
 
-
 const electron = require('electron');
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const electronSettings = require('electron-settings');
 
-if (env === 'dev') {
-  const installExtension = require('electron-devtools-installer');
-  installExtension.default(installExtension.REDUX_DEVTOOLS);
-  require('electron-debug')({showDevTools: true});
-}
-
 let mainWindow
 
-
-
 function createWindow () {
+  if (env === 'dev') {
+    const installExtension = require('electron-devtools-installer');
+    installExtension.default(installExtension.REDUX_DEVTOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
+
+    require('electron-debug')({showDevTools: true});
+  }
+
   electronSettings.get('window').then((win) => {
     win = win || {x: 100, y: 100, width: 800, height: 600}
     win.icon = __dirname + '/logo/piGit.png';
