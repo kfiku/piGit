@@ -1,5 +1,7 @@
 const env = process.env.NODE_ENV || 'prod';
 
+import { IRepo } from '../interfaces/IRepo';
+
 import { createStore, StoreEnhancer, Store, applyMiddleware, compose } from 'redux';
 import reducer from '../reducers';
 import newId from '../helpers/newId';
@@ -20,11 +22,12 @@ const createAppStore = (callback) => {
       state.app.addingRepos = false;
       state.app.reloadingAllRepos = false;
     }
+
     if (state && state.repos) {
       if (state.repos[0] && !state.repos[0].title) {
         state.repos = [{title: 'default', repos: state.repos}];
       } else {
-        state.repos = state.repos.map(group => {
+        state.groups = state.repos.map(group => {
           if (!group.id) {
             group.id = newId();
           }
@@ -32,7 +35,27 @@ const createAppStore = (callback) => {
           group.confirmDelete = false;
           return group;
         });
+
+        delete state.repos;
       }
+    }
+
+    if (state && state.groups) {
+      state.groups = state.groups.map(group => {
+        if (!group.id) {
+          group.id = newId();
+        }
+
+        group.repos = group.repos.map((repo: IRepo) => {
+          repo.progressing = false;
+          return repo;
+        });
+
+
+        group.editing = false;
+        group.confirmDelete = false;
+        return group;
+      });
     }
 
     let store = createStore(
