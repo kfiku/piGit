@@ -8,7 +8,7 @@ import actions from '../actions';
 const Isvg = require('react-inlinesvg');
 
 const NavComponent: any = ({app, actions}) => {
-  console.info('### RENDER NAV COMPONENT');
+  console.info('/// RENDER NAV COMPONENT');
   return (
     <nav className='nav main-nav'>
       <button onClick={ actions.addRepos } className={ 'button' + (app.addingRepos ? ' is-loading' : '') } >
@@ -49,7 +49,9 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 });
 
-export const Nav = connect(
+const Nav = connect(
   mapStateToProps,
   mapDispatchToProps
 )(NavComponent);
+
+export default Nav;

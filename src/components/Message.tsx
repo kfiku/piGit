@@ -41,7 +41,9 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 });
 
-export const Message = connect(
+const Message = connect(
   mapStateToProps,
   mapDispatchToProps
 )(MessageComponent);
+
+export default Message;
