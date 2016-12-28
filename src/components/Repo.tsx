@@ -1,23 +1,11 @@
 import * as React from 'react';
 import * as moment from 'moment';
+import { IRepo } from '../interfaces/IRepo';
 
 const Isvg = require('react-inlinesvg');
 
-export interface StateRepo {
-  id: number;
-  name: string;
-  branch: string;
-  dir: string;
-  ahead: number;
-  behind: number;
-  modified: any[];
-  added: any[];
-  progressing?: boolean;
-  lastUpdate?: number;
-}
-
 export interface RepoProps {
-  repo: StateRepo;
+  repo: IRepo;
   onDelete?: () => any;
   onRefresh?: () => any;
   onPull?: () => any;
