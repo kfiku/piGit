@@ -4,11 +4,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import actions from '../actions';
+import { renderLog } from '../helpers/logger';
+
 
 const Isvg = require('react-inlinesvg');
 
 const NavComponent: any = ({app, actions}) => {
-  console.info('/// RENDER NAV COMPONENT');
+  renderLog('NAV');
   return (
     <nav className='nav main-nav'>
       <button onClick={ actions.addRepos } className={ 'button' + (app.addingRepos ? ' is-loading' : '') } >
