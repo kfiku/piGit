@@ -1,86 +1,102 @@
+import { IGroup } from '../interfaces/IGroup';
+
 import * as React from 'react';
 import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import actions from '../actions';
-
-import { IGroup } from '../interfaces/IGroup';
+import Confirm from './helpers/Confirm';
+import { renderLog } from '../helpers/logger';
 // import { Repo } from './Repo';
 // import Sortable = require('sortablejs');
 
 const Isvg = require('react-inlinesvg');
 
-const onKeyUpGroupName = (id: string) => {
-  console.log('onKeyUpGroupName', id);
+const onChangeGroupName = (actions, id: string) => {
+  const inpt = document.querySelector('input#groupInput_' + id) as HTMLInputElement;
+  actions.editGroup(id, inpt.value);
 };
 
-const onChangeGroupName = (id: string) => {
-  console.log('onChangeGroupName', id);
+const onKeyUpGroupName = (actions, id: string, e) => {
+  if (e.key === 'Enter') {
+    onChangeGroupName(actions, id);
+  }
+};
+
+const focusInput = el => {
+  if (el) {
+    el.focus();
+  }
 };
 
 
 const GroupComponent: any = ({ group, actions }: { group: IGroup, actions: any }) => {
-  console.log('/// RENDER GROUP');
+  renderLog('GROUP', group.title, group.editing && 'editing', group.confirmDelete && 'confirm delete');
   let header;
 
-  console.log(group.editing);
-  if (group) {
-    if (group.editing) {
-      /** ON GROUP EDITING */
-      header = (
-        <header className='editing'>
-          <i className='icon icon-edit'>
-            <Isvg src='./svg/edit.svg' />
-          </i>
+  if (group.editing) {
+    /** ON GROUP EDITING */
+    header = (
+      <header className='group-header editing'>
+        <span className='icon icon-edit'>
+          <Isvg src='./svg/edit.svg'/>
+        </span>
 
-          <input id={ 'groupInput_' + group.id } className='title' defaultValue={ group.title }
-          // ref={ this.focusInput.bind(this) }
-          // onKeyPress={ onKeyUpGroupName(group.id) }
-          />
+        <input id={ 'groupInput_' + group.id } className='title' defaultValue={ group.title }
+        ref={ focusInput }
+        onKeyPress={ onKeyUpGroupName.bind(null, actions, group.id) }
+        />
 
-          <i className='icon icon-save' title='Save Title'
-          // onClick={ onChangeGroupName(group.id) }
-          >
-            <Isvg src='./svg/right-arrow-6.svg'/>
-          </i>
-        </header>
-      );
-    } else {
-      /** ON NORMAL GROUP */
-      header = (
-        <header>
-          <i className='icon icon-move' title='Reorder this group'>
-            <Isvg src='./svg/sort.svg'/>
-          </i>
+        <span className='icon icon-save' title='Save Title'
+        onClick={ onChangeGroupName.bind(null, actions, group.id) }
+        >
+          <Isvg src='./svg/right-arrow-6.svg'/>
+        </span>
+      </header>
+    );
+  } else {
+    header = (
+      <header className='group-header'>
+        <i className='icon icon-move' title='Reorder this group'>
+          <Isvg src='./svg/sort.svg'/>
+        </i>
 
-          <span className='title'
-          onClick={ actions.startEditGroup.bind(null, group.id) }
-          >
-            { group.title }
-          </span>
-        {/* * /}
+        <span className='title'
+        onClick={ actions.startEditGroup.bind(null, group.id) }
+        >
+          { group.title }
+        </span>
 
-          <i className='icon icon-edit' title='Edit group name'
-          // onClick={ actions.startEditGroup(group.id) }
-          >
-            <Isvg src='./svg/edit.svg' />
-          </i>
-          <i className='icon icon-x' title='Remove this group with all repos'
-          // onClick={ actions.confirmDeleteGroup(group.id) }
-          >
-            <Isvg src='./svg/garbage.svg' />
-          </i>
-        {/* */}
-        </header>
-      );
-    }
+        <i className='icon icon-edit' title='Remove this group with all repos'
+        onClick={ actions.startEditGroup.bind(null, group.id) }
+        >
+          <Isvg src='./svg/edit.svg' />
+        </i>
 
+        <i className='icon icon-x' title='Remove this group with all repos'
+        onClick={ actions.confirmDeleteGroup.bind(null, group.id) }
+        >
+          <Isvg src='./svg/garbage.svg' />
+        </i>
+      </header>
+    );
   }
 
   return (
     <div className='group'>
+      { group.confirmDelete
+        ? <Confirm
+            yes={ actions.deleteGroup.bind(null, group.id) }
+            no={ actions.cancelDeleteGroup.bind(null, group.id) }
+            msg={ `Do you really want to remove group '${group.title}' with all repos inside?` }/>
+        : ''
+      }
+
       { header }
+
+      <div className='repos'>
+      </div>
     </div>
   );
 };
