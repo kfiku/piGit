@@ -12,7 +12,7 @@ import { ActionCreatorsMapObject } from 'redux';
 import gitRepos from '../helpers/GitRepos';
 import * as electron from 'electron';
 
-const actions: ActionCreatorsMapObject = {
+const actions = {
   addRepos: () => {
     return (dispatch, getState) => {
       let dirs = electron.remote.dialog.showOpenDialog({
@@ -113,7 +113,7 @@ const actions: ActionCreatorsMapObject = {
     return { type: START_EDITING_GROUP, id };
   },
 
-  editGroup: (id: number, title) => {
+  editGroup: (id: string, title) => {
     return { type: EDIT_GROUP, id, title };
   },
 

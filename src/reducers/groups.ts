@@ -24,7 +24,8 @@ export default function repos(state = initialState, action) {
     case ADD_REPO:
       newState = clone(state);
       return newState.map((group, id) => {
-        if (group.title === 'default') {
+        if (id === 0) {
+          /** ADD TO FIRST GROUP */
           group.repos.push(
             {
               id: group.repos.reduce((maxId, repo) => Math.max(repo.id, maxId), -1) + 1,
@@ -100,6 +101,7 @@ export default function repos(state = initialState, action) {
     case DELETE_GROUP_CONFIRM:
       return state.map((group, id) => {
         if (group.id === action.id) {
+          group = clone(group);
           group.confirmDelete = true;
         }
 
@@ -109,6 +111,7 @@ export default function repos(state = initialState, action) {
     case DELETE_GROUP_CANCEL:
       return state.map((group, id) => {
         if (group.id === action.id) {
+          group = clone(group);
           group.confirmDelete = false;
         }
 
