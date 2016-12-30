@@ -23,9 +23,10 @@
   transform: translate(-50%, -50%);
   position: absolute;
   z-index: 101;
-
   padding: 16px;
 
+
+  border-radius: $br * 2;
   background-color: white;
 
   p {

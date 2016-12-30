@@ -193,9 +193,9 @@
     .repo:nth-of-type(#{($i + $i - 1)}n + #{$i + 1}) {
       margin-left: 100% / ($i) / 2;
 
-      &:after {
-        background: pink;
-      }
+      // &:after {
+      //   background: pink;
+      // }
     }
   }
 
