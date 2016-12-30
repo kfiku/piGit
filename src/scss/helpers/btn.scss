@@ -1,0 +1,17 @@
+.btn {
+  border: none;
+  padding: 8px 12px;
+  outline: none;
+
+  // font-family: $styled-font;
+  font-size: 1em;
+  background: $g1;
+  color: $g6; 
+  border-radius: $br;
+
+  cursor: pointer;
+
+  &:hover {
+    background: $g2;
+  }
+}
