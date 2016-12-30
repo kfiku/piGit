@@ -25,7 +25,7 @@ const actions = {
         dirs,
         (gitDir) => { // steps
           const newRepoDit = resolve(gitDir, '..');
-          const repoByDir = getState().repos.filter(s => s.dir === newRepoDit);
+          const repoByDir = getState().groups.filter(s => s.dir === newRepoDit);
           if (repoByDir.length === 0) {
             dispatch(this.default.addRepo(newRepoDit));
           } else {
@@ -43,7 +43,7 @@ const actions = {
       dispatch({ type: RELOADING_ALL_REPOS });
 
       let i = 0;
-      getState().repos.map((groups, gid) => {
+      getState().groups.map((groups, gid) => {
         groups.repos.map((r, rid) => {
           // console.log(r, r.dir, id);
           setTimeout(() => {
