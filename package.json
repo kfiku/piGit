@@ -70,7 +70,7 @@
     "postcss-cli": "^2.6.0",
     "precss": "^1.4.0",
     "release-it": "^2.5.1",
-    "ts-node": "^1.7.0",
+    "ts-node": "^2.0.0",
     "tslint": "^4.0.0-dev.1",
     "typescript": "^2.0"
   },
