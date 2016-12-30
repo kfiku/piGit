@@ -13,6 +13,7 @@ const Confirm: any = ({msg, yes, no}) => {
 
         <footer>
           <button className='btn' onClick={ yes }>Yes</button>
+          { ' ' }
           <button className='btn' onClick={ no }>No</button>
         </footer>
       </div>

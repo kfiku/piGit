@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 import actions from '../actions';
 import Confirm from './helpers/Confirm';
+import Repos from './Repos/Repos';
 import { renderLog } from '../helpers/logger';
 // import { Repo } from './Repo';
 // import Sortable = require('sortablejs');
@@ -95,8 +96,7 @@ const GroupComponent: any = ({ group, actions }: { group: IGroup, actions: any }
 
       { header }
 
-      <div className='repos'>
-      </div>
+      <Repos key={ group.id } group-id={ group.id } />
     </div>
   );
 };
