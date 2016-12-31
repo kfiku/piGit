@@ -14,8 +14,8 @@
     "build": "npm run css && npm run ts",
     "start": "electron .",
     "css": "node-sass src/scss/all.scss src/css/bundle.css",
+    "css-w": "chokidar src/scss/**/*.scss src/scss/*.scss -c 'npm run css'",
     "ts": "tsc",
-    "css-w": "chokidar src/scss/**/*.scss -c 'npm run css'",
     "ts-w": "npm run ts -- -w ",
     "package": "electron-packager . --all",
     "test:unit-w": "chokidar test/unit/**/*.ts src/**/*.ts -c 'npm run test:unit' "
