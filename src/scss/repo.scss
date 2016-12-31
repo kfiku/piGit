@@ -13,16 +13,6 @@
     }
   }
 
-  &.progressing {
-    .icon-refresh {
-      svg {
-        fill: $green;
-      }
-
-      animation: spin 1s linear infinite;
-    }
-  }
-
   .icon {
     position: absolute;
     z-index: 2;

@@ -19,3 +19,17 @@
     }
   }
 }
+
+.progressing {
+  &.button {
+    text-align: center;
+  }
+
+  .icon-refresh {
+    svg {
+      fill: $green;
+    }
+
+    animation: spin 1s linear infinite;
+  }
+}
