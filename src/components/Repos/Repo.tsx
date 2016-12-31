@@ -7,38 +7,22 @@ import { basename } from 'path';
 import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+const Isvg = require('react-inlinesvg');
 
 import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
 
-const Isvg = require('react-inlinesvg');
-
-// import { Repo } from './Repo';
-// import Sortable = require('sortablejs');
-
-// const onUpdateGroup = (actions, event) => {
-//   actions.reorderGroup({
-//     oldIndex: event.oldIndex,
-//     newIndex: event.newIndex
-//   });
-// };
-
-// const sortableGroups = (actions, el) => {
-//   if (el) {
-//     let options = {
-//       animation: 150,
-//       handle: '.icon-move',
-//       draggable: '.group',
-//       forceFallback: true,
-//       onUpdate: onUpdateGroup.bind(null, actions),
-//     };
-
-//     Sortable.create(el, options);
-//   }
-// };
+const updateDate = (repo, el) => {
+  setTimeout(() => {
+    if (el && el.innerHTML) {
+      el.innerHTML = moment(repo.lastUpdate).fromNow();
+      updateDate(repo, el);
+    }
+  }, 5 * 60 * 1000); // 5 minutes
+}
 
 const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup, actions: any }) => {
-  renderLog('REPO', repo.dir);
+  renderLog('REPO', repo.name);
   let cls = '';
 
   if (repo.behind) {
@@ -51,25 +35,19 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
 
   return (
     <div className={ 'repo ' + cls + (repo.progressing ? ' progressing' : '')  }>
-      <i className='icon icon-move' title='Reorder this repo'>
+      <i className='icon icon-move repo-mover' title='Reorder this repo'>
         <Isvg src='./svg/move.svg' />
       </i>
 
-      <i className='icon icon-x' title='Delete this repo'
-      onClick={ actions.deleteRepo.bind(null, repo.dir) }
-      >
+      <i className='icon icon-x' title='Delete this repo'onClick={ actions.deleteRepo.bind(null, repo.dir) }>
         <Isvg src='./svg/x.svg'/>
       </i>
 
-      <i className='icon icon-pull' title='Pull this repo'
-      onClick={ actions.pullRepo.bind(null, repo.dir) }
-      >
+      <i className='icon icon-pull' title='Pull this repo' onClick={ actions.pullRepo.bind(null, repo.dir) }>
         <Isvg src='./svg/down-arrow.svg'/>
       </i>
 
-      <i className='icon icon-refresh' title='Refresh this repo'
-      onClick={ actions.reloadRepo.bind(null, repo.dir) }
-      >
+      <i className='icon icon-refresh' title='Refresh this repo' onClick={ actions.reloadRepo.bind(null, repo.dir) }>
         <Isvg src='./svg/reload.svg'/>
       </i>
 
@@ -84,21 +62,19 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
 
         <div className='status'>
           { repo.ahead ?
-            <span className='ahead'>Ahead: { repo.ahead }</span> : ''
+            <span className='ahead'>Ahead: { repo.ahead } </span> : ''
           }
 
           { repo.behind ?
-            <span className='behind'>Behind: { repo.behind }</span> : ''
+            <span className='behind'>Behind: { repo.behind } </span> : ''
           }
 
           { (repo.modified && repo.modified.length) ?
-            <span className='modified'>Modified: { repo.modified.length }</span> : ''
+            <span className='modified'>Modified: { repo.modified.length } </span> : ''
           }
         </div>
 
-        <div className='updated' title='Updated from now' 
-        // ref={ this.updateDate.bind(this) }
-        >
+        <div className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
           { moment(repo.lastUpdate).fromNow() }
         </div>
       </div>

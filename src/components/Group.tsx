@@ -32,7 +32,7 @@ const focusInput = el => {
 };
 
 
-const GroupComponent: any = ({ group, actions }: { group: IGroup, actions: any }) => {
+const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: any, i: number }) => {
   renderLog('GROUP', group.title, group.editing && 'editing', group.confirmDelete && 'confirm delete');
   let header;
 
@@ -59,7 +59,7 @@ const GroupComponent: any = ({ group, actions }: { group: IGroup, actions: any }
   } else {
     header = (
       <header className='group-header'>
-        <i className='icon icon-move' title='Reorder this group'>
+        <i className='icon icon-move group-mover' title='Reorder this group'>
           <Isvg src='./svg/sort.svg'/>
         </i>
 
@@ -96,20 +96,21 @@ const GroupComponent: any = ({ group, actions }: { group: IGroup, actions: any }
 
       { header }
 
-      <Repos key={ group.id } group-id={ group.id } />
+      <Repos key={ group.id } group-id={ group.id } group-i={ i } />
     </div>
   );
 };
 
 GroupComponent.propTypes = {
   group: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  i: PropTypes.number.isRequired,
 };
 
 
 const mapStateToProps = (state, ownProps = {}) => {
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];
-  return { group };
+  return { group, i: ownProps['group-i'] };
 };
 
 const mapDispatchToProps = dispatch => ({

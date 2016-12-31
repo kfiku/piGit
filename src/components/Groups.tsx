@@ -24,7 +24,7 @@ const sortableGroups = (actions, el) => {
   if (el) {
     let options = {
       animation: 150,
-      handle: '.icon-move',
+      handle: '.group-mover',
       draggable: '.group',
       forceFallback: true,
       onUpdate: onUpdateGroup.bind(null, actions),
@@ -37,9 +37,9 @@ const sortableGroups = (actions, el) => {
 const GroupsComponent: any = ({groups, actions}: { groups: IGroup[], actions: any }) => {
   renderLog('GROUPS', groups.length);
 
-  let groupsNodes = groups.map((group) => {
+  let groupsNodes = groups.map((group, i) => {
     return (
-      <Group key={ group.id } group-id={ group.id } />
+      <Group key={ group.id } group-id={ group.id } group-i={ i } />
     );
   });
 

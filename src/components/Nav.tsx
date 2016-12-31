@@ -13,10 +13,16 @@ const NavComponent: any = ({app, actions}) => {
   renderLog('NAV');
   return (
     <nav className='nav main-nav'>
-      <button onClick={ actions.addRepos } className={ 'button' + (app.addingRepos ? ' is-loading' : '') } >
-        <i className='icon icon-add'>
-          <Isvg src='./svg/add.svg'/>
-        </i>
+      <button onClick={ actions.addRepos } className={ 'button' + (app.addingRepos ? ' progressing' : '') } >
+        { app.addingRepos
+          ? <span className='icon icon-refresh'>
+              <Isvg src='./svg/reload.svg'/>
+            </span>
+          : <i className='icon icon-add'>
+              <Isvg src='./svg/add.svg'/>
+            </i>
+        }
+
         <span>Add Repo</span>
       </button>
 
@@ -27,7 +33,7 @@ const NavComponent: any = ({app, actions}) => {
         <span>Add Group</span>
       </button>
 
-      <button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' is-loading' : '') } >
+      <button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' progressing' : '') } >
         <i className='icon icon-refresh'>
           <Isvg src='./svg/reload.svg'/>
         </i>
