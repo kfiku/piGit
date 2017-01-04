@@ -76,7 +76,7 @@
   },
   "dependencies": {
     "async": "^2.0.1",
-    "bulma": "^0.2.3",
+    "bulma": "^0.3.0",
     "classnames": "~2.2.5",
     "electron-settings": "^2.2.1",
     "font-awesome": "^4.6.3",
