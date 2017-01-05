@@ -2,11 +2,11 @@ const env = process.env.NODE_ENV || 'prod';
 
 import { IRepo } from '../interfaces/IRepo';
 
-import { createStore, StoreEnhancer, Store, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import reducer from '../reducers';
 import newId from '../helpers/newId';
 
-const thunkMiddleware = require('redux-thunk').default;
 const electronSettings = require('electron-settings');
 
 const createAppStore = (callback) => {
