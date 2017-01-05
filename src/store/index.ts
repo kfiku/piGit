@@ -7,12 +7,10 @@ import reducer from '../reducers';
 import newId from '../helpers/newId';
 
 const thunkMiddleware = require('redux-thunk').default;
-const createLogger = require('redux-logger');
 const electronSettings = require('electron-settings');
 
 const createAppStore = (callback) => {
   electronSettings.get('state').then((state: any) => {
-    const loggerMiddleware = createLogger();
     let composeEnhancers = compose;
     if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
       composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
@@ -64,7 +62,6 @@ const createAppStore = (callback) => {
       composeEnhancers(
         applyMiddleware(
           thunkMiddleware, // lets us dispatch() functions
-          // loggerMiddleware // neat middleware that logs actions
         )
       )
     );
