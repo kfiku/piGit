@@ -1,6 +1,7 @@
 # GIT Watch
 electron app, written in typescript and react to watch git repos
 
+[![Build Status](https://travis-ci.org/kfiku/piGit.svg?branch=master)](https://travis-ci.org/kfiku/piGit)
 
 App is in early development. To try it out just
 
