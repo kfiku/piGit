@@ -19,7 +19,7 @@ const updateDate = (repo, el) => {
       updateDate(repo, el);
     }
   }, 5 * 60 * 1000); // 5 minutes
-}
+};
 
 const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup, actions: any }) => {
   renderLog('REPO', repo.name);
