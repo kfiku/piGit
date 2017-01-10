@@ -9,8 +9,9 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
 import { resolve } from 'path';
 import { ActionCreatorsMapObject } from 'redux';
 
-import gitRepos from '../helpers/GitRepos';
 import * as electron from 'electron';
+import gitRepos from '../helpers/GitRepos';
+import newId from '../helpers/newId';
 
 const actions = {
   addRepos: () => {
@@ -38,88 +39,76 @@ const actions = {
     };
   },
 
-  reloadAllRepos: () => {
-     return (dispatch, getState) => {
-      dispatch({ type: RELOADING_ALL_REPOS });
+  reloadAllRepos: () => (dispatch, getState) => {
+    dispatch({ type: RELOADING_ALL_REPOS });
 
-      let i = 0;
-      getState().groups.map((groups, gid) => {
-        groups.repos.map((r, rid) => {
-          // console.log(r, r.dir, id);
-          setTimeout(() => {
-            this.default.reloadRepo(r.dir)(dispatch);
-          }, 100 * i);
-          i++;
-        });
-      });
+    let i = 0;
+    getState().repos.map((repo, i) => setTimeout(
+      () => this.default.reloadRepo(repo.id, repo.dir)(dispatch), 100 * i)
+    );
 
-      setTimeout(() => {
-        dispatch({ type: RELOADING_ALL_REPOS_END });
-      }, 1000);
-     };
+    setTimeout(() => {
+      dispatch({ type: RELOADING_ALL_REPOS_END });
+    }, 1000);
   },
 
-  addRepo: (dir) => {
-    return { type: ADD_REPO, dir };
+  addRepo: (dir: string) => (
+    { type: ADD_REPO, dir, id: newId() }
+  ),
+
+  addGroup: () => (
+    { type: ADD_GROUP }
+  ),
+
+  reorderRepo: params => (
+    { type: REORDER_REPO, params }
+  ),
+
+  deleteRepo: (id: string, groupId: string) => (
+    { type: DELETE_REPO, id, groupId }
+  ),
+
+  reloadRepo: (id: string, dir: string) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.refresh(dir, (err, data) => {
+      dispatch({ type: UPDATE_REPO, data, id });
+    });
   },
 
-  addGroup: () => {
-    return { type: ADD_GROUP };
+  pullRepo: (id: string, dir: string) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.pull(dir, (err, data) => {
+      dispatch({ type: UPDATE_REPO, data, id });
+    });
   },
 
-  reorderRepo: (params) => {
-    return { type: REORDER_REPO, params };
-  },
+  reorderGroup: params => (
+    { type: REORDER_GROUP, params }
+  ),
 
-  deleteRepo: (dir: string) => {
-    return { type: DELETE_REPO, dir };
-  },
+  confirmDeleteGroup: (id: number) => (
+    { type: DELETE_GROUP_CONFIRM, id }
+  ),
 
-  reloadRepo: (dir) => {
-    return (dispatch) => {
-      dispatch({ type: RELOADING, dir });
-      gitRepos.refresh(dir, (err, data) => {
-        dispatch({ type: UPDATE_REPO, data });
-      });
-    };
-  },
+  cancelDeleteGroup: (id: number) => (
+    { type: DELETE_GROUP_CANCEL, id }
+  ),
 
-  pullRepo: (dir) => {
-    return (dispatch) => {
-      dispatch({ type: RELOADING, dir });
-      gitRepos.pull(dir, (err, data) => {
-        dispatch({ type: UPDATE_REPO, data });
-      });
-    };
-  },
+  deleteGroup: (id: number) => (
+    { type: DELETE_GROUP, id }
+  ),
 
-  reorderGroup: (params) => {
-    return { type: REORDER_GROUP, params };
-  },
+  startEditGroup: (id: number) => (
+    { type: START_EDITING_GROUP, id }
+  ),
 
-  confirmDeleteGroup: (id: number) => {
-    return { type: DELETE_GROUP_CONFIRM, id };
-  },
+  editGroup: (id: string, title) => (
+    { type: EDIT_GROUP, id, title }
+  ),
 
-  cancelDeleteGroup: (id: number) => {
-    return { type: DELETE_GROUP_CANCEL, id };
-  },
-
-  deleteGroup: (id: number) => {
-    return { type: DELETE_GROUP, id };
-  },
-
-  startEditGroup: (id: number) => {
-    return { type: START_EDITING_GROUP, id };
-  },
-
-  editGroup: (id: string, title) => {
-    return { type: EDIT_GROUP, id, title };
-  },
-
-  message: (msg) => {
-    return { type: MESSAGE, msg };
-  }
+  message: (msg) => (
+    { type: MESSAGE, msg }
+  )
 };
 
 export default actions;
