@@ -15,29 +15,6 @@ export default function repos(state = initialState, action) {
       });
       return state;
 
-    // case RELOADING:
-    //   state.forEach((repo, id) => {
-    //     if (repo.id === action.id) {
-    //       repo = clone(repo);
-    //       repo.progressing = true;
-    //       state[id] = repo;
-    //     }
-    //   });
-
-    //   return state
-
-    // case UPDATE_REPO:
-    //   state.forEach((repo, id) => {
-    //     if (repo.id === action.id) {
-    //       repo = clone(action.data);
-    //       repo.id = action.id;
-    //       repo.progressing = false;
-    //       state[id] = repo;
-    //     }
-    //   });
-
-    //   return state;
-
     case RELOADING:
       return state.map(repo => {
         if (repo.id === action.id) {
