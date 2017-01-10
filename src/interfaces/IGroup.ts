@@ -1,9 +1,9 @@
 import { IRepo } from './IRepo';
 
 export interface IGroup {
-  id: '';
-  title: 'default';
-  editing: false;
-  confirmDelete: false;
-  repos: IRepo[];
+  id: string;
+  title: string;
+  editing: boolean;
+  confirmDelete: boolean;
+  repos: string[];
 }
