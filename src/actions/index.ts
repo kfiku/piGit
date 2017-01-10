@@ -42,7 +42,6 @@ const actions = {
   reloadAllRepos: () => (dispatch, getState) => {
     dispatch({ type: RELOADING_ALL_REPOS });
 
-    let i = 0;
     getState().repos.map((repo, i) => setTimeout(
       () => this.default.reloadRepo(repo.id, repo.dir)(dispatch), 100 * i)
     );

@@ -31,10 +31,8 @@ export default function repos(state = initialState, action) {
         if (group.id === action.groupId) {
           group.repos = group.repos.filter(repo => repo !== action.id);
         }
-      })
-      return state.filter((repo) => {
-        return repo !== action.dir;
       });
+      return state.filter(repo => repo !== action.dir);
 
     case ADD_GROUP:
       newState = clone(state);

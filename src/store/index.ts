@@ -27,7 +27,7 @@ const createAppStore = (callback) => {
       state.repos = state.repos.map(r => {
         r.progressing = false;
         return r;
-      })
+      });
     }
 
 
