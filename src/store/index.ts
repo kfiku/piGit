@@ -16,9 +16,23 @@ const createAppStore = (callback) => {
       composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
     };
 
-    // state = undefined;
-
     if (state) {
+      if (state.groups && ! state.groups.repos && state.groups[0].repos && state.groups[0].repos[0].name) {
+        // OLD STRUCTURE
+        state.repos = [];
+        state.groups = state.groups.map(group => {
+          group.repos = group.repos.map(repo => {
+            let nid = newId();
+
+            repo.id = nid;
+            state.repos.push(repo);
+
+            return nid;
+          });
+          return group;
+        });
+      }
+
       if (state.app) {
         state.app.addingRepos = false;
         state.app.reloadingAllRepos = false;
@@ -29,8 +43,6 @@ const createAppStore = (callback) => {
         return r;
       });
     }
-
-
 
     // if (state && state.repos) {
     //   if (state.repos[0] && !state.repos[0].title) {
