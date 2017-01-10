@@ -91,7 +91,7 @@ RepoComponent.propTypes = {
 
 const mapStateToProps = (state, ownProps = {}) => {
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];
-  const repo = state.repos.filter(r => r.id === ownProps['repo-id'])[0]
+  const repo = state.repos.filter(r => r.id === ownProps['repo-id'])[0];
 
   return { repo, group };
 };
