@@ -16,45 +16,56 @@ const createAppStore = (callback) => {
       composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
     };
 
-    if (state && state.app) {
-      state.app.addingRepos = false;
-      state.app.reloadingAllRepos = false;
-    }
+    // state = undefined;
 
-    if (state && state.repos) {
-      if (state.repos[0] && !state.repos[0].title) {
-        state.repos = [{title: 'default', repos: state.repos}];
-      } else {
-        state.groups = state.repos.map(group => {
-          if (!group.id) {
-            group.id = newId();
-          }
-          group.editing = false;
-          group.confirmDelete = false;
-          return group;
-        });
-
-        delete state.repos;
+    if (state) {
+      if (state.app) {
+        state.app.addingRepos = false;
+        state.app.reloadingAllRepos = false;
       }
+
+      state.repos = state.repos.map(r => {
+        r.progressing = false;
+        return r;
+      })
     }
 
-    if (state && state.groups) {
-      state.groups = state.groups.map(group => {
-        if (!group.id) {
-          group.id = newId();
-        }
-
-        group.repos = group.repos.map((repo: IRepo) => {
-          repo.progressing = false;
-          return repo;
-        });
 
 
-        group.editing = false;
-        group.confirmDelete = false;
-        return group;
-      });
-    }
+    // if (state && state.repos) {
+    //   if (state.repos[0] && !state.repos[0].title) {
+    //     state.repos = [{title: 'default', repos: state.repos}];
+    //   } else {
+    //     state.groups = state.repos.map(group => {
+    //       if (!group.id) {
+    //         group.id = newId();
+    //       }
+    //       group.editing = false;
+    //       group.confirmDelete = false;
+    //       return group;
+    //     });
+
+    //     delete state.repos;
+    //   }
+    // }
+
+    // if (state && state.groups) {
+    //   state.groups = state.groups.map(group => {
+    //     if (!group.id) {
+    //       group.id = newId();
+    //     }
+
+    //     group.repos = group.repos.map((repo: IRepo) => {
+    //       repo.progressing = false;
+    //       return repo;
+    //     });
+
+
+    //     group.editing = false;
+    //     group.confirmDelete = false;
+    //     return group;
+    //   });
+    // }
 
     let store = createStore(
       reducer,
