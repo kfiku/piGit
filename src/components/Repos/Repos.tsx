@@ -55,11 +55,11 @@ const sortableRepos = (actions, el) => {
   }
 };
 
-const ReposComponent: any = ({repos, group, actions, i}: { repos: IRepo[], group: IGroup, actions: any, i: number }) => {
+const ReposComponent: any = ({repos, group, actions, i}: { repos: string[], group: IGroup, actions: any, i: number }) => {
   renderLog('REPOS', repos.length);
 
   let reposNodes = repos.map(repo => (
-    <Repo key={ repo.dir } group-id={ group.id } repo-dir={ repo.dir } />
+    <Repo key={ repo } group-id={ group.id } repo-id={ repo } />
   ))
 
   return (

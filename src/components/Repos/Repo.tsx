@@ -22,7 +22,7 @@ const updateDate = (repo, el) => {
 };
 
 const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup, actions: any }) => {
-  renderLog('REPO', repo.name);
+  renderLog('REPO', repo.name || basename(repo.dir));
   let cls = '';
 
   if (repo.behind) {
@@ -39,15 +39,15 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
         <Isvg src='./svg/move.svg' />
       </i>
 
-      <i className='icon icon-x' title='Delete this repo'onClick={ actions.deleteRepo.bind(null, repo.dir) }>
+      <i className='icon icon-x' title='Delete this repo'onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
         <Isvg src='./svg/x.svg'/>
       </i>
 
-      <i className='icon icon-pull' title='Pull this repo' onClick={ actions.pullRepo.bind(null, repo.dir) }>
+      <i className='icon icon-pull' title='Pull this repo' onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
         <Isvg src='./svg/down-arrow.svg'/>
       </i>
 
-      <i className='icon icon-refresh' title='Refresh this repo' onClick={ actions.reloadRepo.bind(null, repo.dir) }>
+      <i className='icon icon-refresh' title='Refresh this repo' onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>
         <Isvg src='./svg/reload.svg'/>
       </i>
 
@@ -90,9 +90,9 @@ RepoComponent.propTypes = {
 
 
 const mapStateToProps = (state, ownProps = {}) => {
+  // console.log('Repo mapStateToProps');
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];
-  const repos = group.repos;
-  const repo = repos.filter(r => r.dir === ownProps['repo-dir'])[0]
+  const repo = state.repos.filter(r => r.id === ownProps['repo-id'])[0]
 
   return { repo, group: { id: ownProps['group-id'] } };
 };
@@ -103,7 +103,7 @@ const mapDispatchToProps = dispatch => ({
 
 const Repo = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(RepoComponent);
 
 export default Repo;
