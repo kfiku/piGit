@@ -55,10 +55,10 @@ const sortableRepos = (actions, el) => {
   }
 };
 
-const ReposComponent: any = ({repos, group, actions, i}: { repos: string[], group: IGroup, actions: any, i: number }) => {
-  renderLog('REPOS', repos.length);
+const ReposComponent: any = ({ group, i, actions }: { group: IGroup, i: number, actions: any }) => {
+  renderLog('REPOS', group.title);
 
-  let reposNodes = repos.map(repo => (
+  let reposNodes = group.repos.map(repo => (
     <Repo key={ repo } group-id={ group.id } repo-id={ repo } />
   ))
 
@@ -70,7 +70,6 @@ const ReposComponent: any = ({repos, group, actions, i}: { repos: string[], grou
 };
 
 ReposComponent.propTypes = {
-  repos: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   group: PropTypes.object.isRequired,
   i: PropTypes.number.isRequired
@@ -79,9 +78,7 @@ ReposComponent.propTypes = {
 
 const mapStateToProps = (state, ownProps = {}) => {
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];
-  const repos = group.repos;
-
-  return { repos, group: { id: ownProps['group-id'] }, i: ownProps['group-i'] };
+  return { group, i: ownProps['group-i'] };
 };
 
 const mapDispatchToProps = dispatch => ({

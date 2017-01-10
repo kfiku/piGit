@@ -40,8 +40,8 @@ export default function repos(state = initialState, action) {
 
     case RELOADING:
       return state.map(repo => {
-        repo = clone(repo);
         if (repo.id === action.id) {
+          repo = clone(repo);
           repo.progressing = true;
         }
 

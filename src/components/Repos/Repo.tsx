@@ -90,11 +90,10 @@ RepoComponent.propTypes = {
 
 
 const mapStateToProps = (state, ownProps = {}) => {
-  // console.log('Repo mapStateToProps');
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];
   const repo = state.repos.filter(r => r.id === ownProps['repo-id'])[0]
 
-  return { repo, group: { id: ownProps['group-id'] } };
+  return { repo, group };
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -103,7 +102,7 @@ const mapDispatchToProps = dispatch => ({
 
 const Repo = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(RepoComponent);
 
 export default Repo;
