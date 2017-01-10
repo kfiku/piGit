@@ -1,4 +1,5 @@
-import { ADD_REPO, RELOADING, UPDATE_REPO, DELETE_REPO, REORDER_REPO,
+import { IGroup } from '../interfaces/IGroup';
+import { ADD_REPO, REORDER_REPO, DELETE_REPO,
          ADD_GROUP, REORDER_GROUP,
          DELETE_GROUP, DELETE_GROUP_CONFIRM, DELETE_GROUP_CANCEL,
          START_EDITING_GROUP, EDIT_GROUP
@@ -7,9 +8,9 @@ import reorderArray from '../helpers/ReorderArray';
 import clone from '../helpers/Clone';
 import newId from '../helpers/newId';
 
-export const initialState = [
+export const initialState: IGroup[] = [
   {
-    id: '',
+    id: newId(),
     title: 'default',
     editing: false,
     confirmDelete: false,
@@ -22,63 +23,17 @@ export default function repos(state = initialState, action) {
   let newState;
   switch (action.type) {
     case ADD_REPO:
-      newState = clone(state);
-      return newState.map((group, id) => {
-        if (id === 0) {
-          /** ADD TO FIRST GROUP */
-          group.repos.push(
-            {
-              id: group.repos.reduce((maxId, repo) => Math.max(repo.id, maxId), -1) + 1,
-              dir: action.dir
-            }
-          );
-        }
-        return group;
-      });
-
-    case RELOADING:
-      return state.map(group => {
-        group.repos = group.repos.map((repo) => {
-          if (repo.dir === action.dir) {
-            repo.progressing = true;
-          }
-          return repo;
-        });
-        return group;
-      });
-
-    case UPDATE_REPO:
-      return state.map(group => {
-        group.repos = group.repos.map((repo) => {
-          if (repo.dir === action.data.dir) {
-            action.data.id = repo.id;
-            repo = action.data;
-            repo.progressing = false;
-          }
-          return repo;
-        });
-        return group;
-      });
-
-    case REORDER_REPO:
-      newState = clone(state);
-      let { from, to, oldIndex, newIndex } = action.params;
-      if (from === to) {
-        newState[from].repos = reorderArray(newState[from].repos, oldIndex, newIndex);
-      } else {
-        let valToMove = newState[from].repos[oldIndex];
-        newState[from].repos.splice(oldIndex, 1);
-        newState[to].repos.splice(newIndex, 0, valToMove);
-      }
-
-      return newState;
+      state[0].repos.push(action.id);
+      return state;
 
     case DELETE_REPO:
-      return state.map(group => {
-        group.repos = group.repos.filter((repo) => {
-          return repo.dir !== action.dir;
-        });
-        return group;
+      state.forEach(group => {
+        if (group.id === action.groupId) {
+          group.repos = group.repos.filter(repo => repo !== action.id);
+        }
+      })
+      return state.filter((repo) => {
+        return repo !== action.dir;
       });
 
     case ADD_GROUP:
@@ -143,6 +98,19 @@ export default function repos(state = initialState, action) {
 
         return group;
       });
+
+    case REORDER_REPO:
+      newState = clone(state);
+      let { from, to, oldIndex, newIndex } = action.params;
+      if (from === to) {
+        newState[from].repos = reorderArray(newState[from].repos, oldIndex, newIndex);
+      } else {
+        let valToMove = newState[from].repos[oldIndex];
+        newState[from].repos.splice(oldIndex, 1);
+        newState[to].repos.splice(newIndex, 0, valToMove);
+      }
+
+      return newState;
 
     default:
       return state;
