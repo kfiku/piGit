@@ -12,9 +12,10 @@ packager({
     icon: 'logo/piGit.png',
 
     out: 'release',
+    asar: true,
     overwrite: true
   },
   function done_callback (err, appPaths) {
-
+    console.log('package done ', appPaths);
   }
 );
