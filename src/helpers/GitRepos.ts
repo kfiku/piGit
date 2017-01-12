@@ -130,7 +130,12 @@ export class Repos {
   refresh (dir: string, callback) {
     if (!this.repos[dir]) {
       this.repos[dir] = new Repo(dir, (err) => {
-        this.refresh(dir, callback);
+        if (err) {
+          this.repos[dir] = undefined;
+          callback(err);
+        } else {
+          this.refresh(dir, callback);
+        }
       });
     } else {
       this.repos[dir].refresh((err, data) => {
