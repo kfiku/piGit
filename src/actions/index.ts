@@ -2,7 +2,7 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
          UPDATE_REPO,
          DELETE_REPO, DELETE_GROUP_CONFIRM, DELETE_GROUP_CANCEL,
          REORDER_REPO,
-         RELOADING, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
+         RELOADING, RELOADING_END, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
          ADD_GROUP, REORDER_GROUP, DELETE_GROUP, START_EDITING_GROUP, EDIT_GROUP,
          MESSAGE } from '../constants/ActionTypes';
 
@@ -70,7 +70,12 @@ const actions = {
   reloadRepo: (id: string, dir: string) => dispatch => {
     dispatch({ type: RELOADING, id });
     gitRepos.refresh(dir, (err, data) => {
-      dispatch({ type: UPDATE_REPO, data, id });
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(this.default.message(err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
     });
   },
 
@@ -105,9 +110,10 @@ const actions = {
     { type: EDIT_GROUP, id, title }
   ),
 
-  message: (msg) => (
-    { type: MESSAGE, msg }
-  )
+  message: (msg) => {
+    // console.log(msg);
+    return { type: MESSAGE, msg }
+  }
 };
 
 export default actions;

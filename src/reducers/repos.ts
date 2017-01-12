@@ -1,5 +1,5 @@
 import { IRepo } from '../interfaces/IRepo';
-import { ADD_REPO, RELOADING, UPDATE_REPO, DELETE_REPO } from '../constants/ActionTypes';
+import { ADD_REPO, RELOADING, RELOADING_END, UPDATE_REPO, DELETE_REPO } from '../constants/ActionTypes';
 import reorderArray from '../helpers/ReorderArray';
 import clone from '../helpers/Clone';
 
@@ -20,6 +20,16 @@ export default function repos(state = initialState, action) {
         if (repo.id === action.id) {
           repo = clone(repo);
           repo.progressing = true;
+        }
+
+        return repo;
+      });
+
+    case RELOADING_END:
+      return state.map(repo => {
+        if (repo.id === action.id) {
+          repo = clone(repo);
+          repo.progressing = false;
         }
 
         return repo;
