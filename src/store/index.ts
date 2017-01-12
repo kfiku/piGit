@@ -36,6 +36,7 @@ const createAppStore = (callback) => {
       if (state.app) {
         state.app.addingRepos = false;
         state.app.reloadingAllRepos = false;
+        state.app.message = '';
       }
 
       state.repos = state.repos.map(r => {
