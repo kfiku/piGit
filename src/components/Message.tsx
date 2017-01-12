@@ -4,23 +4,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import actions from '../actions';
+import Dialog from './helpers/Dialog';
 
-const MessageComponent: any = ({app, actions}) => {
-  if (app.message !== '') {
+const MessageComponent: any = ({msg, actions}) => {
+  if (msg !== '') {
     // if message is there
-    return (
-      <div className='modal is-active'>
-        <div className='modal-background'></div>
-        <div className='modal-card'>
-          <section className='modal-card-body'>
-            { app.message }
-          </section>
-          <footer className='modal-card-foot'>
-            <a onClick={ actions.message.bind(actions, '') } className='button is-primary'>OK</a>
-          </footer>
-        </div>
-      </div>
-    );
+    return <Dialog msg={ msg } ok={ actions.message.bind(actions, '') } />;
   } else {
     // if message is empty
     return <div/>;
@@ -28,13 +17,13 @@ const MessageComponent: any = ({app, actions}) => {
 };
 
 MessageComponent.propTypes = {
-  app: PropTypes.object.isRequired,
+  msg: PropTypes.string.isRequired,
   actions: PropTypes.object.isRequired
 };
 
 
 const mapStateToProps = state => ({
-  app: state.app
+  msg: state.app.message
 });
 
 const mapDispatchToProps = dispatch => ({
