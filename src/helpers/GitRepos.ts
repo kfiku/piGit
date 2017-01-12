@@ -5,12 +5,13 @@ import { eachSeries } from 'async';
 const simpleGit = require('simple-git');
 
 import walk from './DirWalk';
-
+const promisify = require("es6-promisify");
 
 export class Repo {
   updateStatusTI: any;
   git: any;
   state: any;
+  gitFetch: any;
 
   constructor (dir, callback) {
     this.state = {
@@ -26,6 +27,10 @@ export class Repo {
     this.validateDir(dir, (err) => {
       if (!err) {
         this.git = simpleGit(dir);
+        // PROMISIFY THIS SHIT
+        this.git.fetch = promisify(this.git.fetch.bind(this.git));
+        this.git.pull = promisify(this.git.pull.bind(this.git));
+        this.git.status = promisify(this.git.status.bind(this.git));
         callback(null);
       } else {
         callback(err);
@@ -33,67 +38,39 @@ export class Repo {
     });
   }
 
-  updateStatus (callback, params: { remoteHeads?: string[] } = undefined) {
-    this.git.status((err, status) => {
-      if (!err) {
-        let newState = this.state;
+  updateStatus (params: { remoteHeads?: string[] } = undefined) {
+    return this.git.status()
+    .then(status => new Promise((resolve, reject) => {
+      let newState = this.state;
+      newState.lastUpdate = Date.now();
+      newState.modified = status.modified;
+      newState.ahead = status.ahead;
+      newState.behind = status.behind;
+      newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
-        newState.lastUpdate = Date.now();
-        newState.modified = status.modified;
-        newState.ahead = status.ahead;
-        newState.behind = status.behind;
-        newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
-
-        this.state = newState;
-
-        callback(null, newState);
-
-        // clearTimeout(this.updateStatusTI);
-        // this.updateStatusTI = setTimeout(this.fetch.bind(this), 60 * 60 * 1000); // 1min;
-      } else {
-        callback(err);
-      }
-    });
+      this.state = newState;
+      resolve(newState);
+    }));
   }
 
-  fetch (callback) {
-    this.git.fetch((err) => {
-       if (err) {
-          // TODO: make it pretty :)
-          alert(err);
-          callback(err);
-        } else {
-          this.updateStatus(callback);
-        }
-    });
+  fetch () {
+    return this.git.fetch()
+    .then(f => this.updateStatus())
   }
 
-  refresh (callback) {
+  refresh () {
     // this.git.listRemote(['--heads'], (err, remoteHeads) => {
     //   console.log(err, remoteHeads);
     //   this.updateStatus(callback, { remoteHeads });
     // })
-    this.git.fetch((err) => {
-       if (err) {
-          // TODO: make it pretty :)
-          alert(err);
-          callback(err);
-        } else {
-          this.updateStatus(callback);
-        }
-    });
+
+    return this.git.fetch()
+    .then(f => this.updateStatus())
   }
 
-  pull (callback) {
-    this.git.pull((err) => {
-      if (err) {
-        // TODO: make it pretty :)
-        alert(err);
-        callback(err);
-      } else {
-        this.updateStatus(callback);
-      }
-    });
+  pull () {
+    return this.git.pull()
+    .then(f => this.updateStatus())
   }
 
   remove () {
@@ -127,45 +104,42 @@ export class Repos {
     });
   }
 
+  getRepo (dir) {
+    return new Promise((resolve, reject) => {
+      if (this.repos[dir]) {
+        resolve(this.repos[dir]);
+      } else {
+        this.repos[dir] = new Repo(dir, err => {
+          if (err) {
+            this.repos[dir] = undefined;
+            reject(err);
+          } else {
+            resolve(this.repos[dir]);
+          }
+        });
+      }
+    });
+  }
+
   refresh (dir: string, callback) {
-    if (!this.repos[dir]) {
-      this.repos[dir] = new Repo(dir, (err) => {
-        if (err) {
-          this.repos[dir] = undefined;
-          callback(err);
-        } else {
-          this.refresh(dir, callback);
-        }
-      });
-    } else {
-      this.repos[dir].refresh((err, data) => {
-        callback(err, data);
-      });
-    }
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.refresh())
+    .then(data => callback(null, data))
+    .catch(err => callback(err));
   }
 
   fetch (dir: string, callback) {
-    if (!this.repos[dir]) {
-      this.repos[dir] = new Repo(dir, (err) => {
-        this.fetch(dir, callback);
-      });
-    } else {
-      this.repos[dir].fetch((err, data) => {
-        callback(err, data);
-      });
-    }
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.fetch())
+    .then(data => callback(null, data))
+    .catch(err => callback(err));
   }
 
   pull (dir: string, callback) {
-    if (!this.repos[dir]) {
-      this.repos[dir] = new Repo(dir, (err) => {
-        this.pull(dir, callback);
-      });
-    } else {
-      this.repos[dir].pull((err, data) => {
-        callback(err, data);
-      });
-    }
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.pull())
+    .then(data => callback(null, data))
+    .catch(err => callback(err));
   }
 };
 
