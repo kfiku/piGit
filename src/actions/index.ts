@@ -110,10 +110,9 @@ const actions = {
     { type: EDIT_GROUP, id, title }
   ),
 
-  message: (msg) => {
-    // console.log(msg);
-    return { type: MESSAGE, msg }
-  }
+  message: (msg) => (
+    { type: MESSAGE, msg }
+  )
 };
 
 export default actions;

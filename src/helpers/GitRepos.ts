@@ -5,7 +5,7 @@ import { eachSeries } from 'async';
 const simpleGit = require('simple-git');
 
 import walk from './DirWalk';
-const promisify = require("es6-promisify");
+const promisify = require('es6-promisify');
 
 export class Repo {
   updateStatusTI: any;
@@ -55,7 +55,7 @@ export class Repo {
 
   fetch () {
     return this.git.fetch()
-    .then(f => this.updateStatus())
+    .then(f => this.updateStatus());
   }
 
   refresh () {
@@ -65,12 +65,12 @@ export class Repo {
     // })
 
     return this.git.fetch()
-    .then(f => this.updateStatus())
+    .then(f => this.updateStatus());
   }
 
   pull () {
     return this.git.pull()
-    .then(f => this.updateStatus())
+    .then(f => this.updateStatus());
   }
 
   remove () {
