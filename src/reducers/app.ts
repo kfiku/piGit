@@ -4,14 +4,21 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
 
 import clone from '../helpers/Clone';
 
-const initialState = {
+export interface IAppState {
+  addingRepos: boolean;
+  reloadingAllRepos: boolean;
+  message: string;
+};
+
+const initialState: IAppState = {
   addingRepos: false,
   reloadingAllRepos: false,
   message: '',
 };
 
 export default function app(state = initialState, action) {
-  let newState;
+  let newState: IAppState;
+
   switch (action.type) {
     case ADDING_REPO:
       newState = clone(state);

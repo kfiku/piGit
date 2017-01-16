@@ -1,26 +1,25 @@
 const env = process.env.NODE_ENV || 'prod';
 
-import { IRepo } from '../interfaces/IRepo';
-
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import reducer from '../reducers';
+import rootReducer, { IRootReducer } from '../reducers';
 import newId from '../helpers/newId';
 
 const electronSettings = require('electron-settings');
 
 const createAppStore = (callback) => {
-  electronSettings.get('state').then((state: any) => {
+  electronSettings.get('state')
+  .then((state: IRootReducer) => {
     let composeEnhancers = compose;
     if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
       composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
     };
 
     if (state) {
-      if (state.groups && ! state.groups.repos && state.groups[0].repos && state.groups[0].repos[0].name) {
+      if (state.groups && ! (<any>state.groups).repos && state.groups[0].repos && (<any>state.groups[0].repos[0]).name) {
         // OLD STRUCTURE
         state.repos = [];
-        state.groups = state.groups.map(group => {
+        (<any>state).groups = (<any>state).groups.map(group => {
           group.repos = group.repos.map(repo => {
             let nid = newId();
 
@@ -43,45 +42,16 @@ const createAppStore = (callback) => {
         r.progressing = false;
         return r;
       });
+
+      state.groups = state.groups.map(g => {
+        g.editing = false;
+        g.confirmDelete = false;
+        return g;
+      });
     }
 
-    // if (state && state.repos) {
-    //   if (state.repos[0] && !state.repos[0].title) {
-    //     state.repos = [{title: 'default', repos: state.repos}];
-    //   } else {
-    //     state.groups = state.repos.map(group => {
-    //       if (!group.id) {
-    //         group.id = newId();
-    //       }
-    //       group.editing = false;
-    //       group.confirmDelete = false;
-    //       return group;
-    //     });
-
-    //     delete state.repos;
-    //   }
-    // }
-
-    // if (state && state.groups) {
-    //   state.groups = state.groups.map(group => {
-    //     if (!group.id) {
-    //       group.id = newId();
-    //     }
-
-    //     group.repos = group.repos.map((repo: IRepo) => {
-    //       repo.progressing = false;
-    //       return repo;
-    //     });
-
-
-    //     group.editing = false;
-    //     group.confirmDelete = false;
-    //     return group;
-    //   });
-    // }
-
     let store = createStore(
-      reducer,
+      rootReducer,
       state,
       composeEnhancers(
         applyMiddleware(

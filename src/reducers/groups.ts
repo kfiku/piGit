@@ -23,16 +23,22 @@ export default function repos(state = initialState, action) {
   let newState;
   switch (action.type) {
     case ADD_REPO:
-      state[0].repos.push(action.id);
-      return state;
+      return state.map((group, gid) => {
+        if (gid === 0) {
+          group = clone(group);
+          group.repos.push(action.id);
+        }
+        return group;
+      });
 
     case DELETE_REPO:
-      state.forEach(group => {
+      return state.map((group, gid) => {
         if (group.id === action.groupId) {
+          group = clone(group);
           group.repos = group.repos.filter(repo => repo !== action.id);
         }
+        return group;
       });
-      return state.filter(repo => repo !== action.dir);
 
     case ADD_GROUP:
       newState = clone(state);
