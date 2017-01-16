@@ -44,10 +44,12 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
           <Isvg src='./svg/edit.svg'/>
         </span>
 
-        <input id={ 'groupInput_' + group.id } className='title' defaultValue={ group.title }
-        ref={ focusInput }
-        onKeyPress={ onKeyUpGroupName.bind(null, actions, group.id) }
-        />
+        <div className='title-box'>
+          <input id={ 'groupInput_' + group.id } className='title' defaultValue={ group.title }
+          ref={ focusInput }
+          onKeyPress={ onKeyUpGroupName.bind(null, actions, group.id) }
+          />
+        </div>
 
         <span className='icon icon-save' title='Save Title'
         onClick={ onChangeGroupName.bind(null, actions, group.id) }
@@ -63,11 +65,13 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
           <Isvg src='./svg/sort.svg'/>
         </i>
 
-        <span className='title'
-        onClick={ actions.startEditGroup.bind(null, group.id) }
-        >
-          { group.title }
-        </span>
+        <div className='title-box'>
+          <span className='title'
+          onClick={ actions.startEditGroup.bind(null, group.id) }
+          >
+            { group.title }
+          </span>
+        </div>
 
         <i className='icon icon-edit' title='Remove this group with all repos'
         onClick={ actions.startEditGroup.bind(null, group.id) }

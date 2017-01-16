@@ -13,20 +13,21 @@ import Repo from './Repo';
 
 
 const onAddRepo = (actions, event) => {
-    /**
-     * Put dragged element back to `from` node.
-     * It's needed to avoid React VIRTUAL DOM cleanup.
-     * Otherwise You will get error `can't remove element...`
-     */
-    event.from.appendChild(event.item);
+  /**
+   * Put dragged element back to `from` node.
+   * It's needed to avoid React VIRTUAL DOM cleanup.
+   * Otherwise You will get error `can't remove element...`
+   */
+  event.from.appendChild(event.item);
 
-    actions.reorderRepo({
-      from: Number(event.from.getAttribute('data-group-i')),
-      to: Number(event.to.getAttribute('data-group-i')),
-      oldIndex: event.oldIndex,
-      newIndex: event.newIndex
-    });
-  }
+  actions.reorderRepo({
+    from: Number(event.from.getAttribute('data-group-i')),
+    to: Number(event.to.getAttribute('data-group-i')),
+    oldIndex: event.oldIndex,
+    newIndex: event.newIndex
+  });
+};
+
 const onUpdateRepo = (actions, event) => {
   actions.reorderRepo({
     from: Number(event.from.getAttribute('data-group-i')),
@@ -51,7 +52,6 @@ const sortableRepos = (actions, el) => {
 
       Sortable.create(el, options);
     }, 200);
-
   }
 };
 
@@ -60,7 +60,7 @@ const ReposComponent: any = ({ group, i, actions }: { group: IGroup, i: number, 
 
   let reposNodes = group.repos.map(repo => (
     <Repo key={ repo } group-id={ group.id } repo-id={ repo } />
-  ))
+  ));
 
   return (
     <div className='repos' data-group-i={ i } ref={ sortableRepos.bind(null, actions) }>

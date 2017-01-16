@@ -28,9 +28,12 @@
     cursor: move;
   }
 
+  .title-box {
+    flex-grow: 1;
+  }
+
   .title {
     height: $group-header-height;
-    flex-grow: 1;
 
     font-size: $group-header-height;
     line-height: $group-header-height;
