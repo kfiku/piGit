@@ -61,7 +61,7 @@
     "electron-debug": "^1.1.0",
     "electron-devtools-installer": "^2.0.1",
     "electron-installer-debian": "^0.4.0",
-    "electron-packager": "^8.4.0",
+    "electron-packager": "^8.5.1",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.1.2",
     "node-sass": "^4.0.0",
