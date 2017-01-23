@@ -47,7 +47,7 @@
     "@types/mocha": "^2.2.35",
     "@types/node": "^7.0.0",
     "@types/react": "^15.0.0",
-    "@types/react-dom": "^0.14.20",
+    "@types/react-dom": "^0.14.21",
     "@types/react-redux": "^4.4.32",
     "@types/redux-logger": "^2.6.32",
     "@types/redux-thunk": "^2.1.0",
