@@ -4,6 +4,8 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
          REORDER_REPO,
          RELOADING, RELOADING_END, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
          ADD_GROUP, REORDER_GROUP, DELETE_GROUP, START_EDITING_GROUP, EDIT_GROUP,
+         RELOADING_GROUP, RELOADING_GROUP_END,
+         PULLING_GROUP, PULLING_GROUP_END,
          MESSAGE } from '../constants/ActionTypes';
 
 import { resolve } from 'path';
@@ -12,6 +14,14 @@ import { ActionCreatorsMapObject } from 'redux';
 import * as electron from 'electron';
 import gitRepos from '../helpers/GitRepos';
 import newId from '../helpers/newId';
+
+const getReposFromGroup = (state, groupId: string) =>
+  state.groups
+  .filter(g => g.id === groupId)
+  .map(g => g.repos)
+  .reduce((g, r) => g.concat(r))
+  .map(repoId => state.repos.filter(r => r.id === repoId)[0])
+  ;
 
 const actions = {
   addRepos: () => {
@@ -109,6 +119,34 @@ const actions = {
   editGroup: (id: string, title) => (
     { type: EDIT_GROUP, id, title }
   ),
+
+  reloadGroup: (id: string) => (dispatch, getState) => {
+    dispatch({ type: RELOADING_GROUP, id });
+
+    getReposFromGroup(getState(), id)
+    .map((r, i) => setTimeout(
+      () => this.default.reloadRepo(r.id, r.dir)(dispatch),
+      100 * i
+    ));
+
+    setTimeout(() => {
+      dispatch({ type: RELOADING_GROUP_END, id });
+    }, 1000);
+  },
+
+  pullGroup: (id: string) => (dispatch, getState) => {
+    dispatch({ type: RELOADING_GROUP, id });
+
+    getReposFromGroup(getState(), id)
+    .map((r, i) => setTimeout(
+      () => this.default.pullRepo(r.id, r.dir)(dispatch),
+      100 * i
+    ));
+
+    setTimeout(() => {
+      dispatch({ type: RELOADING_GROUP_END, id });
+    }, 1000);
+  },
 
   message: (msg) => (
     { type: MESSAGE, msg }

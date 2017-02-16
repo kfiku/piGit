@@ -34,7 +34,7 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
   }
 
   return (
-    <div className={ 'repo ' + cls + (repo.progressing ? ' progressing' : '')  }>
+    <div className={ 'repo ' + cls + (repo.progressing ? ' progressing' : '') }>
       <i className='icon icon-move repo-mover' title='Reorder this repo'>
         <Isvg src='./svg/move.svg' />
       </i>

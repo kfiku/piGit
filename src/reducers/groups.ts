@@ -2,7 +2,8 @@ import { IGroup } from '../interfaces/IGroup';
 import { ADD_REPO, REORDER_REPO, DELETE_REPO,
          ADD_GROUP, REORDER_GROUP,
          DELETE_GROUP, DELETE_GROUP_CONFIRM, DELETE_GROUP_CANCEL,
-         START_EDITING_GROUP, EDIT_GROUP
+         START_EDITING_GROUP, EDIT_GROUP,
+         RELOADING_GROUP, RELOADING_GROUP_END
        } from '../constants/ActionTypes';
 import reorderArray from '../helpers/ReorderArray';
 import clone from '../helpers/Clone';
@@ -98,6 +99,26 @@ export default function repos(state = initialState, action) {
           group = clone(group);
           group.editing = false;
           group.title = action.title;
+        }
+
+        return group;
+      });
+
+    case RELOADING_GROUP:
+      return state.map((group, id) => {
+        if (group.id === action.id) {
+          group = clone(group);
+          group.progressing = true;
+        }
+
+        return group;
+      });
+
+    case RELOADING_GROUP_END:
+      return state.map((group, id) => {
+        if (group.id === action.id) {
+          group = clone(group);
+          group.progressing = false;
         }
 
         return group;

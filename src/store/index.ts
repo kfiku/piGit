@@ -46,6 +46,7 @@ const createAppStore = (callback) => {
       state.groups = state.groups.map(g => {
         g.editing = false;
         g.confirmDelete = false;
+        g.progressing = false;
         return g;
       });
     }

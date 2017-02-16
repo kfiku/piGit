@@ -60,7 +60,7 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
     );
   } else {
     header = (
-      <header className='group-header'>
+      <header className={ 'group-header ' + (group.progressing ? ' progressing' : '') }>
         <i className='icon icon-move group-mover' title='Reorder this group'>
           <Isvg src='./svg/sort.svg'/>
         </i>
@@ -73,7 +73,19 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
           </span>
         </div>
 
-        <i className='icon icon-edit' title='Remove this group with all repos'
+        <i className='icon icon-pull' title='Pull all in this group'
+        onClick={ actions.pullGroup.bind(null, group.id) }
+        >
+          <Isvg src='./svg/down-arrow.svg' />
+        </i>
+
+        <i className='icon icon-refresh' title='Reload all in this group'
+        onClick={ actions.reloadGroup.bind(null, group.id) }
+        >
+          <Isvg src='./svg/reload.svg' />
+        </i>
+
+        <i className='icon icon-edit' title='Edit this group'
         onClick={ actions.startEditGroup.bind(null, group.id) }
         >
           <Isvg src='./svg/edit.svg' />
