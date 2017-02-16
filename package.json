@@ -1,6 +1,6 @@
 {
   "name": "PiGit",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "electron app to watch git repos",
   "main": "main.js",
   "build": {
@@ -98,13 +98,10 @@
     "chokidar-cli": "^1.2.0",
     "concurrently": "^3.1.0",
     "devtron": "^1.4.0",
-    "electron": "^1.4.13",
-    "electron-builder": "^13.6.0",
+    "electron": "^1.4.15",
     "electron-debug": "^1.1.0",
     "electron-devtools-installer": "^2.0.1",
     "electron-installer-debian": "^0.4.0",
-    "electron-installer-dmg": "^0.2.0",
-    "electron-installer-windows": "^0.2.0",
     "electron-packager": "^8.4.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.1.2",
