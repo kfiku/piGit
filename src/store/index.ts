@@ -10,26 +10,33 @@ const electronSettings = require('electron-settings');
 const createAppStore = (callback) => {
   electronSettings.get('state')
   .then((state: IRootReducer) => {
+
+    console.log(state);
+
+
     let composeEnhancers = compose;
     if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
       composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
     };
 
     if (state) {
-      if (state.groups && ! (<any>state.groups).repos && state.groups[0].repos && (<any>state.groups[0].repos[0]).name) {
+      if (state.repos && state.repos[0] && (<any>state.repos[0]).repos) {
         // OLD STRUCTURE
-        state.repos = [];
-        (<any>state).groups = (<any>state).groups.map(group => {
-          group.repos = group.repos.map(repo => {
-            let nid = newId();
+        let newState: any = { groups: [], repos: [], app: state.app };
+        newState.groups = (<any>state).repos.map(group => ({
+          id: newId(),
+          title: group.title,
+          editing: false,
+          confirmDelete: false,
+          progressing: false,
+          repos: group.repos.map((repo => {
+            repo.id = newId();
+            newState.repos.push(repo);
+            return repo.id;
+          })),
+        }));
 
-            repo.id = nid;
-            state.repos.push(repo);
-
-            return nid;
-          });
-          return group;
-        });
+        state = newState;
       }
 
       if (state.app) {
