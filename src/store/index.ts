@@ -10,10 +10,6 @@ const electronSettings = require('electron-settings');
 const createAppStore = (callback) => {
   electronSettings.get('state')
   .then((state: IRootReducer) => {
-
-    console.log(state);
-
-
     let composeEnhancers = compose;
     if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
       composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
