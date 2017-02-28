@@ -92,7 +92,12 @@ const actions = {
   pullRepo: (id: string, dir: string) => dispatch => {
     dispatch({ type: RELOADING, id });
     gitRepos.pull(dir, (err, data) => {
-      dispatch({ type: UPDATE_REPO, data, id });
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(this.default.message(err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
     });
   },
 
