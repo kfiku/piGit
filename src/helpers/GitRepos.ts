@@ -59,6 +59,8 @@ export class Repo {
   }
 
   refresh () {
+    // git log origin/master --pretty=format:"%H"
+
     // this.git.listRemote(['--heads'], (err, remoteHeads) => {
     //   console.log(err, remoteHeads);
     //   this.updateStatus(callback, { remoteHeads });
