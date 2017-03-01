@@ -7,7 +7,7 @@ App is in early development. To try it out just
 
 ### Debian / Ubuntu 64bit
 
-Download: [pigit_0.4.2_amd64.deb](https://github.com/kfiku/piGit/releases/download/0.4.2/pigit_0.4.2_amd64.deb)
+Download: [pigit_0.4.3_amd64.deb](https://github.com/kfiku/piGit/releases/download/0.4.2/pigit_0.4.3_amd64.deb)
 
 ### From source
 ```
