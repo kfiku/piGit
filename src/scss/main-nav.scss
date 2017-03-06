@@ -10,43 +10,4 @@
   left: 0;
   position: fixed;
   z-index: 10;
-
-  button {
-    padding: 0 $nav-height/4;
-    height: $nav-height;
-    line-height: $nav-height;
-    vertical-align: middle;
-    border: none;
-    background: $g2;
-    outline: none;
-
-    cursor: pointer;
-
-    font-family: $default-font;
-    font-size: $nav-height / 3;
-
-    will-change: background;
-    transition: background 0.3s;
-
-    white-space: nowrap;
-
-    .icon {
-      // line-height: $nav-height;
-      vertical-align: top;
-      display: inline-block;
-      width: $nav-height * 0.75;
-      height: $nav-height * 0.75;
-      margin: $nav-height * 0.125 $nav-height/4 0 0;
-    }
-
-    &:hover {
-      background: $g1;
-
-      .icon {
-        svg {
-          fill: $g7;
-        }
-      }
-    }
-  }
 }

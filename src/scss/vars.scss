@@ -25,7 +25,9 @@ $orange-bg: #e8ddcb;
 $blue-bg: #d9dff3;
 
 /* SIZES */
-$br: 4px; // default-border-radius
+$lh: 16px;
+
+$br: $lh / 4; // default-border-radius
 
 $nav-height: 48px;
 
