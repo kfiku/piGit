@@ -1,6 +1,6 @@
 {
   "name": "PiGit",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "electron app to watch git repos",
   "main": "main.js",
   "build": {
