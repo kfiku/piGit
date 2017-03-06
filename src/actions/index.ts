@@ -1,5 +1,5 @@
 import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
-         UPDATE_REPO,
+         UPDATE_REPO, SHOW_REPO, HIDE_REPO,
          DELETE_REPO, DELETE_GROUP_CONFIRM, DELETE_GROUP_CANCEL,
          REORDER_REPO,
          RELOADING, RELOADING_END, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
@@ -71,6 +71,14 @@ const actions = {
 
   reorderRepo: params => (
     { type: REORDER_REPO, params }
+  ),
+
+  showRepoDetails: (id: string) => (
+    { type: SHOW_REPO, id }
+  ),
+
+  hideRepoDetails: () => (
+    { type: HIDE_REPO }
   ),
 
   deleteRepo: (id: string, groupId: string) => (

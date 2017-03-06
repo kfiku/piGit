@@ -1,6 +1,8 @@
 export const ADD_REPO = 'ADD_REPO';
 export const ADDING_REPO = 'ADDING_REPO';
 export const ADDING_REPO_END = 'ADDING_REPO_END';
+export const SHOW_REPO = 'SHOW_REPO';
+export const HIDE_REPO = 'HIDE_REPO';
 export const DELETE_REPO = 'DELETE_REPO';
 export const DELETE_GROUP_CONFIRM = 'DELETE_GROUP_CONFIRM';
 export const DELETE_GROUP_CANCEL = 'DELETE_GROUP_CANCEL';
