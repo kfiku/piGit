@@ -1,0 +1,28 @@
+.file-diff {
+  display: flex;
+  flex-direction: column;
+
+  position: fixed;
+  top: $lh + $nav-height;
+  bottom: $lh;
+  left: $lh;
+  right: $lh;
+  overflow: auto;
+  z-index: 20;
+
+  padding: $lh;
+
+  background: $g1;
+  border-radius: $br;
+
+  .icon {
+    width: $lh * 2;
+    height: $lh * 2;
+  }
+
+  .icon-x {
+    position: absolute;
+    top: $lh;
+    right: $lh;
+  }
+}
