@@ -1,0 +1,49 @@
+.repo-details {
+  // width: 100%;
+  position: absolute;
+  top: $lh + $nav-height;
+  left: $lh;
+  right: $lh;
+  z-index: 10;
+
+  padding: $lh;
+
+  background: rgba($g0, 0.95);
+  border-radius: $br;
+
+  .header {
+    margin-top: 0;
+  }
+
+  .icon {
+    width: $lh * 2;
+    height: $lh * 2;
+  }
+
+  .icon-x {
+    position: absolute;
+    top: $lh;
+    right: $lh;
+  }
+
+  .status {
+    .ahead {
+      color: $orange;
+    }
+
+    .behind {
+      color: $red;
+    }
+
+    .modified {
+      color: $blue;
+    }
+
+    &:empty {
+      &:after {
+        content: 'clean';
+        color: $green;
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@ export interface IRepo {
   behind?: number;
   modified?: any[];
   added?: any[];
+  untracked?: any[];
   progressing?: boolean;
   lastUpdate?: number;
 }

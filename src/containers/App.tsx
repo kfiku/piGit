@@ -3,6 +3,7 @@ import * as async from 'async';
 
 import Nav from '../components/Nav';
 import Groups from '../components/Groups';
+import RepoDetails from '../components/Repos/RepoDetails';
 import Message from '../components/Message';
 
 const App = () => {
@@ -16,6 +17,8 @@ const App = () => {
       <Groups/>
 
       <Message/>
+
+      <RepoDetails/>
     </div>
   );
 };
