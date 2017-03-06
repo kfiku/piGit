@@ -1,5 +1,5 @@
 import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
-         UPDATE_REPO, SHOW_REPO, HIDE_REPO,
+         UPDATE_REPO, SHOW_REPO, HIDE_REPO, SHOW_FILE,
          DELETE_REPO, DELETE_GROUP_CONFIRM, DELETE_GROUP_CANCEL,
          REORDER_REPO,
          RELOADING, RELOADING_END, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
@@ -75,6 +75,10 @@ const actions = {
 
   showRepoDetails: (id: string) => (
     { type: SHOW_REPO, id }
+  ),
+
+  fileDiff: (file: string) => (
+    { type: SHOW_FILE, file }
   ),
 
   hideRepoDetails: () => (

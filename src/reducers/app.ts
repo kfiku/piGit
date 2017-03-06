@@ -1,4 +1,4 @@
-import { ADD_REPO, ADDING_REPO, ADDING_REPO_END, SHOW_REPO, HIDE_REPO,
+import { ADD_REPO, ADDING_REPO, ADDING_REPO_END, SHOW_REPO, HIDE_REPO, SHOW_FILE,
          RELOADING, UPDATE_REPO, DELETE_REPO, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
          MESSAGE } from '../constants/ActionTypes';
 
@@ -8,6 +8,7 @@ export interface IAppState {
   addingRepos: boolean;
   reloadingAllRepos: boolean;
   repoShown: string;
+  fileShown: string;
   message: string;
 };
 
@@ -15,6 +16,7 @@ const initialState: IAppState = {
   addingRepos: false,
   reloadingAllRepos: false,
   repoShown: '',
+  fileShown: '',
   message: '',
 };
 
@@ -43,15 +45,19 @@ export default function app(state = initialState, action) {
       return newState;
 
     case SHOW_REPO:
-      // console.log('SHOW_REPO', action.id);
       newState = clone(state);
       newState.repoShown = action.id;
       return newState;
 
     case HIDE_REPO:
-      console.log('HIDE_REPO');
       newState = clone(state);
       newState.repoShown = '';
+      return newState;
+
+    case SHOW_FILE:
+      console.log(SHOW_FILE);
+      newState = clone(state);
+      newState.fileShown = action.file;
       return newState;
 
     case MESSAGE:

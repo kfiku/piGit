@@ -23,6 +23,10 @@ export const RELOADING_GROUP_END = 'RELOADING_GROUP_END';
 export const PULLING_GROUP = 'PULLING_GROUP';
 export const PULLING_GROUP_END = 'PULLING_GROUP_END';
 
+export const SHOW_FILE = 'SHOW_FILE';
+
+
+
 export const MESSAGE = 'MESSAGE';
 // export const DELETE_REPO = 'DELETE_REPO'
 // export const EDIT_REPO = 'EDIT_REPO'
