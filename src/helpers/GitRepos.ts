@@ -44,6 +44,7 @@ export class Repo {
       let newState = this.state;
       newState.lastUpdate = Date.now();
       newState.modified = status.modified;
+      newState.untracked = status.not_added;
       newState.ahead = status.ahead;
       newState.behind = status.behind;
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
