@@ -1,9 +1,13 @@
 .repo-details {
-  // width: 100%;
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+
+  position: fixed;
   top: $lh + $nav-height;
+  bottom: $lh;
   left: $lh;
   right: $lh;
+  overflow: hidden;
   z-index: 10;
 
   padding: $lh;
@@ -11,7 +15,8 @@
   background: rgba($g0, 0.95);
   border-radius: $br;
 
-  .header {
+  .header,
+  .status {
     margin-top: 0;
   }
 
@@ -24,6 +29,11 @@
     position: absolute;
     top: $lh;
     right: $lh;
+  }
+
+  .content {
+    overflow-y: auto;
+    flex-grow: 1;
   }
 
   .status {
@@ -45,5 +55,9 @@
         color: $green;
       }
     }
+  }
+
+  .footer {
+    bottom: 0;
   }
 }

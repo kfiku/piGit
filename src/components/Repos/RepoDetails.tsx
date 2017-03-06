@@ -69,45 +69,43 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
         <Isvg src='./svg/x.svg'/>
       </i>
 
-      <h4 className='status'>
-        { repo.ahead ?
-          <span className='ahead'>Ahead: { repo.ahead } </span> : ''
+
+      <div className='content'>
+        <h4 className='status'>
+          { repo.ahead ?
+            <span className='ahead'>Ahead: { repo.ahead } </span> : ''
+          }
+
+          { repo.behind ?
+            <span className='behind'>Behind: { repo.behind } </span> : ''
+          }
+        </h4>
+
+        { repo.modified && repo.modified.length ?
+          <div>
+            <h4>Modified: { repo.modified.length }</h4>
+            <ul>
+              { modified }
+            </ul>
+          </div> : ''
         }
 
-        { repo.behind ?
-          <span className='behind'>Behind: { repo.behind } </span> : ''
+        { repo.untracked && repo.untracked.length ?
+          <div>
+            <h4>Untracked: { repo.untracked.length }</h4>
+            <ul>
+              { untracked }
+            </ul>
+          </div> : ''
         }
 
-        { (repo.modified && repo.modified.length) ?
-          <span className='modified'>Modified: { repo.modified.length } </span> : ''
-        }
-      </h4>
+        <p className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
+          Updated: { moment(repo.lastUpdate).fromNow() }
+        </p>
 
-      { repo.modified && repo.modified.length ?
-        <div>
-          <h4>Modified: </h4>
-          <ul>
-            { modified }
-          </ul>
-        </div> : ''
-      }
+      </div>
 
-      { repo.untracked && repo.untracked.length ?
-        <div>
-          <h4>Untracked: </h4>
-          <ul>
-            { untracked }
-          </ul>
-        </div> : ''
-      }
-
-      <br/>
-
-      <p className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
-        Updated: { moment(repo.lastUpdate).fromNow() }
-      </p>
-
-      <footer>
+      <footer className='footer'>
         <button onClick={ openInGitGui.bind(null, repo) } className='button'>
           <i className='icon icon-add'>
             <Isvg src='./svg/git-icon.svg'/>
