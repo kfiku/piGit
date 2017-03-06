@@ -14,15 +14,12 @@ import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
 
 const openInGitGui = (repo) => {
-  console.log(repo.dir);
   exec(`cd ${ repo.dir } && git gui`);
 };
 
 const openInGitK = (repo) => {
-  console.log(repo.dir);
   exec(`cd ${ repo.dir } && gitk`);
 };
-
 
 const updateDate = (repo, el) => {
   setTimeout(() => {
@@ -52,11 +49,15 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
   }
 
   const modified = repo.modified && repo.modified.map(file => (
-    <li key={ file }>{ file }</li>
+    <li key={ file } onClick={ actions.fileDiff.bind(null, `${repo.dir}/${file}`) }>
+      { file }
+    </li>
   ));
 
   const untracked = repo.untracked && repo.untracked.map(file => (
-    <li key={ file }>{ file }</li>
+    <li key={ file } onClick={ actions.fileDiff.bind(null, `${repo.dir}/${file}`) }>
+      { file }
+    </li>
   ));
 
   return (

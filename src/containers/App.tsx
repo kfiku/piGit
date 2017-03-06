@@ -4,6 +4,7 @@ import * as async from 'async';
 import Nav from '../components/Nav';
 import Groups from '../components/Groups';
 import RepoDetails from '../components/Repos/RepoDetails';
+import FileDiff from '../components/Repos/FileDiff';
 import Message from '../components/Message';
 
 const App = () => {
@@ -19,6 +20,8 @@ const App = () => {
       <Message/>
 
       <RepoDetails/>
+
+      <FileDiff/>
     </div>
   );
 };
