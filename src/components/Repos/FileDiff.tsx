@@ -1,6 +1,6 @@
 import { IGroup } from '../../interfaces/IGroup';
 import { IRepo } from '../../interfaces/IRepo';
-const Prism = require('../../../lib/prism/prism.js');
+// const Prism = require('../../../lib/prism/prism.js');
 
 import * as React from 'react';
 import * as moment from 'moment';
@@ -9,6 +9,8 @@ import { readFile } from 'fs';
 import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Diff2Html } from 'diff2html';
+console.log(Diff2Html);
 const Isvg = require('react-inlinesvg');
 
 import actions from '../../actions';
@@ -34,12 +36,28 @@ const loadfile = (file, lang, el) => {
     return;
   }
   // console.log(el, file);
-  console.log(Prism.languages);
+  // console.log(Prism.languages);
 
   readFile(file, 'utf-8', (err, content) => {
     // console.log(err, content);
-    let html = Prism.highlight(content, Prism.languages[lang]);
-    el.innerHTML = html;
+    // let html = Prism.highlight(content, Prism.languages[lang]);
+    let html = `
+diff --git a/src/components/Group.tsx b/src/components/Group.tsx
+index 51d3d1c..1a65cf2 100644
+--- a/src/components/Group.tsx
++++ b/src/components/Group.tsx
+@@ -9,8 +9,6 @@ import actions from '../actions';
+ import Confirm from './helpers/Confirm';
+ import Repos from './Repos/Repos';
+ import { renderLog } from '../helpers/logger';
+-// import { Repo } from './Repo';
+-// import Sortable = require('sortablejs');
+ 
+ const Isvg = require('react-inlinesvg');
+
+
+    `;
+    el.innerHTML = Diff2Html.getPrettyHtml(html);
   });
 };
 
@@ -58,7 +76,7 @@ const FileDiffComponent: any = ({ file, actions }: { file: string, actions: any 
 
   return (
     <div className='file-diff'>
-      <link href='../lib/prism/prism.css' rel='stylesheet' />
+      <link href='../node_modules/diff2html/dist/diff2html.css' rel='stylesheet' />
 
       <h4 className='header'>
         Diff for file: { file }
@@ -69,9 +87,9 @@ const FileDiffComponent: any = ({ file, actions }: { file: string, actions: any 
       </i>
 
 
-      <pre className={ 'language-' + prismLang.lang} ref={ loadfile.bind(null, file, prismLang.lang) }>
+      <div className={ 'language-' + prismLang.lang} ref={ loadfile.bind(null, file, prismLang.lang) }>
           loading { file }...
-      </pre>
+      </div>
     </div>
   );
 };

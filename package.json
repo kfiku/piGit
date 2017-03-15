@@ -115,6 +115,7 @@
   "dependencies": {
     "async": "~2.0.1",
     "classnames": "~2.2.5",
+    "diff2html": "^2.0.12",
     "electron-settings": "~2.2.1",
     "es6-promisify": "~5.0.0",
     "moment": "~2.17.1",
