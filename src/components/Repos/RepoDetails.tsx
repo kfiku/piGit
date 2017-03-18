@@ -49,7 +49,7 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
   }
 
   const modified = repo.modified && repo.modified.map(file => (
-    <li key={ file } onClick={ actions.fileDiff.bind(null, `${repo.dir}/${file}`) }>
+    <li key={ file } onClick={ actions.fileDiff.bind(null, `${repo.dir}`) }>
       { file }
     </li>
   ));

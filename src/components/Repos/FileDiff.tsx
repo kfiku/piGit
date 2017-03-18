@@ -15,6 +15,7 @@ const Isvg = require('react-inlinesvg');
 
 import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
+import repos from '../../helpers/GitRepos';
 
 let extMap = [
   { ext: 'js', lang: 'javascript' },
@@ -35,30 +36,13 @@ const loadfile = (file, lang, el) => {
   if (!el) {
     return;
   }
-  // console.log(el, file);
+  console.log(el, file);
   // console.log(Prism.languages);
 
-  readFile(file, 'utf-8', (err, content) => {
-    // console.log(err, content);
-    // let html = Prism.highlight(content, Prism.languages[lang]);
-    let html = `
-diff --git a/src/components/Group.tsx b/src/components/Group.tsx
-index 51d3d1c..1a65cf2 100644
---- a/src/components/Group.tsx
-+++ b/src/components/Group.tsx
-@@ -9,8 +9,6 @@ import actions from '../actions';
- import Confirm from './helpers/Confirm';
- import Repos from './Repos/Repos';
- import { renderLog } from '../helpers/logger';
--// import { Repo } from './Repo';
--// import Sortable = require('sortablejs');
- 
- const Isvg = require('react-inlinesvg');
-
-
-    `;
-    el.innerHTML = Diff2Html.getPrettyHtml(html);
+  repos.diff(file, (err, diff) => {
+    el.innerHTML = Diff2Html.getPrettyHtml(diff);
   });
+
 };
 
 const FileDiffComponent: any = ({ file, actions }: { file: string, actions: any }) => {

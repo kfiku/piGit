@@ -81,6 +81,10 @@ export class Repo {
     clearTimeout(this.updateStatusTI);
   }
 
+  diff (cb) {
+    return this.git.diff(cb);
+  }
+
   validateDir (dir, callback) {
     stat(join(dir, '.git'), (err, rStat) => {
       callback(err);
@@ -143,6 +147,11 @@ export class Repos {
     .then((repo: Repo) => repo.pull())
     .then(data => callback(null, data))
     .catch(err => callback(err));
+  }
+
+  diff (dir, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.diff(callback));
   }
 };
 
