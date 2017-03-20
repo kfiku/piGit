@@ -47,7 +47,10 @@ const sortableRepos = (actions, el) => {
         forceFallback: true,
         group: 'shared-repos',
         onUpdate: onUpdateRepo.bind(null, actions),
-        onAdd: onAddRepo.bind(null, actions)
+        onAdd: onAddRepo.bind(null, actions),
+        onClone: function (evt) {
+          evt.clone.parentNode.appendChild(evt.clone);
+        }
       };
 
       Sortable.create(el, options);
