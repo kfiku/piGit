@@ -52,7 +52,7 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
       </i>
 
       <div className='content'>
-        <div className='title' title={repo.dir + ' '} onClick={ actions.showRepoDetails.bind(null, repo.id) }>
+        <div className='title' title={repo.dir + ' '} onClick={ actions.showRepoDetails.bind(null, repo.id, repo.dir) }>
           { repo.name ? repo.name : basename(repo.dir) }
         </div>
 
