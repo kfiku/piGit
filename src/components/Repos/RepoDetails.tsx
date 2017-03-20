@@ -107,6 +107,22 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
       </div>
 
       <footer className='footer'>
+        <button onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) } className='button'>
+          <i className='icon icon-refresh' title='Refresh this repo'>
+            <Isvg src='./svg/reload.svg'/>
+          </i>
+
+          <span>Reload</span>
+        </button>
+
+        <button onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) } className='button'>
+          <i className='icon icon-pull' title='Pull this repo'>
+            <Isvg src='./svg/down-arrow.svg'/>
+          </i>
+
+          <span>Pull</span>
+        </button>
+
         <button onClick={ openInGitGui.bind(null, repo) } className='button'>
           <i className='icon icon-add'>
             <Isvg src='./svg/git-icon.svg'/>
