@@ -4,7 +4,7 @@ var packager = require('electron-packager');
 packager({
     dir: './',
     name: pkg.name,
-    'app-version': pkg.version,
+    appVersion: pkg.version,
     // all: true,
     platform: 'linux',
     arch: 'x64',
