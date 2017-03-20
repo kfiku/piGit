@@ -10,7 +10,6 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Diff2Html } from 'diff2html';
-console.log(Diff2Html);
 const Isvg = require('react-inlinesvg');
 
 import actions from '../../actions';
@@ -36,13 +35,10 @@ const loadfile = (file, lang, el) => {
   if (!el) {
     return;
   }
-  console.log(el, file);
-  // console.log(Prism.languages);
 
   repos.diff(file, (err, diff) => {
     el.innerHTML = Diff2Html.getPrettyHtml(diff);
   });
-
 };
 
 const FileDiffComponent: any = ({ file, actions }: { file: string, actions: any }) => {
@@ -55,8 +51,6 @@ const FileDiffComponent: any = ({ file, actions }: { file: string, actions: any 
 
   let ext = extname(file).replace('.', '');
   let prismLang = extMap.filter(e => e.ext === ext)[0] || { lang: ext };
-
-  console.log(prismLang);
 
   return (
     <div className='file-diff'>
