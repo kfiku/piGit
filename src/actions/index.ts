@@ -73,9 +73,10 @@ const actions = {
     { type: REORDER_REPO, params }
   ),
 
-  showRepoDetails: (id: string) => (
-    { type: SHOW_REPO, id }
-  ),
+  showRepoDetails: (id: string, dir: string) => dispatch => {
+    dispatch({ type: SHOW_REPO, id });
+    this.default.reloadRepo(id, dir)(dispatch);
+  },
 
   fileDiff: (file: string) => (
     { type: SHOW_FILE, file }
@@ -90,6 +91,7 @@ const actions = {
   ),
 
   reloadRepo: (id: string, dir: string) => dispatch => {
+    console.log('reloadRepo');
     dispatch({ type: RELOADING, id });
     gitRepos.refresh(dir, (err, data) => {
       if (err) {
