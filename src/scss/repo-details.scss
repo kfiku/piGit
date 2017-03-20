@@ -1,19 +1,20 @@
+$repo-details-margin: 0;
+
 .repo-details {
   display: flex;
   flex-direction: column;
 
   position: fixed;
-  top: $lh + $nav-height;
-  bottom: $lh;
-  left: $lh;
-  right: $lh;
+  top: $repo-details-margin + $nav-height;
+  bottom: $repo-details-margin;
+  left: $repo-details-margin;
+  right: $repo-details-margin;
   overflow: hidden;
   z-index: 10;
 
   padding: $lh;
 
-  background: rgba($g0, 0.95);
-  border-radius: $br;
+  background: $g0;
 
   .header,
   .status {
