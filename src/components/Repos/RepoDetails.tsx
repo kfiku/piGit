@@ -9,9 +9,11 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const Isvg = require('react-inlinesvg');
-
 import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
+
+
+import Diff from './Diff';
 
 const openInGitGui = (repo) => {
   exec(`cd ${ repo.dir } && git gui`);
@@ -49,13 +51,13 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
   }
 
   const modified = repo.modified && repo.modified.map(file => (
-    <li key={ file } onClick={ actions.fileDiff.bind(null, `${repo.dir}`) }>
+    <li key={ file }>
       { file }
     </li>
   ));
 
   const untracked = repo.untracked && repo.untracked.map(file => (
-    <li key={ file } onClick={ actions.fileDiff.bind(null, `${repo.dir}/${file}`) }>
+    <li key={ file }>
       { file }
     </li>
   ));
@@ -103,6 +105,8 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
         <p className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
           Updated: { moment(repo.lastUpdate).fromNow() }
         </p>
+
+        <Diff dir={ repo.dir }/>
 
       </div>
 

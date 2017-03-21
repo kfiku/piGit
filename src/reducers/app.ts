@@ -1,4 +1,4 @@
-import { ADD_REPO, ADDING_REPO, ADDING_REPO_END, SHOW_REPO, HIDE_REPO, SHOW_FILE,
+import { ADD_REPO, ADDING_REPO, ADDING_REPO_END, SHOW_REPO, HIDE_REPO,
          RELOADING, UPDATE_REPO, DELETE_REPO, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
          MESSAGE } from '../constants/ActionTypes';
 
@@ -52,12 +52,6 @@ export default function app(state = initialState, action) {
     case HIDE_REPO:
       newState = clone(state);
       newState.repoShown = '';
-      return newState;
-
-    case SHOW_FILE:
-      console.log(SHOW_FILE);
-      newState = clone(state);
-      newState.fileShown = action.file;
       return newState;
 
     case MESSAGE:
