@@ -106,7 +106,7 @@
     "istanbul": "~1.1.0-alpha.1",
     "js-yaml": "~3.8.2",
     "mocha": "~3.1.2",
-    "node-sass": "~4.0.0",
+    "node-sass": "~4.5.1",
     "release-it": "^2.6.0",
     "ts-node": "^2.1.0",
     "tslint": "^4.5.1",
