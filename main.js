@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV || 'prod';
 const electron = require('electron');
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
-const electronSettings = require('electron-settings');
+const settings = require('electron-settings');
 
 let mainWindow
 
@@ -18,58 +18,58 @@ function createWindow () {
     require('electron-debug')({showDevTools: true});
   }
 
-  electronSettings.get('window').then((win) => {
-    win = win || {x: 100, y: 100, width: 800, height: 600}
-    win.icon = __dirname + '/logo/piGit.png';
-    mainWindow = new BrowserWindow(win);
-    mainWindow.loadURL(`file://${__dirname}/src/index.html`);
+  let win = settings.get('window');
 
-    mainWindow.on('closed', function () {
-      mainWindow = null
-    });
+  win = win || {x: 100, y: 100, width: 800, height: 600}
+  win.icon = __dirname + '/logo/piGit.png';
+  mainWindow = new BrowserWindow(win);
+  mainWindow.loadURL(`file://${__dirname}/src/index.html`);
 
-    let ti;
-    const saveWindowBounds = function () {
-      clearTimeout(ti);
-      ti = setTimeout(() => {
-        electronSettings.set('window', mainWindow.getBounds());
-      }, 1000);
-    }
-
-    mainWindow.on('resize', saveWindowBounds);
-    mainWindow.on('move', saveWindowBounds);
-
-    mainWindow.setMenu(null);
-
-    if (env === 'dev') {
-      // simple livereload js
-      const chokidar = require('chokidar');
-      chokidar.watch('src/**/*.js', {
-          ignored: /[\/\\]\./,
-          persistent: true
-        })
-        .on('all', (event, path) => {
-          mainWindow.reload();
-        }
-      );
-      // watch css
-      chokidar.watch('src/css/*.css', {
-          ignored: /[\/\\]\./,
-          persistent: true
-        })
-        .on('all', (event, path) => {
-          // mainWindow.reload();
-          mainWindow.webContents.executeJavaScript(`
-            document.querySelectorAll('link[rel=stylesheet]')
-              .forEach(function(link){
-                link.href = link.href.replace(/\\?t=[0-9]+/, '?t=' + Date.now())
-              })
-          `);
-        }
-      );
-    } else {
-    }
+  mainWindow.on('closed', function () {
+    mainWindow = null
   });
+
+  let ti;
+  const saveWindowBounds = function () {
+    clearTimeout(ti);
+    ti = setTimeout(() => {
+      settings.set('window', mainWindow.getBounds());
+    }, 1000);
+  }
+
+  mainWindow.on('resize', saveWindowBounds);
+  mainWindow.on('move', saveWindowBounds);
+
+  mainWindow.setMenu(null);
+
+  if (env === 'dev') {
+    // simple livereload js
+    const chokidar = require('chokidar');
+    chokidar.watch('src/**/*.js', {
+        ignored: /[\/\\]\./,
+        persistent: true
+      })
+      .on('all', (event, path) => {
+        mainWindow.reload();
+      }
+    );
+    // watch css
+    chokidar.watch('src/css/*.css', {
+        ignored: /[\/\\]\./,
+        persistent: true
+      })
+      .on('all', (event, path) => {
+        // mainWindow.reload();
+        mainWindow.webContents.executeJavaScript(`
+          document.querySelectorAll('link[rel=stylesheet]')
+            .forEach(function(link){
+              link.href = link.href.replace(/\\?t=[0-9]+/, '?t=' + Date.now())
+            })
+        `);
+      }
+    );
+  }
+
 }
 
 // This method will be called when Electron has finished
