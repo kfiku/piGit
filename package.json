@@ -112,7 +112,7 @@
     "typescript": "~2.1"
   },
   "dependencies": {
-    "async": "~2.3.0",
+    "async": "~2.4.0",
     "classnames": "~2.2.5",
     "diff2html": "^2.0.12",
     "electron-settings": "~3.0.1",
