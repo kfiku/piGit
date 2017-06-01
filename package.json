@@ -83,7 +83,6 @@
   "devDependencies": {
     "@types/async": "~2.0.37",
     "@types/chai": "~3.5.0",
-    "@types/electron": "~1.4.31",
     "@types/es6-promise": "0.0.32",
     "@types/mocha": "~2.2.35",
     "@types/node": "~7.0.7",
@@ -97,7 +96,7 @@
     "chokidar-cli": "~1.2.0",
     "concurrently": "~3.1.0",
     "devtron": "~1.4.0",
-    "electron": "~1.6.2",
+    "electron": "~1.7.2",
     "electron-debug": "~1.1.0",
     "electron-devtools-installer": "~2.2.0",
     "electron-installer-debian": "~0.5.0",
