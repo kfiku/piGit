@@ -13,7 +13,9 @@ const loadDiff = (dir, el) => {
   }
 
   repos.diff(dir, (err, diff) => {
-    el.innerHTML = Diff2Html.getPrettyHtml(diff);
+    el.innerHTML = Diff2Html.getPrettyHtml(diff, {
+      outputFormat: 'side-by-side'
+    });
   });
 };
 
