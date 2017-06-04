@@ -114,7 +114,7 @@
     "async": "~2.3.0",
     "classnames": "~2.2.5",
     "diff2html": "^2.0.12",
-    "electron-settings": "~3.0.1",
+    "electron-settings": "~3.1.0",
     "es6-promisify": "~5.0.0",
     "moment": "~2.18.0",
     "react": "^15.4.2",
