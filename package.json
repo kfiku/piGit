@@ -82,7 +82,7 @@
   "homepage": "https://github.com/kfiku/piGit",
   "devDependencies": {
     "@types/async": "~2.0.37",
-    "@types/chai": "~3.5.0",
+    "@types/chai": "~4.0.1",
     "@types/es6-promise": "0.0.32",
     "@types/mocha": "~2.2.35",
     "@types/node": "~7.0.7",
