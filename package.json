@@ -124,6 +124,6 @@
     "redux": "~3.6.0",
     "redux-thunk": "^2.2.0",
     "simple-git": "^1.67.0",
-    "sortablejs": "~1.5.1"
+    "sortablejs": "~1.6.0"
   }
 }
