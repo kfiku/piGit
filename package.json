@@ -86,7 +86,7 @@
     "@types/es6-promise": "0.0.32",
     "@types/mocha": "2.2.35",
     "@types/node": "6",
-    "@types/react": "15.0.15",
+    "@types/react": "15.0.34",
     "@types/react-dom": "0.14.20",
     "@types/react-redux": "4.4.32",
     "@types/redux-thunk": "2.1.0",
