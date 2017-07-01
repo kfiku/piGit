@@ -9,8 +9,6 @@ import actions from '../actions';
 import Confirm from './helpers/Confirm';
 import Repos from './Repos/Repos';
 import { renderLog } from '../helpers/logger';
-// import { Repo } from './Repo';
-// import Sortable = require('sortablejs');
 
 const Isvg = require('react-inlinesvg');
 
