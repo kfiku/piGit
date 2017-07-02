@@ -16,9 +16,9 @@ import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
 import repos from '../../helpers/GitRepos';
 
-window.jQuery = window.$ = jquery;
-window.hljs = hljs;
-window.Diff2Html = Diff2Html;
+(window as any).jQuery = (window as any).$ = jquery;
+(window as any).hljs = hljs;
+(window as any).Diff2Html = Diff2Html;
 
 const loadDiff = (dir, el: HTMLBaseElement) => {
   if (!el) {
@@ -26,7 +26,6 @@ const loadDiff = (dir, el: HTMLBaseElement) => {
   }
 
   repos.diff(dir, (err, diff) => {
-    // console.log(Diff2HtmlUI);
     const diff2HtmlUI = new Diff2HtmlUI({ diff });
     diff2HtmlUI.draw("#differ", {inputFormat: 'json', showFiles: false, matching: 'lines', outputFormat: 'side-by-side'});
     diff2HtmlUI.highlightCode("#differ");
