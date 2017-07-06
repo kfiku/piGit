@@ -85,7 +85,7 @@
     "@types/chai": "3.5.0",
     "@types/es6-promise": "0.0.32",
     "@types/mocha": "2.2.35",
-    "@types/node": "6",
+    "@types/node": "^8.0.8",
     "@types/react": "15.0.15",
     "@types/react-dom": "0.14.20",
     "@types/react-redux": "4.4.32",
