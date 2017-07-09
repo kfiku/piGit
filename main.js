@@ -23,7 +23,7 @@ function createWindow () {
   win = win || {x: 100, y: 100, width: 800, height: 600}
   win.icon = __dirname + '/logo/piGit.png';
   mainWindow = new BrowserWindow(win);
-  mainWindow.loadURL(`file://${__dirname}/src/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
 
   mainWindow.on('closed', function () {
     mainWindow = null

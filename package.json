@@ -44,14 +44,17 @@
   "scripts": {
     "test": "npm run lint && npm run test:cov",
     "postinstall": "npm run build",
-    "dev": "export NODE_ENV=dev && npm run css && concurrently 'npm run css-w' 'npm run ts-w' 'npm start -- dev'",
+    "fuse": "node fuse.js",
+    "dev": "export NODE_ENV=dev && npm run css && concurrently 'npm run css-w' 'npm run fuse' 'npm start -- dev'",
+    "dev2": "export NODE_ENV=dev && concurrently 'npm run fuse' 'npm start -- dev'",
+    "dev3": "export NODE_ENV=dev && npm start -- dev",
     "lint": "tslint src/**/*.tsx src/**/*.ts -c tslint.json",
     "clean": "find src -name \"*.js*\" -type f -delete",
     "test:cov": "npm run clean && ts-node ./node_modules/istanbul/lib/cli.js cover -e .ts ./node_modules/.bin/_mocha test/unit/**/*.ts",
     "test:unit": "npm run clean && ts-node ./node_modules/.bin/_mocha test/unit/**/*.ts",
     "build": "npm run css && npm run ts",
     "start": "electron .",
-    "css": "node-sass src/scss/all.scss src/css/bundle.css",
+    "css": "node-sass src/scss/all.scss dist/css/bundle.css",
     "css-w": "chokidar 'src/scss/**/*.scss' -c 'npm run css'",
     "ts": "tsc",
     "ts-w": "npm run ts -- -w ",
@@ -83,7 +86,6 @@
   "devDependencies": {
     "@types/async": "2.0.37",
     "@types/chai": "3.5.0",
-    "@types/es6-promise": "0.0.32",
     "@types/mocha": "2.2.35",
     "@types/node": "6",
     "@types/react": "15.0.15",
@@ -101,6 +103,7 @@
     "electron-devtools-installer": "~2.2.0",
     "electron-installer-debian": "~0.5.0",
     "electron-packager": "~8.6.0",
+    "fuse-box": "^2.1.0",
     "istanbul": "~1.1.0-alpha.1",
     "js-yaml": "~3.8.2",
     "mocha": "~3.3.0",
@@ -108,7 +111,14 @@
     "release-it": "^2.6.0",
     "ts-node": "^3.0.2",
     "tslint": "^4.5.1",
-    "typescript": "~2.3.1"
+    "typescript": "~2",
+    "babel-core": "^6.20.0",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-latest": "^6.16.0",
+
+    "ts-node": "^3.0.4",
+    "tslib": "^1.7.1",
+    "uglify-js": "^3.0.15"
   },
   "dependencies": {
     "async": "~2.3.0",
@@ -126,6 +136,7 @@
     "redux": "~3.7.0",
     "redux-thunk": "^2.2.0",
     "simple-git": "^1.67.0",
-    "sortablejs": "~1.6.0"
+    "sortablejs": "~1.6.0",
+    "reflect-metadata": "^0.1.8"
   }
 }
