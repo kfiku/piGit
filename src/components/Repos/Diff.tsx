@@ -4,13 +4,7 @@ import { basename } from 'path';
 import { PropTypes } from 'react';
 import { Diff2Html } from 'diff2html';
 import { Diff2HtmlUI } from 'diff2html/src/ui/js/diff2html-ui';
-// import * as Diff2HtmlUI from 'diff2html/src/ui/js/diff2html-ui';
 import * as hljs from 'highlight.js';
-// var jquery = require('juery');
-// console.log(jQuery);
-
-// console.log(jquery);
-// console.log(highlightBlock);
 
 import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
