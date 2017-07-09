@@ -1,14 +1,9 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
-    "noImplicitAny": false,
-    "module": "commonjs",
-    "target": "es5",
-    "jsx": "react"
-  },
-  "files": [
-    "./src/index.tsx",
-    "./test/unit/helpers/GitReposTest.ts",
-    "./test/unit/helpers/DirWalkTest.ts"
-  ]
+      "sourceMap": true,
+      "noImplicitAny": false,
+      "module": "commonjs",
+      "target": "es5",
+      "jsx": "react"
+  }
 }
