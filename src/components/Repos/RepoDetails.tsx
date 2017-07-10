@@ -5,7 +5,7 @@ import * as React from 'react';
 import * as moment from 'moment';
 import { basename } from 'path';
 import { exec } from 'child_process';
-import { PropTypes } from 'react';
+import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const Isvg = require('react-inlinesvg');

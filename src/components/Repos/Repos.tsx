@@ -2,7 +2,7 @@ import { IGroup } from '../../interfaces/IGroup';
 import { IRepo } from '../../interfaces/IRepo';
 
 import * as React from 'react';
-import { PropTypes } from 'react';
+import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Sortable = require('sortablejs');

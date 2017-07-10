@@ -1,7 +1,7 @@
 import { IGroup } from '../interfaces/IGroup';
 
 import * as React from 'react';
-import { PropTypes } from 'react';
+import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 

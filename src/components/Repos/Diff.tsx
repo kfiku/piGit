@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as jquery from 'jquery';
 import { basename } from 'path';
-import { PropTypes } from 'react';
+import * as PropTypes from 'prop-types';
 import { Diff2Html } from 'diff2html';
 import { Diff2HtmlUI } from 'diff2html/src/ui/js/diff2html-ui';
 import * as hljs from 'highlight.js';

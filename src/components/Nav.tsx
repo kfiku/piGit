@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { PropTypes } from 'react';
+import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import actions from '../actions';
 import { renderLog } from '../helpers/logger';
-
 
 const Isvg = require('react-inlinesvg');
 
@@ -47,7 +46,6 @@ NavComponent.propTypes = {
   app: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
-
 
 const mapStateToProps = state => ({
   app: state.app
