@@ -20,15 +20,11 @@ const loadDiff = (dir, el: HTMLBaseElement) => {
   }
 
   repos.diff(dir, (err, diff) => {
-    const diff2HtmlUI = new Diff2HtmlUI({ diff });
-    diff2HtmlUI.draw("#differ", {inputFormat: 'json', showFiles: false, matching: 'lines', outputFormat: 'side-by-side'});
-    diff2HtmlUI.highlightCode("#differ");
-    // el.innerHTML = Diff2Html.getPrettyHtml(diff, {
-    //   outputFormat: 'side-by-side'
-    // });
-
-    // el.querySelectorAll('pre code')
-    // highlightBlock(el);
+    if (diff) {
+      const diff2HtmlUI = new Diff2HtmlUI({ diff });
+      diff2HtmlUI.draw("#differ", {inputFormat: 'json', showFiles: false, matching: 'lines', outputFormat: 'side-by-side'});
+      diff2HtmlUI.highlightCode("#differ");
+    }
   });
 };
 
