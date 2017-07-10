@@ -38,9 +38,9 @@ const actions = {
           const newRepoDit = resolve(gitDir, '..');
           const repoByDir = getState().groups.filter(s => s.dir === newRepoDit);
           if (repoByDir.length === 0) {
-            dispatch(this.default.addRepo(newRepoDit));
+            dispatch(actions.addRepo(newRepoDit));
           } else {
-            dispatch(this.default.message(`Repo '${newRepoDit}' is already there ;-)`));
+            dispatch(actions.message(`Repo '${newRepoDit}' is already there ;-)`));
           }
         },
         (err, gitDirs) => {
@@ -53,7 +53,7 @@ const actions = {
     dispatch({ type: RELOADING_ALL_REPOS });
 
     getState().repos.map((repo, i) => setTimeout(
-      () => this.default.reloadRepo(repo.id, repo.dir)(dispatch), 100 * i)
+      () => actions.reloadRepo(repo.id, repo.dir)(dispatch), 100 * i)
     );
 
     setTimeout(() => {
@@ -75,7 +75,7 @@ const actions = {
 
   showRepoDetails: (id: string, dir: string) => dispatch => {
     dispatch({ type: SHOW_REPO, id });
-    this.default.reloadRepo(id, dir)(dispatch);
+    actions.reloadRepo(id, dir)(dispatch);
   },
 
   hideRepoDetails: () => (
@@ -92,7 +92,7 @@ const actions = {
     gitRepos.refresh(dir, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(this.default.message(err.message || err + ''));
+        dispatch(actions.message(err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -104,7 +104,7 @@ const actions = {
     gitRepos.pull(dir, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(this.default.message(err.message || err + ''));
+        dispatch(actions.message(err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -140,7 +140,7 @@ const actions = {
 
     getReposFromGroup(getState(), id)
     .map((r, i) => setTimeout(
-      () => this.default.reloadRepo(r.id, r.dir)(dispatch),
+      () => actions.reloadRepo(r.id, r.dir)(dispatch),
       100 * i
     ));
 
@@ -154,7 +154,7 @@ const actions = {
 
     getReposFromGroup(getState(), id)
     .map((r, i) => setTimeout(
-      () => this.default.pullRepo(r.id, r.dir)(dispatch),
+      () => actions.pullRepo(r.id, r.dir)(dispatch),
       100 * i
     ));
 
