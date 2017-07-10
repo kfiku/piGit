@@ -46,23 +46,18 @@
     "postinstall": "npm run build",
     "fuse": "node fuse.js",
     "dev": "export NODE_ENV=dev && npm run css && concurrently 'npm run css-w' 'npm run fuse' 'npm start -- dev'",
-    "dev2": "export NODE_ENV=dev && concurrently 'npm run fuse' 'npm start -- dev'",
-    "dev3": "export NODE_ENV=dev && npm start -- dev",
     "lint": "tslint src/**/*.tsx src/**/*.ts -c tslint.json",
     "clean": "find src -name \"*.js*\" -type f -delete",
     "test:cov": "npm run clean && ts-node ./node_modules/istanbul/lib/cli.js cover -e .ts ./node_modules/.bin/_mocha test/unit/**/*.ts",
     "test:unit": "npm run clean && ts-node ./node_modules/.bin/_mocha test/unit/**/*.ts",
-    "build": "npm run css && npm run ts",
+    "build": "npm run css",
     "start": "electron .",
     "css": "node-sass src/scss/all.scss dist/css/bundle.css",
     "css-w": "chokidar 'src/scss/**/*.scss' -c 'npm run css'",
-    "ts": "tsc",
-    "ts-w": "npm run ts -- -w ",
     "package": "npm run build:linux && npm run build:win && npm run build:mac",
     "package:linux": "build --linux",
     "package:win": "build --win",
-    "package:mac": "build --mac",
-    "test:unit-w": "chokidar 'test/unit/**/*.ts' 'src/**/*.ts' -c 'npm run test:unit' "
+    "package:mac": "build --mac"
   },
   "repository": {
     "type": "git",
@@ -90,6 +85,7 @@
     "@types/node": "6",
     "@types/react": "15.0.15",
     "@types/react-dom": "0.14.20",
+    "@types/prop-types": "^15.5.1",
     "@types/react-redux": "4.4.32",
     "@types/redux-thunk": "2.1.0",
     "@types/sortablejs": "1.3.31",
@@ -109,14 +105,12 @@
     "mocha": "~3.3.0",
     "node-sass": "~4.5.1",
     "release-it": "^2.6.0",
-    "ts-node": "^3.0.2",
+    "ts-node": "^3.0.4",
     "tslint": "^4.5.1",
     "typescript": "~2",
     "babel-core": "^6.20.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-latest": "^6.16.0",
-
-    "ts-node": "^3.0.4",
     "tslib": "^1.7.1",
     "uglify-js": "^3.0.15"
   },
@@ -129,14 +123,14 @@
     "highlight.js": "^9.12.0",
     "jquery": "^3.2.1",
     "moment": "~2.18.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "react-inlinesvg": "~0.6.0",
     "react-redux": "^5.0.3",
     "redux": "~3.7.0",
     "redux-thunk": "^2.2.0",
     "simple-git": "^1.67.0",
-    "sortablejs": "~1.6.0",
-    "reflect-metadata": "^0.1.8"
+    "sortablejs": "~1.6.0"
   }
 }
