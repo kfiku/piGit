@@ -104,7 +104,7 @@
     "js-yaml": "~3.8.2",
     "mocha": "~3.3.0",
     "node-sass": "~4.5.1",
-    "release-it": "~2.7.3",
+    "release-it": "~2.8.2",
     "ts-node": "^3.2.0",
     "tslint": "^4.5.1",
     "typescript": "~2",
