@@ -1,4 +1,4 @@
-import { IGroup } from '../../interfaces/IGroup';
+// import { IGroup } from '../../interfaces/IGroup';
 import { IRepo } from '../../interfaces/IRepo';
 
 import * as React from 'react';
