@@ -1,44 +1,63 @@
-import * as React from 'react';
+import * as React from 'react'; // tslint:disable-line
 import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+// import styled from 'emotion/react'
+import styled from 'styled-components';
+
+
+import { navHeight, g2 } from '../utils/styles';
+
+// const StyledNav = styled('nav')`
+const StyledNav = styled.nav`
+  width: 100%;
+  height: ${navHeight}px;
+  background: ${g2};
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 10;
+`;
 
 import actions from '../actions';
 import { renderLog } from '../helpers/logger';
+import Button from './helpers/Button';
+import Icon from './helpers/Icon';
 
 const Isvg = require('react-inlinesvg');
 
 const NavComponent: any = ({app, actions}) => {
   renderLog('NAV');
   return (
-    <nav className='nav main-nav'>
-      <button onClick={ actions.addRepos } className={ 'button' + (app.addingRepos ? ' progressing' : '') } >
+    // <StyledNav className='nav main-nav'>
+    <StyledNav>
+      <Button onClick={ actions.addRepos } className={app.addingRepos ? 'progressing' : ''} >
         { app.addingRepos
-          ? <span className='icon icon-refresh'>
+          ? <Icon>
               <Isvg src='./svg/reload.svg'/>
-            </span>
-          : <i className='icon icon-add'>
+            </Icon>
+          : <Icon>
               <Isvg src='./svg/add.svg'/>
-            </i>
+            </Icon>
         }
 
         <span>Add Repo</span>
-      </button>
+      </Button>
 
-      <button onClick={ actions.addGroup } className='button'>
-        <i className='icon icon-add'>
+      <Button onClick={ actions.addGroup } className='button'>
+        <Icon>
           <Isvg src='./svg/folder.svg'/>
-        </i>
+        </Icon>
         <span>Add Group</span>
-      </button>
+      </Button>
 
-      <button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' progressing' : '') } >
-        <i className='icon icon-refresh'>
+      <Button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' progressing' : '') } >
+        <Icon>
           <Isvg src='./svg/reload.svg'/>
-        </i>
+        </Icon>
         <span>Reload all</span>
-      </button>
-    </nav>
+      </Button>
+    </StyledNav>
   );
 };
 
