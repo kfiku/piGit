@@ -1,4 +1,4 @@
-// import { IGroup } from '../../interfaces/IGroup';
+import { IGroup } from '../../interfaces/IGroup';
 import { IRepo } from '../../interfaces/IRepo';
 
 import * as React from 'react';
@@ -115,7 +115,7 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
 
       <footer className='footer'>
         <Button onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) } className='button'>
-          <Icon spin={repo.progressing§} className='icon icon-refresh' title='Refresh this repo'>
+          <Icon spin={repo.progressing} className='icon icon-refresh' title='Refresh this repo'>
             <Isvg src='./svg/reload.svg'/>
           </Icon>
 
