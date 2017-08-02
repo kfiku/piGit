@@ -1,14 +1,16 @@
-import { IGroup } from '../interfaces/IGroup';
+import { IGroup } from '../../interfaces/IGroup';
 
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import actions from '../actions';
-import Confirm from './helpers/Confirm';
-import Repos from './Repos/Repos';
-import { renderLog } from '../helpers/logger';
+import actions from '../../actions';
+import Confirm from '../helpers/Confirm';
+import Repos from '../Repos/Repos';
+import Icon from '../helpers/Icon';
+import { renderLog } from '../../helpers/logger';
+import StyledGroupHeader from './StyledGroupHeader';
 
 const Isvg = require('react-inlinesvg');
 
@@ -31,16 +33,18 @@ const focusInput = el => {
 
 
 const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: any, i: number }) => {
+  // renderLog('GROUP');
+  // console.log(group);
   renderLog('GROUP', group.title, group.editing && 'editing', group.confirmDelete && 'confirm delete');
   let header;
 
   if (group.editing) {
     /** ON GROUP EDITING */
     header = (
-      <header className='group-header editing'>
-        <span className='icon icon-edit'>
+      <StyledGroupHeader className='group-header editing'>
+        <Icon className='icon icon-edit'>
           <Isvg src='./svg/edit.svg'/>
-        </span>
+        </Icon>
 
         <div className='title-box'>
           <input id={ 'groupInput_' + group.id } className='title' defaultValue={ group.title }
@@ -49,19 +53,19 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
           />
         </div>
 
-        <span className='icon icon-save' title='Save Title'
+        <Icon className='icon icon-save' title='Save Title'
         onClick={ onChangeGroupName.bind(null, actions, group.id) }
         >
           <Isvg src='./svg/right-arrow-6.svg'/>
-        </span>
-      </header>
+        </Icon>
+      </StyledGroupHeader>
     );
   } else {
     header = (
-      <header className={ 'group-header ' + (group.progressing ? ' progressing' : '') }>
-        <i className='icon icon-move group-mover' title='Reorder this group'>
+      <StyledGroupHeader>
+        <Icon className='icon icon-move group-mover' title='Reorder this group'>
           <Isvg src='./svg/sort.svg'/>
-        </i>
+        </Icon>
 
         <div className='title-box'>
           <span className='title'
@@ -71,30 +75,30 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
           </span>
         </div>
 
-        <i className='icon icon-pull' title='Pull all in this group'
+        <Icon className='icon icon-pull' title='Pull all in this group'
         onClick={ actions.pullGroup.bind(null, group.id) }
         >
           <Isvg src='./svg/down-arrow.svg' />
-        </i>
+        </Icon>
 
-        <i className='icon icon-refresh' title='Reload all in this group'
+        <Icon spin={group.progressing} className='icon icon-refresh' title='Reload all in this group'
         onClick={ actions.reloadGroup.bind(null, group.id) }
         >
           <Isvg src='./svg/reload.svg' />
-        </i>
+        </Icon>
 
-        <i className='icon icon-edit' title='Edit this group'
+        <Icon className='icon icon-edit' title='Edit this group'
         onClick={ actions.startEditGroup.bind(null, group.id) }
         >
           <Isvg src='./svg/edit.svg' />
-        </i>
+        </Icon>
 
-        <i className='icon icon-x' title='Remove this group with all repos'
+        <Icon className='icon icon-x' title='Remove this group with all repos'
         onClick={ actions.confirmDeleteGroup.bind(null, group.id) }
         >
           <Isvg src='./svg/garbage.svg' />
-        </i>
-      </header>
+        </Icon>
+      </StyledGroupHeader>
     );
   }
 
@@ -122,8 +126,10 @@ GroupComponent.propTypes = {
 };
 
 
-const mapStateToProps = (state, ownProps = {}) => {
+const mapStateToProps = (state, ownProps) => {
+  // console.log(ownProps['group-id'], state.groups);
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];
+  // console.log({ group, i: ownProps['group-i'] });
   return { group, i: ownProps['group-i'] };
 };
 

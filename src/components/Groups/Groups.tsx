@@ -1,13 +1,13 @@
-import { IGroup } from '../interfaces/IGroup';
+import { IGroup } from '../../interfaces/IGroup';
 
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import actions from '../actions';
+import actions from '../../actions';
 import Group from './Group';
-import { renderLog } from '../helpers/logger';
+import { renderLog } from '../../helpers/logger';
 
 // import { IRepo } from '../interfaces/IRepo';
 // import { Repo } from './Repo';
@@ -38,6 +38,7 @@ const GroupsComponent: any = ({groups, actions}: { groups: IGroup[], actions: an
   renderLog('GROUPS', groups.length);
 
   let groupsNodes = groups.map((group, i) => {
+    console.log(group, i);
     return (
       <Group key={ group.id } group-id={ group.id } group-i={ i } />
     );
