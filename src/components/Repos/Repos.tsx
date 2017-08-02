@@ -10,6 +10,7 @@ import Sortable = require('sortablejs');
 import { renderLog } from '../../helpers/logger';
 import actions from '../../actions';
 import Repo from './Repo';
+import StyledRepos from './StyledRepos';
 
 
 const onAddRepo = (actions, event) => {
@@ -66,9 +67,9 @@ const ReposComponent: any = ({ group, i, actions }: { group: IGroup, i: number, 
   ));
 
   return (
-    <div className='repos' data-group-i={ i } ref={ sortableRepos.bind(null, actions) }>
+    <StyledRepos className='repos' data-group-i={ i } innerRef={ sortableRepos.bind(null, actions) }>
       { reposNodes }
-    </div>
+    </StyledRepos>
   );
 };
 
@@ -79,7 +80,7 @@ ReposComponent.propTypes = {
 };
 
 
-const mapStateToProps = (state, ownProps = {}) => {
+const mapStateToProps = (state, ownProps ) => {
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];
   return { group, i: ownProps['group-i'] };
 };

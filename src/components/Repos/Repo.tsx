@@ -11,6 +11,8 @@ const Isvg = require('react-inlinesvg');
 
 import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
+import Icon from '../helpers/Icon';
+import StyledRepo from './StyledRepo';
 
 const updateDate = (repo, el) => {
   setTimeout(() => {
@@ -34,22 +36,22 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
   }
 
   return (
-    <div className={ 'repo ' + cls + (repo.progressing ? ' progressing' : '') }>
-      <i className='icon icon-move repo-mover' title='Reorder this repo'>
+    <StyledRepo className={ 'repo ' + cls } processing={repo.progressing}>
+      <Icon className='icon icon-move repo-mover' title='Reorder this repo'>
         <Isvg src='./svg/move.svg' />
-      </i>
+      </Icon>
 
-      <i className='icon icon-x' title='Delete this repo'onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
+      <Icon className='icon icon-x' title='Delete this repo'onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
         <Isvg src='./svg/x.svg'/>
-      </i>
+      </Icon>
 
-      <i className='icon icon-pull' title='Pull this repo' onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
+      <Icon className='icon icon-pull' title='Pull this repo' onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
         <Isvg src='./svg/down-arrow.svg'/>
-      </i>
+      </Icon>
 
-      <i className='icon icon-refresh' title='Refresh this repo' onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>
+      <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo' onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>
         <Isvg src='./svg/reload.svg'/>
-      </i>
+      </Icon>
 
       <div className='content'>
         <div className='title' title={repo.dir + ' '} onClick={ actions.showRepoDetails.bind(null, repo.id, repo.dir) }>
@@ -78,7 +80,7 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
           { moment(repo.lastUpdate).fromNow() }
         </div>
       </div>
-    </div>
+    </StyledRepo>
   );
 };
 
@@ -89,7 +91,7 @@ RepoComponent.propTypes = {
 };
 
 
-const mapStateToProps = (state, ownProps = {}) => {
+const mapStateToProps = (state, ownProps) => {
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];
   const repo = state.repos.filter(r => r.id === ownProps['repo-id'])[0];
 
