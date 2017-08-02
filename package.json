@@ -45,7 +45,7 @@
     "test": "npm run lint && npm run test:cov",
     "postinstall": "npm run build",
     "fuse": "node fuse.js",
-    "dev": "export NODE_ENV=dev && npm run css && concurrently 'npm run css-w' 'npm run fuse' 'npm start -- dev'",
+    "dev": "export NODE_ENV=dev && concurrently 'npm run fuse' 'npm start -- dev'",
     "lint": "tslint src/**/*.tsx src/**/*.ts -c tslint.json",
     "clean": "find src -name \"*.js*\" -type f -delete",
     "test:cov": "npm run clean && ts-node ./node_modules/istanbul/lib/cli.js cover -e .ts ./node_modules/.bin/_mocha test/unit/**/*.ts",
@@ -119,6 +119,7 @@
     "classnames": "~2.2.5",
     "diff2html": "^2.0.12",
     "electron-settings": "~3.1.0",
+    "emotion": "^6.0.3",
     "es6-promisify": "~5.0.0",
     "highlight.js": "^9.12.0",
     "jquery": "^3.2.1",
@@ -131,6 +132,7 @@
     "redux": "~3.7.0",
     "redux-thunk": "^2.2.0",
     "simple-git": "^1.67.0",
-    "sortablejs": "~1.6.0"
+    "sortablejs": "~1.6.0",
+    "styled-components": "^2.1.1"
   }
 }
