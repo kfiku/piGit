@@ -42,6 +42,7 @@
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unused-expression": true,
+    "no-unused-variable": [true, {"ignore-pattern": "^React"}],
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-var-requires": false,
