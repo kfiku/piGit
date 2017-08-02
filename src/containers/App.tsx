@@ -1,10 +1,13 @@
 import * as React from 'react';
 import * as async from 'async';
+import { injectGlobal } from 'styled-components';
 
 import Nav from '../components/Nav';
-import Groups from '../components/Groups';
+import Groups from '../components/Groups/Groups';
 import RepoDetails from '../components/Repos/RepoDetails';
 import Message from '../components/Message';
+
+import globalStyles from '../utils/globalStyles'
 
 const App = () => {
   return (
@@ -25,3 +28,4 @@ const App = () => {
 
 export default App;
 
+injectGlobal`${globalStyles}`
