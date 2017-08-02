@@ -1,4 +1,4 @@
-import { IGroup } from '../../interfaces/IGroup';
+// import { IGroup } from '../../interfaces/IGroup';
 import { IRepo } from '../../interfaces/IRepo';
 
 import * as React from 'react';
@@ -11,6 +11,9 @@ import { connect } from 'react-redux';
 const Isvg = require('react-inlinesvg');
 import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
+import Button from '../helpers/Button';
+import Icon from '../helpers/Icon';
+import StyledRepoDetails from './StyledRepoDetails';
 
 
 import Diff from './Diff';
@@ -63,14 +66,14 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
   ));
 
   return (
-    <div className={ 'repo-details ' + cls + (repo.progressing ? ' progressing' : '') }>
+    <StyledRepoDetails className={ 'repo-details ' + cls + (repo.progressing ? ' progressing' : '') }>
       <h2 className='header'>
         Details of repo: { repo.name ? repo.name : basename(repo.dir) } @ { repo.branch }
       </h2>
 
-      <i className='icon icon-x' title='Delete this repo' onClick={ actions.hideRepoDetails.bind(null) }>
+      <Icon className='icon icon-x' title='Delete this repo' onClick={ actions.hideRepoDetails.bind(null) }>
         <Isvg src='./svg/x.svg'/>
-      </i>
+      </Icon>
 
 
       <div className='content'>
@@ -111,40 +114,40 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
       </div>
 
       <footer className='footer'>
-        <button onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) } className='button'>
-          <i className='icon icon-refresh' title='Refresh this repo'>
+        <Button onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) } className='button'>
+          <Icon spin={repo.progressing§} className='icon icon-refresh' title='Refresh this repo'>
             <Isvg src='./svg/reload.svg'/>
-          </i>
+          </Icon>
 
           <span>Reload</span>
-        </button>
+        </Button>
 
-        <button onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) } className='button'>
-          <i className='icon icon-pull' title='Pull this repo'>
+        <Button onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) } className='button'>
+          <Icon className='icon icon-pull' title='Pull this repo'>
             <Isvg src='./svg/down-arrow.svg'/>
-          </i>
+          </Icon>
 
           <span>Pull</span>
-        </button>
+        </Button>
 
-        <button onClick={ openInGitGui.bind(null, repo) } className='button'>
-          <i className='icon icon-add'>
+        <Button onClick={ openInGitGui.bind(null, repo) } className='button'>
+          <Icon className='icon icon-add'>
             <Isvg src='./svg/git-icon.svg'/>
-          </i>
+          </Icon>
 
           <span>Open in git gui</span>
-        </button>
+        </Button>
 
-        <button onClick={ openInGitK.bind(null, repo) } className='button'>
-          <i className='icon icon-add'>
+        <Button onClick={ openInGitK.bind(null, repo) } className='button'>
+          <Icon className='icon icon-add'>
             <Isvg src='./svg/git-icon.svg'/>
-          </i>
+          </Icon>
 
           <span>Open in gitk</span>
-        </button>
+        </Button>
       </footer>
 
-    </div>
+    </StyledRepoDetails>
   );
 };
 
