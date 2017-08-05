@@ -1,6 +1,7 @@
 const {
     FuseBox,
     SVGPlugin,
+    CSSResourcePlugin,
     CSSPlugin,
     // TypeScriptHelpers,
     QuantumPlugin,
@@ -8,7 +9,9 @@ const {
     Sparky
 } = require("fuse-box");
 
-const {execSync} = require("child_process");
+const express = require("express");
+const path = require("path");
+const {spawn} = require("child_process");
 
 let fuse, app, vendor, isProduction;
 
@@ -19,8 +22,8 @@ Sparky.task("config", () => {
       hash: isProduction,
       output: "dist/$name.js",
       plugins: [
-        SVGPlugin(),
-        CSSPlugin(),
+        // SVGPlugin(),
+        [CSSResourcePlugin(), CSSPlugin()],
         WebIndexPlugin({
             template: "src/index.html"
         }),
@@ -38,17 +41,21 @@ Sparky.task("config", () => {
     // bundle app
     app = fuse.bundle("index")
           .target("electron")
-          .instructions("> [index.tsx]")
+          .instructions("> [index.tsx] + fuse-box-css")
 });
 
 Sparky.task("default", ["clean", "config", "copy-svg"], () => {
-    fuse.dev();
+    fuse.dev({ root: false }, server => {
+        const dist = path.join(__dirname, "dist");
+        const app = server.httpServer.app;
+        app.use("/", express.static(path.join(dist, '')));
+        app.use("/", express.static(path.join(dist, '..', 'node_modules')));
+        app.get("*", function(req, res) {
+            res.sendFile(path.join(dist, "index.html"));
+        });
+    })
     app.watch().hmr();
-    return fuse.run().then(() => {
-        // launch the app
-        // spawn('node', [`${ __dirname }/node_modules/electron/cli.js`,  __dirname ]);
-        // execSync(`npm run dev3`);
-    });
+    return fuse.run();
 });
 
 Sparky.task("clean", () => Sparky.src("dist/").clean("dist/*.{js|html}"));
