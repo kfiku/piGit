@@ -9,8 +9,6 @@ const {
     Sparky
 } = require("fuse-box");
 
-const express = require("express");
-const path = require("path");
 const {spawn} = require("child_process");
 
 let fuse, app, vendor, isProduction;
@@ -45,15 +43,7 @@ Sparky.task("config", () => {
 });
 
 Sparky.task("default", ["clean", "config", "copy-svg"], () => {
-    fuse.dev({ root: false }, server => {
-        const dist = path.join(__dirname, "dist");
-        const app = server.httpServer.app;
-        app.use("/", express.static(path.join(dist, '')));
-        app.use("/", express.static(path.join(dist, '..', 'node_modules')));
-        app.get("*", function(req, res) {
-            res.sendFile(path.join(dist, "index.html"));
-        });
-    })
+    fuse.dev();
     app.watch().hmr();
     return fuse.run();
 });
