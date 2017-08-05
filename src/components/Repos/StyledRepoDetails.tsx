@@ -73,6 +73,10 @@ const StyledGroupHeader = styled.div`
   .footer {
     bottom: 0;
   }
+
+  .diff {
+    position: relative;
+  }
 `;
 
 export default StyledGroupHeader as any;
