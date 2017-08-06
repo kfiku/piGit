@@ -1,5 +1,5 @@
 {
-  "name": "PiGit",
+  "name": "pigit",
   "version": "0.5.2",
   "description": "electron app to watch git repos",
   "main": "main.js",
