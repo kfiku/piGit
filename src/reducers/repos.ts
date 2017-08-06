@@ -1,12 +1,10 @@
 import { IRepo } from '../interfaces/IRepo';
 import { ADD_REPO, RELOADING, RELOADING_END, UPDATE_REPO, DELETE_REPO } from '../constants/ActionTypes';
-import reorderArray from '../helpers/ReorderArray';
 import clone from '../helpers/Clone';
 
 export const initialState: IRepo[] = [];
 
 export default function repos(state = initialState, action) {
-  let newState;
   switch (action.type) {
     case ADD_REPO:
       state.push({

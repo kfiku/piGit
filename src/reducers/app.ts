@@ -1,6 +1,8 @@
-import { ADD_REPO, ADDING_REPO, ADDING_REPO_END, SHOW_REPO, HIDE_REPO,
-         RELOADING, UPDATE_REPO, DELETE_REPO, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
-         MESSAGE } from '../constants/ActionTypes';
+import {
+  ADDING_REPO, ADDING_REPO_END, SHOW_REPO, HIDE_REPO,
+  RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
+  MESSAGE
+} from '../constants/ActionTypes';
 
 import clone from '../helpers/Clone';
 

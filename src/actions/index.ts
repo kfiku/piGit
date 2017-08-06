@@ -5,11 +5,9 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
          RELOADING, RELOADING_END, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
          ADD_GROUP, REORDER_GROUP, DELETE_GROUP, START_EDITING_GROUP, EDIT_GROUP,
          RELOADING_GROUP, RELOADING_GROUP_END,
-         PULLING_GROUP, PULLING_GROUP_END,
          MESSAGE } from '../constants/ActionTypes';
 
 import { resolve } from 'path';
-import { ActionCreatorsMapObject } from 'redux';
 
 import * as electron from 'electron';
 import gitRepos from '../helpers/GitRepos';

@@ -1,6 +1,6 @@
 import { stat, readdir } from 'fs';
 import { exec } from 'child_process';
-import { join, basename, resolve } from 'path';
+import { basename, resolve } from 'path';
 
 const ignores = ['node_modules', 'bower_components', 'friendsofsymfony', 'sonata', 'symfony'];
 let isTree; // = false; // FORCE NODE IMPLEMENTATION
@@ -22,7 +22,6 @@ const treeWalk = (dir: string,
                   name: string = undefined,
                   depth = 5) => {
   let results = [];
-  let pending;
 
   const addResult = (filename, filepath) => {
     if (!name || filename === name ) {
