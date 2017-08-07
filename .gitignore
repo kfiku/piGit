@@ -55,7 +55,6 @@ test/**/*.map
 
 release
 
-start.sh
-
-# added by GitSavvy
 /dist/
+
+package-lock.json
