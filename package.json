@@ -102,7 +102,7 @@
     "fuse-box": "^2.2.2-beta.7",
     "istanbul": "~1.1.0-alpha.1",
     "js-yaml": "~3.8.2",
-    "mocha": "~3.3.0",
+    "mocha": "~3.5.0",
     "node-sass": "~4.5.1",
     "release-it": "~2.7.3",
     "ts-node": "^3.2.0",
