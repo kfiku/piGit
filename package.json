@@ -81,7 +81,7 @@
   "homepage": "https://github.com/kfiku/piGit",
   "devDependencies": {
     "@types/async": "2.0.37",
-    "@types/chai": "3.5.0",
+    "@types/chai": "4.0.2",
     "@types/mocha": "2.2.35",
     "@types/node": "6",
     "@types/react": "15.0.15",
