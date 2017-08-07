@@ -46,35 +46,6 @@ function createWindow () {
   mainWindow.on('move', saveWindowBounds);
 
   mainWindow.setMenu(null);
-
-  if (env === 'dev') {
-    // simple livereload js
-    const chokidar = require('chokidar');
-    chokidar.watch('src/**/*.js', {
-        ignored: /[\/\\]\./,
-        persistent: true
-      })
-      .on('all', (event, path) => {
-        mainWindow.reload();
-      }
-    );
-    // watch css
-    chokidar.watch('src/css/*.css', {
-        ignored: /[\/\\]\./,
-        persistent: true
-      })
-      .on('all', (event, path) => {
-        // mainWindow.reload();
-        mainWindow.webContents.executeJavaScript(`
-          document.querySelectorAll('link[rel=stylesheet]')
-            .forEach(function(link){
-              link.href = link.href.replace(/\\?t=[0-9]+/, '?t=' + Date.now())
-            })
-        `);
-      }
-    );
-  }
-
 }
 
 // This method will be called when Electron has finished
