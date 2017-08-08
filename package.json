@@ -118,7 +118,7 @@
     "classnames": "~2.2.5",
     "diff2html": "^2.0.12",
     "electron-settings": "~3.1.0",
-    "emotion": "^6.0.3",
+    "emotion": "^7.0.12",
     "es6-promisify": "~5.0.0",
     "highlight.js": "^9.12.0",
     "jquery": "^3.2.1",
