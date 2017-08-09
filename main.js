@@ -1,5 +1,8 @@
 // setting env var
-const env = process.env.NODE_ENV || 'prod';
+const env = process.env.NODE_ENV || 'production';
+const dev = env === 'dev';
+
+console.log(env);
 
 const electron = require('electron');
 const app = electron.app
@@ -9,7 +12,7 @@ const settings = require('electron-settings');
 let mainWindow
 
 function createWindow () {
-  if (env === 'dev') {
+  if (dev) {
     const installExtension = require('electron-devtools-installer');
     installExtension.default(installExtension.REDUX_DEVTOOLS)
       .then((name) => console.log(`Added Extension:  ${name}`))
@@ -24,7 +27,7 @@ function createWindow () {
   win.icon = __dirname + '/logo/piGit.png';
   mainWindow = new BrowserWindow(win);
 
-  if(env === 'dev') {
+  if(dev) {
     mainWindow.loadURL(`http://localhost:4444`);
   } else {
     mainWindow.loadURL(`file://${__dirname}/dist/index.html`);

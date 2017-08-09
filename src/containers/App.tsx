@@ -3,7 +3,7 @@ import { injectGlobal } from 'styled-components';
 
 import Nav from '../components/Nav';
 import Groups from '../components/Groups/Groups';
-import RepoDetails from '../components/Repos/RepoDetails';
+import RepoDetails from '../components/Details';
 import Message from '../components/Message';
 
 import globalStyles from '../utils/globalStyles';

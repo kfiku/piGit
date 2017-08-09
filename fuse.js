@@ -45,7 +45,10 @@ Sparky.task("config", () => {
 Sparky.task("default", ["clean", "config", "copy-svg"], () => {
     fuse.dev();
     app.watch().hmr();
-    return fuse.run();
+    return fuse.run().then(() => {
+        // launch electron the app
+        // spawn('node', [`${ __dirname }/node_modules/electron/cli.js`,  __dirname ]);
+    });
 });
 
 Sparky.task("clean", () => Sparky.src("dist/").clean("dist/*.{js|html}"));
