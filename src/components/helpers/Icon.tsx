@@ -1,9 +1,9 @@
+import * as React from 'react';
 import styled from 'styled-components';
-import * as PropTypes from 'prop-types';
 
 import { navHeight, g2, g1, g7, green, spin, defaultFont } from '../../utils/styles';
 
-const Icon = styled.i`
+const StyledIcon = styled.i`
   vertical-align: top;
   display: inline-block;
   width: ${navHeight * 0.75}px;
@@ -47,10 +47,22 @@ const Icon = styled.i`
   }
   `
   : null}
-`;
+` as any;
 
-Icon.propTypes = {
-  spin: PropTypes.bool,
-};
+interface IconProps {
+  spin?: boolean;
+  className?: string;
+  title?: string;
+  children?: any;
+  onClick?: () => {};
+}
 
-export default Icon as any;
+function Icon ({ spin, className, title, onClick, children }: IconProps) {
+  return (
+    <StyledIcon onClick={onClick} spin={spin} className={className} title={title}>
+      {children}
+    </StyledIcon>
+  );
+}
+
+export default Icon;
