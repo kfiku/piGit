@@ -66,7 +66,7 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
   ));
 
   return (
-    <StyledRepoDetails className={ 'repo-details ' + cls + (repo.progressing ? ' progressing' : '') }>
+    <StyledRepoDetails className={ 'repo-details ' + cls }>
       <h2 className='header'>
         Details of repo: { repo.name ? repo.name : basename(repo.dir) } @ { repo.branch }
       </h2>
