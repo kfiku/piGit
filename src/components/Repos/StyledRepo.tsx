@@ -101,27 +101,6 @@ const StyledGroupHeader = styled.div`
     color: ${g4};
   }
 
-  .status {
-    .ahead {
-      color: ${orange};
-    }
-
-    .behind {
-      color: ${red};
-    }
-
-    .modified {
-      color: ${blue};
-    }
-
-    &:empty {
-      &:after {
-        content: 'clean';
-        color: ${green};
-      }
-    }
-  }
-
   .updated {
     font-size: 0.75em;
     color: ${g4};

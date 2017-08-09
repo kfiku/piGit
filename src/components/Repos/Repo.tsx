@@ -12,6 +12,7 @@ const Isvg = require('react-inlinesvg');
 import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
 import Icon from '../helpers/Icon';
+import Status from './Status';
 import StyledRepo from './StyledRepo';
 
 const updateDate = (repo, el) => {
@@ -38,10 +39,10 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
   return (
     <StyledRepo className={ 'repo ' + cls } processing={repo.progressing}>
       <Icon className='icon icon-move repo-mover' title='Reorder this repo'>
-        <Isvg src='./svg/move.svg' />
+         <Isvg src='./svg/move.svg' />
       </Icon>
 
-      <Icon className='icon icon-x' title='Delete this repo'onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
+      <Icon className='icon icon-x' title='Delete this repo' onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
         <Isvg src='./svg/x.svg'/>
       </Icon>
 
@@ -62,19 +63,7 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
           @ { repo.branch }
         </div>
 
-        <div className='status'>
-          { repo.ahead ?
-            <span className='ahead'>Ahead: { repo.ahead } </span> : ''
-          }
-
-          { repo.behind ?
-            <span className='behind'>Behind: { repo.behind } </span> : ''
-          }
-
-          { (repo.modified && repo.modified.length) ?
-            <span className='modified'>Modified: { repo.modified.length } </span> : ''
-          }
-        </div>
+        <Status repo={repo} />
 
         <div className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
           { moment(repo.lastUpdate).fromNow() }
