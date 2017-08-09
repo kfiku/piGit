@@ -47,8 +47,14 @@ export class Repo {
       newState.untracked = status.not_added;
       newState.ahead = status.ahead;
       newState.behind = status.behind;
+      newState.deleted = status.deleted;
+      newState.renamed = status.renamed;
+      newState.staged = status.files
+        .filter(f => f.index !== ' ' && f.index !== '?')
+        .map(f => f.path);
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
+      console.log(newState, status);
       this.state = newState;
       resolve(newState);
     }));

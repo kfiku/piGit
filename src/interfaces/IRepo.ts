@@ -6,7 +6,9 @@ export interface IRepo {
   ahead?: number;
   behind?: number;
   modified?: any[];
-  added?: any[];
+  staged?: any[];
+  deleted?: any[];
+  renamed?: any[];
   untracked?: any[];
   progressing?: boolean;
   lastUpdate?: number;
