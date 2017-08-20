@@ -35,30 +35,10 @@ function Status ({ repo }: StatusProps) {
       </Untracked> }
       { d && <Deleted>{ d }</Deleted> }
       { r && <Renamed>{ r }</Renamed> }
-{/* ↓↑×→
-      { rep↑o.behind ?
-        <span>↓{ repo.behind } </span> : ''
-      }
-
-      { (repo.modified && repo.modified.length) ?
-        <span>
-          { repo.modified.length } </span> : ''
-      }
-
-      { (repo.untracked && repo.untracked.length) ?
-        <span>{ repo.untracked.length } </span> : ''
-      }
-
-      { (repo.deleted && repo.deleted.length) ?
-        <span>× { repo.deleted.length } </span> : ''
-      }
-
-      { (repo.renamed && repo.renamed.length) ?
-        <span>→ { repo.renamed.length } </span> : ''
-      } */}
     </StyledStatus>
   );
 };
 
+/* ↓↑×→✔ */
 
 export default Status;
