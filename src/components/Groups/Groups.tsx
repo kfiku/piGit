@@ -34,18 +34,30 @@ const sortableGroups = (actions, el) => {
   }
 };
 
-const GroupsComponent: any = ({groups, actions}: { groups: IGroup[], actions: any }) => {
-  renderLog('GROUPS', groups.length);
+interface Props {
+  groups: IGroup[];
+  isShownRepo: boolean;
+  actions: any;
+}
 
-  let groupsNodes = groups.map((group, i) => {
+const GroupsComponent: any = ({groups, isShownRepoDetails, actions}: Props) => {
+  renderLog('GROUPS', groups.length, isShownRepoDetails);
+
+  const groupsNodes = groups.map((group, i) => {
     console.log(group, i);
     return (
       <Group key={ group.id } group-id={ group.id } group-i={ i } />
     );
   });
 
+  const style: any = {};
+
+  if (isShownRepoDetails) {
+    style.display = 'none';
+  }
+
   return (
-    <div className='groups' ref={ sortableGroups.bind(null, actions) }>
+    <div style={style} ref={ sortableGroups.bind(null, actions) }>
       { groupsNodes }
     </div>
   );
@@ -58,16 +70,15 @@ GroupsComponent.propTypes = {
 
 
 const mapStateToProps = state => ({
-  groups: state.groups
+  groups: state.groups,
+  isShownRepoDetails: !!state.app.repoShown
 });
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 });
 
-const Groups = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(GroupsComponent);
-
-export default Groups;

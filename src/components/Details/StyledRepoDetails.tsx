@@ -17,7 +17,8 @@ const StyledGroupHeader = styled.div`
   flex-direction: column;
 
   position: fixed;
-  top: ${repoDetailsMargin + navHeight}px;
+  // top: ${repoDetailsMargin + navHeight}px;
+  top: 0;
   bottom: ${repoDetailsMargin}px;
   left: ${repoDetailsMargin}px;
   right: ${repoDetailsMargin}px;
