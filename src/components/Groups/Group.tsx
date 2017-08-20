@@ -53,11 +53,13 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
           />
         </div>
 
-        <Icon className='icon icon-save' title='Save Title'
-        onClick={ onChangeGroupName.bind(null, actions, group.id) }
-        >
-          <Isvg src='./svg/right-arrow-6.svg'/>
-        </Icon>
+        <div>
+          <Icon className='icon icon-save' title='Save Title'
+          onClick={ onChangeGroupName.bind(null, actions, group.id) }
+          >
+            <Isvg src='./svg/right-arrow-6.svg'/>
+          </Icon>
+        </div>
       </StyledGroupHeader>
     );
   } else {

@@ -12,7 +12,6 @@ const App = () => {
   return (
     <div>
       <Nav/>
-
       /** NAV IS POS FIXED SO THIS IS NAV HEIGHT EMPTY DIV */
       <div className='nav-h'/>
 

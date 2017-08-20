@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { navHeight, g2, g1, g7, green, spin, defaultFont } from '../../utils/styles';
+import { navHeight, g4, g7, green, spin } from '../../utils/styles';
 
 const StyledIcon = styled.i`
   vertical-align: top;
@@ -13,7 +13,7 @@ const StyledIcon = styled.i`
   svg {
     width: 100%;
     height: 100%;
-    fill: $g4;
+    fill: ${g4};
     will-change: fill;
     transition: fill 0.4s;
   }

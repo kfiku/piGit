@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { navHeight, g2, g1, g7, defaultFont } from '../../utils/styles';
+import { navHeight, g1, g2, g4, g7, defaultFont } from '../../utils/styles';
 
 // const StyledNav = styled('nav')`
 const Button = styled.button`
@@ -24,6 +24,10 @@ const Button = styled.button`
 
   & > i {
     margin: ${navHeight * 0.125}px ${navHeight / 4}px 0 0;
+  }
+
+  svg {
+    fill: ${g4};
   }
 
   &:hover {

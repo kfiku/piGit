@@ -34,10 +34,9 @@ export const Behind = styled.span`
 export const Modified = styled.span`
   color: ${blue};
 
-  // :after {
-  //   content: '↑ ';
-  //   // content: '↓↑×→'
-  // }
+  :before {
+    content: '+ ';
+  }
 `;
 
 export const Untracked = styled.span`
@@ -68,7 +67,7 @@ const StyledStatus = styled.div`
 
   &:empty {
     &:after {
-      content: 'clean';
+      content: '✔';
       color: ${green};
     }
   }

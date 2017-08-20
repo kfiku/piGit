@@ -21,8 +21,6 @@ const StyledGroupHeader = styled.div`
     height: ${groupHeaderHeight}px;
     margin-right: ${groupHeaderHeight / 2}px;
 
-
-
     &:first-child {
       margin-left: ${groupHeaderHeight / 2}px;
     }
