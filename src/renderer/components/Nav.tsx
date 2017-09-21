@@ -19,7 +19,7 @@ const StyledNav = styled.nav`
   z-index: 10;
 `;
 
-import actions from '../actions';
+import actionsToConnect from '../actions';
 import { renderLog } from '../helpers/logger';
 import Button from './helpers/Button';
 import Icon from './helpers/Icon';
@@ -71,7 +71,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(actionsToConnect, dispatch)
 });
 
 const Nav = connect(

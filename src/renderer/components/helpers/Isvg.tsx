@@ -1,11 +1,10 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import { readFileSync } from 'fs';
 
 import { renderLog } from '../../helpers/logger';
 
 interface IsvgProps {
- src: string,
+ src: string;
 }
 
 const Isvg: React.SFC<IsvgProps> = ({ src, ...rest }) => {

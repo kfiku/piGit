@@ -9,7 +9,7 @@ import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const Isvg = require('react-inlinesvg');
-import actions from '../../actions';
+import actionsToConnect from '../../actions';
 import { renderLog } from '../../helpers/logger';
 import Button from '../helpers/Button';
 import Icon from '../helpers/Icon';
@@ -162,7 +162,7 @@ const mapStateToProps = (state, ownProps = {}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(actionsToConnect, dispatch)
 });
 
 const RepoDetails = connect(

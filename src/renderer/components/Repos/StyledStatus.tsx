@@ -5,15 +5,7 @@ import {
   red,
   orange,
   green,
-  blue,
-  redBg,
-  orangeBg,
-  blueBg,
-  repoSize,
-  repoIconSize,
-  repoBgSize,
-  g0, g3, g4, g5,
-  defaultFont, styledFont
+  blue, g4, styledFont
 } from '../../utils/styles';
 
 export const Ahead = styled.span`

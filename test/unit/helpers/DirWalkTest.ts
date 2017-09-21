@@ -3,7 +3,7 @@
 
 import { expect } from 'chai';
 import { join } from 'path';
-import dirWalk from '../../../src/helpers/DirWalk';
+import dirWalk from '../../../src/renderer/helpers/DirWalk';
 
 describe('DirWalk test', () => {
   it('should proper search for dirs', (done) => {

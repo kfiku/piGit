@@ -96,7 +96,7 @@ export class Repo {
       callback(err);
     });
   }
-};
+}
 
 export class Repos {
   private repos = {};
@@ -159,6 +159,6 @@ export class Repos {
     this.getRepo(dir)
     .then((repo: Repo) => repo.diff(callback));
   }
-};
+}
 
 export default new Repos();

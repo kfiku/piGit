@@ -1,72 +1,76 @@
 {
   "name": "pigit",
-  "version": "0.5.2",
-  "description": "electron app to watch git repos",
-  "main": "main.js",
-  "build": {
-    "appId": "net.kfiku.pigit",
-    "copyright": "© Kfiku - Grzegorz Klimek",
-    "asar": true,
-    "productName": "PiGit",
-    "icon": "icon.icns",
-    "mac": {
-      "category": "public.app-category.productivity",
-      "target": "dmg"
-    },
-    "dmg": {
-      "backgroundColor": "#ffffff"
-    },
-    "linux": {
-      "maintainer": "Grzegorz Klimek",
-      "category": "Utility",
-      "description": "electron app to watch git repos",
-      "packageCategory": "Utility",
-      "arch": [
-        "x64"
-      ],
-      "target": [
-        "deb",
-        "rpm",
-        "zip"
-      ]
-    },
-    "win": {
-      "icon": "icon.ico"
-    },
-    "files": [
-      "node_modules",
-      "src",
-      "logo",
-      "main.js",
-      "LICENSE"
-    ]
-  },
-  "scripts": {
-    "test": "npm run lint && npm run test:cov",
-    "fuse": "node fuse.js",
-    "dev": "export NODE_ENV=dev && npm run clean && concurrently 'npm run fuse' 'npm start -- dev'",
-    "lint": "tslint src/**/*.tsx src/**/*.ts -c tslint.json",
-    "clean": "rm -rf dist .fusebox coverage",
-    "test:cov": "npm run clean && ts-node ./node_modules/istanbul/lib/cli.js cover -e .ts ./node_modules/.bin/_mocha test/unit/**/*.ts",
-    "test:unit": "npm run clean && ts-node ./node_modules/.bin/_mocha test/unit/**/*.ts",
-    "test:unit-w": "chokidar 'test/unit/**/*.ts' 'src/**/*.ts' -c 'npm run test:unit' ",
-    "start": "electron ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kfiku/piGit.git"
-  },
-  "keywords": [
-    "Electron",
-    "Git",
-    "watch"
-  ],
+  "productName": "PiGit",
   "author": {
     "name": "Grzegorz Klimek",
     "email": "kfiku.com@gmail.com",
     "url": "https://github.com/kfiku"
   },
-  "license": "MIT",
+  "version": "0.6.1",
+  "description": "electron app to watch git repos",
+  "main": "dist/main/main.js",
+  "license": "ISC",
+  "scripts": {
+    "test": "npm run lint && npm run test:cov",
+    "start": "node fuse",
+    "start:electron": "electron .",
+    "start:electron:watch": "nodemon --watch 'dist/main/*.*' --exec 'electron .'",
+    "build": "npm run lint && export NODE_ENV=production && node fuse dist",
+    "lint": "tslint 'src/**/*.tsx' 'src/**/*.ts' -c tslint.json --project tsconfig.json",
+    "prod": "export NODE_ENV=production && npm run build && npm run start:electron",
+    "packager": "npm run build && node ./package.js",
+    "package": "npm run build && build --publish never",
+    "pack-and-publish": "npm run build && build --publish always",
+    "package-all": "npm run build && build -mwl",
+    "package-linux": "npm run build && build --linux",
+    "package-win": "npm run build && build --win --x64",
+    "test:cov": "ts-node ./node_modules/istanbul/lib/cli.js cover -e .ts ./node_modules/.bin/_mocha test/unit/**/*.ts",
+    "test:unit": "ts-node ./node_modules/.bin/_mocha test/unit/**/*.ts",
+    "test:unit-w": "chokidar 'test/unit/**/*.ts' 'src/**/*.ts' -c 'npm run test:unit' "
+  },
+  "build": {
+    "productName": "PiGit",
+    "appId": "org.kfiku.PiGit",
+    "files": [
+      "dist/",
+      "node_modules/",
+      "resources/",
+      "package.json"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ]
+    },
+    "directories": {
+      "buildResources": "resources",
+      "output": "release"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kfiku/piGit.git"
+  },
   "bugs": {
     "url": "https://github.com/kfiku/piGit/issues"
   },
@@ -76,39 +80,46 @@
     "@types/chai": "4.0.2",
     "@types/mocha": "2.2.35",
     "@types/node": "^8.0.15",
+    "@types/prop-types": "^15.5.1",
     "@types/react": "16.0.1",
     "@types/react-dom": "15.5.2",
-    "@types/prop-types": "^15.5.1",
     "@types/react-redux": "4.4.47",
     "@types/sortablejs": "1.3.31",
+    "babel-core": "^6.20.0",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-latest": "^6.16.0",
     "chai": "~3.5.0",
     "chokidar-cli": "~1.2.0",
     "concurrently": "~3.5.0",
     "devtron": "~1.4.0",
-    "electron": "~1.7.2",
+    "electron": "^1.7.6",
+    "electron-builder": "^19.27.7",
     "electron-debug": "~1.2.0",
     "electron-devtools-installer": "~2.2.0",
     "electron-installer-debian": "~0.5.0",
     "electron-packager": "~8.6.0",
-    "fuse-box": "^2.2.2-beta.7",
+    "express": "^4.15.4",
+    "fuse-box": "^2.2.31",
     "istanbul": "~1.1.0-alpha.1",
     "js-yaml": "~3.8.2",
     "mocha": "~3.5.0",
+    "node-sass": "^4.5.3",
+    "nodemon": "^1.12.1",
     "ts-node": "^3.2.0",
-    "tslint": "^4.5.1",
-    "typescript": "~2",
-    "babel-core": "^6.20.0",
-    "babel-plugin-transform-react-jsx": "^6.8.0",
-    "babel-preset-latest": "^6.16.0",
     "tslib": "^1.7.1",
-    "uglify-js": "^3.0.15"
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2",
+    "uglify-js": "^3.0.27"
   },
   "dependencies": {
     "async": "~2.3.0",
     "classnames": "~2.2.5",
     "diff2html": "^2.0.12",
-    "electron-settings": "~3.1.0",
+    "electron-log": "^2.2.9",
+    "electron-settings": "^3.1.1",
+    "electron-updater": "^2.8.9",
     "es6-promisify": "~5.0.0",
+    "file-icons-js": "github:websemantics/file-icons-js",
     "highlight.js": "^9.12.0",
     "jquery": "^3.2.1",
     "moment": "~2.18.0",

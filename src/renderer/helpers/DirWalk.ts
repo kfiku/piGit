@@ -95,8 +95,8 @@ const nodeWalk = (dir: string,
             done(null, results);
           }
         } else {
-          stat(filepath, (err2, stat) => {
-            if (stat && stat.isDirectory()) {
+          stat(filepath, (err2, st) => {
+            if (st && st.isDirectory()) {
               nodeWalk(filepath, step, (err3, res) => {
                 results = results.concat(res);
                 if (!--pending) {

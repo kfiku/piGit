@@ -1,5 +1,5 @@
 import { IGroup } from '../../interfaces/IGroup';
-import { IRepo } from '../../interfaces/IRepo';
+// import { IRepo } from '../../interfaces/IRepo';
 
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Sortable = require('sortablejs');
 
 import { renderLog } from '../../helpers/logger';
-import actions from '../../actions';
+import actionsToConnect from '../../actions';
 import Repo from './Repo';
 import StyledRepos from './StyledRepos';
 
@@ -86,7 +86,7 @@ const mapStateToProps = (state, ownProps ) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(actionsToConnect, dispatch)
 });
 
 const Repos = connect(

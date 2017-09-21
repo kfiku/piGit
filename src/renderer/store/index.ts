@@ -12,7 +12,7 @@ const createAppStore = (callback) => {
   let composeEnhancers = compose;
   if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
     composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-  };
+  }
 
   if (state) {
     if (state.repos && state.repos[0] && (<any>state.repos[0]).repos) {

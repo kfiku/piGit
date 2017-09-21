@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { groupHeaderHeight, g2, g1, g7, defaultFont, styledFont } from '../../utils/styles';
+import { groupHeaderHeight, g1, g7, styledFont } from '../../utils/styles';
 
 // const StyledNav = styled('nav')`
 const StyledGroupHeader = styled.div`

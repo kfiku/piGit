@@ -1,18 +1,13 @@
 import styled from 'styled-components';
 
 import {
-  red,
-  orange,
-  green,
-  blue,
   redBg,
   orangeBg,
   blueBg,
   repoSize,
   repoIconSize,
   repoBgSize,
-  g0, g3, g4, g5,
-  defaultFont, styledFont
+  g0, g3, g4, g5
 } from '../../utils/styles';
 
 const iconCenter = 50 - repoIconSize / 2;
@@ -148,7 +143,7 @@ const StyledGroupHeader = styled.div`
     }
   }
 
-  ${[1,2,3,4,5,6,7,8,9].map(i => (
+  ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
     `
       @media screen and (min-width: ${(i + 0.5) * repoSize}px)
       and (max-width: ${(i + 1.5) * repoSize - 1}px) {

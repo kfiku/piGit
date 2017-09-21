@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { navHeight, g4, g7, green, spin } from '../../utils/styles';
+import { navHeight, g4, g7, green, spin as spinAnimation } from '../../utils/styles';
 
 const StyledIcon = styled.i`
   vertical-align: top;
@@ -35,7 +35,7 @@ const StyledIcon = styled.i`
       fill: ${green};
     }
 
-    animation: ${spin} 1s linear infinite;
+    animation: ${spinAnimation} 1s linear infinite;
   }
 
   ${(p: any) => p.spin ? `
@@ -43,7 +43,7 @@ const StyledIcon = styled.i`
       fill: ${green};
     }
 
-    animation: ${spin} 1s linear infinite;
+    animation: ${spinAnimation} 1s linear infinite;
   }
   `
   : null}

@@ -37,7 +37,7 @@ function Status ({ repo }: StatusProps) {
       { r && <Renamed>{ r }</Renamed> }
     </StyledStatus>
   );
-};
+}
 
 /* ↓↑×→✔ */
 

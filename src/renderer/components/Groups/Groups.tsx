@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import actions from '../../actions';
+import actionsToConnect from '../../actions';
 import Group from './Group';
 import { renderLog } from '../../helpers/logger';
 
@@ -74,7 +74,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(actionsToConnect, dispatch)
 });
 
 export default connect(

@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import actions from '../actions';
+import actionsToConnect from '../actions';
 import Dialog from './helpers/Dialog';
 
 const MessageComponent: any = ({msg, actions}) => {
@@ -27,7 +27,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators(actionsToConnect, dispatch)
 });
 
 const Message = connect(

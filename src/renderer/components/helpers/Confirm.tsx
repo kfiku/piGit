@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 
-const Isvg = require('react-inlinesvg');
 import { renderLog } from '../../helpers/logger';
 
 const Confirm: any = ({msg, yes, no}) => {

@@ -12,7 +12,7 @@ export interface IAppState {
   repoShown: string;
   fileShown: string;
   message: string;
-};
+}
 
 const initialState: IAppState = {
   addingRepos: false,
