@@ -1,0 +1,492 @@
+@charset "UTF-8";
+/* COLORS */
+/* SIZES */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: #bbb;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px; }
+
+*, *:after, *:before {
+  box-sizing: border-box; }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+
+.icon {
+  cursor: pointer; }
+  .icon svg {
+    fill: #888;
+    will-change: fill;
+    transition: fill 0.4s; }
+  .icon:hover svg {
+    fill: #222; }
+
+.icon-x:hover svg {
+  fill: #800; }
+
+.progressing.button {
+  text-align: center; }
+
+.progressing .icon-refresh {
+  animation: spin 1s linear infinite; }
+  .progressing .icon-refresh svg {
+    fill: #49963D; }
+
+.button {
+  padding: 0 12px;
+  height: 48px;
+  line-height: 48px;
+  vertical-align: middle;
+  border: none;
+  background: #ccc;
+  outline: none;
+  cursor: pointer;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  will-change: background;
+  transition: background 0.3s;
+  white-space: nowrap; }
+  .button .icon {
+    vertical-align: top;
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    margin: 6px 12px 0 0; }
+    .button .icon svg {
+      width: 100%;
+      height: 100%; }
+  .button:hover {
+    background: #ddd; }
+    .button:hover .icon svg {
+      fill: #222; }
+
+.dialog {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100; }
+
+.dialog-background {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(10, 10, 10, 0.86); }
+
+.dialog-content {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  z-index: 101;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: white; }
+  .dialog-content p {
+    margin-top: 0; }
+
+.btn {
+  border: none;
+  padding: 8px 12px;
+  outline: none;
+  font-size: 1em;
+  background: #ddd;
+  color: #444;
+  border-radius: 4px;
+  cursor: pointer; }
+  .btn:hover {
+    background: #ccc; }
+
+.nav-h {
+  height: 48px; }
+
+.main-nav {
+  width: 100%;
+  height: 48px;
+  background: #ccc;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 10; }
+
+.group-header {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 16px 0;
+  position: relative;
+  z-index: 3; }
+  .group-header.editing {
+    background: #ddd; }
+  .group-header .icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin-right: 16px; }
+    .group-header .icon:first-child {
+      margin-left: 16px; }
+  .group-header .icon-move {
+    cursor: move; }
+  .group-header .title-box {
+    flex-grow: 1; }
+  .group-header .title {
+    height: 32px;
+    font-size: 32px;
+    line-height: 32px;
+    font-family: "Copse", serif;
+    word-break: break-all;
+    font-weight: 400;
+    color: #222; }
+  .group-header input.title {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    background: none; }
+
+.repos {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100px;
+  margin-top: -25px; }
+
+.repo {
+  width: 200px;
+  position: relative; }
+  .repo:hover {
+    z-index: 4; }
+  .repo:hover .icon, .repo.progressing .icon {
+    opacity: 1; }
+  .repo .icon {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 15%;
+    height: 15%;
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.3s; }
+  .repo svg {
+    fill: #bbb; }
+  .repo .icon-move {
+    top: 8.75%;
+    left: 42.5%;
+    cursor: move; }
+  .repo .icon-refresh {
+    bottom: 8.75%;
+    left: 42.5%; }
+  .repo .icon-pull {
+    top: 42.5%;
+    left: 8.75%; }
+  .repo .icon-x {
+    top: 42.5%;
+    right: 8.75%; }
+  .repo .content {
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+    .repo .content > div {
+      margin: 4px 0; }
+  .repo .title {
+    margin-top: 57.14286px;
+    font-size: 1em;
+    line-height: 1em;
+    word-break: break-all;
+    cursor: pointer; }
+  .repo .branch {
+    font-size: 0.75em;
+    color: #888; }
+  .repo .status .ahead {
+    color: #ce800b; }
+  .repo .status .behind {
+    color: #800; }
+  .repo .status .modified {
+    color: #1E3E7F; }
+  .repo .status:empty:after {
+    content: 'clean';
+    color: #49963D; }
+  .repo .updated {
+    font-size: 0.75em;
+    color: #888; }
+  .repo:after {
+    content: '';
+    position: absolute;
+    top: 17.5%;
+    left: 17.5%;
+    display: block;
+    width: 65%;
+    height: 65%;
+    background: #eee;
+    border-radius: 13%;
+    z-index: 0;
+    transform: rotate(45deg);
+    will-change: background;
+    transition: background 1s; }
+  .repo.behind:after {
+    background: #f5d2ea; }
+  .repo.ahead:after {
+    background: #e8ddcb; }
+  .repo.modified:after {
+    background: #d9dff3; }
+  .repo.sortable-ghost:after {
+    border: 2px dashed #666; }
+  .repo.sortable-fallback {
+    margin-left: 0 !important; }
+    .repo.sortable-fallback:after {
+      box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3); }
+
+/**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    */
+@media screen and (min-width: 300px) and (max-width: 499px) {
+  .group {
+    margin-bottom: 50%; }
+  .repo {
+    width: 100%;
+    padding-bottom: 100%;
+    margin-bottom: -50%; }
+  .repo:nth-of-type(1n + 2) {
+    margin-left: 50%; } }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+/**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    */
+@media screen and (min-width: 500px) and (max-width: 699px) {
+  .group {
+    margin-bottom: 25%; }
+  .repo {
+    width: 50%;
+    padding-bottom: 50%;
+    margin-bottom: -25%; }
+  .repo:nth-of-type(3n + 3) {
+    margin-left: 25%; } }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+/**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    */
+@media screen and (min-width: 700px) and (max-width: 899px) {
+  .group {
+    margin-bottom: 16.66667%; }
+  .repo {
+    width: 33.33333%;
+    padding-bottom: 33.33333%;
+    margin-bottom: -16.66667%; }
+  .repo:nth-of-type(5n + 4) {
+    margin-left: 16.66667%; } }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+/**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    */
+@media screen and (min-width: 900px) and (max-width: 1099px) {
+  .group {
+    margin-bottom: 12.5%; }
+  .repo {
+    width: 25%;
+    padding-bottom: 25%;
+    margin-bottom: -12.5%; }
+  .repo:nth-of-type(7n + 5) {
+    margin-left: 12.5%; } }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+/**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    */
+@media screen and (min-width: 1100px) and (max-width: 1299px) {
+  .group {
+    margin-bottom: 10%; }
+  .repo {
+    width: 20%;
+    padding-bottom: 20%;
+    margin-bottom: -10%; }
+  .repo:nth-of-type(9n + 6) {
+    margin-left: 10%; } }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+/**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    */
+@media screen and (min-width: 1300px) and (max-width: 1499px) {
+  .group {
+    margin-bottom: 8.33333%; }
+  .repo {
+    width: 16.66667%;
+    padding-bottom: 16.66667%;
+    margin-bottom: -8.33333%; }
+  .repo:nth-of-type(11n + 7) {
+    margin-left: 8.33333%; } }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+/**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    */
+@media screen and (min-width: 1500px) and (max-width: 1699px) {
+  .group {
+    margin-bottom: 7.14286%; }
+  .repo {
+    width: 14.28571%;
+    padding-bottom: 14.28571%;
+    margin-bottom: -7.14286%; }
+  .repo:nth-of-type(13n + 8) {
+    margin-left: 7.14286%; } }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+/**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    */
+@media screen and (min-width: 1700px) and (max-width: 1899px) {
+  .group {
+    margin-bottom: 6.25%; }
+  .repo {
+    width: 12.5%;
+    padding-bottom: 12.5%;
+    margin-bottom: -6.25%; }
+  .repo:nth-of-type(15n + 9) {
+    margin-left: 6.25%; } }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+/**
+    * if second row fits one less cols than first
+    *  ♦ ♦ ♦ ♦
+    *   ♦ ♦ ♦
+    *  ♦ ♦ ♦ ♦
+    */
+@media screen and (min-width: 1900px) and (max-width: 2099px) {
+  .group {
+    margin-bottom: 5.55556%; }
+  .repo {
+    width: 11.11111%;
+    padding-bottom: 11.11111%;
+    margin-bottom: -5.55556%; }
+  .repo:nth-of-type(17n + 10) {
+    margin-left: 5.55556%; } }
+
+/**
+   * if second row fits the same cols than first
+   *  ♦ ♦ ♦ ♦
+   *   ♦ ♦ ♦ ♦
+   *  ♦ ♦ ♦ ♦
+   */
+.repo-details {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 48px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  z-index: 10;
+  padding: 16px;
+  background: #eee; }
+  .repo-details .header,
+  .repo-details .status {
+    margin-top: 0; }
+  .repo-details .icon {
+    width: 32px;
+    height: 32px; }
+  .repo-details .icon-x {
+    position: absolute;
+    top: 16px;
+    right: 16px; }
+  .repo-details .content {
+    overflow-y: auto;
+    flex-grow: 1; }
+  .repo-details .status .ahead {
+    color: #ce800b; }
+  .repo-details .status .behind {
+    color: #800; }
+  .repo-details .status .modified {
+    color: #1E3E7F; }
+  .repo-details .status:empty:after {
+    content: 'clean';
+    color: #49963D; }
+  .repo-details .footer {
+    bottom: 0; }
+
+.diff {
+  position: relative; }

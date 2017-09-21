@@ -15,7 +15,6 @@ import Button from '../helpers/Button';
 import Icon from '../helpers/Icon';
 import StyledRepoDetails from './StyledRepoDetails';
 
-
 import Diff from './Diff';
 
 const openInGitGui = (repo) => {

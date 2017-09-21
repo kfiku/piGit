@@ -36,15 +36,14 @@ const sortableGroups = (actions, el) => {
 
 interface Props {
   groups: IGroup[];
-  isShownRepo: boolean;
+  isShownRepoDetails: boolean;
   actions: any;
 }
 
 const GroupsComponent: any = ({groups, isShownRepoDetails, actions}: Props) => {
-  renderLog('GROUPS', groups.length, isShownRepoDetails);
+  renderLog('GROUPS', groups.length);
 
   const groupsNodes = groups.map((group, i) => {
-    console.log(group, i);
     return (
       <Group key={ group.id } group-id={ group.id } group-i={ i } />
     );
