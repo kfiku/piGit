@@ -101,7 +101,7 @@
     "express": "^4.15.4",
     "fuse-box": "^2.2.31",
     "istanbul": "~1.1.0-alpha.1",
-    "js-yaml": "~3.8.2",
+    "js-yaml": "~3.10.0",
     "mocha": "~3.5.0",
     "node-sass": "^4.5.3",
     "nodemon": "^1.12.1",
