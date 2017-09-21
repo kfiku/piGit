@@ -3,7 +3,7 @@
 
 import { expect } from 'chai';
 import { join } from 'path';
-import gitRepos from '../../../src/helpers/GitRepos';
+import gitRepos from '../../../src/renderer/helpers/GitRepos';
 
 describe('Git Repos test', () => {
   it('should proper search for repos', (done) => {
