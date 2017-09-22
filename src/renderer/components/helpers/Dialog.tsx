@@ -2,21 +2,22 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 
 import { renderLog } from '../../helpers/logger';
+import { Dialog as StyledDialog, Bg, Content } from './StyledDialog';
 
 const Dialog: any = ({msg, ok}) => {
   renderLog('DIALOG');
   return (
-    <div className='dialog'>
-      <div className='dialog-content'>
+    <StyledDialog>
+      <Content>
         <p>{ msg }</p>
 
         <footer>
           <button className='btn' onClick={ ok }>OK</button>
         </footer>
-      </div>
+      </Content>
 
-      <div className='dialog-background'></div>
-    </div>
+      <Bg />
+    </StyledDialog>
   );
 };
 
