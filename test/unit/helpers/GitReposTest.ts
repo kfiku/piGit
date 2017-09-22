@@ -12,7 +12,7 @@ describe('Git Repos test', () => {
     gitRepos.searchRepos(['.'], (dir) => {
       expect(dir).to.be.equal(gitDirsWonted[0]);
     }, (err, dirs) => {
-      expect(err).to.be(undefined);
+      expect(err).to.equal(null);
       expect(dirs).to.be.deep.equal(gitDirsWonted);
       done();
     });
