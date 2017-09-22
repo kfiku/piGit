@@ -4,7 +4,14 @@ import * as PropTypes from 'prop-types';
 import { renderLog } from '../../helpers/logger';
 import { Dialog, Bg, Content } from './StyledDialog';
 
-const Confirm: any = ({msg, yes, no}) => {
+
+interface IConfirm {
+  yes: () => {};
+  no: () => {};
+  msg: string;
+}
+
+const Confirm: any = ({msg, yes, no}: IConfirm) => {
   renderLog('DIALOG');
   return (
     <Dialog className='confirm'>
@@ -21,12 +28,6 @@ const Confirm: any = ({msg, yes, no}) => {
       <Bg className='dialog-background'></Bg>
     </Dialog>
   );
-};
-
-Confirm.propTypes = {
-  msg: PropTypes.string.isRequired,
-  yes: PropTypes.func.isRequired,
-  no: PropTypes.func.isRequired,
 };
 
 export default Confirm;

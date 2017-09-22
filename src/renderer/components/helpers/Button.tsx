@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import { navHeight, g1, g2, g4, g7, defaultFont } from '../../utils/styles';
 
 // const StyledNav = styled('nav')`

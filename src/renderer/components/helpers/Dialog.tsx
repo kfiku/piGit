@@ -4,7 +4,12 @@ import * as PropTypes from 'prop-types';
 import { renderLog } from '../../helpers/logger';
 import { Dialog as StyledDialog, Bg, Content } from './StyledDialog';
 
-const Dialog: any = ({msg, ok}) => {
+interface IDialog {
+  ok?: () => {};
+  msg: string;
+}
+
+function Dialog ({ msg, ok }: IDialog) {
   renderLog('DIALOG');
   return (
     <StyledDialog>
@@ -19,11 +24,6 @@ const Dialog: any = ({msg, ok}) => {
       <Bg />
     </StyledDialog>
   );
-};
-
-Dialog.propTypes = {
-  msg: PropTypes.string.isRequired,
-  ok: PropTypes.func.isRequired,
-};
+}
 
 export default Dialog;
