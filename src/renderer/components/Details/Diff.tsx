@@ -27,7 +27,7 @@ const loadDiff = (dir, el: HTMLBaseElement) => {
   }
 
   repos.diff(dir, (err, diff) => {
-    if (diff) {
+    if (!err && diff) {
       const diff2HtmlUI = new Diff2HtmlUI({ diff });
       diff2HtmlUI.draw(
         '#differ',

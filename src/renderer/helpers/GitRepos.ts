@@ -38,9 +38,9 @@ export class Repo {
     });
   }
 
-  updateStatus (params: { remoteHeads?: string[] } = undefined) {
+  updateStatus () {
     return this.git.status()
-    .then(status => new Promise((resolve, reject) => {
+    .then(status => new Promise((resolve) => {
       let newState = this.state;
       newState.lastUpdate = Date.now();
       newState.modified = status.modified;
@@ -62,7 +62,7 @@ export class Repo {
 
   fetch () {
     return this.git.fetch()
-    .then(f => this.updateStatus());
+    .then(() => this.updateStatus());
   }
 
   refresh () {
@@ -74,12 +74,12 @@ export class Repo {
     // })
 
     return this.git.fetch()
-    .then(f => this.updateStatus());
+    .then(() => this.updateStatus());
   }
 
   pull () {
     return this.git.pull()
-    .then(f => this.updateStatus());
+    .then(() => this.updateStatus());
   }
 
   remove () {
@@ -92,7 +92,7 @@ export class Repo {
   }
 
   validateDir (dir, callback) {
-    stat(join(dir, '.git'), (err, rStat) => {
+    stat(join(dir, '.git'), (err) => {
       callback(err);
     });
   }
@@ -109,6 +109,9 @@ export class Repos {
 
     eachSeries(dirs, (dir, cb) => {
       walk(dir, steps, (err, gitDirs) => {
+        if (err) {
+          console.log(err);
+        }
         gitDirsToAdd = gitDirsToAdd.concat(gitDirs);
         cb();
       }, '.git', 6);

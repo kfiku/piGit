@@ -12,10 +12,14 @@ import App from './containers/App';
 import createAppStore from './store';
 
 createAppStore((err, store) => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.getElementById('root')
-  );
+  if (err) {
+    console.log(err);
+  } else {
+    ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      document.getElementById('root')
+    );
+  }
 });

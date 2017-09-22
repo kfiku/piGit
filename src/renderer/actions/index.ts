@@ -41,7 +41,8 @@ const actions = {
             dispatch(actions.message(`Repo '${newRepoDit}' is already there ;-)`));
           }
         },
-        (err, gitDirs) => {
+        (err) => {
+          console.log(err);
           dispatch({ type: ADDING_REPO_END });
         });
     };

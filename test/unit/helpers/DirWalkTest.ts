@@ -12,6 +12,7 @@ describe('DirWalk test', () => {
     dirWalk('./', (dir) => {
       expect(dir).to.be.equal(dirsWonted[0]);
     }, (err, dirs) => {
+      expect(err).to.be(undefined);
       expect(dirs).to.be.deep.equal(dirsWonted);
       done();
     }, '.git', 6);

@@ -18,10 +18,10 @@ autoUpdater.on('checking-for-update', () => {
   sendStatusToWindow('Checking for update...');
 });
 autoUpdater.on('update-available', (info) => {
-  sendStatusToWindow('Update available.');
+  sendStatusToWindow('Update available. ' + info);
 });
 autoUpdater.on('update-not-available', (info) => {
-  sendStatusToWindow('Update not available.');
+  sendStatusToWindow('Update not available. ' + info);
 });
 autoUpdater.on('error', (err) => {
   sendStatusToWindow('Error in auto-updater. ' + JSON.stringify(err));
@@ -35,12 +35,13 @@ autoUpdater.on('download-progress', (progressObj) => {
   sendStatusToWindow(log_message);
 });
 autoUpdater.on('update-downloaded', (info) => {
-  sendStatusToWindow('Update downloaded; will install in 5 seconds');
+  sendStatusToWindow('Update downloaded; will install in 5 seconds ' + info);
 });
 autoUpdater.on('update-downloaded', (info) => {
   // Wait 5 seconds, then quit and install
   // In your application, you don't need to wait 5 seconds.
   // You could call autoUpdater.quitAndInstall(); immediately
+  console.log(info);
   setTimeout(function() {
     autoUpdater.quitAndInstall();
   }, 5000);

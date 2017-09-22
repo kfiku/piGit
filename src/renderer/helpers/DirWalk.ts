@@ -7,7 +7,7 @@ let isTree; // = false; // FORCE NODE IMPLEMENTATION
 
 const checkIsTreeCommand = (callback) => {
   if (isTree === undefined) {
-    exec('which tree', (err, a, b) => {
+    exec('which tree', (err) => {
       isTree = !err;
       callback(isTree);
     });
@@ -41,7 +41,7 @@ const treeWalk = (dir: string,
     }
 
     let filesArr = files.split('\n');
-    filesArr.map((f, key) => {
+    filesArr.map((f) => {
       let filepath = f.split(' /')[1] && '/' + f.split(' /')[1];
       if (filepath) {
         addResult(basename(filepath), filepath);
@@ -96,8 +96,9 @@ const nodeWalk = (dir: string,
           }
         } else {
           stat(filepath, (err2, st) => {
-            if (st && st.isDirectory()) {
+            if (!err2 && st && st.isDirectory()) {
               nodeWalk(filepath, step, (err3, res) => {
+                if (err3) { console.log(err3); }
                 results = results.concat(res);
                 if (!--pending) {
                   done(null, results);

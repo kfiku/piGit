@@ -33,7 +33,7 @@ export default function repos(state = initialState, action) {
       });
 
     case DELETE_REPO:
-      return state.map((group, gid) => {
+      return state.map((group) => {
         if (group.id === action.groupId) {
           group = clone(group);
           group.repos = group.repos.filter(repo => repo !== action.id);
@@ -59,7 +59,7 @@ export default function repos(state = initialState, action) {
       return newState;
 
     case DELETE_GROUP_CONFIRM:
-      return state.map((group, id) => {
+      return state.map((group) => {
         if (group.id === action.id) {
           group = clone(group);
           group.confirmDelete = true;
@@ -69,7 +69,7 @@ export default function repos(state = initialState, action) {
       });
 
     case DELETE_GROUP_CANCEL:
-      return state.map((group, id) => {
+      return state.map((group) => {
         if (group.id === action.id) {
           group = clone(group);
           group.confirmDelete = false;
@@ -79,12 +79,12 @@ export default function repos(state = initialState, action) {
       });
 
     case DELETE_GROUP:
-      return state.filter((group, id) => {
+      return state.filter((group) => {
         return group.id !== action.id;
       });
 
     case START_EDITING_GROUP:
-      return state.map((group, id) => {
+      return state.map((group) => {
         if (group.id === action.id) {
           group = clone(group);
           group.editing = true;
@@ -94,7 +94,7 @@ export default function repos(state = initialState, action) {
       });
 
     case EDIT_GROUP:
-      return state.map((group, id) => {
+      return state.map((group) => {
         if (group.id === action.id) {
           group = clone(group);
           group.editing = false;
@@ -105,7 +105,7 @@ export default function repos(state = initialState, action) {
       });
 
     case RELOADING_GROUP:
-      return state.map((group, id) => {
+      return state.map((group) => {
         if (group.id === action.id) {
           group = clone(group);
           group.progressing = true;
@@ -115,7 +115,7 @@ export default function repos(state = initialState, action) {
       });
 
     case RELOADING_GROUP_END:
-      return state.map((group, id) => {
+      return state.map((group) => {
         if (group.id === action.id) {
           group = clone(group);
           group.progressing = false;
