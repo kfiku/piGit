@@ -21,6 +21,15 @@ function createWindow() {
     // autoUpdater.checkForUpdates(); // comming soon
   }
 
+  if (dev) {
+    const installExtension = require('electron-devtools-installer');
+    installExtension.default(installExtension.REDUX_DEVTOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
+
+    require('electron-debug')({showDevTools: true});
+  }
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     ...windowBounds.get(),

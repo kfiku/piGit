@@ -1,4 +1,4 @@
-const env = process.env.NODE_ENV || 'prod';
+const env = process.env.NODE_ENV || 'production';
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -10,7 +10,7 @@ const settings = require('electron-settings');
 const createAppStore = (callback) => {
   let state: IRootReducer = settings.get('state');
   let composeEnhancers = compose;
-  if (env === 'dev' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+  if (env === 'development' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
     composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   }
 
