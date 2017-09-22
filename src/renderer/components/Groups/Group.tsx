@@ -35,7 +35,12 @@ const focusInput = el => {
 const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: any, i: number }) => {
   // renderLog('GROUP');
   // console.log(group);
-  renderLog('GROUP', group.title, group.editing && 'editing', group.confirmDelete && 'confirm delete');
+  renderLog(
+    'GROUP',
+    group.title,
+    group.editing && 'editing',
+    group.confirmDelete && 'confirm delete'
+  );
   let header;
 
   if (group.editing) {
@@ -83,8 +88,11 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
           <Isvg src='./svg/down-arrow.svg' />
         </Icon>
 
-        <Icon spin={group.progressing} className='icon icon-refresh' title='Reload all in this group'
-        onClick={ actions.reloadGroup.bind(null, group.id) }
+        <Icon
+          spin={group.progressing}
+          className='icon icon-refresh'
+          title='Reload all in this group'
+          onClick={ actions.reloadGroup.bind(null, group.id) }
         >
           <Isvg src='./svg/reload.svg' />
         </Icon>

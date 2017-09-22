@@ -29,7 +29,10 @@ const loadDiff = (dir, el: HTMLBaseElement) => {
   repos.diff(dir, (err, diff) => {
     if (diff) {
       const diff2HtmlUI = new Diff2HtmlUI({ diff });
-      diff2HtmlUI.draw('#differ', {inputFormat: 'json', showFiles: false, matching: 'lines', outputFormat: 'side-by-side'});
+      diff2HtmlUI.draw(
+        '#differ',
+        {inputFormat: 'json', showFiles: false, matching: 'lines', outputFormat: 'side-by-side'}
+      );
       diff2HtmlUI.highlightCode('#differ');
     }
   });

@@ -67,7 +67,8 @@ const ReposComponent: any = ({ group, i, actions }: { group: IGroup, i: number, 
   ));
 
   return (
-    <StyledRepos className='repos' data-group-i={ i } innerRef={ sortableRepos.bind(null, actions) }>
+    <StyledRepos className='repos' data-group-i={ i }
+    innerRef={ sortableRepos.bind(null, actions) }>
       { reposNodes }
     </StyledRepos>
   );

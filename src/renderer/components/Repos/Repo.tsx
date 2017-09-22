@@ -24,7 +24,13 @@ const updateDate = (repo, el) => {
   }, 5 * 60 * 1000); // 5 minutes
 };
 
-const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup, actions: any }) => {
+interface IRepoComponent {
+  repo: IRepo;
+  group: IGroup;
+  actions: any;
+}
+
+function RepoComponent ({repo, group, actions}: IRepoComponent) {
   renderLog('REPO', repo.name || basename(repo.dir));
   let cls = '';
 
@@ -42,20 +48,24 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
          <Isvg src='./svg/move.svg' />
       </Icon>
 
-      <Icon className='icon icon-x' title='Delete this repo' onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
+      <Icon className='icon icon-x' title='Delete this repo'
+      onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
         <Isvg src='./svg/x.svg'/>
       </Icon>
 
-      <Icon className='icon icon-pull' title='Pull this repo' onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
+      <Icon className='icon icon-pull' title='Pull this repo'
+      onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
         <Isvg src='./svg/down-arrow.svg'/>
       </Icon>
 
-      <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo' onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>
+      <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo'
+      onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>
         <Isvg src='./svg/reload.svg'/>
       </Icon>
 
       <div className='content'>
-        <div className='title' title={repo.dir + ' '} onClick={ actions.showRepoDetails.bind(null, repo.id, repo.dir) }>
+        <div className='title' title={repo.dir + ' '}
+        onClick={ actions.showRepoDetails.bind(null, repo.id, repo.dir) }>
           { repo.name ? repo.name : basename(repo.dir) }
         </div>
 
@@ -71,14 +81,7 @@ const RepoComponent: any = ({repo, group, actions}: { repo: IRepo, group: IGroup
       </div>
     </StyledRepo>
   );
-};
-
-RepoComponent.propTypes = {
-  repo: PropTypes.object.isRequired,
-  group: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
-};
-
+}
 
 const mapStateToProps = (state, ownProps) => {
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];

@@ -70,7 +70,11 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
         Details of repo: { repo.name ? repo.name : basename(repo.dir) } @ { repo.branch }
       </h2>
 
-      <Icon className='icon icon-x' title='Delete this repo' onClick={ actions.hideRepoDetails.bind(null) }>
+      <Icon
+        className='icon icon-x'
+        title='Delete this repo'
+        onClick={ actions.hideRepoDetails.bind(null) }
+      >
         <Isvg src='./svg/x.svg'/>
       </Icon>
 

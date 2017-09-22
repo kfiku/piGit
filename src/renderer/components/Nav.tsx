@@ -51,7 +51,8 @@ const NavComponent: any = ({app, actions}) => {
         <span>Add Group</span>
       </Button>
 
-      <Button onClick={ actions.reloadAllRepos } className={ 'button' + (app.reloadingAllRepos ? ' progressing' : '') } >
+      <Button onClick={ actions.reloadAllRepos }
+      className={ 'button' + (app.reloadingAllRepos ? ' progressing' : '') } >
         <Icon>
           <Isvg src='./svg/reload.svg'/>
         </Icon>

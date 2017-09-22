@@ -1,5 +1,11 @@
 import { IRepo } from '../interfaces/IRepo';
-import { ADD_REPO, RELOADING, RELOADING_END, UPDATE_REPO, DELETE_REPO } from '../constants/ActionTypes';
+import {
+  ADD_REPO,
+  RELOADING,
+  RELOADING_END,
+  UPDATE_REPO,
+  DELETE_REPO
+} from '../constants/ActionTypes';
 import clone from '../helpers/Clone';
 
 export const initialState: IRepo[] = [];

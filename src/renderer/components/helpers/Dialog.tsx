@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 
 import { renderLog } from '../../helpers/logger';
 import { Dialog as StyledDialog, Bg, Content } from './StyledDialog';
