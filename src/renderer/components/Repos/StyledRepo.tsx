@@ -58,9 +58,14 @@ const StyledGroupHeader = styled.div`
     left: ${iconCenter}%;
   }
 
-  .icon-pull {
+  .icon-pull,
+  .icon-push {
     top: ${iconCenter}%;
     left: ${iconSide}%;
+  }
+
+  .icon-push {
+    transform: rotate(180deg);
   }
 
   .icon-x {

@@ -52,10 +52,17 @@ function RepoComponent ({repo, group, actions}: IRepoComponent) {
         <Isvg src='./svg/x.svg'/>
       </Icon>
 
-      <Icon className='icon icon-pull' title='Pull this repo'
-      onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
-        <Isvg src='./svg/down-arrow.svg'/>
-      </Icon>
+      { cls === 'ahead' ?
+        <Icon className='icon icon-push' title='push this repo'
+        onClick={ actions.pushRepo.bind(null, repo.id, repo.dir) }>
+          <Isvg src='./svg/down-arrow.svg'/>
+        </Icon>
+        :
+        <Icon className='icon icon-pull' title='Pull this repo'
+        onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
+          <Isvg src='./svg/down-arrow.svg'/>
+        </Icon>
+      }
 
       <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo'
       onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>

@@ -32,6 +32,7 @@ export class Repo {
         this.git.pull = promisify(this.git.pull.bind(this.git));
         this.git.status = promisify(this.git.status.bind(this.git));
         this.git.stash = promisify(this.git.stash.bind(this.git));
+        this.git.push = promisify(this.git.push.bind(this.git));
         callback(null);
       } else {
         callback(err);
@@ -94,6 +95,11 @@ export class Repo {
 
   stash () {
     return this.git.stash();
+  }
+
+  push () {
+    return this.git.push()
+    .then(() => this.updateStatus());
   }
 
   stashApply () {
@@ -172,6 +178,13 @@ export class Repos {
         return callback(err);
       }
     });
+  }
+
+  push (dir: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.push())
+    .then(data => callback(null, data))
+    .catch(err => callback(err));
   }
 
   pullWithStash (dir: string, callback) {

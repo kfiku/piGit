@@ -110,6 +110,18 @@ const actions = {
     });
   },
 
+  pushRepo: (id: string, dir: string) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.push(dir, (err, data) => {
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(actions.message(err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
+    });
+  },
+
   reorderGroup: params => (
     { type: REORDER_GROUP, params }
   ),
