@@ -31,6 +31,7 @@ export class Repo {
         this.git.fetch = promisify(this.git.fetch.bind(this.git));
         this.git.pull = promisify(this.git.pull.bind(this.git));
         this.git.status = promisify(this.git.status.bind(this.git));
+        this.git.stash = promisify(this.git.stash.bind(this.git));
         callback(null);
       } else {
         callback(err);
@@ -78,7 +79,7 @@ export class Repo {
   }
 
   pull () {
-    return this.git.pull()
+    return this.git.pull(null, null, {'--rebase': 'true'})
     .then(() => this.updateStatus());
   }
 
@@ -89,6 +90,14 @@ export class Repo {
 
   diff (cb) {
     return this.git.diff(cb);
+  }
+
+  stash () {
+    return this.git.stash();
+  }
+
+  stashApply () {
+    return this.git.stash({ apply: true });
   }
 
   validateDir (dir, callback) {
@@ -154,6 +163,28 @@ export class Repos {
   pull (dir: string, callback) {
     this.getRepo(dir)
     .then((repo: Repo) => repo.pull())
+    .then(data => callback(null, data))
+    .catch(err => {
+      console.log(err);
+      if (err.indexOf('You have unstaged changes') > -1) {
+        this.pullWithStash(dir, callback);
+      } else {
+        return callback(err);
+      }
+    });
+  }
+
+  pullWithStash (dir: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) =>
+      repo.stash().then(() =>
+        repo.pull().then(() =>
+          repo.stashApply().then(() =>
+            repo.updateStatus()
+          )
+        )
+      )
+    )
     .then(data => callback(null, data))
     .catch(err => callback(err));
   }
