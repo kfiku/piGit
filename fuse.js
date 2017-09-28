@@ -18,6 +18,7 @@ let production = false;
 Sparky.task("build:renderer", () => {
     const fuse = FuseBox.init({
         homeDir: "src/renderer",
+        sourceMaps: { project: true, vendor: true },
         output: "dist/renderer/$name.js",
         hash: production,
         target: "electron",
@@ -67,6 +68,7 @@ Sparky.task("build:renderer", () => {
 Sparky.task("build:main", () => {
     const fuse = FuseBox.init({
         homeDir: "src/main",
+        sourceMaps: { project: true, vendor: true },
         output: "dist/main/$name.js",
         target: "server",
         experimentalFeatures: true,
