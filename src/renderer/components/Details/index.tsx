@@ -13,6 +13,7 @@ import actionsToConnect from '../../actions';
 import { renderLog } from '../../helpers/logger';
 import Button from '../helpers/Button';
 import Icon from '../helpers/Icon';
+import Status from '../Repos/Status';
 import StyledRepoDetails from './StyledRepoDetails';
 
 import Diff from './Diff';
@@ -67,54 +68,17 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
   return (
     <StyledRepoDetails className={ 'repo-details ' + cls }>
       <h2 className='header'>
-        Details of repo: { repo.name ? repo.name : basename(repo.dir) } @ { repo.branch }
+        { repo.name ? repo.name : basename(repo.dir) } @ { repo.branch }
+        <Status repo={repo} inline />
       </h2>
 
       <Icon
         className='icon icon-x'
-        title='Delete this repo'
+        title='Close'
         onClick={ actions.hideRepoDetails.bind(null) }
       >
         <Isvg src='./svg/x.svg'/>
       </Icon>
-
-
-      <div className='content'>
-        <h4 className='status'>
-          { repo.ahead ?
-            <span className='ahead'>Ahead: { repo.ahead } </span> : ''
-          }
-
-          { repo.behind ?
-            <span className='behind'>Behind: { repo.behind } </span> : ''
-          }
-        </h4>
-
-        { repo.modified && repo.modified.length ?
-          <div>
-            <h4>Modified: { repo.modified.length }</h4>
-            <ul>
-              { modified }
-            </ul>
-          </div> : ''
-        }
-
-        { repo.untracked && repo.untracked.length ?
-          <div>
-            <h4>Untracked: { repo.untracked.length }</h4>
-            <ul>
-              { untracked }
-            </ul>
-          </div> : ''
-        }
-
-        <p className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
-          Updated: { moment(repo.lastUpdate).fromNow() }
-        </p>
-
-        <Diff dir={ repo.dir }/>
-
-      </div>
 
       <footer className='footer'>
         <Button onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) } className='button'>
@@ -150,6 +114,32 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
         </Button>
       </footer>
 
+      <div className='content'>
+        { repo.modified && repo.modified.length ?
+          <div>
+            <h4>Modified: { repo.modified.length }</h4>
+            <ul>
+              { modified }
+            </ul>
+          </div> : ''
+        }
+
+        { repo.untracked && repo.untracked.length ?
+          <div>
+            <h4>Untracked: { repo.untracked.length }</h4>
+            <ul>
+              { untracked }
+            </ul>
+          </div> : ''
+        }
+
+        <p className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
+          Updated: { moment(repo.lastUpdate).fromNow() }
+        </p>
+
+        <Diff dir={ repo.dir }/>
+
+      </div>
     </StyledRepoDetails>
   );
 };
