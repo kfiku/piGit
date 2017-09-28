@@ -15,9 +15,10 @@ import StyledStatus,
 
 interface StatusProps {
   repo: IRepo;
+  inline?: boolean;
 }
 
-function Status ({ repo }: StatusProps) {
+function Status ({ repo, inline }: StatusProps) {
   const a = repo.ahead > 0 && repo.ahead;
   const b = repo.behind > 0 && repo.behind;
   const m = repo.modified && repo.modified.length > 0 && repo.modified.length;
@@ -26,7 +27,7 @@ function Status ({ repo }: StatusProps) {
   const r = repo.renamed && repo.renamed.length > 0 && repo.renamed.length;
 
   return (
-    <StyledStatus>
+    <StyledStatus inline={inline}>
       { a && <Ahead>{ a }</Ahead> }
       { b && <Behind>{ b }</Behind> }
       { m && <Modified>{ m }</Modified> }

@@ -56,6 +56,8 @@ const StyledStatus = styled.div`
   font-family: ${styledFont};
   // font-family: sans-serif;
   font-size: ${lh}px;
+  display: ${(p: any) => p.inline ? 'inline-block' : 'block'};
+  margin-left: ${(p: any) => p.inline ? '12px' : '0'};
 
   &:empty {
     &:after {
