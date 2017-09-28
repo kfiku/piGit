@@ -56,7 +56,6 @@ export class Repo {
         .map(f => f.path);
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
-      console.log(newState, status);
       this.state = newState;
       resolve(newState);
     }));
