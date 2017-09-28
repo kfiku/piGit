@@ -76,14 +76,14 @@ function RepoComponent ({repo, group, actions}: IRepoComponent) {
         </div>
 
         <div className='branch'>
-          @ { repo.branch }
+          @{ repo.branch }
         </div>
 
         <Status repo={repo} />
 
-        <div className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
+        {/* <div className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
           { moment(repo.lastUpdate).fromNow() }
-        </div>
+        </div> */}
       </div>
     </StyledRepo>
   );
