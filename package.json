@@ -76,7 +76,7 @@
   },
   "homepage": "https://github.com/kfiku/piGit",
   "devDependencies": {
-    "@types/async": "2.0.37",
+    "@types/async": "2.0.44",
     "@types/chai": "4.0.2",
     "@types/mocha": "2.2.35",
     "@types/node": "^8.0.15",
