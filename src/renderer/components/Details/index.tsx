@@ -4,7 +4,6 @@ import { IRepo } from '../../interfaces/IRepo';
 import * as React from 'react';
 import * as moment from 'moment';
 import { basename } from 'path';
-import { exec } from 'child_process';
 import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -17,23 +16,17 @@ import Status from '../Repos/Status';
 import StyledRepoDetails from './StyledRepoDetails';
 
 import Diff from './Diff';
+import GitGuiBtn from './GitGuiBtn';
+import Header from './Header';
 
-const openInGitGui = (repo) => {
-  exec(`cd ${ repo.dir } && git gui`);
-};
-
-const openInGitK = (repo) => {
-  exec(`cd ${ repo.dir } && gitk`);
-};
-
-const updateDate = (repo, el) => {
-  setTimeout(() => {
-    if (el && el.innerHTML) {
-      el.innerHTML = moment(repo.lastUpdate).fromNow();
-      updateDate(repo, el);
-    }
-  }, 5 * 60 * 1000); // 5 minutes
-};
+// const updateDate = (repo, el) => {
+//   setTimeout(() => {
+//     if (el && el.innerHTML) {
+//       el.innerHTML = moment(repo.lastUpdate).fromNow();
+//       updateDate(repo, el);
+//     }
+//   }, 5 * 60 * 1000); // 5 minutes
+// };
 
 const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any }) => {
   if (!repo) {
@@ -67,53 +60,7 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
 
   return (
     <StyledRepoDetails className={ 'repo-details ' + cls }>
-      <h2 className='header'>
-        { repo.name ? repo.name : basename(repo.dir) } @ { repo.branch }
-        <Status repo={repo} inline />
-      </h2>
-
-      <Icon
-        className='icon icon-x'
-        title='Close'
-        onClick={ actions.hideRepoDetails.bind(null) }
-      >
-        <Isvg src='./svg/x.svg'/>
-      </Icon>
-
-      <footer className='footer'>
-        <Button onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) } className='button'>
-          <Icon spin={repo.progressing} className='icon icon-refresh' title='Refresh this repo'>
-            <Isvg src='./svg/reload.svg'/>
-          </Icon>
-
-          <span>Reload</span>
-        </Button>
-
-        <Button onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) } className='button'>
-          <Icon className='icon icon-pull' title='Pull this repo'>
-            <Isvg src='./svg/down-arrow.svg'/>
-          </Icon>
-
-          <span>Pull</span>
-        </Button>
-
-        <Button onClick={ openInGitGui.bind(null, repo) } className='button'>
-          <Icon className='icon icon-add'>
-            <Isvg src='./svg/git-icon.svg'/>
-          </Icon>
-
-          <span>Open in git gui</span>
-        </Button>
-
-        <Button onClick={ openInGitK.bind(null, repo) } className='button'>
-          <Icon className='icon icon-add'>
-            <Isvg src='./svg/git-icon.svg'/>
-          </Icon>
-
-          <span>Open in gitk</span>
-        </Button>
-      </footer>
-
+      <Header actions={actions} repo={repo}/>
       <div className='content'>
         { repo.modified && repo.modified.length ?
           <div>
@@ -133,7 +80,7 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
           </div> : ''
         }
 
-        <p className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
+        <p className='updated' title='Updated from now' /*ref={ updateDate.bind(null, repo) }*/>
           Updated: { moment(repo.lastUpdate).fromNow() }
         </p>
 
