@@ -25,7 +25,7 @@ const StyledGroupHeader = styled.div`
   overflow: hidden;
   z-index: 10;
 
-  padding: ${lh}px;
+  // padding: ${lh}px;
 
   background: ${g0};
 

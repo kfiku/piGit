@@ -1,19 +1,14 @@
 import * as React from 'react';
 import * as jquery from 'jquery';
-// import { basename } from 'path';
 import * as PropTypes from 'prop-types';
 import { Diff2Html } from 'diff2html';
 import { Diff2HtmlUI } from 'diff2html/src/ui/js/diff2html-ui';
 import * as hljs from 'highlight.js';
-// import 'diff2html/dist/diff2html.css';
+
 import '../../css/default.css';
 import '../../css/solarized-light.css';
 import '../../css/diff2html.min.css';
-// import './a.css';
 
-// import "jstree/dist/themes/default/style.css";
-
-// import actions from '../../actions';
 import { renderLog } from '../../helpers/logger';
 import repos from '../../helpers/GitRepos';
 
