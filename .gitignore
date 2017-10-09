@@ -47,6 +47,8 @@ coverage
 #sublime
 *.sublime-wo*
 
+.vscode
+
 src/**/*.js
 src/**/*.map
 src/css/bundle.css
