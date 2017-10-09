@@ -1,22 +1,15 @@
-// import { IGroup } from '../../interfaces/IGroup';
-import { IRepo } from '../../interfaces/IRepo';
-
 import * as React from 'react';
 import * as moment from 'moment';
 import { basename } from 'path';
 import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-const Isvg = require('react-inlinesvg');
+
+import { IRepo } from '../../interfaces/IRepo';
 import actionsToConnect from '../../actions';
 import { renderLog } from '../../helpers/logger';
-import Button from '../helpers/Button';
-import Icon from '../helpers/Icon';
-import Status from '../Repos/Status';
 import StyledRepoDetails from './StyledRepoDetails';
-
 import Diff from './Diff';
-import GitGuiBtn from './GitGuiBtn';
 import Header from './Header';
 
 // const updateDate = (repo, el) => {
