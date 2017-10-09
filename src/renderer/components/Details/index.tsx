@@ -12,15 +12,6 @@ import StyledRepoDetails from './StyledRepoDetails';
 import Diff from './Diff';
 import Header from './Header';
 
-// const updateDate = (repo, el) => {
-//   setTimeout(() => {
-//     if (el && el.innerHTML) {
-//       el.innerHTML = moment(repo.lastUpdate).fromNow();
-//       updateDate(repo, el);
-//     }
-//   }, 5 * 60 * 1000); // 5 minutes
-// };
-
 const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any }) => {
   if (!repo) {
     renderLog('REPO DETAILS EMPTY');
