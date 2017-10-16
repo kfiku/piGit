@@ -23,6 +23,7 @@ const StyledGroupHeader = styled.div`
   left: ${repoDetailsMargin}px;
   right: ${repoDetailsMargin}px;
   overflow: hidden;
+  height: 100vh;
   z-index: 10;
 
   // padding: ${lh}px;
@@ -39,15 +40,16 @@ const StyledGroupHeader = styled.div`
     height: ${lh * 2}px;
   }
 
-  .icon-x {
-    position: absolute;
-    top: ${lh}px;
-    right: ${lh}px;
-  }
+  // .icon-x {
+  //   position: absolute;
+  //   top: ${lh}px;
+  //   right: ${lh}px;
+  // }
 
   .content {
     overflow-y: auto;
     flex-grow: 1;
+    max-height: calc(100vh - 48px);
   }
 
   .status {
