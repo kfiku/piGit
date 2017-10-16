@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as moment from 'moment';
 import { basename } from 'path';
 import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
