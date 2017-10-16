@@ -45,6 +45,7 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
   return (
     <StyledRepoDetails className={ 'repo-details ' + cls }>
       <Header actions={actions} repo={repo}/>
+
       <div className='content'>
         { repo.modified && repo.modified.length ?
           <div>
@@ -63,10 +64,6 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
             </ul>
           </div> : ''
         }
-
-        <p className='updated' title='Updated from now' /*ref={ updateDate.bind(null, repo) }*/>
-          Updated: { moment(repo.lastUpdate).fromNow() }
-        </p>
 
         <Diff dir={ repo.dir }/>
 
