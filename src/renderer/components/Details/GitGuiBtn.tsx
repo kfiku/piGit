@@ -12,7 +12,7 @@ const openInGitGui = (repo) => {
 
 function GitGuiBtn ({repo}: { repo: IRepo }) {
   return (
-    <Button onClick={ openInGitGui.bind(null, repo) } className='button'>
+    <Button onClick={ openInGitGui.bind(null, repo) } className='button' title='Open in Git Gui'>
       <Icon className='icon icon-add'>
         <Isvg src='./svg/git-icon.svg'/>
       </Icon>

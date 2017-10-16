@@ -11,9 +11,9 @@ const openInGitK = (repo) => {
   exec(`cd ${ repo.dir } && gitk`);
 };
 
-function GitGuiBtn ({repo}: { repo: IRepo }) {
+function GitKBtn ({repo}: { repo: IRepo }) {
   return (
-    <Button onClick={ openInGitK.bind(null, repo) } className='button'>
+    <Button onClick={ openInGitK.bind(null, repo) } className='button' title='Open in GitK'>
       <Icon className='icon icon-add'>
         <Isvg src='./svg/git-icon.svg'/>
       </Icon>
@@ -23,4 +23,4 @@ function GitGuiBtn ({repo}: { repo: IRepo }) {
   );
 }
 
-export default GitGuiBtn;
+export default GitKBtn;
