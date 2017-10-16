@@ -17,7 +17,7 @@ function GitGuiBtn ({repo}: { repo: IRepo }) {
         <Isvg src='./svg/git-icon.svg'/>
       </Icon>
 
-      <span>Git GUI</span>
+      <span>GitGUI</span>
     </Button>
   );
 }

@@ -21,12 +21,12 @@ const Button = styled.button`
 
   white-space: nowrap;
 
-  & > i {
-    margin: ${navHeight * 0.125}px ${navHeight / 4}px 0 0;
-  }
-
+  & > i,
   & > svg {
-    margin: ${navHeight * 0.175}px 0 0 0;
+    margin: ${navHeight * 0.125}px ${navHeight / 4}px 0 0;
+    &:last-child {
+      margin-right: 0;
+    }
   }
 
   svg {
