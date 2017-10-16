@@ -25,6 +25,10 @@ const Button = styled.button`
     margin: ${navHeight * 0.125}px ${navHeight / 4}px 0 0;
   }
 
+  & > svg {
+    margin: ${navHeight * 0.175}px 0 0 0;
+  }
+
   svg {
     fill: ${g4};
   }
