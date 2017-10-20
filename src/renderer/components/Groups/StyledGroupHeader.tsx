@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
-import { groupHeaderHeight, g1, g7, styledFont } from '../../utils/styles';
+import { groupHeaderHeight, g1, g7, styledFont, scriptFont } from '../../utils/styles';
 
 // const StyledNav = styled('nav')`
 const StyledGroupHeader = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding: ${groupHeaderHeight / 2}px 0;
+  align-items: center;
+  // padding: ${groupHeaderHeight / 2}px 0;
+  height: ${groupHeaderHeight * 2}px;
 
   position: relative;
   z-index: 3;
@@ -45,6 +47,12 @@ const StyledGroupHeader = styled.div`
     font-weight: 400;
 
     color: ${g7};
+  }
+
+  .title {
+    height: ${groupHeaderHeight * 2}px;
+    font-family: ${scriptFont};
+    font-size: ${groupHeaderHeight * 1.75}px;
   }
 
   input.title {

@@ -4,6 +4,7 @@ export const defaultFont = 'Raleway, sans-serif';
 // export const styledFont = 'Cutive', serif;
 // export const styledFont = 'Eczar', serif;
 export const styledFont = 'Copse, serif';
+export const scriptFont = 'oraqle_scriptregular, serif';
 // export const styled2Font = 'Trocchi', serif;
 // export const styledFont = 'Trocchi', serif;
 
