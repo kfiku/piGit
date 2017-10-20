@@ -120,4 +120,4 @@ Sparky.task("clean:cache", () => Sparky.src(".fusebox/*").clean(".fusebox/"));
 
 // prod build
 Sparky.task("set-production-env", () => production = true);
-Sparky.task("dist", ["clean:dist", "clean:cache", "set-production-env", "build:main", "build:renderer"], () => {})
+Sparky.task("dist", ["clean:dist", "clean:cache", "set-production-env", "copy-svg", "build:main", "build:renderer"], () => {})
