@@ -58,5 +58,3 @@ test/**/*.map
 release
 
 /dist/
-
-package-lock.json
