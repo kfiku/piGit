@@ -37,8 +37,6 @@ function createWindow() {
     icon: path.join(app.getAppPath(), 'resources', 'icon.png')
   });
 
-  electron.dialog.showMessageBox({ message: path.join(app.getAppPath(), 'resources', 'icon.png') });
-
   logger.init(mainWindow);
   windowBounds.init(mainWindow);
 
