@@ -31,10 +31,13 @@ function createWindow() {
   }
 
   // Create the browser window.
+
   mainWindow = new BrowserWindow({
     ...windowBounds.get(),
-    icon: path.join(__dirname, 'resources', 'icon.png')
+    icon: path.join(app.getAppPath(), 'resources', 'icon.png')
   });
+
+  electron.dialog.showMessageBox({ message: path.join(app.getAppPath(), 'resources', 'icon.png') });
 
   logger.init(mainWindow);
   windowBounds.init(mainWindow);
