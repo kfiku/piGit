@@ -7,6 +7,7 @@ const isDevElectron = require('electron-is-dev'); // is dev electron (run from b
 const electron = require('electron'); // Module to control application life.
 import * as logger from './logger';
 import * as windowBounds from './windowBounds';
+import getIcon from './icon';
 // const autoUpdater = require('./autoUpdater') // comming soon
 
 const app = electron.app; // Module to create native browser window.
@@ -34,7 +35,7 @@ function createWindow() {
 
   mainWindow = new BrowserWindow({
     ...windowBounds.get(),
-    icon: path.join(app.getAppPath(), 'resources', 'icon.png')
+    icon: getIcon()
   });
 
   logger.init(mainWindow);
