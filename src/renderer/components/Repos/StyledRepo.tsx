@@ -6,6 +6,7 @@ import {
   blueBg,
   repoSize,
   repoIconSize,
+  styledFont,
   repoBgSize,
   g0, g3, g4, g5
 } from '../../utils/styles';
@@ -89,6 +90,7 @@ const StyledGroupHeader = styled.div`
   }
 
   .title {
+    font-family: ${styledFont};
     margin-top: ${repoSize / 3.5}px;
     font-size: 1em;
     line-height: 1em;
