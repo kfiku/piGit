@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { groupHeaderHeight, g1, g7, styledFont, scriptFont } from '../../utils/styles';
+import { groupHeaderHeight, g1, g6, g7, styledFont, scriptFont } from '../../utils/styles';
 
 // const StyledNav = styled('nav')`
 const StyledGroupHeader = styled.div`
@@ -52,7 +52,8 @@ const StyledGroupHeader = styled.div`
   .title {
     height: ${groupHeaderHeight * 2}px;
     font-family: ${scriptFont};
-    font-size: ${groupHeaderHeight * 1.75}px;
+    font-size: ${groupHeaderHeight * 2}px;
+    color: ${g6};
   }
 
   input.title {
