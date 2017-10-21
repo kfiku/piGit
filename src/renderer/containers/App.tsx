@@ -5,6 +5,7 @@ import Nav from '../components/Nav';
 import Groups from '../components/Groups/Groups';
 import RepoDetails from '../components/Details';
 import Message from '../components/Message';
+import History from '../components/History/RepoHistory';
 
 import globalStyles from '../utils/globalStyles';
 
@@ -16,10 +17,9 @@ const App = () => {
       <div className='nav-h'/>
 
       <Groups/>
-
       <Message/>
-
       <RepoDetails/>
+      <History/>
     </div>
   );
 };
