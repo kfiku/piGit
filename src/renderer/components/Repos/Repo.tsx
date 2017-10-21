@@ -31,6 +31,13 @@ interface IRepoComponent {
 
 function RepoComponent ({repo, group, actions}: IRepoComponent) {
   renderLog('REPO', repo.name || basename(repo.dir));
+
+  if (!repo.progressing) {
+    setTimeout(() => {
+      actions.reloadRepo(repo.id, repo.dir);
+    }, 5 * 60 * 1000); // 5 minutes
+  }
+
   let cls = '';
 
   if (repo.behind) {
