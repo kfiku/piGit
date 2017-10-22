@@ -34,7 +34,7 @@ const actions = {
         dirs,
         (gitDir) => { // steps
           const newRepoDit = resolve(gitDir, '..');
-          const repoByDir = getState().groups.filter(s => s.dir === newRepoDit);
+          const repoByDir = getState().repos.filter(repo => repo.dir === newRepoDit);
           if (repoByDir.length === 0) {
             dispatch(actions.addRepo(newRepoDit));
           } else {
