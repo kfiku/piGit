@@ -25,12 +25,17 @@ function RepoHistoryComponent ({ repos }: IRepoHistoryComponent) {
       repo.behind !== lastRepos[i].behind ? repo : undefined)
     .filter(repo => repo);
 
-  if (changes.length) {
-    console.log(changes, isAppFocused());
+  if (changes.length && !isAppFocused()) {
+    console.log(changes);
+    const msg = changes
+      .map(change => `${change.name} is ${change.behind} commits behind`)
+      .join(', ');
+
     notifier.notify({
       title: 'PiGit',
       icon: getIcon(),
-      message: `${changes.length} repo is behind 1`
+      contentImage: false,
+      message: msg
     });
   }
 
