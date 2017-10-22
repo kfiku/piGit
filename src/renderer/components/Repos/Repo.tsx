@@ -30,6 +30,8 @@ interface IRepoComponent {
 }
 
 function RepoComponent ({repo, group, actions}: IRepoComponent) {
+  if (!repo) { return null; }
+
   renderLog('REPO', repo.name || basename(repo.dir));
 
   if (!repo.progressing) {
