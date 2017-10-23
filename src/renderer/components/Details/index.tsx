@@ -76,6 +76,8 @@ class RepoDetailsComponent extends React.PureComponent
     const { repo, actions } = this.props;
     const { width, height, sidebarWidth } = this.state;
 
+    const diffWidth = width - sidebarWidth;
+
     if (!repo || !width || !height) {
       renderLog('REPO DETAILS EMPTY');
       return null;
@@ -127,10 +129,10 @@ class RepoDetailsComponent extends React.PureComponent
             }
           </ResizableBox>
 
-          <DiffWrapper style={{ width: width - sidebarWidth }}>
+          <DiffWrapper style={{ width: diffWidth }}>
             {repo.progressing ?
               <span>Repo processing...</span> :
-              <Diff dir={ repo.dir } />
+              <Diff dir={ repo.dir } wide={ diffWidth > 1000 } />
             }
           </DiffWrapper>
         </Wrapper>

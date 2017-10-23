@@ -15,19 +15,22 @@ import repos from '../../helpers/GitRepos';
 (window as any).hljs = hljs;
 (window as any).Diff2Html = Diff2Html;
 
-const loadDiff = (dir, el: HTMLBaseElement) => {
+const loadDiff = (dir, wide: boolean, el: HTMLBaseElement) => {
   if (!el) {
     return;
-
   }
 
   repos.diff(dir, (err, diff) => {
-    console.log('diff');
     if (!err && diff) {
       const diff2HtmlUI = new Diff2HtmlUI({ diff });
       diff2HtmlUI.draw(
         '#differ',
-        {inputFormat: 'json', showFiles: false, matching: 'lines', outputFormat: 'side-by-side'}
+        {
+          inputFormat: 'json',
+          showFiles: false,
+          matching: 'lines',
+          outputFormat: wide ? 'side-by-side' : 'line-by-line'
+        }
       );
       diff2HtmlUI.highlightCode('#differ');
     } else {
@@ -39,16 +42,17 @@ const loadDiff = (dir, el: HTMLBaseElement) => {
 
 interface IDiff {
   dir: string;
+  wide: boolean;
 }
 
 
 class Diff extends React.PureComponent<IDiff> {
   render() {
-    const { dir } = this.props;
+    const { dir, wide } = this.props;
     renderLog('DIFF', dir);
 
     return (
-      <div className='diff' id='differ' ref={ loadDiff.bind(null, dir) }>
+      <div className='diff' id='differ' ref={ loadDiff.bind(null, dir, wide) }>
         loading git diff for repo { dir }...
       </div>
     );
