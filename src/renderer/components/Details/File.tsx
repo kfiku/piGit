@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { extname, basename, dirname } from 'path';
+import { basename } from 'path';
 import styled from 'styled-components';
 
 import { lh, g5 } from '../../utils/styles';
