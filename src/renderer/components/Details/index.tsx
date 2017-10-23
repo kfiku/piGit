@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { basename } from 'path';
-import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -131,11 +130,6 @@ class RepoDetailsComponent extends React.PureComponent
     );
   }
 }
-
-RepoDetailsComponent.propTypes = {
-  actions: PropTypes.object.isRequired
-};
-
 
 const mapStateToProps = (state) => {
   const repo = state.repos.filter(r => r.id === state.app.repoShown)[0];
