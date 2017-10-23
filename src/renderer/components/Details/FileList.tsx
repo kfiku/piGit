@@ -10,9 +10,6 @@ const Ul = styled.ul`
 `;
 
 export default function FileList ({files}: { files: string[] }) {
-  console.log(files);
-  // return null;
-
   return (
     <Ul>
       {files.map(file =>
@@ -20,11 +17,4 @@ export default function FileList ({files}: { files: string[] }) {
       )}
     </Ul>
   );
-  // const extName = extname(files).replace('.', '');
-  // console.log(extName);
-  // return (
-  //   <Li key={ file } className={`${extName}-icon`}>
-  //     { file }
-  //   </Li>
-  // );
 }

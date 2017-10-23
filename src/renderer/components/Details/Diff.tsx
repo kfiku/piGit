@@ -22,6 +22,7 @@ const loadDiff = (dir, el: HTMLBaseElement) => {
   }
 
   repos.diff(dir, (err, diff) => {
+    console.log('diff');
     if (!err && diff) {
       const diff2HtmlUI = new Diff2HtmlUI({ diff });
       diff2HtmlUI.draw(
@@ -33,18 +34,23 @@ const loadDiff = (dir, el: HTMLBaseElement) => {
   });
 };
 
-const Diff: any = ({ dir }: { dir: string, actions: any }) => {
-  renderLog('DIFF', dir);
 
-  return (
-    <div className='diff' id='differ' ref={ loadDiff.bind(null, dir) }>
-      loading { dir }...
-    </div>
-  );
-};
+interface IDiff {
+  dir: string;
+}
 
-Diff.propTypes = {
-  dir: PropTypes.string.isRequired,
-};
+
+class Diff extends React.PureComponent<IDiff> {
+  render() {
+    const { dir } = this.props;
+    renderLog('DIFF', dir);
+
+    return (
+      <div className='diff' id='differ' ref={ loadDiff.bind(null, dir) }>
+        loading { dir }...
+      </div>
+    );
+  }
+}
 
 export default Diff;

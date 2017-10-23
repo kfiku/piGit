@@ -25,4 +25,23 @@ export default `
   .nav-h {
     height: ${navHeight}px;
   }
+
+  .react-resizable {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .react-resizable-handle {
+    position: absolute;
+    width: 5px;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    background: gray;
+    padding: 0 3px 3px 0;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    box-sizing: border-box;
+    cursor: col-resize;
+  }
 `;

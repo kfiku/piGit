@@ -46,12 +46,6 @@ const StyledGroupHeader = styled.div`
   //   right: ${lh}px;
   // }
 
-  .content {
-    overflow-y: auto;
-    flex-grow: 1;
-    max-height: calc(100vh - 48px);
-  }
-
   .status {
     .ahead {
       color: ${orange};

@@ -28,7 +28,6 @@ const FilePath = FileName.extend`
 
 const Li = styled.li`
   margin: ${lh / 2}px ${lh}px;
-  width: 300px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
