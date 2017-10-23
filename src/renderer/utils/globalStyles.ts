@@ -1,6 +1,6 @@
 // import { injectGlobal } from 'styled-components';
 
-import { g3, navHeight, defaultFont } from './styles';
+import { g3, g2, navHeight, defaultFont } from './styles';
 
 export default `
   @font-face {
@@ -37,11 +37,14 @@ export default `
     height: 100%;
     bottom: 0;
     right: 0;
-    background: gray;
-    padding: 0 3px 3px 0;
+    background: ${g2};
+    padding: 0;
+    margin: 0;
     background-repeat: no-repeat;
     background-origin: content-box;
     box-sizing: border-box;
     cursor: col-resize;
+    border: none;
+    border-right: 1px solid ${g3};
   }
 `;

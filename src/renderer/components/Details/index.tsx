@@ -123,7 +123,10 @@ class RepoDetailsComponent extends React.PureComponent
           </ResizableBox>
 
           <DiffWrapper style={{ width: width - sidebarWidth }}>
-            <Diff dir={ repo.dir } />
+            {repo.progressing ?
+              <span>Repo processing...</span> :
+              <Diff dir={ repo.dir } />
+            }
           </DiffWrapper>
         </Wrapper>
       </StyledRepoDetails>

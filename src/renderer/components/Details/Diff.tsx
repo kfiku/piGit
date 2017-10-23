@@ -18,6 +18,7 @@ import repos from '../../helpers/GitRepos';
 const loadDiff = (dir, el: HTMLBaseElement) => {
   if (!el) {
     return;
+
   }
 
   repos.diff(dir, (err, diff) => {
@@ -29,6 +30,8 @@ const loadDiff = (dir, el: HTMLBaseElement) => {
         {inputFormat: 'json', showFiles: false, matching: 'lines', outputFormat: 'side-by-side'}
       );
       diff2HtmlUI.highlightCode('#differ');
+    } else {
+      document.getElementById('differ').innerHTML = 'nothing to diff';
     }
   });
 };
@@ -46,7 +49,7 @@ class Diff extends React.PureComponent<IDiff> {
 
     return (
       <div className='diff' id='differ' ref={ loadDiff.bind(null, dir) }>
-        loading { dir }...
+        loading git diff for repo { dir }...
       </div>
     );
   }
