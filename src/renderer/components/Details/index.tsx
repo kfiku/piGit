@@ -120,6 +120,11 @@ class RepoDetailsComponent extends React.PureComponent
                 <FileList files={repo.untracked} />
               </div> : ''
             }
+
+            { (!repo.modified || repo.modified.length === 0) &&
+              (!repo.untracked || repo.untracked.length === 0) &&
+              <div>clean</div>
+            }
           </ResizableBox>
 
           <DiffWrapper style={{ width: width - sidebarWidth }}>
