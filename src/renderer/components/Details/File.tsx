@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { basename } from 'path';
 import styled from 'styled-components';
-
-import { lh, g5 } from '../../utils/styles';
-
 const fileIcons = require('file-icons-js');
 
-// console.log(fileIcons.getClassWithColor('dupa.js'));
-
+import { lh, g5 } from '../../utils/styles';
 
 const Icon = styled.i`
   margin-right: ${lh / 2}px;
@@ -15,7 +11,7 @@ const Icon = styled.i`
   &:before {
     display: inline-block;
     font-style: normal;
-    font-size: 20px;
+    font-size: 20px !important;
     vertical-align: bottom;
   }
 `;
@@ -24,7 +20,6 @@ const FileName = styled.span`
   display: inline-block;
   margin-right: ${lh / 2}px;
 `;
-
 
 const FilePath = FileName.extend`
   font-size: ${lh * 0.75}px;
@@ -45,7 +40,6 @@ const Li = styled.li`
 export default function File ({file}: { file: string }) {
   const baseName = basename(file);
   const className = fileIcons.getClassWithColor(baseName);
-  // console.log(className);
   return (
     <Li title={file}>
       <Icon className={className} />
