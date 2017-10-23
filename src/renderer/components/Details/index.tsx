@@ -10,6 +10,9 @@ import { renderLog } from '../../helpers/logger';
 import StyledRepoDetails from './StyledRepoDetails';
 import Diff from './Diff';
 import Header from './Header';
+import FileList from './FileList';
+
+import '../../css/file-icons.css';
 
 const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any }) => {
   if (!repo) {
@@ -29,18 +32,6 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
     cls = 'modified';
   }
 
-  const modified = repo.modified && repo.modified.map(file => (
-    <li key={ file }>
-      { file }
-    </li>
-  ));
-
-  const untracked = repo.untracked && repo.untracked.map(file => (
-    <li key={ file }>
-      { file }
-    </li>
-  ));
-
   return (
     <StyledRepoDetails className={ 'repo-details ' + cls }>
       <Header actions={actions} repo={repo}/>
@@ -49,18 +40,14 @@ const RepoDetailsComponent: any = ({repo, actions}: { repo: IRepo, actions: any 
         { repo.modified && repo.modified.length ?
           <div>
             <h4>Modified: { repo.modified.length }</h4>
-            <ul>
-              { modified }
-            </ul>
+            <FileList files={repo.modified} />
           </div> : ''
         }
 
         { repo.untracked && repo.untracked.length ?
           <div>
             <h4>Untracked: { repo.untracked.length }</h4>
-            <ul>
-              { untracked }
-            </ul>
+            <FileList files={repo.untracked} />
           </div> : ''
         }
 

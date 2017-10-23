@@ -18,15 +18,12 @@ function RepoHistoryComponent ({ repos }: IRepoHistoryComponent) {
     return null;
   }
 
-  console.log(isAppFocused());
-
   const changes = repos
     .map((repo, i) =>
-      repo.behind !== lastRepos[i].behind ? repo : undefined)
+      repo.behind > lastRepos[i].behind ? repo : undefined)
     .filter(repo => repo);
 
   if (changes.length && !isAppFocused()) {
-    console.log(changes);
     const msg = changes
       .map(change => `${change.name} is ${change.behind} commits behind`)
       .join(', ');
