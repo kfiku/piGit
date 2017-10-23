@@ -45,16 +45,32 @@ export class Repo {
     .then(status => new Promise((resolve) => {
       let newState = this.state;
       newState.lastUpdate = Date.now();
-      newState.modified = status.modified;
-      newState.untracked = status.not_added;
       newState.ahead = status.ahead;
       newState.behind = status.behind;
-      newState.deleted = status.deleted;
-      newState.renamed = status.renamed;
-      newState.staged = status.files
-        .filter(f => f.index !== ' ' && f.index !== '?')
-        .map(f => f.path);
+
+      newState.created = status.created || [];
+      newState.modified = status.modified || [];
+      newState.deleted = status.deleted || [];
+      newState.renamed = status.renamed || [];
+      newState.untracked = status.not_added || [];
+
+      newState.files = status.files.map(file => {
+        return {
+          path: file.path,
+          staged: file.index !== ' ' && file.index !== '?',
+          type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir
+        };
+      });
+
+      newState.unstaged = newState.files
+        .filter(f => !f.staged);
+
+      newState.staged = newState.files
+        .filter(f => f.staged);
+
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
+
+      console.log(newState, status);
 
       this.state = newState;
       resolve(newState);

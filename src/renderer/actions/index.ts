@@ -86,7 +86,6 @@ const actions = {
   ),
 
   reloadRepo: (id: string, dir: string) => dispatch => {
-    console.log('reloadRepo');
     dispatch({ type: RELOADING, id });
     gitRepos.refresh(dir, (err, data) => {
       if (err) {

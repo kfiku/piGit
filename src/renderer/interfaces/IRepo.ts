@@ -10,6 +10,7 @@ export interface IRepo {
   deleted?: any[];
   renamed?: any[];
   untracked?: any[];
+  unstaged?: any[];
   progressing?: boolean;
   lastUpdate?: number;
 }

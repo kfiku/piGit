@@ -2,9 +2,8 @@ import * as React from 'react';
 import { basename } from 'path';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
-
 import { ResizableBox } from 'react-resizable';
+import styled from 'styled-components';
 
 import { IRepo } from '../../interfaces/IRepo';
 import actionsToConnect from '../../actions';
@@ -25,7 +24,6 @@ const Wrapper = styled.div`
 
   .react-resizable {
     overflow-y: auto;
-    height: calc(100vh - 48px);
   }
 `;
 
@@ -103,30 +101,13 @@ class RepoDetailsComponent extends React.PureComponent
           <ResizableBox
             width={sidebarWidth}
             height={height}
-            draggableOpts={{ axis: 'x' }}
             minConstraints={[100, height]}
             maxConstraints={[600, height]}
             axis='x'
             onResize={this.resized.bind(this)}
           >
-            { repo.modified && repo.modified.length ?
-              <div>
-                <h4>Modified: { repo.modified.length }</h4>
-                <FileList files={repo.modified} />
-              </div> : ''
-            }
-
-            { repo.untracked && repo.untracked.length ?
-              <div>
-                <h4>Untracked: { repo.untracked.length }</h4>
-                <FileList files={repo.untracked} />
-              </div> : ''
-            }
-
-            { (!repo.modified || repo.modified.length === 0) &&
-              (!repo.untracked || repo.untracked.length === 0) &&
-              <div>clean</div>
-            }
+            {<FileList files={repo.staged} title='Staged' />}
+            {<FileList files={repo.unstaged} title='Changed' />}
           </ResizableBox>
 
           <DiffWrapper style={{ width: diffWidth }}>
