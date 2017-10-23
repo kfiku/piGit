@@ -29,74 +29,86 @@ interface IRepoComponent {
   actions: any;
 }
 
-function RepoComponent ({repo, group, actions}: IRepoComponent) {
-  if (!repo) { return null; }
+class RepoComponent extends React.PureComponent<IRepoComponent> {
+  public to1;
 
-  renderLog('REPO', repo.name || basename(repo.dir));
+  render() {
+    const {repo, group, actions} = this.props;
 
-  if (!repo.progressing) {
-    setTimeout(() => {
-      actions.reloadRepo(repo.id, repo.dir);
-    }, 5 * 60 * 1000); // 5 minutes
-  }
+    if (!repo) { return null; }
 
-  let cls = '';
+    renderLog('REPO', repo.name || basename(repo.dir));
 
-  if (repo.behind) {
-    cls = 'behind';
-  } else if (repo.ahead) {
-    cls = 'ahead';
-  } else if (repo.modified && repo.modified.length) {
-    cls = 'modified';
-  }
+    if (!repo.progressing) {
+      clearTimeout(this.to1);
 
-  return (
-    <StyledRepo className={ 'repo ' + cls } processing={repo.progressing}>
-      <Icon className='icon icon-move repo-mover' title='Reorder this repo'>
-         <Isvg src='./svg/move.svg' />
-      </Icon>
+      this.to1 = setTimeout(() => {
+        actions.reloadRepo(repo.id, repo.dir);
+      }, 5 * 60 * 1000); // 5 minutes
+    }
 
-      <Icon className='icon icon-x' title='Delete this repo'
-      onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
-        <Isvg src='./svg/x.svg'/>
-      </Icon>
+    let cls = '';
 
-      { cls === 'ahead' ?
-        <Icon className='icon icon-push' title='push this repo'
-        onClick={ actions.pushRepo.bind(null, repo.id, repo.dir) }>
-          <Isvg src='./svg/down-arrow.svg'/>
+    if (repo.behind) {
+      cls = 'behind';
+    } else if (repo.ahead) {
+      cls = 'ahead';
+    } else if (repo.modified && repo.modified.length) {
+      cls = 'modified';
+    }
+
+    return (
+      <StyledRepo className={ 'repo ' + cls } processing={repo.progressing}>
+        <Icon className='icon icon-move repo-mover' title='Reorder this repo'>
+          <Isvg src='./svg/move.svg' />
         </Icon>
-        :
-        <Icon className='icon icon-pull' title='Pull this repo'
-        onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
-          <Isvg src='./svg/down-arrow.svg'/>
+
+        <Icon className='icon icon-x' title='Delete this repo'
+        onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
+          <Isvg src='./svg/x.svg'/>
         </Icon>
-      }
 
-      <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo'
-      onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>
-        <Isvg src='./svg/reload.svg'/>
-      </Icon>
+        { cls === 'ahead' ?
+          <Icon className='icon icon-push' title='push this repo'
+          onClick={ actions.pushRepo.bind(null, repo.id, repo.dir) }>
+            <Isvg src='./svg/down-arrow.svg'/>
+          </Icon>
+          :
+          <Icon className='icon icon-pull' title='Pull this repo'
+          onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
+            <Isvg src='./svg/down-arrow.svg'/>
+          </Icon>
+        }
 
-      <div className='content'>
-        <div className='title' title={repo.dir + ' '}
-        onClick={ actions.showRepoDetails.bind(null, repo.id, repo.dir) }>
-          { repo.name ? repo.name : basename(repo.dir) }
+        <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo'
+        onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>
+          <Isvg src='./svg/reload.svg'/>
+        </Icon>
+
+        <div className='content'>
+          <div className='title' title={repo.dir + ' '}
+          onClick={ actions.showRepoDetails.bind(null, repo.id, repo.dir) }>
+            { repo.name ? repo.name : basename(repo.dir) }
+          </div>
+
+          <div className='branch'>
+            @{ repo.branch }
+          </div>
+
+          <Status repo={repo} />
+
+          {/* <div className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
+            { moment(repo.lastUpdate).fromNow() }
+          </div> */}
         </div>
-
-        <div className='branch'>
-          @{ repo.branch }
-        </div>
-
-        <Status repo={repo} />
-
-        {/* <div className='updated' title='Updated from now' ref={ updateDate.bind(null, repo) }>
-          { moment(repo.lastUpdate).fromNow() }
-        </div> */}
-      </div>
-    </StyledRepo>
-  );
+      </StyledRepo>
+    );
+  }
 }
+
+// function RepoComponent (: IRepoComponent) {
+
+// }
 
 const mapStateToProps = (state, ownProps) => {
   const group = state.groups.filter(g => g.id === ownProps['group-id'])[0];
