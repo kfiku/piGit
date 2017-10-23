@@ -16,6 +16,7 @@ const Icon = styled.i`
     display: inline-block;
     font-style: normal;
     font-size: 20px;
+    vertical-align: bottom;
   }
 `;
 
@@ -31,11 +32,14 @@ const FilePath = FileName.extend`
 `;
 
 const Li = styled.li`
-  margin: ${lh /2}px ${lh}px;
+  margin: ${lh / 2}px ${lh}px;
   width: 300px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  & > * {
+    vertical-align: middle;
+  }
 `;
 
 export default function File ({file}: { file: string }) {
