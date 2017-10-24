@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import ArrowRight from './ArrowRight';
+import ArrowDown from './ArrowDown';
 
-export default styled(ArrowRight)`
+export default styled(ArrowDown)`
   transform: rotate(90deg);
 `;
