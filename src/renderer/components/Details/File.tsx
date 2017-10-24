@@ -48,7 +48,6 @@ const Li = styled.li`
   }
 `;
 
-
 export interface IFile {
   path: string;
   type: string;

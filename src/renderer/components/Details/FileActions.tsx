@@ -28,15 +28,22 @@ const Wrapper = styled.div`
   display: none;
 `;
 
+function confirmCheckout (file) {
+  return confirm(`Are you sure you want to discard changes in ${file}`);
+}
+
 interface IFileActions {
   file: IFile;
   className: string;
   repo: IRepo;
-  addFile: any;
-  unAddFile: any;
+  addFile?: any;
+  unAddFile?: any;
+  checkoutFile?: any;
 }
 
-export function FileActionsComponent ({file, className, repo, addFile, unAddFile}: IFileActions) {
+export function FileActionsComponent ({
+  file, className, repo, addFile, unAddFile, checkoutFile
+}: IFileActions) {
   if (file.staged) {
     return (
       <Wrapper className={className}>
@@ -47,7 +54,11 @@ export function FileActionsComponent ({file, className, repo, addFile, unAddFile
 
   return (
     <Wrapper className={className}>
-      <Action>⮌</Action>
+      <Action onClick={() => {
+        if (confirmCheckout(file.path)) {
+           checkoutFile(repo.id, repo.dir, file.path);
+        }
+      }}>⮌</Action>
       <Action onClick={addFile.bind(null, repo.id, repo.dir, file.path)}>🞡</Action>
     </Wrapper>
   );
@@ -62,6 +73,7 @@ const mapStateToProps = () => {
 const mapDispatchToProps = dispatch => ({
   addFile: bindActionCreators(actionsToConnect.addFile, dispatch),
   unAddFile: bindActionCreators(actionsToConnect.unAddFile, dispatch)
+  checkoutFile: bindActionCreators(actionsToConnect.checkoutFile, dispatch)
 });
 
 const FileActions = connect(
@@ -69,5 +81,5 @@ const FileActions = connect(
   mapDispatchToProps
 )(FileActionsComponent as React.SFC);
 
-export default FileActions;
+export default FileActions as React.ComponentClass<IFileActions>;
 

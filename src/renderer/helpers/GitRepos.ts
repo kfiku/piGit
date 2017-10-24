@@ -35,6 +35,7 @@ export class Repo {
         this.git.push = promisify(this.git.push.bind(this.git));
         this.git.add = promisify(this.git.add.bind(this.git));
         this.git.reset = promisify(this.git.reset.bind(this.git));
+        this.git.checkout = promisify(this.git.checkout.bind(this.git));
         callback(null);
       } else {
         callback(err);
@@ -108,6 +109,11 @@ export class Repo {
 
   unAddFile (file: string) {
     return this.git.reset([file])
+    .then(() => this.updateStatus());
+  }
+
+  checkoutFile (file: string) {
+    return this.git.checkout(file)
     .then(() => this.updateStatus());
   }
 
@@ -219,6 +225,15 @@ export class Repos {
   unAddFile (dir: string, file: string, callback) {
     this.getRepo(dir)
     .then((repo: Repo) => repo.unAddFile(dir + '/' + file))
+    .then(data => callback(null, data))
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  checkoutFile (dir: string, file: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.checkoutFile(dir + '/' + file))
     .then(data => callback(null, data))
     .catch(err => {
       console.log(err);

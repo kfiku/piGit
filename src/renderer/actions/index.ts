@@ -133,6 +133,18 @@ const actions = {
     });
   },
 
+  checkoutFile: (id: string, dir: string, file: string) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.checkoutFile(dir, file, (err, data) => {
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(actions.message(err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
+    });
+  },
+
   pushRepo: (id: string, dir: string) => dispatch => {
     dispatch({ type: RELOADING, id });
     gitRepos.push(dir, (err, data) => {
