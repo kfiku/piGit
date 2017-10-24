@@ -70,7 +70,7 @@ export class Repo {
 
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
-      console.log(newState, status);
+      // console.log(newState, status);
 
       this.state = newState;
       resolve(newState);
