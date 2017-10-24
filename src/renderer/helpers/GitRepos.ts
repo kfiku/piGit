@@ -33,6 +33,8 @@ export class Repo {
         this.git.status = promisify(this.git.status.bind(this.git));
         this.git.stash = promisify(this.git.stash.bind(this.git));
         this.git.push = promisify(this.git.push.bind(this.git));
+        this.git.add = promisify(this.git.add.bind(this.git));
+        this.git.reset = promisify(this.git.reset.bind(this.git));
         callback(null);
       } else {
         callback(err);
@@ -96,6 +98,16 @@ export class Repo {
 
   pull () {
     return this.git.pull(null, null, {'--rebase': 'true'})
+    .then(() => this.updateStatus());
+  }
+
+  addFile (file: string) {
+    return this.git.add([file])
+    .then(() => this.updateStatus());
+  }
+
+  unAddFile (file: string) {
+    return this.git.reset([file])
     .then(() => this.updateStatus());
   }
 
@@ -192,6 +204,24 @@ export class Repos {
       } else {
         return callback(err);
       }
+    });
+  }
+
+  addFile (dir: string, file: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.addFile(dir + '/' + file))
+    .then(data => callback(null, data))
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  unAddFile (dir: string, file: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.unAddFile(dir + '/' + file))
+    .then(data => callback(null, data))
+    .catch(err => {
+      console.log(err);
     });
   }
 

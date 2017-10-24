@@ -1,6 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
+import { IRepo } from '../../interfaces/IRepo';
+import actionsToConnect from '../../actions';
 import { IFile } from './File';
 import { lh, g5, red } from '../../utils/styles';
 
@@ -27,15 +31,16 @@ const Wrapper = styled.div`
 interface IFileActions {
   file: IFile;
   className: string;
+  repo: IRepo;
+  addFile: any;
+  unAddFile: any;
 }
 
-export default function FileActions ({file, className}: IFileActions) {
+export function FileActionsComponent ({file, className, repo, addFile, unAddFile}: IFileActions) {
   if (file.staged) {
     return (
       <Wrapper className={className}>
-        <Action>
-          ‒
-        </Action>
+        <Action onClick={unAddFile.bind(null, repo.id, repo.dir, file.path)}>‒</Action>
       </Wrapper>
     );
   }
@@ -43,7 +48,26 @@ export default function FileActions ({file, className}: IFileActions) {
   return (
     <Wrapper className={className}>
       <Action>⮌</Action>
-      <Action>🞡</Action>
+      <Action onClick={addFile.bind(null, repo.id, repo.dir, file.path)}>🞡</Action>
     </Wrapper>
   );
 }
+
+const mapStateToProps = () => {
+  // const repo = state.repos.filter(r => r.id === state.app.repoShown)[0];
+
+  return { };
+};
+
+const mapDispatchToProps = dispatch => ({
+  addFile: bindActionCreators(actionsToConnect.addFile, dispatch),
+  unAddFile: bindActionCreators(actionsToConnect.unAddFile, dispatch)
+});
+
+const FileActions = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FileActionsComponent as React.SFC);
+
+export default FileActions;
+

@@ -109,6 +109,30 @@ const actions = {
     });
   },
 
+  addFile: (id: string, dir: string, file: string) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.addFile(dir, file, (err, data) => {
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(actions.message(err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
+    });
+  },
+
+  unAddFile: (id: string, dir: string, file: string) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.unAddFile(dir, file, (err, data) => {
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(actions.message(err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
+    });
+  },
+
   pushRepo: (id: string, dir: string) => dispatch => {
     dispatch({ type: RELOADING, id });
     gitRepos.push(dir, (err, data) => {

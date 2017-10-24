@@ -3,6 +3,7 @@ import { basename } from 'path';
 import styled from 'styled-components';
 const fileIcons = require('file-icons-js');
 
+import { IRepo } from '../../interfaces/IRepo';
 import { lh, g5 } from '../../utils/styles';
 import Type from './FileStatusType';
 import Actions from './FileActions';
@@ -19,13 +20,11 @@ const Icon = styled.i`
 `;
 
 const FileName = styled.span`
+  flex: 1;
   margin-right: ${lh / 2}px;
   display: inline-block;
   font-size: ${lh * 0.75}px;
   font-weight: 700;
-
-  flex: 1;
-
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -57,9 +56,12 @@ export interface IFile {
 }
 interface IFileComp {
   file: IFile;
+  repo: IRepo;
 }
 
-export default function File ({file}: IFileComp) {
+export default function File ({file, repo}: IFileComp) {
+  if (!file || !file.path) { return null; }
+
   const baseName = basename(file.path.replace(/.* -> /, ''));
   const className = fileIcons.getClassWithColor(baseName);
   return (
@@ -71,7 +73,7 @@ export default function File ({file}: IFileComp) {
         <FilePath>{ file.path !== baseName ? file.path : '' }</FilePath>
       </FileName>
 
-      <Actions className='file-actions' file={file} />
+      <Actions className='file-actions' file={file} repo={repo} />
       <Type type={ file.type } />
     </Li>
   );

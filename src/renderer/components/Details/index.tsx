@@ -106,8 +106,8 @@ class RepoDetailsComponent extends React.PureComponent
             axis='x'
             onResize={this.resized.bind(this)}
           >
-            {<FileList files={repo.staged} title='Staged' />}
-            {<FileList files={repo.unstaged} title='Changed' />}
+            {<FileList files={repo.staged} repo={repo} title='Staged' />}
+            {<FileList files={repo.unstaged} repo={repo} title='Changed' />}
           </ResizableBox>
 
           <DiffWrapper style={{ width: diffWidth }}>
