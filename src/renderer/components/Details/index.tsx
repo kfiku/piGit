@@ -101,7 +101,7 @@ class RepoDetailsComponent extends React.PureComponent
           <ResizableBox
             width={sidebarWidth}
             height={height}
-            minConstraints={[100, height]}
+            minConstraints={[200, height]}
             maxConstraints={[600, height]}
             axis='x'
             onResize={this.resized.bind(this)}
