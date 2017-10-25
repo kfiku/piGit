@@ -8,6 +8,8 @@ import { g2, lh } from '../../utils/styles';
 import Button from '../helpers/Button';
 import Icon from '../helpers/Icon';
 import ArrowLeft from '../Icons/ArrowLeft';
+import ArrowUp from '../Icons/ArrowUp';
+import ArrowDown from '../Icons/ArrowDown';
 import Status from '../Repos/Status';
 
 import GitGuiBtn from './GitGuiBtn';
@@ -53,17 +55,19 @@ function Header({ repo, actions }: HeaderProps) {
           <Icon spin={repo.progressing} className='icon icon-refresh'>
             <Isvg src='./svg/reload.svg'/>
           </Icon>
-
-          {/* <span>Reload</span> */}
         </Button>
 
-        <Button onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) } title='Pull this repo'>
-          <Icon className='icon icon-pull'>
-            <Isvg src='./svg/down-arrow.svg'/>
-          </Icon>
-
-          {/* <span>Pull</span> */}
-        </Button>
+        { repo.behind ? (
+          <Button onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) } title='Pull this repo'>
+            <ArrowDown />
+          </Button>
+        ) : repo.ahead ? (
+          <Button
+          onClick={ actions.pushRepo.bind(null, repo.id, repo.dir) }
+          title='Push to this repo'>
+            <ArrowUp />
+          </Button>
+        ) : null }
 
         <GitGuiBtn repo={repo} />
         <GitKBtn repo={repo} />

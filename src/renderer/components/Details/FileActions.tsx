@@ -4,23 +4,32 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { IRepo } from '../../interfaces/IRepo';
-import actionsToConnect from '../../actions';
-import { IFile } from './File';
 import { lh, g5, red } from '../../utils/styles';
+import actionsToConnect from '../../actions';
+import Revert from '../Icons/Revert';
+const Plus = require('react-icons/lib/fa/plus');
+const Minus = require('react-icons/lib/fa/minus');
+import { IFile } from './File';
 
 const Action = styled.span`
+  display: inline-block;
   width: ${lh * 1.25}px;
   height: ${lh * 1.25}px;
-  margin-right: ${lh / 4}px;
-  color: ${g5};
+  // margin-right: ${lh / 4}px;
   text-align: center;
   font-size: ${lh}px;
   font-weight: 700;
 
+  svg {
+    fill: ${g5};
+  }
+
   cursor: pointer;
 
   &:hover {
-    color: ${red};
+    svg {
+      fill: ${red};
+    }
   }
 `;
 
@@ -47,7 +56,9 @@ export function FileActionsComponent ({
   if (file.staged) {
     return (
       <Wrapper className={className}>
-        <Action onClick={unAddFile.bind(null, repo.id, repo.dir, file.path)}>‒</Action>
+        <Action onClick={unAddFile.bind(null, repo.id, repo.dir, file.path)}>
+          <Minus height={lh * 0.75} width={lh * 0.75} />
+        </Action>
       </Wrapper>
     );
   }
@@ -58,8 +69,12 @@ export function FileActionsComponent ({
         if (confirmCheckout(file.path)) {
            checkoutFile(repo.id, repo.dir, file.path);
         }
-      }}>⮌</Action>
-      <Action onClick={addFile.bind(null, repo.id, repo.dir, file.path)}>🞡</Action>
+      }}>
+        <Revert height={lh * 0.75} width={lh * 0.75} />
+      </Action>
+      <Action onClick={addFile.bind(null, repo.id, repo.dir, file.path)}>
+        <Plus height={lh * 0.75} width={lh * 0.75} />
+      </Action>
     </Wrapper>
   );
 }
@@ -72,7 +87,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = dispatch => ({
   addFile: bindActionCreators(actionsToConnect.addFile, dispatch),
-  unAddFile: bindActionCreators(actionsToConnect.unAddFile, dispatch)
+  unAddFile: bindActionCreators(actionsToConnect.unAddFile, dispatch),
   checkoutFile: bindActionCreators(actionsToConnect.checkoutFile, dispatch)
 });
 
