@@ -145,6 +145,14 @@ const actions = {
     });
   },
 
+  stashDrop: () => (
+    { }
+  ),
+
+  stashApply: () => (
+    { }
+  ),
+
   pushRepo: (id: string, dir: string) => dispatch => {
     dispatch({ type: RELOADING, id });
     gitRepos.push(dir, (err, data) => {
