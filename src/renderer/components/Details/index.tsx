@@ -109,6 +109,7 @@ class RepoDetailsComponent extends React.PureComponent
           >
             <FileList files={repo.staged} repo={repo} title='Staged' />
             <FileList files={repo.unstaged} repo={repo} title='Changed' alwaysShow />
+            <FileList files={repo.conflicted} repo={repo} title='CONFLICTED' />
             <StashList stashes={repo.stashes} repo={repo} title='Stashes' />
           </ResizableBox>
 
