@@ -15,13 +15,14 @@ import repos from '../../helpers/GitRepos';
 (window as any).hljs = hljs;
 (window as any).Diff2Html = Diff2Html;
 
-const loadDiff = (dir, wide: boolean, el: HTMLBaseElement) => {
+async function loadDiff (dir, wide: boolean, el: HTMLBaseElement) {
   if (!el) {
     return;
   }
+  try {
+    const diff = await repos.diff(dir);
 
-  repos.diff(dir, (err, diff) => {
-    if (!err && diff) {
+    if (diff) {
       const diff2HtmlUI = new Diff2HtmlUI({ diff });
       diff2HtmlUI.draw(
         '#differ',
@@ -36,8 +37,10 @@ const loadDiff = (dir, wide: boolean, el: HTMLBaseElement) => {
     } else {
       document.getElementById('differ').innerHTML = 'nothing to diff';
     }
-  });
-};
+  } catch (e) {
+    document.getElementById('differ').innerHTML = e;
+  }
+}
 
 
 interface IDiff {

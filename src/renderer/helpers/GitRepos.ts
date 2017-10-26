@@ -67,7 +67,7 @@ export class Repo {
 
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
-      console.log(status, newState);
+      // console.log(status, newState);
       this.state = newState;
       return newState;
 
@@ -111,8 +111,8 @@ export class Repo {
     clearTimeout(this.updateStatusTI);
   }
 
-  diff (cb) {
-    return this.git.diff(cb);
+  async diff () {
+    return await this.git.diff();
   }
 
   stash (msg = '') {
@@ -133,7 +133,6 @@ export class Repo {
 
   async stashList () {
     const stashes = await this.git.stashList();
-    console.log(stashes);
     return stashes && stashes.all;
   }
 
@@ -283,24 +282,16 @@ export class Repos {
     } catch (e) {
       callback(e);
     }
-
-      // repo.stashList().then((stashes) => {
-      //   console.log(stashes);
-
-      //   return repo.stash().then(() =>
-      //     repo.pull().then(() =>
-      //       repo.stashApply().then(() =>
-      //         repo.updateStatus()
-      //       )
-      //     )
-      //   );
-      // })
-    // )
-    // .then(data => callback(null, data))
-    // .catch(err => callback(err));
   }
 
-  diff (dir, callback) {
+  async diff (dir) {
+    try {
+      const repo: Repo = await this.getRepo(dir) as Repo;
+      const diff: string = await repo.diff();
+      return diff;
+    } catch (e) {
+      return e;
+    }
     this.getRepo(dir)
     .then((repo: Repo) => repo.diff(callback));
   }
