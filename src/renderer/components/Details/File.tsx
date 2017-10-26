@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const fileIcons = require('file-icons-js');
 
 import { IRepo } from '../../interfaces/IRepo';
-import { lh, g5 } from '../../utils/styles';
+import { lh, fileHeight, g5 } from '../../utils/styles';
 import Type from './FileStatusType';
 import Actions from './FileActions';
 
@@ -19,7 +19,8 @@ const Icon = styled.i`
   }
 `;
 
-const FileName = styled.span`
+
+export const FileName = styled.span`
   flex: 1;
   margin-right: ${lh / 2}px;
   display: inline-block;
@@ -37,9 +38,10 @@ const FilePath = styled.span`
   color: ${g5};
 `;
 
-const Li = styled.li`
+export const Li = styled.li`
   display: flex;
   align-items: center;
+  height: ${fileHeight}px;
 
   &:hover {
     .file-actions{

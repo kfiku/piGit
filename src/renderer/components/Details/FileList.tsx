@@ -5,17 +5,17 @@ import { lh } from '../../utils/styles';
 import File, { IFile } from './File';
 import { IRepo } from '../../interfaces/IRepo';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   padding: ${lh / 3}px ${lh}px ${lh / 3}px ${lh / 2}px;
 `;
 
-const Title = styled.h4`
+export const Title = styled.h4`
   margin: ${lh / 4}px 0;
   font-size: ${lh * 0.75}px;
   text-transform: uppercase;
 `;
 
-const Ul = styled.ul`
+export const Ul = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;

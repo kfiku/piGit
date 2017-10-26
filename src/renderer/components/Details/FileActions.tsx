@@ -4,24 +4,25 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { IRepo } from '../../interfaces/IRepo';
-import { lh, g5, red } from '../../utils/styles';
+import { lh, fileHeight, g5, red } from '../../utils/styles';
 import actionsToConnect from '../../actions';
 import Revert from '../Icons/Revert';
 const Plus = require('react-icons/lib/fa/plus');
 const Minus = require('react-icons/lib/fa/minus');
 import { IFile } from './File';
 
-const Action = styled.span`
+export const Action = styled.span`
   display: inline-block;
-  width: ${lh * 1.25}px;
-  height: ${lh * 1.25}px;
-  // margin-right: ${lh / 4}px;
+  width: ${fileHeight}px;
+  height: ${fileHeight}px;
   text-align: center;
   font-size: ${lh}px;
   font-weight: 700;
 
   svg {
     fill: ${g5};
+    width: ${fileHeight * 0.75}px;
+    height: ${fileHeight * 0.75}px;
   }
 
   cursor: pointer;
@@ -33,7 +34,7 @@ const Action = styled.span`
   }
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: none;
 `;
 
@@ -56,7 +57,10 @@ export function FileActionsComponent ({
   if (file.staged) {
     return (
       <Wrapper className={className}>
-        <Action onClick={unAddFile.bind(null, repo.id, repo.dir, file.path)}>
+        <Action
+          onClick={unAddFile.bind(null, repo.id, repo.dir, file.path)}
+          title='Revert changes on this file'
+        >
           <Minus height={lh * 0.75} width={lh * 0.75} />
         </Action>
       </Wrapper>
@@ -65,15 +69,21 @@ export function FileActionsComponent ({
 
   return (
     <Wrapper className={className}>
-      <Action onClick={() => {
-        if (confirmCheckout(file.path)) {
-           checkoutFile(repo.id, repo.dir, file.path);
-        }
-      }}>
-        <Revert height={lh * 0.75} width={lh * 0.75} />
+      <Action
+        onClick={() => {
+          if (confirmCheckout(file.path)) {
+            checkoutFile(repo.id, repo.dir, file.path);
+          }
+        }}
+        title='Revert changes on this file'
+      >
+        <Revert />
       </Action>
-      <Action onClick={addFile.bind(null, repo.id, repo.dir, file.path)}>
-        <Plus height={lh * 0.75} width={lh * 0.75} />
+      <Action
+        onClick={addFile.bind(null, repo.id, repo.dir, file.path)}
+        title='Add file to commit'
+      >
+        <Plus />
       </Action>
     </Wrapper>
   );

@@ -29,7 +29,7 @@ export const blueBg = '#d9dff3';
 
 /* SIZES */
 export const lh = 16;
-
+export const fileHeight = lh * 1.25;
 export const br = lh / 4; // defaultBorderRadius
 
 export const navHeight = 48;
