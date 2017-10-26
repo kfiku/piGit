@@ -40,17 +40,23 @@ const createAppStore = (callback) => {
       state.app.message = '';
     }
 
-    state.repos = state.repos.map(r => {
-      r.progressing = false;
-      return r;
-    });
-
     state.groups = state.groups.map(g => {
       g.editing = false;
       g.confirmDelete = false;
       g.progressing = false;
       return g;
     });
+
+    const repoIdsInGroups = [].concat(
+      ...state.groups.map(g => g.repos)
+    );
+
+    state.repos = state.repos.map(r => {
+      r.progressing = false;
+      return r;
+    })
+    .filter(r => !!r.dir)
+    .filter(r => repoIdsInGroups.indexOf(r.id) > -1);
   }
 
   let store = createStore(
