@@ -35,7 +35,7 @@ class RepoComponent extends React.PureComponent<IRepoComponent> {
   render() {
     const {repo, group, actions} = this.props;
 
-    if (!repo) { return null; }
+    if (!repo || !repo.dir) { return null; }
 
     renderLog('REPO', repo.name || basename(repo.dir));
 
