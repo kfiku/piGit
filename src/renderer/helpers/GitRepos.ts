@@ -272,10 +272,11 @@ export class Repos {
     });
   }
 
-  async stashApply (dir: string, id: number, callback) {
+  async stashApplyWithDrop (dir: string, id: number, callback) {
     try {
       const repo: Repo = await this.getRepo(dir) as Repo;
       await repo.stashApply(id);
+      await repo.stashDrop(id);
       /** getting new status */
       const status = await repo.updateStatus();
       callback(null, status);

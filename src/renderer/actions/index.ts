@@ -157,9 +157,9 @@ const actions = {
     });
   },
 
-  stashApply: (id: string, dir: string, stashId: number) => dispatch => {
+  stashApplyWithDrop: (id: string, dir: string, stashId: number) => dispatch => {
     dispatch({ type: RELOADING, id });
-    gitRepos.stashApply(dir, stashId, (err, data) => {
+    gitRepos.stashApplyWithDrop(dir, stashId, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
         dispatch(actions.message(err.message || err + ''));

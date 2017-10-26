@@ -25,22 +25,29 @@ interface IStashActions {
   className: string;
   repo: IRepo;
   stashDrop?: any;
-  stashApply?: any;
+  stashApplyWithDrop?: any;
 }
 
 export function StashActionsComponent ({
-  stash, className, repo, stashDrop, stashApply
+  stash, className, repo, stashDrop, stashApplyWithDrop
 }: IStashActions) {
   return (
     <Wrapper className={className}>
-      <Action onClick={() => {
-        if (confirmDrop(stash.message)) {
-           stashDrop(repo.id, repo.dir, stash.id);
-        }
-      }}>
+      <Action
+        onClick={() => {
+          if (confirmDrop(stash.message)) {
+            stashDrop(repo.id, repo.dir, stash.id);
+          }
+        }}
+        title='Drop this stash'
+      >
         <Trash />
       </Action>
-      <Action onClick={stashApply.bind(null, repo.id, repo.dir, stash.id)}>
+
+      <Action
+        onClick={stashApplyWithDrop.bind(null, repo.id, repo.dir, stash.id)}
+        title='Apply this stash and drop'
+      >
         <Check />
       </Action>
     </Wrapper>
@@ -53,7 +60,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = dispatch => ({
   stashDrop: bindActionCreators(actionsToConnect.stashDrop, dispatch),
-  stashApply: bindActionCreators(actionsToConnect.stashApply, dispatch)
+  stashApplyWithDrop: bindActionCreators(actionsToConnect.stashApplyWithDrop, dispatch)
 });
 
 const StashActions = connect(
