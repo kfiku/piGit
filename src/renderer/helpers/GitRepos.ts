@@ -292,8 +292,6 @@ export class Repos {
     } catch (e) {
       return e;
     }
-    this.getRepo(dir)
-    .then((repo: Repo) => repo.diff(callback));
   }
 }
 
