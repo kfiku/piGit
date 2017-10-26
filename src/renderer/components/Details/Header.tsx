@@ -14,6 +14,7 @@ import Status from '../Repos/Status';
 
 import GitGuiBtn from './GitGuiBtn';
 import GitKBtn from './GitKBtn';
+import TermBtn from './TermBtn';
 
 const StyledHeader = styled.header`
   display: flex;
@@ -38,6 +39,9 @@ interface HeaderProps {
 }
 
 function Header({ repo, actions }: HeaderProps) {
+
+  console.log(TermBtn);
+
   return (
     <StyledHeader>
       <Button onClick={ actions.hideRepoDetails.bind(null) } title='Close' className='back'>
@@ -71,6 +75,7 @@ function Header({ repo, actions }: HeaderProps) {
 
         <GitGuiBtn repo={repo} />
         <GitKBtn repo={repo} />
+        <TermBtn repo={repo} />
       </div>
 
     </StyledHeader>
