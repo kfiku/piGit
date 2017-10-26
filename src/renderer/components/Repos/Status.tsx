@@ -8,6 +8,7 @@ import StyledStatus,
   Behind,
   Modified,
   Untracked,
+  Stashes,
   Deleted,
   Renamed
 } from './StyledStatus';
@@ -25,9 +26,22 @@ function Status ({ repo, inline }: StatusProps) {
   const u = repo.untracked && repo.untracked.length > 0 && repo.untracked.length;
   const d = repo.deleted && repo.deleted.length > 0 && repo.deleted.length;
   const r = repo.renamed && repo.renamed.length > 0 && repo.renamed.length;
+  const s = repo.stashes && repo.stashes.length > 0 && repo.stashes.length;
+
+  const title = [
+    a && `Ahead: ${a}`,
+    b && `Behind: ${b}`,
+    m && `Modified: ${m}`,
+    u && `Untracked: ${u}`,
+    d && `Deleted: ${d}`,
+    r && `Renamed: ${r}`,
+    s && `Stashes: ${s}`
+  ]
+  .filter(t => t)
+  .join(', ');
 
   return (
-    <StyledStatus inline={inline}>
+    <StyledStatus inline={inline} title={title}>
       { a && <Ahead>{ a }</Ahead> }
       { b && <Behind>{ b }</Behind> }
       { m && <Modified>{ m }</Modified> }
@@ -36,6 +50,7 @@ function Status ({ repo, inline }: StatusProps) {
       </Untracked> }
       { d && <Deleted>{ d }</Deleted> }
       { r && <Renamed>{ r }</Renamed> }
+      { s && <Stashes>{ s }</Stashes> }
     </StyledStatus>
   );
 }

@@ -43,6 +43,14 @@ export const Deleted = styled.span`
   }
 `;
 
+export const Stashes = styled.span`
+  color: ${blue};
+
+  :before {
+    content: ' ⚑';
+  }
+`;
+
 export const Renamed = styled.span`
   color: ${green};
 

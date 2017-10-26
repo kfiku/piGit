@@ -11,6 +11,7 @@ export interface IRepo {
   renamed?: any[];
   untracked?: any[];
   unstaged?: any[];
+  stashes?: any[];
   progressing?: boolean;
   lastUpdate?: number;
 }
