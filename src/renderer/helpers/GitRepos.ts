@@ -5,7 +5,6 @@ import { eachSeries } from 'async';
 const simpleGit = require('simple-git/promise');
 
 import walk from './DirWalk';
-const promisify = require('es6-promisify');
 
 export class Repo {
   updateStatusTI: any;
@@ -49,6 +48,7 @@ export class Repo {
       newState.deleted = status.deleted || [];
       newState.renamed = status.renamed || [];
       newState.untracked = status.not_added || [];
+      newState.conflicted = status.conflicted || [];
       newState.stashes = stashes || [];
 
       newState.files = status.files.map(file => {
@@ -67,7 +67,7 @@ export class Repo {
 
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
-      // console.log(newState.stashes);
+      console.log(status, newState);
       this.state = newState;
       return newState;
 

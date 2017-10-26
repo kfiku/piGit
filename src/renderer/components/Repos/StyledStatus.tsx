@@ -31,6 +31,14 @@ export const Modified = styled.span`
   }
 `;
 
+export const Conflicted = styled.span`
+  color: ${red};
+
+  :before {
+    content: '✖ ';
+  }
+`;
+
 export const Untracked = styled.span`
   color: ${g4};
 `;
