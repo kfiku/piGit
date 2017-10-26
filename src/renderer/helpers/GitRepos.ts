@@ -214,6 +214,13 @@ export class Repos {
     });
   }
 
+  updateStatus (dir: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.updateStatus())
+    .then(data => callback(null, data))
+    .catch(err => callback(err));
+  }
+
   refresh (dir: string, callback) {
     this.getRepo(dir)
     .then((repo: Repo) => repo.refresh())

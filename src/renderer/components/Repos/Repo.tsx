@@ -31,21 +31,61 @@ interface IRepoComponent {
 
 class RepoComponent extends React.PureComponent<IRepoComponent> {
   public to1;
+  public to2;
+
+  constructor() {
+    super();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.to1);
+    clearTimeout(this.to2);
+  }
+
+  componentWillMount() {
+    this.fetchTimeout();
+    // this.updateTimeout();
+  }
+
+  fetchTimeout() {
+    if (this.props.repo && !this.props.repo.progressing) {
+      clearTimeout(this.to1);
+      const { id, dir } = this.props.repo;
+
+      this.to1 = setTimeout(() => {
+        this.props.actions.reloadRepo(id, dir);
+        this.fetchTimeout();
+      }, 5 * 60 * 1000); // 5 minutes
+    } else {
+      this.to1 = setTimeout(
+        () => this.fetchTimeout(),
+        10 * 1000 // 5 sec
+      );
+    }
+  }
+
+  updateTimeout() {
+    if (this.props.repo && !this.props.repo.progressing) {
+      clearTimeout(this.to2);
+      const { id, dir } = this.props.repo;
+
+      this.to2 = setTimeout(() => {
+        this.props.actions.updateRepoStatus(id, dir);
+        this.updateTimeout();
+      }, 10 * 1000); // 10 sec
+    } else {
+      this.to2 = setTimeout(
+        () => this.updateTimeout(),
+        10 * 1000 // 10 sec
+      );
+    }
+  }
 
   render() {
     const {repo, group, actions} = this.props;
-
     if (!repo || !repo.dir) { return null; }
 
     renderLog('REPO', repo.name || basename(repo.dir));
-
-    if (!repo.progressing) {
-      clearTimeout(this.to1);
-
-      this.to1 = setTimeout(() => {
-        actions.reloadRepo(repo.id, repo.dir);
-      }, 5 * 60 * 1000); // 5 minutes
-    }
 
     let cls = '';
 
