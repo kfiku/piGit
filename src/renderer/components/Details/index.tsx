@@ -108,7 +108,7 @@ class RepoDetailsComponent extends React.PureComponent
             onResize={this.resized.bind(this)}
           >
             <FileList files={repo.staged} repo={repo} title='Staged' />
-            <FileList files={repo.unstaged} repo={repo} title='Changed' />
+            <FileList files={repo.unstaged} repo={repo} title='Changed' alwaysShow />
             <StashList stashes={repo.stashes} repo={repo} title='Stashes' />
           </ResizableBox>
 
