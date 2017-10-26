@@ -10,6 +10,7 @@ export interface IStash {
   message: string;
   hash: string;
   date: string;
+  id: number;
 }
 interface IStashComp {
   stash: IStash;
@@ -22,14 +23,11 @@ export default function Stash ({stash, repo}: IStashComp) {
   const { message, date } = stash;
   return (
     <Li title={`${message} on ${date}`}>
-      {/* <Icon className={className} /> */}
-
       <FileName>
         { message }
       </FileName>
 
-      {<Actions className='file-actions' stash={stash} repo={repo} />}
-      {/* <Type type={ stash.type } /> */}
+      <Actions className='file-actions' stash={stash} repo={repo} />
     </Li>
   );
 }

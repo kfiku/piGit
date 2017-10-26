@@ -145,13 +145,29 @@ const actions = {
     });
   },
 
-  stashDrop: () => (
-    { }
-  ),
+  stashDrop: (id: string, dir: string, stashId: number) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.stashDrop(dir, stashId, (err, data) => {
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(actions.message(err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
+    });
+  },
 
-  stashApply: () => (
-    { }
-  ),
+  stashApply: (id: string, dir: string, stashId: number) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.stashApply(dir, stashId, (err, data) => {
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(actions.message(err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
+    });
+  },
 
   pushRepo: (id: string, dir: string) => dispatch => {
     dispatch({ type: RELOADING, id });

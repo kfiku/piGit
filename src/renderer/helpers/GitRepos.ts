@@ -5,7 +5,6 @@ import { eachSeries } from 'async';
 const simpleGit = require('simple-git/promise');
 
 import walk from './DirWalk';
-
 export class Repo {
   updateStatusTI: any;
   git: any;
@@ -119,11 +118,32 @@ export class Repo {
     return this.git.stash(['save', msg || `piGit stash from ${new Date()}`]);
   }
 
-  async stashApplyWithDrop (id: number) {
-    const stashKey = `stash@{${id}}`;
+  async stashApply (id: number) {
+    const stashKey = this.getStashKey(id);
     try {
       await this.git.stash(['apply', stashKey]);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  async stashDrop (id: number) {
+    const stashKey = this.getStashKey(id);
+    try {
       await this.git.stash(['drop', stashKey]);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  async stashApplyWithDrop (id: number) {
+    try {
+      await this.stashApply(id);
+      await this.stashDrop(id);
       return true;
     } catch (error) {
       console.log(error);
@@ -133,7 +153,10 @@ export class Repo {
 
   async stashList () {
     const stashes = await this.git.stashList();
-    return stashes && stashes.all;
+    return stashes && stashes.all.map((stash, id) => {
+      stash.id = id;
+      return stash;
+    });
   }
 
   push () {
@@ -141,14 +164,14 @@ export class Repo {
     .then(() => this.updateStatus());
   }
 
-  stashApply () {
-    return this.git.stash({ apply: true });
-  }
-
   validateDir (dir, callback) {
     stat(join(dir, '.git'), (err) => {
       callback(err);
     });
+  }
+
+  getStashKey(id: number) {
+    return `stash@{${id}}`;
   }
 }
 
@@ -225,6 +248,7 @@ export class Repos {
     .then(data => callback(null, data))
     .catch(err => {
       console.log(err);
+      callback(err);
     });
   }
 
@@ -234,6 +258,7 @@ export class Repos {
     .then(data => callback(null, data))
     .catch(err => {
       console.log(err);
+      callback(err);
     });
   }
 
@@ -243,7 +268,32 @@ export class Repos {
     .then(data => callback(null, data))
     .catch(err => {
       console.log(err);
+      callback(err);
     });
+  }
+
+  async stashApply (dir: string, id: number, callback) {
+    try {
+      const repo: Repo = await this.getRepo(dir) as Repo;
+      await repo.stashApply(id);
+      /** getting new status */
+      const status = await repo.updateStatus();
+      callback(null, status);
+    } catch (e) {
+      callback(e);
+    }
+  }
+
+  async stashDrop (dir: string, id: number, callback) {
+    try {
+      const repo: Repo = await this.getRepo(dir) as Repo;
+      await repo.stashDrop(id);
+      /** getting new status */
+      const status = await repo.updateStatus();
+      callback(null, status);
+    } catch (e) {
+      callback(e);
+    }
   }
 
   push (dir: string, callback) {

@@ -35,12 +35,12 @@ export function StashActionsComponent ({
     <Wrapper className={className}>
       <Action onClick={() => {
         if (confirmDrop(stash.message)) {
-           stashDrop(repo.id, repo.dir, stash.message);
+           stashDrop(repo.id, repo.dir, stash.id);
         }
       }}>
         <Trash />
       </Action>
-      <Action onClick={stashApply.bind(null, repo.id, repo.dir, stash.message)}>
+      <Action onClick={stashApply.bind(null, repo.id, repo.dir, stash.id)}>
         <Check />
       </Action>
     </Wrapper>
