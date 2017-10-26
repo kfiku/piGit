@@ -2,7 +2,7 @@ import { stat } from 'fs';
 import { join, basename } from 'path';
 
 import { eachSeries } from 'async';
-const simpleGit = require('simple-git');
+const simpleGit = require('simple-git/promise');
 
 import walk from './DirWalk';
 const promisify = require('es6-promisify');
@@ -27,15 +27,6 @@ export class Repo {
     this.validateDir(dir, (err) => {
       if (!err) {
         this.git = simpleGit(dir);
-        // PROMISIFY THIS SHIT
-        this.git.fetch = promisify(this.git.fetch.bind(this.git));
-        this.git.pull = promisify(this.git.pull.bind(this.git));
-        this.git.status = promisify(this.git.status.bind(this.git));
-        this.git.stash = promisify(this.git.stash.bind(this.git));
-        this.git.push = promisify(this.git.push.bind(this.git));
-        this.git.add = promisify(this.git.add.bind(this.git));
-        this.git.reset = promisify(this.git.reset.bind(this.git));
-        this.git.checkout = promisify(this.git.checkout.bind(this.git));
         callback(null);
       } else {
         callback(err);
@@ -43,9 +34,11 @@ export class Repo {
     });
   }
 
-  updateStatus () {
-    return this.git.status()
-    .then(status => new Promise((resolve) => {
+  async updateStatus () {
+    try {
+      const status = await this.git.status();
+      const stashes = await this.stashList();
+
       let newState = this.state;
       newState.lastUpdate = Date.now();
       newState.ahead = status.ahead;
@@ -56,6 +49,7 @@ export class Repo {
       newState.deleted = status.deleted || [];
       newState.renamed = status.renamed || [];
       newState.untracked = status.not_added || [];
+      newState.stashes = stashes || [];
 
       newState.files = status.files.map(file => {
         return {
@@ -73,11 +67,13 @@ export class Repo {
 
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
-      // console.log(newState, status);
-
+      // console.log(newState.stashes);
       this.state = newState;
-      resolve(newState);
-    }));
+      return newState;
+
+    } catch (error) {
+      return error;
+    }
   }
 
   fetch () {
@@ -86,13 +82,6 @@ export class Repo {
   }
 
   refresh () {
-    // git log origin/master --pretty=format:"%H"
-
-    // this.git.listRemote(['--heads'], (err, remoteHeads) => {
-    //   console.log(err, remoteHeads);
-    //   this.updateStatus(callback, { remoteHeads });
-    // })
-
     return this.git.fetch()
     .then(() => this.updateStatus());
   }
@@ -126,8 +115,26 @@ export class Repo {
     return this.git.diff(cb);
   }
 
-  stash () {
-    return this.git.stash();
+  stash (msg = '') {
+    return this.git.stash(['save', msg || `piGit stash from ${new Date()}`]);
+  }
+
+  async stashApplyWithDrop (id: number) {
+    const stashKey = `stash@{${id}}`;
+    try {
+      await this.git.stash(['apply', stashKey]);
+      await this.git.stash(['drop', stashKey]);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  async stashList () {
+    const stashes = await this.git.stashList();
+    console.log(stashes);
+    return stashes && stashes.all;
   }
 
   push () {
@@ -247,19 +254,50 @@ export class Repos {
     .catch(err => callback(err));
   }
 
-  pullWithStash (dir: string, callback) {
-    this.getRepo(dir)
-    .then((repo: Repo) =>
-      repo.stash().then(() =>
-        repo.pull().then(() =>
-          repo.stashApply().then(() =>
-            repo.updateStatus()
-          )
-        )
-      )
-    )
-    .then(data => callback(null, data))
-    .catch(err => callback(err));
+  async pullWithStash (dir: string, callback) {
+    try {
+      const repo: Repo = await this.getRepo(dir) as Repo;
+      /** getting stash list before stashing */
+      const stashes = await repo.stashList();
+      /** stashing */
+      await repo.stash();
+      /** getting new stash list after stashing */
+      const newStashes = await repo.stashList();
+      /** getting diff between new and old stashes */
+      const stashDiff = newStashes
+      .filter(newStash => !stashes.find(stash => stash.hash === newStash.hash));
+
+      /** pulling */
+      await repo.pull();
+
+      /** applying and droping stashes */
+      stashDiff.map(async function(stashToApply, id) {
+        console.log('applying and drop stash: ', stashToApply);
+        await repo.stashApplyWithDrop(id);
+      });
+
+      /** getting new status */
+      const status = await repo.updateStatus();
+
+      callback(null, status);
+    } catch (e) {
+      callback(e);
+    }
+
+      // repo.stashList().then((stashes) => {
+      //   console.log(stashes);
+
+      //   return repo.stash().then(() =>
+      //     repo.pull().then(() =>
+      //       repo.stashApply().then(() =>
+      //         repo.updateStatus()
+      //       )
+      //     )
+      //   );
+      // })
+    // )
+    // .then(data => callback(null, data))
+    // .catch(err => callback(err));
   }
 
   diff (dir, callback) {
