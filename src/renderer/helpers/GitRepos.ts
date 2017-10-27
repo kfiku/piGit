@@ -240,8 +240,8 @@ export class Repos {
     .then((repo: Repo) => repo.pull())
     .then(data => callback(null, data))
     .catch(err => {
-      console.log(err);
-      if (err.indexOf('You have unstaged changes') > -1) {
+      const errMsg = err.message || err + '';
+      if (errMsg.indexOf('You have unstaged changes') > -1) {
         this.pullWithStash(dir, callback);
       } else {
         return callback(err);
@@ -327,7 +327,7 @@ export class Repos {
       /** pulling */
       await repo.pull();
 
-      /** applying and droping stashes */
+      /** applying and dropping stashes */
       stashDiff.map(async function(stashToApply, id) {
         console.log('applying and drop stash: ', stashToApply);
         await repo.stashApplyWithDrop(id);
