@@ -22,7 +22,7 @@ const openInTerminal = (repo) => {
       exec(`start /D "${ repo.dir }" cmd`);
       break;
     case 'linux':
-      exec(`x-terminal-emulator "${ repo.dir }"`);
+      exec(`cd ${ repo.dir } && x-terminal-emulator`);
       break;
 
     default:
