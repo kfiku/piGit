@@ -6,15 +6,22 @@ import { connect } from 'react-redux';
 
 
 import actionsToConnect from '../../actions';
-import { lh } from '../../utils/styles';
+import { lh, g3, g2 } from '../../utils/styles';
 import styled from 'styled-components';
 
 const CommitMessage = styled.textarea`
   width: calc(100% - ${lh * 2}px);
   height: ${lh * 3}px;
   margin: ${lh}px;
-  border: none;
+  padding: ${lh / 2}px;
+  border: 1px solid white;
   resize: none;
+  outline: none;
+
+  &:focus {
+    border: 1px solid ${g3};
+    box-shadow: 0 0 10px ${g3};
+  }
 `;
 
 interface CommitBoxProps {
