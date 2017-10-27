@@ -6,11 +6,11 @@ import File, { IFile } from './File';
 import { IRepo } from '../../interfaces/IRepo';
 
 export const Wrapper = styled.div`
-  padding: ${lh / 3}px ${lh}px ${lh / 3}px ${lh / 2}px;
 `;
 
 export const Title = styled.h4`
   margin: ${lh / 4}px 0;
+  padding: ${lh / 3}px ${lh}px ${lh / 3}px ${lh / 2}px;
   font-size: ${lh * 0.75}px;
   text-transform: uppercase;
 `;

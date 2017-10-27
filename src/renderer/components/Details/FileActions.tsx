@@ -6,23 +6,27 @@ import { connect } from 'react-redux';
 import { IRepo } from '../../interfaces/IRepo';
 import { lh, fileHeight, g5, red } from '../../utils/styles';
 import actionsToConnect from '../../actions';
-import Revert from '../Icons/Revert';
-const Plus = require('react-icons/lib/fa/plus');
-const Minus = require('react-icons/lib/fa/minus');
+// import Revert from '../Icons/Revert';
+const Revert = require('react-icons/lib/md/undo');
+const Plus = require('react-icons/lib/md/add');
+const Minus = require('react-icons/lib/md/remove');
 import { IFile } from './File';
+
+const iconSize = fileHeight * 0.9;
 
 export const Action = styled.span`
   display: inline-block;
-  width: ${fileHeight}px;
-  height: ${fileHeight}px;
+  width: ${iconSize}px;
+  height: ${iconSize}px;
   text-align: center;
   font-size: ${lh}px;
   font-weight: 700;
+  vertical-align: middle;
 
   svg {
     fill: ${g5};
-    width: ${fileHeight * 0.75}px;
-    height: ${fileHeight * 0.75}px;
+    width: ${iconSize}px;
+    height: ${iconSize}px;
   }
 
   cursor: pointer;
@@ -35,6 +39,8 @@ export const Action = styled.span`
 `;
 
 export const Wrapper = styled.div`
+  height: ${fileHeight}px;
+  margin-right: ${lh / 4}px;
   display: none;
 `;
 

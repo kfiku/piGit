@@ -4,18 +4,21 @@ import styled from 'styled-components';
 const fileIcons = require('file-icons-js');
 
 import { IRepo } from '../../interfaces/IRepo';
-import { lh, fileHeight, g5 } from '../../utils/styles';
+import { lh, fileHeight, g5, g2 } from '../../utils/styles';
 import Type from './FileStatusType';
 import Actions from './FileActions';
 
 const Icon = styled.i`
+  width: ${lh * 1.25}px;
   margin-right: ${lh / 2}px;
 
   &:before {
-    font-size: ${lh * 1.125}px;
+    width: 100%;
+    font-size: ${lh * 1.125}px !important;
     display: inline-block;
-    // vertical-align: middle;
+    vertical-align: middle;
     font-style: normal;
+    text-align: center;
   }
 `;
 
@@ -42,8 +45,10 @@ export const Li = styled.li`
   display: flex;
   align-items: center;
   height: ${fileHeight}px;
+  padding: 0 ${lh}px 0 ${lh / 2}px;
 
   &:hover {
+    background: ${g2};
     .file-actions{
       display: block;
     }
