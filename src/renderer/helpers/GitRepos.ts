@@ -2,9 +2,14 @@ import { stat } from 'fs';
 import { join, basename } from 'path';
 
 import { eachSeries } from 'async';
+import { exec } from 'child_process';
+import * as promisify from 'es6-promisify';
 const simpleGit = require('simple-git/promise');
 
+const execPromise = promisify(exec);
+
 import walk from './DirWalk';
+import { IStash } from '../components/Details/Stash';
 export class Repo {
   updateStatusTI: any;
   git: any;
@@ -118,8 +123,7 @@ export class Repo {
     return this.git.stash(['save', msg || `piGit stash from ${new Date()}`]);
   }
 
-  async stashApply (id: number) {
-    const stashKey = this.getStashKey(id);
+  async stashApply (stashKey: string) {
     try {
       await this.git.stash(['apply', stashKey]);
       return true;
@@ -129,8 +133,7 @@ export class Repo {
     }
   }
 
-  async stashDrop (id: number) {
-    const stashKey = this.getStashKey(id);
+  async stashDrop (stashKey: string) {
     try {
       await this.git.stash(['drop', stashKey]);
       return true;
@@ -140,10 +143,10 @@ export class Repo {
     }
   }
 
-  async stashApplyWithDrop (id: number) {
+  async stashApplyWithDrop (stashKey: string) {
     try {
-      await this.stashApply(id);
-      await this.stashDrop(id);
+      await this.stashApply(stashKey);
+      await this.stashDrop(stashKey);
       return true;
     } catch (error) {
       console.log(error);
@@ -152,6 +155,29 @@ export class Repo {
   }
 
   async stashList () {
+    try {
+      const stashes2 = await execPromise(
+        `cd ${this.state.dir} && git stash list --pretty=format:%gd__%ai__%s`
+      );
+      const stashesList = stashes2
+      .split('\n')
+      .filter(s => s)
+      .map(s => {
+        const stashArr = s.split('__');
+        const stash: IStash = {
+          id: stashArr[0],
+          date: stashArr[1],
+          message: stashArr[2]
+        };
+
+        return stash;
+      });
+
+      return stashesList;
+    } catch (error) {
+      console.log(error);
+    }
+
     const stashes = await this.git.stashList();
     return stashes && stashes.all.map((stash, id) => {
       stash.id = id;
@@ -168,10 +194,6 @@ export class Repo {
     stat(join(dir, '.git'), (err) => {
       callback(err);
     });
-  }
-
-  getStashKey(id: number) {
-    return `stash@{${id}}`;
   }
 }
 

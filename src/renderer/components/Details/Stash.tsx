@@ -8,7 +8,6 @@ import Actions from './StashActions';
 
 export interface IStash {
   message: string;
-  hash: string;
   date: string;
   id: number;
 }

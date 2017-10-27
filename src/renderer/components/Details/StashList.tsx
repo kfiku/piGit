@@ -17,7 +17,7 @@ export default function StashList ({ stashes, title, repo }: IStashListProps) {
       <Title>{title} ({stashes.length}): </Title>
       {<Ul>
         {stashes.map(stash =>
-          <Stash key={stash.hash} stash={stash} repo={repo} />
+          <Stash key={stash.id} stash={stash} repo={repo} />
         )}
       </Ul>}
     </Wrapper>
