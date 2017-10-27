@@ -1,5 +1,8 @@
+const { app } = require('electron').remote;
+const appVersion = app.getVersion();
 console.log(
-`node: ${process.versions.node}
+`appVersion: ${appVersion}
+node: ${process.versions.node}
 chrome: ${process.versions.chrome}
 electron: ${process.versions.electron}
 `);
