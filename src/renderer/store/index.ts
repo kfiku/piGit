@@ -62,9 +62,6 @@ const createAppStore = (callback) => {
 
   }
 
-  console.log(state);
-  console.log(state.groups[0].repos);
-
   let store = createStore(
     rootReducer,
     state,
@@ -79,7 +76,6 @@ const createAppStore = (callback) => {
   store.subscribe(() => {
     clearTimeout(ti);
     ti = setTimeout(() => {
-      console.log(store.getState().groups[0].repos);
       settings.set('state', store.getState());
     }, 500);
   });
