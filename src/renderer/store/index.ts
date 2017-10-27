@@ -38,26 +38,32 @@ const createAppStore = (callback) => {
       state.app.addingRepos = false;
       state.app.reloadingAllRepos = false;
       state.app.message = '';
+      state.app.repoShown = '';
     }
 
+    const reposIds = state.repos.map(r => r.id);
     state.groups = state.groups.map(g => {
       g.editing = false;
       g.confirmDelete = false;
       g.progressing = false;
+      g.repos = g.repos.filter(r => reposIds.indexOf(r) > -1);
       return g;
     });
 
     const repoIdsInGroups = [].concat(
       ...state.groups.map(g => g.repos)
     );
-
     state.repos = state.repos.map(r => {
       r.progressing = false;
       return r;
     })
     .filter(r => !!r.dir)
     .filter(r => repoIdsInGroups.indexOf(r.id) > -1);
+
   }
+
+  console.log(state);
+  console.log(state.groups[0].repos);
 
   let store = createStore(
     rootReducer,
@@ -73,6 +79,7 @@ const createAppStore = (callback) => {
   store.subscribe(() => {
     clearTimeout(ti);
     ti = setTimeout(() => {
+      console.log(store.getState().groups[0].repos);
       settings.set('state', store.getState());
     }, 500);
   });
