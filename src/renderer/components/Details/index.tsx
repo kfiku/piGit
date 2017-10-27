@@ -11,8 +11,7 @@ import { renderLog } from '../../helpers/logger';
 import StyledRepoDetails from './StyledRepoDetails';
 import Diff from './Diff';
 import Header from './Header';
-import FileList from './FileList';
-import StashList from './StashList';
+import StatusesList from './StatusesList';
 
 import '../../css/file-icons.css';
 
@@ -107,10 +106,7 @@ class RepoDetailsComponent extends React.PureComponent
             axis='x'
             onResize={this.resized.bind(this)}
           >
-            <FileList files={repo.staged} repo={repo} title='Staged' />
-            <FileList files={repo.unstaged} repo={repo} title='Changed' alwaysShow />
-            <FileList files={repo.conflicted} repo={repo} title='CONFLICTED' />
-            <StashList stashes={repo.stashes} repo={repo} title='Stashes' />
+            <StatusesList repo={repo} />
           </ResizableBox>
 
           <DiffWrapper style={{ width: diffWidth }}>
