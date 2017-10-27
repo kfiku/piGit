@@ -38,7 +38,7 @@ const createAppStore = (callback) => {
       state.app.addingRepos = false;
       state.app.reloadingAllRepos = false;
       state.app.message = '';
-      state.app.repoShown = '';
+      // state.app.repoShown = '';
     }
 
     const reposIds = state.repos.map(r => r.id);
