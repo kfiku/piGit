@@ -157,6 +157,18 @@ const actions = {
     });
   },
 
+  commit: (id: string, dir: string, msg: string) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.commit(dir, msg, (err, data) => {
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(actions.message(err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
+    });
+  },
+
   stashDrop: (id: string, dir: string, stashKey: string) => dispatch => {
     dispatch({ type: RELOADING, id });
     gitRepos.stashDrop(dir, stashKey, (err, data) => {

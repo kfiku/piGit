@@ -110,6 +110,11 @@ export class Repo {
     .then(() => this.updateStatus());
   }
 
+  commit (msg: string) {
+    return this.git.commit(msg)
+    .then(() => this.updateStatus());
+  }
+
   remove () {
     this.git = undefined;
     clearTimeout(this.updateStatusTI);
@@ -294,6 +299,16 @@ export class Repos {
   checkoutFile (dir: string, file: string, callback) {
     this.getRepo(dir)
     .then((repo: Repo) => repo.checkoutFile(dir + '/' + file))
+    .then(data => callback(null, data))
+    .catch(err => {
+      console.log(err);
+      callback(err);
+    });
+  }
+
+  commit (dir: string, msg: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.commit(msg))
     .then(data => callback(null, data))
     .catch(err => {
       console.log(err);
