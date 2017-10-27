@@ -301,11 +301,11 @@ export class Repos {
     });
   }
 
-  async stashApplyWithDrop (dir: string, id: number, callback) {
+  async stashApplyWithDrop (dir: string, stashKey: string, callback) {
     try {
       const repo: Repo = await this.getRepo(dir) as Repo;
-      await repo.stashApply(id);
-      await repo.stashDrop(id);
+      await repo.stashApply(stashKey);
+      await repo.stashDrop(stashKey);
       /** getting new status */
       const status = await repo.updateStatus();
       callback(null, status);
@@ -314,10 +314,10 @@ export class Repos {
     }
   }
 
-  async stashDrop (dir: string, id: number, callback) {
+  async stashDrop (dir: string, stashKey: string, callback) {
     try {
       const repo: Repo = await this.getRepo(dir) as Repo;
-      await repo.stashDrop(id);
+      await repo.stashDrop(stashKey);
       /** getting new status */
       const status = await repo.updateStatus();
       callback(null, status);

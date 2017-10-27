@@ -157,9 +157,9 @@ const actions = {
     });
   },
 
-  stashDrop: (id: string, dir: string, stashId: number) => dispatch => {
+  stashDrop: (id: string, dir: string, stashKey: string) => dispatch => {
     dispatch({ type: RELOADING, id });
-    gitRepos.stashDrop(dir, stashId, (err, data) => {
+    gitRepos.stashDrop(dir, stashKey, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
         dispatch(actions.message(err.message || err + ''));
@@ -169,9 +169,9 @@ const actions = {
     });
   },
 
-  stashApplyWithDrop: (id: string, dir: string, stashId: number) => dispatch => {
+  stashApplyWithDrop: (id: string, dir: string, stashKey: string) => dispatch => {
     dispatch({ type: RELOADING, id });
-    gitRepos.stashApplyWithDrop(dir, stashId, (err, data) => {
+    gitRepos.stashApplyWithDrop(dir, stashKey, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
         dispatch(actions.message(err.message || err + ''));
