@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 
 import actionsToConnect from '../../actions';
-import { lh, g3, g2 } from '../../utils/styles';
+import { lh, g3 } from '../../utils/styles';
 import styled from 'styled-components';
 
 const CommitMessage = styled.textarea`
