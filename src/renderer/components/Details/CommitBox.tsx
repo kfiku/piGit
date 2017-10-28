@@ -31,7 +31,7 @@ interface CommitBoxProps {
 
 class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   onKeyPress(e) {
-    if (e.keyCode === 13 && e.ctrlKey) {
+    if (e.key === 'Enter' && e.ctrlKey) {
       const msg = e.target.value;
       if (msg.length < 2) {
         alert('No commit message or commit to short');

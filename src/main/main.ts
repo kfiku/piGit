@@ -10,14 +10,17 @@ import * as windowBounds from './windowBounds';
 import getIcon from './icon';
 // const autoUpdater = require('./autoUpdater') // comming soon
 
-const app = electron.app; // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
+const { app, globalShortcut, BrowserWindow} = electron; // Module to create native browser window.
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow() {
+  globalShortcut.register('CommandOrControl+Enter', () => {
+    console.log('CommandOrControl+Enter is pressed');
+  });
+
   if (!isDevElectron) {
     // autoUpdater.checkForUpdates(); // comming soon
   }
