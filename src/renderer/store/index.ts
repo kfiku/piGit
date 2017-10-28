@@ -4,6 +4,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer, { IRootReducer } from '../reducers';
 import newId from '../helpers/newId';
+import asyncActions from '../asyncActions';
 
 const settings = require('electron-settings');
 
@@ -72,6 +73,9 @@ const createAppStore = (callback) => {
     )
   );
 
+  asyncActions(store);
+
+  // Saving store to electron-setting on change
   let ti;
   store.subscribe(() => {
     clearTimeout(ti);

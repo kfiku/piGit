@@ -60,6 +60,12 @@ const actions = {
     }, 1000);
   },
 
+  updateAllReposStatus: () => (dispatch, getState) => {
+    getState().repos.map((repo, i) => setTimeout(
+      () => actions.updateRepoStatus(repo.id, repo.dir)(dispatch), 100 * i)
+    );
+  },
+
   addRepo: (dir: string) => (
     { type: ADD_REPO, dir, id: newId() }
   ),
@@ -98,7 +104,7 @@ const actions = {
   },
 
   updateRepoStatus: (id: string, dir: string) => dispatch => {
-    dispatch({ type: RELOADING, id });
+    // dispatch({ type: RELOADING, id });
     gitRepos.updateStatus(dir, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
