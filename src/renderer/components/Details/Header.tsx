@@ -12,7 +12,7 @@ import ArrowUp from '../Icons/ArrowUp';
 import ArrowDown from '../Icons/ArrowDown';
 import Status from '../Repos/Status';
 
-import GitGuiBtn from './GitGuiBtn';
+// import GitGuiBtn from './GitGuiBtn';
 import GitKBtn from './GitKBtn';
 import TermBtn from './TermBtn';
 
@@ -70,7 +70,7 @@ function Header({ repo, actions }: HeaderProps) {
           </Button>
         ) : null }
 
-        <GitGuiBtn repo={repo} />
+        {/* <GitGuiBtn repo={repo} /> */}
         <GitKBtn repo={repo} />
         <TermBtn repo={repo} />
       </div>
