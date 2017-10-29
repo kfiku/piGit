@@ -5,15 +5,16 @@ import isAppFocused from '../helpers/isAppFocused';
 
 export default function asyncFunctions(store) {
   // ACTIONS ON KEYS
-  console.log(globalShortcut);
-  globalShortcut.register('F5', () => {
-    console.log(isAppFocused());
+  let fetchToId, updateStatusToId;
+  globalShortcut.register('F5', refresh);
+  globalShortcut.register('CommandOrControl+r', refresh);
+
+  function refresh() {
+    console.log('refresh');
     if (isAppFocused()) {
       store.dispatch(actions.reloadAllRepos());
     }
-  });
-
-  let fetchToId, updateStatusToId;
+  }
 
   function fetchTimeout() {
     clearTimeout(fetchToId);
