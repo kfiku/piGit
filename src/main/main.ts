@@ -10,17 +10,13 @@ import * as windowBounds from './windowBounds';
 import getIcon from './icon';
 // const autoUpdater = require('./autoUpdater') // comming soon
 
-const { app, globalShortcut, BrowserWindow} = electron; // Module to create native browser window.
+const { app, BrowserWindow, globalShortcut } = electron; // Module to create native browser window.
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow() {
-  globalShortcut.register('CommandOrControl+Enter', () => {
-    console.log('CommandOrControl+Enter is pressed');
-  });
-
   if (!isDevElectron) {
     // autoUpdater.checkForUpdates(); // comming soon
   }
@@ -87,6 +83,12 @@ app.on('activate', function() {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+app.on('will-quit', () => {
+  console.log('will-quit');
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
 });
 
 // In this file you can include the rest of your app's specific main process
