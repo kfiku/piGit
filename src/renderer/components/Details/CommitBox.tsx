@@ -3,7 +3,7 @@ import { IRepo } from '../../interfaces/IRepo';
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
+const { globalShortcut } = require('electron').remote;
 
 import actionsToConnect from '../../actions';
 import { lh, g3 } from '../../utils/styles';
@@ -30,30 +30,47 @@ interface CommitBoxProps {
 }
 
 class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
-  onKeyPress(e) {
-    if (e.key === 'Enter' && e.ctrlKey) {
-      const msg = e.target.value;
-      if (msg.length < 2) {
-        alert('No commit message or commit to short');
-        return;
-      }
+  isFocused: boolean = false;
+  el: any;
 
-      if (this.props.repo.staged.length === 0) {
-        alert('No files to commit');
-        return;
+  componentWillUnmount() {
+    globalShortcut.unregister('CommandOrControl+Enter');
+  }
+
+  componentWillMount () {
+    globalShortcut.register('CommandOrControl+Enter', () => {
+      if (this.isFocused) {
+        this.commit();
       }
-      const { id, dir } = this.props.repo;
-      this.props.commit(id, dir, msg);
-      console.log('commit with msg', `"${msg}"`, this.props.repo.dir);
-      e.target.value = '';
+    });
+  }
+
+  commit() {
+    const msg = this.el.value;
+    if (msg.length < 2) {
+      alert('No commit message or commit to short');
+      return;
     }
+
+    if (this.props.repo.staged.length === 0) {
+      alert('No files to commit. Add them by clicking "+" from files below');
+      return;
+    }
+    const { id, dir } = this.props.repo;
+    this.props.commit(id, dir, msg);
+    console.log('commit with msg', `"${msg}"`, this.props.repo.dir);
+    this.el.value = '';
   }
 
   render () {
+    const ctrlKey = process.platform === 'darwin' ? 'Cmd' : 'Ctrl';
+
     return (
       <CommitMessage
-        placeholder='Commit message (press Ctrl+Enter to commit)'
-        onKeyUp={this.onKeyPress.bind(this)}
+        innerRef={(el) => { if (el) { this.el = el; } }}
+        placeholder={`Commit message (press ${ctrlKey}+Enter to commit)`}
+        onBlur={() => this.isFocused = true}
+        onFocus={() => this.isFocused = true}
       />
     );
   }

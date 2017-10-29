@@ -1,11 +1,15 @@
+const { globalShortcut } = require('electron').remote;
+
 import actions from '../actions';
+import isAppFocused from '../helpers/isAppFocused';
 
 export default function asyncFunctions(store) {
   // ACTIONS ON KEYS
-  window.addEventListener('keyup', function (e) {
-    if (e.key === 'F5') {
+  console.log(globalShortcut);
+  globalShortcut.register('F5', () => {
+    console.log(isAppFocused());
+    if (isAppFocused()) {
       store.dispatch(actions.reloadAllRepos());
-      console.log('reload all');
     }
   });
 
