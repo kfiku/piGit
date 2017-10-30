@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import actionsToConnect from '../../actions';
 import { lh, g3 } from '../../utils/styles';
 import styled from 'styled-components';
+import * as Mousetrap from 'mousetrap';
 
 const CommitMessage = styled.textarea`
   width: calc(100% - ${lh * 2}px);
@@ -31,6 +32,20 @@ interface CommitBoxProps {
 class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   isFocused: boolean = false;
   el: any;
+  ctrlKey: string;
+
+  componentWillMount() {
+    this.ctrlKey = process.platform === 'darwin' ? 'command' : 'Ctrl';
+    Mousetrap.bind(`${this.ctrlKey}+enter`, () => {
+      this.commit();
+
+      return false;
+    });
+  }
+
+  componentWillUnmount() {
+    Mousetrap.unbind(`${this.ctrlKey}+enter`);
+  }
 
   onKeyPress(e) {
     if (e.key === 'Enter' && e.ctrlKey) {
@@ -56,14 +71,11 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   }
 
   render () {
-    // const ctrlKey = process.platform === 'darwin' ? 'Cmd' : 'Ctrl';
-    const ctrlKey = 'Ctrl';
-
     return (
       <CommitMessage
         innerRef={(el) => { if (el) { this.el = el; } }}
         onKeyUp={this.onKeyPress.bind(this)}
-        placeholder={`Commit message (press ${ctrlKey}+Enter to commit)`}
+        placeholder={`Commit message (press ${this.ctrlKey}+Enter to commit)`}
         onBlur={() => this.isFocused = true}
         onFocus={() => this.isFocused = true}
       />
