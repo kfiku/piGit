@@ -7,6 +7,7 @@ import {
   DELETE_REPO
 } from '../constants/ActionTypes';
 import clone from '../helpers/Clone';
+import equals from '../helpers/Equals';
 
 export const initialState: IRepo[] = [];
 
@@ -42,9 +43,12 @@ export default function repos(state = initialState, action) {
     case UPDATE_REPO:
       return state.map(repo => {
         if (repo.id === action.id) {
-          repo = clone(action.data);
-          repo.id = action.id;
-          repo.progressing = false;
+          const newRepo = clone(action.data);
+          newRepo.id = action.id;
+          newRepo.progressing = false;
+          if (!equals(repo, newRepo)) {
+            repo = newRepo;
+          }
         }
 
         return repo;

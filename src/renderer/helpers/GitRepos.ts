@@ -43,7 +43,7 @@ export class Repo {
       const stashes = await this.stashList();
 
       let newState = this.state;
-      newState.lastUpdate = Date.now();
+      // newState.lastUpdate = Date.now();
       newState.ahead = status.ahead;
       newState.behind = status.behind;
 
