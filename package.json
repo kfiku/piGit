@@ -135,7 +135,7 @@
     "react-dom": "^15.6.1",
     "react-helmet": "^5.2.0",
     "react-icons": "^2.2.7",
-    "react-inlinesvg": "~0.6.0",
+    "react-inlinesvg": "~0.7.0",
     "react-redux": "^5.0.3",
     "react-resizable": "^1.7.5",
     "redux": "~3.7.0",
