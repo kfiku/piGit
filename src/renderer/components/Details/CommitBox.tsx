@@ -31,16 +31,19 @@ interface CommitBoxProps {
 
 class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   isFocused: boolean = false;
-  el: any;
+  el: HTMLTextAreaElement;
   ctrlKey: string;
 
-  componentWillMount() {
-    this.ctrlKey = process.platform === 'darwin' ? 'command' : 'Ctrl';
-    Mousetrap.bind(`${this.ctrlKey}+enter`, () => {
-      this.commit();
+  ref(el) {
+    if (el) {
+      this.el = el;
+      this.ctrlKey = process.platform === 'darwin' ? 'command' : 'Ctrl';
+      Mousetrap(el).bind(`${this.ctrlKey}+enter`, () => {
+        this.commit();
 
-      return false;
-    });
+        return false;
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -67,7 +70,7 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   render () {
     return (
       <CommitMessage
-        innerRef={(el) => { if (el) { this.el = el; } }}
+        innerRef={this.ref.bind(this)}
         placeholder={`Commit message (press ${this.ctrlKey}+Enter to commit)`}
         onBlur={() => this.isFocused = true}
         onFocus={() => this.isFocused = true}
