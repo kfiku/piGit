@@ -71,8 +71,7 @@
     },
     "linux": {
       "target": [
-        "deb",
-        "AppImage"
+        "deb"
       ],
       "category": "Utility"
     },
