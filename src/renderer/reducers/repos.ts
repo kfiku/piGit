@@ -42,7 +42,7 @@ export default function repos(state = initialState, action) {
     case UPDATE_REPO:
       return state.map(repo => {
         if (repo.id === action.id) {
-          repo = action.data;
+          repo = clone(action.data);
           repo.id = action.id;
           repo.progressing = false;
         }
