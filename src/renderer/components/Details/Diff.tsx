@@ -22,7 +22,13 @@ async function loadDiff (dir, wide: boolean, el: HTMLBaseElement) {
   try {
     const diff = await repos.diff(dir);
 
-    if (diff) {
+    // console.log(diff.length);
+
+    if (diff.length > 5000) {
+      document.getElementById('differ').innerHTML = `
+        <pre>${diff}</pre>
+      `;
+    } else if (diff) {
       const diff2HtmlUI = new Diff2HtmlUI({ diff });
       diff2HtmlUI.draw(
         '#differ',
