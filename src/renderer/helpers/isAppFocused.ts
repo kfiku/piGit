@@ -1,6 +1,6 @@
 let focused = true;
-window.onblur =  () => focused = false;
-window.onfocus = () => focused = true;
+window.addEventListener('blur',  () => focused = false);
+window.addEventListener('focus',  () => focused = true);
 
 const isAppFocused = () => focused;
 

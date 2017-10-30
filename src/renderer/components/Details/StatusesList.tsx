@@ -4,8 +4,6 @@ import * as React from 'react';
 import FileList from './FileList';
 import StashList from './StashList';
 import CommitBox from './CommitBox';
-
-
 interface StatusesListProps {
   repo: IRepo;
 }
