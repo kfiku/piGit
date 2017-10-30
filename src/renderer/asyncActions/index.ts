@@ -1,4 +1,4 @@
-const { globalShortcut } = require('electron').remote;
+// const { globalShortcut } = require('electron').remote;
 
 import actions from '../actions';
 import isAppFocused from '../helpers/isAppFocused';
@@ -15,8 +15,8 @@ export default function asyncFunctions(store) {
   });
 
   function refresh() {
-    console.log('refresh');
     if (isAppFocused()) {
+      console.log('refresh');
       store.dispatch(actions.reloadAllRepos());
     }
   }
