@@ -14,6 +14,10 @@ export default function asyncFunctions(store) {
     }
   });
 
+  window.addEventListener('focus', function () {
+    store.dispatch(actions.updateAllReposStatus());
+  });
+
   function refresh() {
     if (isAppFocused()) {
       console.log('refresh');
@@ -25,6 +29,7 @@ export default function asyncFunctions(store) {
     clearTimeout(fetchToId);
 
     fetchToId = setTimeout(() => {
+      console.log('fetchTimeout');
       store.dispatch(actions.reloadAllRepos());
       fetchTimeout();
     }, 5 * 60 * 1000); // 5 minutes
@@ -33,8 +38,8 @@ export default function asyncFunctions(store) {
   function updateStatusTimeout() {
     clearTimeout(updateStatusToId);
     updateStatusToId = setTimeout(() => {
+      console.log('updateStatusTimeout');
       store.dispatch(actions.updateAllReposStatus());
-      // this.props.actions.updateRepoStatus(id, dir);
       updateStatusTimeout();
     }, 10 * 1000); // 10 sec
   }
