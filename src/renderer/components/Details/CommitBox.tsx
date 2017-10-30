@@ -47,12 +47,6 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
     Mousetrap.unbind(`${this.ctrlKey}+enter`);
   }
 
-  onKeyPress(e) {
-    if (e.key === 'Enter' && e.ctrlKey) {
-      this.commit();
-    }
-  }
-
   commit() {
     const msg = this.el.value;
     if (msg.length < 2) {
@@ -74,7 +68,6 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
     return (
       <CommitMessage
         innerRef={(el) => { if (el) { this.el = el; } }}
-        onKeyUp={this.onKeyPress.bind(this)}
         placeholder={`Commit message (press ${this.ctrlKey}+Enter to commit)`}
         onBlur={() => this.isFocused = true}
         onFocus={() => this.isFocused = true}
