@@ -6,8 +6,13 @@ import isAppFocused from '../helpers/isAppFocused';
 export default function asyncFunctions(store) {
   // ACTIONS ON KEYS
   let fetchToId, updateStatusToId;
-  globalShortcut.register('F5', refresh);
-  globalShortcut.register('CommandOrControl+r', refresh);
+  // globalShortcut.register('F5', refresh);
+  // globalShortcut.register('CommandOrControl+r', refresh);
+  window.addEventListener('keyup', function (e) {
+    if (e.key === 'F5') {
+      refresh();
+    }
+  });
 
   function refresh() {
     console.log('refresh');

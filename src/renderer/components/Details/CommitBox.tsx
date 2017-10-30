@@ -3,7 +3,6 @@ import { IRepo } from '../../interfaces/IRepo';
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-const { globalShortcut } = require('electron').remote;
 
 import actionsToConnect from '../../actions';
 import { lh, g3 } from '../../utils/styles';
@@ -33,16 +32,10 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   isFocused: boolean = false;
   el: any;
 
-  componentWillUnmount() {
-    globalShortcut.unregister('CommandOrControl+Enter');
-  }
-
-  componentWillMount () {
-    globalShortcut.register('CommandOrControl+Enter', () => {
-      if (this.isFocused) {
-        this.commit();
-      }
-    });
+  onKeyPress(e) {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      this.commit();
+    }
   }
 
   commit() {
@@ -63,11 +56,13 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   }
 
   render () {
-    const ctrlKey = process.platform === 'darwin' ? 'Cmd' : 'Ctrl';
+    // const ctrlKey = process.platform === 'darwin' ? 'Cmd' : 'Ctrl';
+    const ctrlKey = 'Ctrl';
 
     return (
       <CommitMessage
         innerRef={(el) => { if (el) { this.el = el; } }}
+        onKeyUp={this.onKeyPress.bind(this)}
         placeholder={`Commit message (press ${ctrlKey}+Enter to commit)`}
         onBlur={() => this.isFocused = true}
         onFocus={() => this.isFocused = true}
