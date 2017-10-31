@@ -41,7 +41,7 @@ export default function asyncFunctions(store) {
       console.log('updateStatusTimeout');
       store.dispatch(actions.updateAllReposStatus());
       updateStatusTimeout();
-    }, 10 * 1000); // 10 sec
+    }, 60 * 1000); // 1 min
   }
 
   fetchTimeout();

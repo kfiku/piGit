@@ -55,13 +55,25 @@ export class Repo {
       newState.conflicted = status.conflicted || [];
       newState.stashes = stashes || [];
 
+      const extraFiles = [];
       newState.files = status.files.map(file => {
+        if (file.working_dir === 'M' && file.index === 'M') {
+          extraFiles.push({
+            path: file.path,
+            staged: false,
+            type: file.index
+          });
+        }
         return {
           path: file.path,
           staged: file.index !== ' ' && file.index !== '?',
           type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir
         };
       });
+
+      if (extraFiles.length) {
+        newState.files = [...newState.files, ...extraFiles];
+      }
 
       newState.unstaged = newState.files
         .filter(f => !f.staged);
