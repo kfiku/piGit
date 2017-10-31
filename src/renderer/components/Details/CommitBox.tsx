@@ -34,10 +34,14 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   el: HTMLTextAreaElement;
   ctrlKey: string;
 
+  constructor() {
+    super();
+    this.ctrlKey = process.platform === 'darwin' ? 'command' : 'ctrl';
+  }
+
   ref(el) {
     if (el) {
       this.el = el;
-      this.ctrlKey = process.platform === 'darwin' ? 'command' : 'Ctrl';
       Mousetrap(el).bind(`${this.ctrlKey}+enter`, () => {
         this.commit();
 
@@ -71,7 +75,7 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
     return (
       <CommitMessage
         innerRef={this.ref.bind(this)}
-        placeholder={`Commit message (press ${this.ctrlKey}+Enter to commit)`}
+        placeholder={`Commit message (press ${this.ctrlKey}+enter to commit)`}
         onBlur={() => this.isFocused = true}
         onFocus={() => this.isFocused = true}
       />
