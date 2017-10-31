@@ -65,7 +65,7 @@ export function FileActionsComponent ({
       <Wrapper className={className}>
         <Action
           onClick={unAddFile.bind(null, repo.id, repo.dir, file.path)}
-          title='Revert changes on this file'
+          title='Unstage changes on this file'
         >
           <Minus height={lh * 0.75} width={lh * 0.75} />
         </Action>
