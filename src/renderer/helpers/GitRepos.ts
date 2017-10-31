@@ -365,9 +365,9 @@ export class Repos {
       await repo.pull();
 
       /** applying and dropping stashes */
-      stashDiff.map(async function(stashToApply, id) {
+      stashDiff.map(async function(stashToApply) {
         console.log('applying and drop stash: ', stashToApply);
-        await repo.stashApplyWithDrop(id);
+        await repo.stashApplyWithDrop(stashToApply);
       });
 
       /** getting new status */
