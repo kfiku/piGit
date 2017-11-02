@@ -1,3 +1,5 @@
+import './hrm';
+
 const { app } = require('electron').remote;
 const appVersion = app.getVersion();
 console.log(
