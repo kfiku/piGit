@@ -29,12 +29,3 @@ npm run prod
 npm start
 ```
 
-
-## To build packages you need
-
-#### On Linux
-
-* rpmbuild
-* gm (graphicsmagick)
-* icns2png (icnsutils)
-* wine 1.8+
