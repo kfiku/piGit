@@ -297,7 +297,7 @@ export class Repos {
     .then(data => callback(null, data))
     .catch(err => {
       const errMsg = err.message || err + '';
-      if (errMsg.indexOf('You have unstaged changes') > -1) {
+      if (errMsg.indexOf('You have unstaged changes') > -1 && this.confirmPullWithStash()) {
         this.pullWithStash(dir, callback);
       } else {
         return callback(err);
@@ -385,6 +385,11 @@ export class Repos {
     .then((repo: Repo) => repo.push())
     .then(data => callback(null, data))
     .catch(err => callback(err));
+  }
+
+  confirmPullWithStash() {
+    confirm('You have unstaged changes. \n' +
+            'Try to stash, pull and apply them, or you do it yourself?');
   }
 
   async pullWithStash (dir: string, callback) {
