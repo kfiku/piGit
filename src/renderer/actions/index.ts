@@ -96,7 +96,7 @@ const actions = {
     gitRepos.refresh(dir, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -108,7 +108,7 @@ const actions = {
     gitRepos.updateStatus(dir, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -120,7 +120,7 @@ const actions = {
     gitRepos.pull(dir, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -132,7 +132,7 @@ const actions = {
     gitRepos.addFile(dir, file, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -144,7 +144,7 @@ const actions = {
     gitRepos.unAddFile(dir, file, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -156,7 +156,19 @@ const actions = {
     gitRepos.checkoutFile(dir, file, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
+      } else {
+        dispatch({ type: UPDATE_REPO, data, id });
+      }
+    });
+  },
+
+  deleteFile: (id: string, dir: string, file: string) => dispatch => {
+    dispatch({ type: RELOADING, id });
+    gitRepos.deleteFile(dir, file, (err, data) => {
+      if (err) {
+        dispatch({ type: RELOADING_END, data, id });
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -168,7 +180,7 @@ const actions = {
     gitRepos.commit(dir, msg, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -180,7 +192,7 @@ const actions = {
     gitRepos.stashDrop(dir, stashKey, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -192,7 +204,7 @@ const actions = {
     gitRepos.stashApplyWithDrop(dir, stashKey, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
@@ -204,7 +216,7 @@ const actions = {
     gitRepos.push(dir, (err, data) => {
       if (err) {
         dispatch({ type: RELOADING_END, data, id });
-        dispatch(actions.message(err.message || err + ''));
+        dispatch(actions.message(dir + ': ' + err.message || err + ''));
       } else {
         dispatch({ type: UPDATE_REPO, data, id });
       }
