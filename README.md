@@ -1,5 +1,5 @@
 # GIT Watch
-electron app, written in typescript and react to watch git repos
+electron app, written in typescript, react, redux, fusebox to watch git repos
 
 [![Build Status](https://travis-ci.org/kfiku/piGit.svg?branch=master)](https://travis-ci.org/kfiku/piGit)
 
