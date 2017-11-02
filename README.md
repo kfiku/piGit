@@ -13,6 +13,8 @@ git clone https://github.com/kfiku/piGit.git
 cd piGit
 npm install
 ```
+and
+`npm start prod` or to build `npm run package`
 
 #### FOR PRODUCTION ENV
 
