@@ -30,11 +30,8 @@ npm start
 ```
 
 
-## To build packages you need
+### Build package for your os (tested on latest macos and ubuntu-linux)
 
-#### On Linux
-
-* rpmbuild
-* gm (graphicsmagick)
-* icns2png (icnsutils)
-* wine 1.8+
+```
+npm run package
+```
