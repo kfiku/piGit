@@ -19,14 +19,14 @@ npm install
 #### FOR PRODUCTION ENV
 
 ```
+npm run prod
+```
+
+
+#### FOR DEV ENV - with simple HRM on renderer and main process
+
+```
 npm start
-```
-
-
-#### FOR DEV ENV - with simple livereload
-
-```
-npm run dev
 ```
 
 
