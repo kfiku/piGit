@@ -28,4 +28,9 @@ npm run prod
 ```
 npm start
 ```
+### Build package for your os (tested on latest macos and ubuntu-linux)
+
+```
+npm run package
+```
 
