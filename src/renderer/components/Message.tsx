@@ -12,7 +12,7 @@ const MessageComponent: any = ({msg, actions}) => {
     return <Dialog msg={ msg } ok={ actions.message.bind(actions, '') } />;
   } else {
     // if message is empty
-    return <div/>;
+    return null;
   }
 };
 
