@@ -1,4 +1,4 @@
-import { stat } from 'fs';
+import { stat, unlink } from 'fs';
 import { join, basename } from 'path';
 
 import { eachSeries } from 'async';
@@ -7,6 +7,7 @@ import * as promisify from 'es6-promisify';
 const simpleGit = require('simple-git/promise');
 
 const execPromise = promisify(exec);
+const unlinkPromise = promisify(unlink);
 
 import walk from './DirWalk';
 import { IStash } from '../components/Details/Stash';
@@ -66,7 +67,7 @@ export class Repo {
         }
         return {
           path: file.path,
-          staged: file.index !== ' ' && file.index !== '?',
+          staged: ['M', 'A'].indexOf(file.index) > -1,
           type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir
         };
       });
@@ -75,15 +76,27 @@ export class Repo {
         newState.files = [...newState.files, ...extraFiles];
       }
 
+      if (newState.conflicted.length) {
+        newState.conflicted = newState.conflicted.map(file => ({
+          path: file,
+          staged: false,
+          type: 'U'
+        }));
+      }
+
       newState.unstaged = newState.files
-        .filter(f => !f.staged);
+        .filter(f => !f.staged && f.type !== 'U');
 
       newState.staged = newState.files
         .filter(f => f.staged);
 
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
-      // console.log(status, newState);
+      // console.log(newState.name);
+      if (newState.name === 'piGit') {
+        console.log(status, newState);
+      }
+
       this.state = newState;
       return newState;
 
@@ -119,6 +132,11 @@ export class Repo {
 
   checkoutFile (file: string) {
     return this.git.checkout(file)
+    .then(() => this.updateStatus());
+  }
+
+  deleteFile (file: string) {
+    return unlinkPromise(file)
     .then(() => this.updateStatus());
   }
 
@@ -311,6 +329,16 @@ export class Repos {
   checkoutFile (dir: string, file: string, callback) {
     this.getRepo(dir)
     .then((repo: Repo) => repo.checkoutFile(dir + '/' + file))
+    .then(data => callback(null, data))
+    .catch(err => {
+      console.log(err);
+      callback(err);
+    });
+  }
+
+  deleteFile (dir: string, file: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.deleteFile(dir + '/' + file))
     .then(data => callback(null, data))
     .catch(err => {
       console.log(err);

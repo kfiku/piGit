@@ -48,6 +48,10 @@ function confirmCheckout (file) {
   return confirm(`Are you sure you want to discard changes in ${file}`);
 }
 
+function confirmDelete (file) {
+  return confirm(`Are you sure you want to DELETE file: ${file}`);
+}
+
 interface IFileActions {
   file: IFile;
   className: string;
@@ -55,10 +59,11 @@ interface IFileActions {
   addFile?: any;
   unAddFile?: any;
   checkoutFile?: any;
+  deleteFile?: any;
 }
 
 export function FileActionsComponent ({
-  file, className, repo, addFile, unAddFile, checkoutFile
+  file, className, repo, addFile, unAddFile, checkoutFile, deleteFile
 }: IFileActions) {
   if (file.staged) {
     return (
@@ -73,14 +78,27 @@ export function FileActionsComponent ({
     );
   }
 
+  const checkoutOrDelete = file.type === '?'
+    ?
+      // DELETE FILE IF FILE IS UNTRACKED
+      () => {
+        if (confirmDelete(file.path)) {
+          deleteFile(repo.id, repo.dir, file.path);
+        }
+      }
+    :
+      // CHECKOUT FILE IF FILE IS TRACKED
+      () => {
+        if (confirmCheckout(file.path)) {
+          checkoutFile(repo.id, repo.dir, file.path);
+        }
+      }
+  ;
+
   return (
     <Wrapper className={className}>
       <Action
-        onClick={() => {
-          if (confirmCheckout(file.path)) {
-            checkoutFile(repo.id, repo.dir, file.path);
-          }
-        }}
+        onClick={checkoutOrDelete}
         title='Revert changes on this file'
       >
         <Revert />
@@ -104,7 +122,8 @@ const mapStateToProps = () => {
 const mapDispatchToProps = dispatch => ({
   addFile: bindActionCreators(actionsToConnect.addFile, dispatch),
   unAddFile: bindActionCreators(actionsToConnect.unAddFile, dispatch),
-  checkoutFile: bindActionCreators(actionsToConnect.checkoutFile, dispatch)
+  checkoutFile: bindActionCreators(actionsToConnect.checkoutFile, dispatch),
+  deleteFile: bindActionCreators(actionsToConnect.deleteFile, dispatch)
 });
 
 const FileActions = connect(
