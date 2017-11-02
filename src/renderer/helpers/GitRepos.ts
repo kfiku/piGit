@@ -388,7 +388,7 @@ export class Repos {
   }
 
   confirmPullWithStash() {
-    confirm('You have unstaged changes. \n' +
+    return confirm('You have unstaged changes. \n' +
             'Try to stash, pull and apply them, or you do it yourself?');
   }
 
@@ -405,13 +405,14 @@ export class Repos {
       const stashDiff = newStashes
       .filter(newStash => !stashes.find(stash => stash.hash === newStash.hash));
 
+      console.log(stashDiff);
       /** pulling */
       await repo.pull();
 
       /** applying and dropping stashes */
       stashDiff.map(async function(stashToApply) {
-        console.log('applying and drop stash: ', stashToApply);
-        await repo.stashApplyWithDrop(stashToApply);
+        console.log('applying and drop stash: ', stashToApply, stashToApply.id);
+        await repo.stashApplyWithDrop(stashToApply.id);
       });
 
       /** getting new status */
