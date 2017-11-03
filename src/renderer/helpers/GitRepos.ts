@@ -67,7 +67,7 @@ export class Repo {
         }
         return {
           path: file.path,
-          staged: ['M', 'A'].indexOf(file.index) > -1,
+          staged: ['M', 'A', 'R'].indexOf(file.index) > -1,
           type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir
         };
       });
