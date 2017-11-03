@@ -93,7 +93,7 @@ export class Repo {
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
       if (newState.name === 'piGit') {
-        console.log(status, newState);
+        // console.log(status, newState);
       }
 
       this.state = newState;
