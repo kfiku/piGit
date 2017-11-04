@@ -33,8 +33,8 @@ export const fileHeight = lh * 1.5;
 export const br = lh / 4; // defaultBorderRadius
 
 export const navHeight = 48;
-
 export const groupHeaderHeight = 32;
+export const resizerWidth = 4;
 
 export const repoSize = 200;
 export const repoBgSize = 65;

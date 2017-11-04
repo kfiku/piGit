@@ -1,6 +1,6 @@
 // import { injectGlobal } from 'styled-components';
 
-import { g3, g2, navHeight, defaultFont } from './styles';
+import { g3, g2, navHeight, resizerWidth, defaultFont } from './styles';
 
 export default `
   @font-face {
@@ -33,7 +33,7 @@ export default `
 
   .react-resizable-handle {
     position: absolute;
-    width: 5px;
+    width: ${resizerWidth}px;
     height: 100%;
     bottom: 0;
     right: 0;
