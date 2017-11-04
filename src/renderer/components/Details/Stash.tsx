@@ -9,7 +9,7 @@ import Actions from './StashActions';
 export interface IStash {
   message: string;
   date: string;
-  id: number;
+  id: string;
 }
 interface IStashComp {
   stash: IStash;

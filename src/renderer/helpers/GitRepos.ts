@@ -6,15 +6,17 @@ import { exec } from 'child_process';
 import * as promisify from 'es6-promisify';
 const simpleGit = require('simple-git/promise');
 
+import walk from './DirWalk';
+import { IStash } from '../components/Details/Stash';
+import { IRepo } from '../interfaces/IRepo';
+
 const execPromise = promisify(exec);
 const unlinkPromise = promisify(unlink);
 
-import walk from './DirWalk';
-import { IStash } from '../components/Details/Stash';
 export class Repo {
   updateStatusTI: any;
   git: any;
-  state: any;
+  state: IRepo;
   gitFetch: any;
 
   constructor (dir, callback) {
@@ -25,7 +27,13 @@ export class Repo {
       ahead: 0,
       behind: 0,
       modified: [],
-      added: []
+      staged: [],
+      deleted: [],
+      renamed: [],
+      untracked: [],
+      conflicted: [],
+      unstaged: [],
+      stashes: []
     };
 
     this.validateDir(dir, (err) => {
@@ -38,7 +46,7 @@ export class Repo {
     });
   }
 
-  async updateStatus () {
+  async updateStatus (): Promise<IRepo> {
     try {
       const status = await this.git.status();
       const stashes = await this.stashList();
@@ -47,17 +55,14 @@ export class Repo {
       // newState.lastUpdate = Date.now();
       newState.ahead = status.ahead;
       newState.behind = status.behind;
-
-      newState.created = status.created || [];
       newState.modified = status.modified || [];
       newState.deleted = status.deleted || [];
       newState.renamed = status.renamed || [];
       newState.untracked = status.not_added || [];
-      newState.conflicted = status.conflicted || [];
       newState.stashes = stashes || [];
 
       const extraFiles = [];
-      newState.files = status.files.map(file => {
+      let files = status.files.map(file => {
         if (file.working_dir === 'M' && file.index === 'M') {
           extraFiles.push({
             path: file.path,
@@ -73,21 +78,21 @@ export class Repo {
       });
 
       if (extraFiles.length) {
-        newState.files = [...newState.files, ...extraFiles];
+        files = [...files, ...extraFiles];
       }
 
-      if (newState.conflicted.length) {
-        newState.conflicted = newState.conflicted.map(file => ({
+      if (status.conflicted.length) {
+        newState.conflicted = status.conflicted.map(file => ({
           path: file,
           staged: false,
           type: 'U'
         }));
       }
 
-      newState.unstaged = newState.files
+      newState.unstaged = files
         .filter(f => !f.staged && f.type !== 'U');
 
-      newState.staged = newState.files
+      newState.staged = files
         .filter(f => f.staged);
 
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
@@ -115,6 +120,11 @@ export class Repo {
   }
 
   pull () {
+    return this.git.pull()
+    .then(() => this.updateStatus());
+  }
+
+  pullWithRebase () {
     return this.git.pull(null, null, {'--rebase': 'true'})
     .then(() => this.updateStatus());
   }
@@ -232,7 +242,7 @@ export class Repo {
 }
 
 export class Repos {
-  private repos = {};
+  private repos: { [key: string]: Repo } = {};
 
   searchRepos(dirs: string[],
               steps: (dir: string) => void,
@@ -253,7 +263,7 @@ export class Repos {
     });
   }
 
-  getRepo (dir) {
+  getRepo (dir): Promise<Repo> {
     return new Promise((resolve, reject) => {
       if (this.repos[dir]) {
         resolve(this.repos[dir]);
@@ -303,6 +313,64 @@ export class Repos {
         return callback(err);
       }
     });
+  }
+
+  async pullAsync (dir: string, callback) {
+    try {
+      const repo = await this.getRepo(dir);
+      const status = await repo.updateStatus();
+      const doRebase = status.ahead > 1 &&
+                       this.confirmPullWithRebase(status.ahead);
+
+      if (doRebase) {
+        // pull with rebase
+        const newStatus = await repo.pullWithRebase();
+        return callback(null, newStatus);
+      } else {
+        // Regular pull
+        const newStatus = await repo.pull();
+        return callback(null, newStatus);
+      }
+    } catch (err) {
+      const errMsg = err.message || err + '';
+      if (errMsg.indexOf('You have unstaged changes') > -1 && this.confirmPullWithStash()) {
+        this.pullWithStash(dir, callback);
+      } else {
+        return callback(err);
+      }
+    }
+  }
+
+  async pullWithStash (dir: string, callback) {
+    try {
+      const repo: Repo = await this.getRepo(dir);
+      /** getting stash list before stashing */
+      const stashes = await repo.stashList();
+      /** stashing */
+      await repo.stash();
+      /** getting new stash list after stashing */
+      const newStashes = await repo.stashList();
+      /** getting diff between new and old stashes */
+      const stashDiff = newStashes
+      .filter(newStash => !stashes.find(stash => stash.hash === newStash.hash));
+
+      console.log(stashDiff);
+      /** pulling */
+      await repo.pull();
+
+      /** applying and dropping stashes */
+      stashDiff.map(async function(stashToApply) {
+        console.log('applying and drop stash: ', stashToApply, stashToApply.id);
+        await repo.stashApplyWithDrop(stashToApply.id);
+      });
+
+      /** getting new status */
+      const status = await repo.updateStatus();
+
+      callback(null, status);
+    } catch (e) {
+      callback(e);
+    }
   }
 
   addFile (dir: string, file: string, callback) {
@@ -387,41 +455,13 @@ export class Repos {
     .catch(err => callback(err));
   }
 
+  confirmPullWithRebase(ahead) {
+    return confirm(`You are ${ahead} commits ahead. Do you want to pull with rebase?`)
+  }
+
   confirmPullWithStash() {
     return confirm('You have unstaged changes. \n' +
             'Try to stash, pull and apply them, or you do it yourself?');
-  }
-
-  async pullWithStash (dir: string, callback) {
-    try {
-      const repo: Repo = await this.getRepo(dir) as Repo;
-      /** getting stash list before stashing */
-      const stashes = await repo.stashList();
-      /** stashing */
-      await repo.stash();
-      /** getting new stash list after stashing */
-      const newStashes = await repo.stashList();
-      /** getting diff between new and old stashes */
-      const stashDiff = newStashes
-      .filter(newStash => !stashes.find(stash => stash.hash === newStash.hash));
-
-      console.log(stashDiff);
-      /** pulling */
-      await repo.pull();
-
-      /** applying and dropping stashes */
-      stashDiff.map(async function(stashToApply) {
-        console.log('applying and drop stash: ', stashToApply, stashToApply.id);
-        await repo.stashApplyWithDrop(stashToApply.id);
-      });
-
-      /** getting new status */
-      const status = await repo.updateStatus();
-
-      callback(null, status);
-    } catch (e) {
-      callback(e);
-    }
   }
 
   async diff (dir) {

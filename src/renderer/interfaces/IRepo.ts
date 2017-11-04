@@ -1,18 +1,21 @@
+import { IFile } from '../components/Details/File';
+import { IStash } from '../components/Details/Stash';
+
 export interface IRepo {
-  id: string;
+  id?: string;
   name?: string;
   branch?: string;
   dir?: string;
   ahead?: number;
   behind?: number;
   modified?: any[];
-  staged?: any[];
+  staged?: IFile[];
   deleted?: any[];
   renamed?: any[];
-  untracked?: any[];
-  conflicted?: any[];
-  unstaged?: any[];
-  stashes?: any[];
+  untracked?: string[];
+  conflicted?: string[];
+  unstaged?: IFile[];
+  stashes?: IStash[];
   progressing?: boolean;
   lastUpdate?: number;
 }

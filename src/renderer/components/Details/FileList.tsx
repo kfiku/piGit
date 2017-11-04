@@ -29,7 +29,7 @@ interface IFileListProps {
 }
 
 export default function FileList ({ files, title, repo, alwaysShow }: IFileListProps) {
-  if (!alwaysShow && files.length === 0) { return null; }
+  if (!alwaysShow && files && files.length === 0) { return null; }
 
   return (
     <Wrapper>
