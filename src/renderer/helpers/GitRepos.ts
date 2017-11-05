@@ -318,9 +318,9 @@ export class Repos {
   async pullAsync (dir: string, callback) {
     try {
       const repo = await this.getRepo(dir);
-      const status = await repo.updateStatus();
-      const doRebase = status.ahead > 1 &&
-                       this.confirmPullWithRebase(status.ahead);
+      const { ahead } = await repo.updateStatus();
+      const doRebase = ahead > 0 &&
+                       this.confirmPullWithRebase(ahead);
 
       if (doRebase) {
         // pull with rebase
