@@ -301,21 +301,7 @@ export class Repos {
     .catch(err => callback(err));
   }
 
-  pull (dir: string, callback) {
-    this.getRepo(dir)
-    .then((repo: Repo) => repo.pull())
-    .then(data => callback(null, data))
-    .catch(err => {
-      const errMsg = err.message || err + '';
-      if (errMsg.indexOf('You have unstaged changes') > -1 && this.confirmPullWithStash()) {
-        this.pullWithStash(dir, callback);
-      } else {
-        return callback(err);
-      }
-    });
-  }
-
-  async pullAsync (dir: string, callback) {
+  async pull (dir: string, callback) {
     try {
       const repo = await this.getRepo(dir);
       const { ahead } = await repo.updateStatus();
@@ -324,16 +310,22 @@ export class Repos {
 
       if (doRebase) {
         // pull with rebase
+        console.info('pull with rebase');
         const newStatus = await repo.pullWithRebase();
         return callback(null, newStatus);
       } else {
         // Regular pull
+        console.info('regular pull');
         const newStatus = await repo.pull();
         return callback(null, newStatus);
       }
     } catch (err) {
       const errMsg = err.message || err + '';
-      if (errMsg.indexOf('You have unstaged changes') > -1 && this.confirmPullWithStash()) {
+      if (errMsg.indexOf('You have unstaged changes') > -1 &&
+      this.confirmPullWithStash()) {
+        this.pullWithStash(dir, callback);
+      } else if (errMsg.indexOf('Please commit your changes or stash them') > -1 &&
+      this.confirmPullWithStash()) {
         this.pullWithStash(dir, callback);
       } else {
         return callback(err);
@@ -344,19 +336,26 @@ export class Repos {
   async pullWithStash (dir: string, callback) {
     try {
       const repo: Repo = await this.getRepo(dir);
-      /** getting stash list before stashing */
       const stashes = await repo.stashList();
-      /** stashing */
       await repo.stash();
-      /** getting new stash list after stashing */
       const newStashes = await repo.stashList();
       /** getting diff between new and old stashes */
-      const stashDiff = newStashes
-      .filter(newStash => !stashes.find(stash => stash.hash === newStash.hash));
+      const stashDiff = newStashes.filter(newStash =>
+        !stashes.find(stash => stash.hash === newStash.hash));
 
-      console.log(stashDiff);
-      /** pulling */
-      await repo.pull();
+      const { ahead } = await repo.updateStatus();
+      const doRebase = ahead > 0 &&
+                       this.confirmPullWithRebase(ahead);
+
+      if (doRebase) {
+        // pull with rebase
+        console.info('pull with rebase');
+        await repo.pullWithRebase();
+      } else {
+        // Regular pull
+        console.info('regular pull');
+        await repo.pull();
+      }
 
       /** applying and dropping stashes */
       stashDiff.map(async function(stashToApply) {
@@ -366,7 +365,6 @@ export class Repos {
 
       /** getting new status */
       const status = await repo.updateStatus();
-
       callback(null, status);
     } catch (e) {
       callback(e);
