@@ -13,7 +13,7 @@ export interface IRepo {
   deleted?: any[];
   renamed?: any[];
   untracked?: string[];
-  conflicted?: string[];
+  conflicted?: IFile[];
   unstaged?: IFile[];
   stashes?: IStash[];
   progressing?: boolean;

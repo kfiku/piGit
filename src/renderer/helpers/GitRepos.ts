@@ -454,7 +454,7 @@ export class Repos {
   }
 
   confirmPullWithRebase(ahead) {
-    return confirm(`You are ${ahead} commits ahead. Do you want to pull with rebase?`)
+    return confirm(`You are ${ahead} commits ahead. Do you want to pull with rebase?`);
   }
 
   confirmPullWithStash() {
