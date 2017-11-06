@@ -47,8 +47,6 @@ const StyledGroupHeader = styled.div`
   }
 
   .icon-move {
-    // top: (100% - $repo-bg-size) / 4;
-    // left: 50% - $repo-icon-size / 2;
     top: ${iconSide}%;
     left: ${iconCenter}%;
     cursor: move;
@@ -63,10 +61,6 @@ const StyledGroupHeader = styled.div`
   .icon-push {
     top: ${iconCenter}%;
     left: ${iconSide}%;
-  }
-
-  .icon-push {
-    transform: rotate(180deg);
   }
 
   .icon-x {
