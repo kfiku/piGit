@@ -142,7 +142,7 @@
     "redux": "~3.7.0",
     "redux-thunk": "^2.2.0",
     "simple-git": "^1.75.0",
-    "sortablejs": "~1.6.0",
+    "sortablejs": "~1.7.0",
     "styled-components": "^2.1.1"
   }
 }
