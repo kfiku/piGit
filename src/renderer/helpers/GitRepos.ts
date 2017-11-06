@@ -258,7 +258,12 @@ export class Repos {
           gitDirsToAdd = gitDirsToAdd.concat(gitDirs);
         }
         cb();
-      }, { maxDepth: 6, step: steps, ignores: ['node_modules', 'bower_components'] });
+      }, {
+        // forceNode: true,
+        maxDepth: 6,
+        step: steps,
+        ignores: ['node_modules', 'bower_components']
+      });
     }, () => {
       callback(null, gitDirsToAdd);
     });
