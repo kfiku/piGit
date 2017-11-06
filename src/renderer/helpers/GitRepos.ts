@@ -260,7 +260,6 @@ export class Repos {
         cb();
       }, { maxDepth: 6, step: steps, ignores: ['node_modules', 'bower_components'] });
     }, () => {
-      console.log(gitDirsToAdd);
       callback(null, gitDirsToAdd);
     });
   }

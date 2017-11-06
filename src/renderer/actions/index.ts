@@ -7,8 +7,6 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
          RELOADING_GROUP, RELOADING_GROUP_END,
          MESSAGE } from '../constants/ActionTypes';
 
-import { resolve } from 'path';
-
 import * as electron from 'electron';
 import gitRepos from '../helpers/GitRepos';
 import newId from '../helpers/newId';
