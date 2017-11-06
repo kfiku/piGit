@@ -9,14 +9,20 @@ import actionsToConnect from '../../actions';
 import Confirm from '../helpers/Confirm';
 import Repos from '../Repos/Repos';
 import Icon from '../helpers/Icon';
+import Edit from '../Icons/Edit';
+import Garbage from '../Icons/Garbage';
+import Sort from '../Icons/Sort';
+import Reload from '../Icons/Reload';
+import Save from '../Icons/Save';
+import ArrowDown from '../Icons/ArrowDown';
 import { renderLog } from '../../helpers/logger';
 import StyledGroupHeader from './StyledGroupHeader';
 
-const Isvg = require('react-inlinesvg');
+// const Isvg = require('react-inlinesvg');
 
 const onChangeGroupName = (actions, id: string) => {
-  const inpt = document.querySelector('input#groupInput_' + id) as HTMLInputElement;
-  actions.editGroup(id, inpt.value);
+  const input = document.querySelector('input#groupInput_' + id) as HTMLInputElement;
+  actions.editGroup(id, input.value);
 };
 
 const onKeyUpGroupName = (actions, id: string, e) => {
@@ -33,8 +39,6 @@ const focusInput = el => {
 
 
 const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: any, i: number }) => {
-  // renderLog('GROUP');
-  // console.log(group);
   renderLog(
     'GROUP',
     group.title,
@@ -48,7 +52,7 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
     header = (
       <StyledGroupHeader className='group-header editing'>
         <Icon className='icon icon-edit'>
-          <Isvg src='./svg/edit.svg'/>
+          <Edit />
         </Icon>
 
         <div className='title-box'>
@@ -62,7 +66,7 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
           <Icon className='icon icon-save' title='Save Title'
           onClick={ onChangeGroupName.bind(null, actions, group.id) }
           >
-            <Isvg src='./svg/right-arrow-6.svg'/>
+            <Save />
           </Icon>
         </div>
       </StyledGroupHeader>
@@ -71,7 +75,7 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
     header = (
       <StyledGroupHeader>
         <Icon className='icon icon-move group-mover' title='Reorder this group'>
-          <Isvg src='./svg/sort.svg'/>
+          <Sort />
         </Icon>
 
         <div className='title-box'>
@@ -85,7 +89,7 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
         <Icon className='icon icon-pull' title='Pull all in this group'
         onClick={ actions.pullGroup.bind(null, group.id) }
         >
-          <Isvg src='./svg/down-arrow.svg' />
+          <ArrowDown />
         </Icon>
 
         <Icon
@@ -94,19 +98,19 @@ const GroupComponent: any = ({ group, actions, i }: { group: IGroup, actions: an
           title='Reload all in this group'
           onClick={ actions.reloadGroup.bind(null, group.id) }
         >
-          <Isvg src='./svg/reload.svg' />
+          <Reload />
         </Icon>
 
         <Icon className='icon icon-edit' title='Edit this group'
         onClick={ actions.startEditGroup.bind(null, group.id) }
         >
-          <Isvg src='./svg/edit.svg' />
+          <Edit />
         </Icon>
 
         <Icon className='icon icon-x' title='Remove this group with all repos'
         onClick={ actions.confirmDeleteGroup.bind(null, group.id) }
         >
-          <Isvg src='./svg/garbage.svg' />
+          <Garbage />
         </Icon>
       </StyledGroupHeader>
     );
