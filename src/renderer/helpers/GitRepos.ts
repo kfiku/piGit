@@ -4,9 +4,9 @@ import { join, basename } from 'path';
 import { eachSeries } from 'async';
 import { exec } from 'child_process';
 import * as promisify from 'es6-promisify';
+import * as gitDirsSearch from 'git-dirs-search';
 const simpleGit = require('simple-git/promise');
 
-import walk from './DirWalk';
 import { IStash } from '../components/Details/Stash';
 import { IRepo } from '../interfaces/IRepo';
 
@@ -251,14 +251,15 @@ export class Repos {
     let gitDirsToAdd = [];
 
     eachSeries(dirs, (dir, cb) => {
-      walk(dir, steps, (err, gitDirs) => {
+      gitDirsSearch(dir, (err, gitDirs) => {
         if (err) {
           console.log(err);
         }
-        gitDirsToAdd = gitDirsToAdd.concat(gitDirs);
+        gitDirsToAdd.push(gitDirs);
         cb();
-      }, '.git', 6);
+      }, { maxDepth: 6, step: steps, ignores: ['node_modules', 'bower_components'] });
     }, () => {
+      console.log(gitDirsToAdd);
       callback(null, gitDirsToAdd);
     });
   }
