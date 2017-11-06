@@ -5,11 +5,15 @@ import * as React from 'react';
 import { basename } from 'path';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-const Isvg = require('react-inlinesvg');
 
 import actionsToConnect from '../../actions';
 import { renderLog } from '../../helpers/logger';
 import Icon from '../helpers/Icon';
+import Reload from '../Icons/Reload';
+import Move from '../Icons/Move';
+import X from '../Icons/X';
+import ArrowDown from '../Icons/ArrowDown';
+import ArrowUp from '../Icons/ArrowUp';
 import Status from './Status';
 import StyledRepo from './StyledRepo';
 
@@ -39,29 +43,29 @@ class RepoComponent extends React.PureComponent<IRepoComponent> {
     return (
       <StyledRepo className={ 'repo ' + cls } processing={repo.progressing}>
         <Icon className='icon icon-move repo-mover' title='Reorder this repo'>
-          <Isvg src='./svg/move.svg' />
+          <Move />
         </Icon>
 
         <Icon className='icon icon-x' title='Delete this repo'
         onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
-          <Isvg src='./svg/x.svg'/>
+          <X />
         </Icon>
 
         { cls === 'ahead' ?
           <Icon className='icon icon-push' title='push this repo'
           onClick={ actions.pushRepo.bind(null, repo.id, repo.dir) }>
-            <Isvg src='./svg/down-arrow.svg'/>
+            <ArrowUp />
           </Icon>
           :
           <Icon className='icon icon-pull' title='Pull this repo'
           onClick={ actions.pullRepo.bind(null, repo.id, repo.dir) }>
-            <Isvg src='./svg/down-arrow.svg'/>
+            <ArrowDown />
           </Icon>
         }
 
         <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo'
         onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>
-          <Isvg src='./svg/reload.svg'/>
+          <Reload />
         </Icon>
 
         <div className='content'>
