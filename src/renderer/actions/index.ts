@@ -33,12 +33,11 @@ const actions = {
       gitRepos.searchRepos(
         dirs,
         (gitDir) => { // steps
-          const newRepoDit = resolve(gitDir, '..');
-          const repoByDir = getState().repos.filter(repo => repo.dir === newRepoDit);
+          const repoByDir = getState().repos.filter(repo => repo.dir === gitDir);
           if (repoByDir.length === 0) {
-            dispatch(actions.addRepo(newRepoDit));
+            dispatch(actions.addRepo(gitDir));
           } else {
-            dispatch(actions.message(`Repo '${newRepoDit}' is already there ;-)`));
+            dispatch(actions.message(`Repo '${gitDir}' is already there ;-)`));
           }
         },
         (err) => {

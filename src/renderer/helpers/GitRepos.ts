@@ -253,9 +253,10 @@ export class Repos {
     eachSeries(dirs, (dir, cb) => {
       gitDirsSearch(dir, (err, gitDirs) => {
         if (err) {
-          console.log(err);
+          console.error(err);
+        } else {
+          gitDirsToAdd = gitDirsToAdd.concat(gitDirs);
         }
-        gitDirsToAdd.push(gitDirs);
         cb();
       }, { maxDepth: 6, step: steps, ignores: ['node_modules', 'bower_components'] });
     }, () => {
