@@ -2,13 +2,11 @@ import * as React from 'react'; // tslint:disable-line
 import * as PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import styled from 'emotion/react'
 import styled from 'styled-components';
 
 
 import { navHeight, g2 } from '../utils/styles';
 
-// const StyledNav = styled('nav')`
 const StyledNav = styled.nav`
   width: 100%;
   height: ${navHeight}px;
@@ -23,8 +21,9 @@ import actionsToConnect from '../actions';
 import { renderLog } from '../helpers/logger';
 import Button from './helpers/Button';
 import Icon from './helpers/Icon';
-
-const Isvg = require('react-inlinesvg');
+import Add from './Icons/Add';
+import Reload from './Icons/Reload';
+import Folder from './Icons/Folder';
 
 const NavComponent: any = ({app, actions}) => {
   renderLog('NAV');
@@ -32,21 +31,19 @@ const NavComponent: any = ({app, actions}) => {
     // <StyledNav className='nav main-nav'>
     <StyledNav>
       <Button onClick={ actions.addRepos } className={app.addingRepos ? 'progressing' : ''} >
-        { app.addingRepos
-          ? <Icon>
-              <Isvg src='./svg/reload.svg'/>
-            </Icon>
-          : <Icon>
-              <Isvg src='./svg/add.svg'/>
-            </Icon>
-        }
+        <Icon>
+          {app.addingRepos ?
+            <Reload /> :
+            <Add />
+          }
+        </Icon>
 
         <span>Add Repo</span>
       </Button>
 
       <Button onClick={ actions.addGroup } className='button'>
         <Icon>
-          <Isvg src='./svg/folder.svg'/>
+          <Folder />
         </Icon>
         <span>Add Group</span>
       </Button>
@@ -54,7 +51,7 @@ const NavComponent: any = ({app, actions}) => {
       <Button onClick={ actions.reloadAllRepos }
       className={ 'button' + (app.reloadingAllRepos ? ' progressing' : '') } >
         <Icon>
-          <Isvg src='./svg/reload.svg'/>
+          <Reload />
         </Icon>
         <span>Reload all</span>
       </Button>
