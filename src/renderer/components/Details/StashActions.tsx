@@ -2,16 +2,11 @@ import * as React from 'react';
 // import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// const Isvg = require('react-inlinesvg');
 const Check = require('react-icons/lib/fa/check');
 const Trash = require('react-icons/lib/fa/trash-o');
 
 import { IRepo } from '../../interfaces/IRepo';
 import actionsToConnect from '../../actions';
-// import { lh, g5, red } from '../../utils/styles';
-// import Revert from '../Icons/Revert';
-// const Plus = require('react-icons/lib/fa/plus');
-// const Minus = require('react-icons/lib/fa/minus');
 import { IStash } from './Stash';
 import { Action, Wrapper } from './FileActions';
 

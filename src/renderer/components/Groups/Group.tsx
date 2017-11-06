@@ -18,8 +18,6 @@ import ArrowDown from '../Icons/ArrowDown';
 import { renderLog } from '../../helpers/logger';
 import StyledGroupHeader from './StyledGroupHeader';
 
-// const Isvg = require('react-inlinesvg');
-
 const onChangeGroupName = (actions, id: string) => {
   const input = document.querySelector('input#groupInput_' + id) as HTMLInputElement;
   actions.editGroup(id, input.value);

@@ -3,13 +3,13 @@ import { IRepo } from '../../interfaces/IRepo';
 import * as React from 'react';
 import styled from 'styled-components';
 
-const Isvg = require('react-inlinesvg');
 import { g2, lh } from '../../utils/styles';
 import Button from '../helpers/Button';
 import Icon from '../helpers/Icon';
 import ArrowLeft from '../Icons/ArrowLeft';
 import ArrowUp from '../Icons/ArrowUp';
 import ArrowDown from '../Icons/ArrowDown';
+import Reload from '../Icons/Reload';
 import Status from '../Repos/Status';
 
 // import GitGuiBtn from './GitGuiBtn';
@@ -54,7 +54,7 @@ function Header({ repo, actions }: HeaderProps) {
         <Button
           onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) } title='Refresh this repo'>
           <Icon spin={repo.progressing} className='icon icon-refresh'>
-            <Isvg src='./svg/reload.svg'/>
+            <Reload />
           </Icon>
         </Button>
 

@@ -2,9 +2,9 @@ import { IRepo } from '../../interfaces/IRepo';
 
 import * as React from 'react';
 import { exec } from 'child_process';
-const Isvg = require('react-inlinesvg');
 import Button from '../helpers/Button';
 import Icon from '../helpers/Icon';
+import GitIcon from '../Icons/GitIcon';
 
 
 const openInGitK = (repo) => {
@@ -15,7 +15,7 @@ function GitKBtn ({repo}: { repo: IRepo }) {
   return (
     <Button onClick={ openInGitK.bind(null, repo) } className='button' title='Open in GitK'>
       <Icon className='icon icon-add'>
-        <Isvg src='./svg/git-icon.svg'/>
+        <GitIcon />
       </Icon>
 
       <span>GitK</span>
