@@ -26,14 +26,18 @@ interface IFileListProps {
   title: string;
   repo: IRepo;
   alwaysShow?: boolean;
+  type?: string;
 }
 
-export default function FileList ({ files, title, repo, alwaysShow }: IFileListProps) {
+export default function FileList ({ files, title, repo, alwaysShow, type }: IFileListProps) {
   if (!alwaysShow && files && files.length === 0) { return null; }
 
   return (
     <Wrapper>
-      <Title>{title} ({files.length}): </Title>
+      <Title>
+        {title} ({files.length}):
+        {/* type */}
+      </Title>
       {<Ul>
         {files.map(file =>
           <File key={file.path} file={file} repo={repo} />
