@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { IRepo } from '../../interfaces/IRepo';
 import { lh, fileHeight, g5, red } from '../../utils/styles';
 import actionsToConnect from '../../actions';
-// import Revert from '../Icons/Revert';
 const Revert = require('react-icons/lib/md/undo');
 const Plus = require('react-icons/lib/md/add');
 const Minus = require('react-icons/lib/md/remove');
