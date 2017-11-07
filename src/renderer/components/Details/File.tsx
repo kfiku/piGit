@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { basename } from 'path';
+import { basename, dirname } from 'path';
 import styled from 'styled-components';
 const fileIcons = require('file-icons-js');
 
@@ -70,6 +70,7 @@ export default function File ({file, repo}: IFileComp) {
   if (!file || !file.path) { return null; }
 
   const baseName = basename(file.path.replace(/.* -> /, ''));
+  const dirName = dirname(file.path.replace(/.* -> /, ''));
   const className = fileIcons.getClassWithColor(baseName);
   return (
     <Li title={file.path}>
@@ -77,7 +78,7 @@ export default function File ({file, repo}: IFileComp) {
 
       <FileName>
         { baseName }
-        <FilePath>{ file.path !== baseName ? file.path : '' }</FilePath>
+        <FilePath>{ dirName }</FilePath>
       </FileName>
 
       <Actions className='file-actions' file={file} repo={repo} />
