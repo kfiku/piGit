@@ -8,7 +8,9 @@ import * as gitDirsSearch from 'git-dirs-search';
 const simpleGit = require('simple-git/promise');
 
 import { IStash } from '../components/Details/Stash';
+import { IFile } from '../components/Details/File';
 import { IRepo } from '../interfaces/IRepo';
+import clone from '../helpers/Clone';
 
 const execPromise = promisify(exec);
 const unlinkPromise = promisify(unlink);
@@ -61,22 +63,23 @@ export class Repo {
       newState.untracked = status.not_added || [];
       newState.stashes = stashes || [];
 
-      const extraFiles = [];
-      let files = status.files.map(file => {
-        if (file.working_dir === 'M' && file.index === 'M') {
-          extraFiles.push({
-            path: file.path,
-            staged: false,
-            type: file.index,
-            workingDir: file.working_dir
-          });
-        }
-        return {
+      const extraFiles: IFile[] = [];
+      let files: IFile[] = status.files.map(file => {
+        const fileObj = {
           path: file.path,
           staged: ['M', 'A', 'R'].indexOf(file.index) > -1,
           type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir,
           conflicted: file.working_dir === 'U'
         };
+
+        if (file.working_dir === 'M' && file.index === 'M') {
+          const extraFileObj = clone(fileObj);
+          extraFileObj.staged = false;
+          extraFiles.push(extraFileObj);
+        }
+
+
+        return fileObj;
       });
 
       if (extraFiles.length) {
