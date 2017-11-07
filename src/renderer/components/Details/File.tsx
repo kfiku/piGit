@@ -59,6 +59,7 @@ export interface IFile {
   path: string;
   type: string;
   staged: boolean;
+  conflicted: boolean;
 }
 interface IFileComp {
   file: IFile;

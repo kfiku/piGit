@@ -97,12 +97,14 @@ export function FileActionsComponent ({
 
   return (
     <Wrapper className={className}>
-      <Action
-        onClick={checkoutOrDelete}
-        title='Revert changes on this file'
-      >
-        <Revert />
-      </Action>
+      {!file.conflicted && (
+        <Action
+          onClick={checkoutOrDelete}
+          title='Revert changes on this file'
+        >
+          <Revert />
+        </Action>
+      )}
       <Action
         onClick={addFile.bind(null, repo.id, repo.dir, file.path)}
         title='Add file to commit'

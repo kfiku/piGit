@@ -67,13 +67,15 @@ export class Repo {
           extraFiles.push({
             path: file.path,
             staged: false,
-            type: file.index
+            type: file.index,
+            workingDir: file.working_dir
           });
         }
         return {
           path: file.path,
           staged: ['M', 'A', 'R'].indexOf(file.index) > -1,
-          type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir
+          type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir,
+          conflicted: file.working_dir === 'U'
         };
       });
 
@@ -81,24 +83,19 @@ export class Repo {
         files = [...files, ...extraFiles];
       }
 
-      if (status.conflicted.length) {
-        newState.conflicted = status.conflicted.map(file => ({
-          path: file,
-          staged: false,
-          type: 'U'
-        }));
-      }
+      newState.conflicted = files
+        .filter(f => f.conflicted);
 
       newState.unstaged = files
-        .filter(f => !f.staged && f.type !== 'U');
+        .filter(f => !f.staged && !f.conflicted);
 
       newState.staged = files
         .filter(f => f.staged);
 
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
-      if (newState.name === 'piGit') {
-        // console.log(status, newState);
+      if (newState.name === 'kfiku-fuse-electron') {
+        console.log(status, newState);
       }
 
       this.state = newState;
