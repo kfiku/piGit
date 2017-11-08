@@ -51,20 +51,13 @@ function confirmDelete (file) {
   return confirm(`Are you sure you want to DELETE file: ${file}`);
 }
 
-interface IFileActions {
-  file: IFile;
-  className: string;
+interface IBatchActions {
   repo: IRepo;
-  addFile?: any;
-  unAddFile?: any;
-  checkoutFile?: any;
-  deleteFile?: any;
+  type: string;
 }
 
-export function FileActionsComponent ({
-  file, className, repo, addFile, unAddFile, checkoutFile, deleteFile
-}: IFileActions) {
-  if (file.staged) {
+export function BatchActionsComponent ({ repo, type }: IBatchActions) {
+  if (type === 'changed') {
     return (
       <Wrapper className={className}>
         <Action
@@ -77,40 +70,8 @@ export function FileActionsComponent ({
     );
   }
 
-  const checkoutOrDelete = file.type === '?'
-    ?
-      // DELETE FILE IF FILE IS UNTRACKED
-      () => {
-        if (confirmDelete(file.path)) {
-          deleteFile(repo.id, repo.dir, file.path);
-        }
-      }
-    :
-      // CHECKOUT FILE IF FILE IS TRACKED
-      () => {
-        if (confirmCheckout(file.path)) {
-          checkoutFile(repo.id, repo.dir, file.path);
-        }
-      }
-  ;
-
   return (
-    <Wrapper className={className}>
-      {!file.conflicted && (
-        <Action
-          onClick={checkoutOrDelete}
-          title='Revert changes on this file'
-        >
-          <Revert />
-        </Action>
-      )}
-      <Action
-        onClick={addFile.bind(null, repo.id, repo.dir, file.path)}
-        title='Add file to commit'
-      >
-        <Plus />
-      </Action>
-    </Wrapper>
+    null
   );
 }
 
@@ -127,10 +88,10 @@ const mapDispatchToProps = dispatch => ({
   deleteFile: bindActionCreators(actionsToConnect.deleteFile, dispatch)
 });
 
-const FileActions = connect(
+const BatchActions = connect(
   mapStateToProps,
   mapDispatchToProps
-)(FileActionsComponent as React.SFC);
+)(BatchActionsComponent as React.SFC);
 
-export default FileActions as React.ComponentClass<IFileActions>;
+export default BatchActions as React.ComponentClass<IBatchActions>;
 
