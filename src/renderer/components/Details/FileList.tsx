@@ -2,8 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { lh } from '../../utils/styles';
-import File, { IFile } from './File';
 import { IRepo } from '../../interfaces/IRepo';
+import File, { IFile } from './File';
+import BatchActions from './BatchActions';
 
 export const Wrapper = styled.div`
 `;

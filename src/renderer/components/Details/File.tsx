@@ -69,9 +69,10 @@ interface IFileComp {
 export default function File ({file, repo}: IFileComp) {
   if (!file || !file.path) { return null; }
 
-  const baseName = basename(file.path.replace(/.* -> /, ''));
-  const dirName = dirname(file.path.replace(/.* -> /, ''));
+  const baseName = basename(file.path);
+  const dirName = dirname(file.path);
   const className = fileIcons.getClassWithColor(baseName);
+
   return (
     <Li title={file.path}>
       <Icon className={className} />

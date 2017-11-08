@@ -66,8 +66,8 @@ export class Repo {
       const extraFiles: IFile[] = [];
       let files: IFile[] = status.files.map(file => {
         const fileObj = {
-          path: file.path,
-          staged: ['M', 'A', 'R'].indexOf(file.index) > -1,
+          path: file.path.replace(/.* -> /, ''),
+          staged: ['M', 'A', 'R', 'D'].indexOf(file.index) > -1,
           type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir,
           conflicted: file.working_dir === 'U'
         };
@@ -97,7 +97,7 @@ export class Repo {
 
       newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
 
-      if (newState.name === 'kfiku-fuse-electron') {
+      if (newState.name === 'piGit') {
         console.log(status, newState);
       }
 
@@ -135,7 +135,7 @@ export class Repo {
   }
 
   unAddFile (file: string) {
-    return this.git.reset([file])
+    return this.git.reset(['--', file])
     .then(() => this.updateStatus());
   }
 
