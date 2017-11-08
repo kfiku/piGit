@@ -4,67 +4,65 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { IRepo } from '../../interfaces/IRepo';
-import { lh, fileHeight, g5, red } from '../../utils/styles';
+import { lh, fileHeight, g5, red, g7 } from '../../utils/styles';
 import actionsToConnect from '../../actions';
 const Revert = require('react-icons/lib/md/undo');
 const Plus = require('react-icons/lib/md/add');
 const Minus = require('react-icons/lib/md/remove');
 import { IFile } from './File';
+import { Wrapper, Action } from './FileActions';
 
-const iconSize = fileHeight * 0.9;
 
-export const Action = styled.span`
-  display: inline-block;
-  width: ${iconSize}px;
-  height: ${iconSize}px;
-  text-align: center;
-  font-size: ${lh}px;
-  font-weight: 700;
-  vertical-align: middle;
-
-  svg {
-    fill: ${g5};
-    width: ${iconSize}px;
-    height: ${iconSize}px;
-  }
-
-  cursor: pointer;
-
-  &:hover {
-    svg {
-      fill: ${red};
-    }
-  }
-`;
-
-export const Wrapper = styled.div`
-  height: ${fileHeight}px;
-  margin-right: ${lh / 4}px;
-  display: none;
-`;
-
-function confirmCheckout (file) {
-  return confirm(`Are you sure you want to discard changes in ${file}`);
+function confirmCheckoutAll () {
+  return confirm(`Are you sure you want to discard changes in all files`);
 }
 
-function confirmDelete (file) {
-  return confirm(`Are you sure you want to DELETE file: ${file}`);
+function addAll(repo: IRepo, files: IFile[], addFile) {
+  files.map(file => addFile(repo.id, repo.dir, file.path));
+}
+
+function checkoutAll(repo: IRepo, files: IFile[], checkoutFile, deleteFile) {
+  files.map(file => {
+    if (file.type === '?') {
+      deleteFile(repo.id, repo.dir, file.path);
+    } else {
+      checkoutFile(repo.id, repo.dir, file.path);
+    }
+  });
 }
 
 interface IBatchActions {
   repo: IRepo;
+  files: IFile[];
   type: string;
+  addFile?: any;
+  unAddFile?: any;
+  checkoutFile?: any;
+  deleteFile?: any;
 }
 
-export function BatchActionsComponent ({ repo, type }: IBatchActions) {
-  if (type === 'changed') {
+export function BatchActionsComponent ({
+  files, repo, type,
+  addFile, checkoutFile, deleteFile
+}: IBatchActions) {
+  if (type === 'unstaged') {
     return (
-      <Wrapper className={className}>
+      <Wrapper>
         <Action
-          onClick={unAddFile.bind(null, repo.id, repo.dir, file.path)}
-          title='Unstage changes on this file'
+          onClick={() =>
+            confirmCheckoutAll() &&
+            checkoutAll(repo, files, checkoutFile, deleteFile)
+          }
+          title='Revert changes on all files'
         >
-          <Minus height={lh * 0.75} width={lh * 0.75} />
+          <Revert />
+        </Action>
+
+        <Action
+          onClick={() => addAll(repo, files, addFile)}
+          title='Add all files to commit'
+        >
+          <Plus />
         </Action>
       </Wrapper>
     );

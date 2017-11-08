@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { lh } from '../../utils/styles';
+import { lh, g2 } from '../../utils/styles';
 import { IRepo } from '../../interfaces/IRepo';
 import File, { IFile } from './File';
 import BatchActions from './BatchActions';
@@ -9,8 +9,17 @@ import BatchActions from './BatchActions';
 export const Wrapper = styled.div`
 `;
 
-export const Title = styled.h4`
+export const Header = styled.header`
+  display: flex;
   margin: ${lh / 4}px 0;
+  &:hover {
+    background: ${g2};
+  }
+`;
+
+export const Title = styled.h4`
+  flex: 1;
+  margin: 0;
   padding: ${lh / 3}px ${lh}px ${lh / 3}px ${lh / 2}px;
   font-size: ${lh * 0.75}px;
   text-transform: uppercase;
@@ -30,15 +39,20 @@ interface IFileListProps {
   type?: string;
 }
 
-export default function FileList ({ files, title, repo, alwaysShow }: IFileListProps) {
+export default function FileList ({ files, title, repo, alwaysShow, type }: IFileListProps) {
   if (!alwaysShow && files && files.length === 0) { return null; }
 
   return (
     <Wrapper>
-      <Title>
-        {title} ({files.length}):
-        {/* type */}
-      </Title>
+      <Header>
+        <Title>
+          {title} ({files.length}):
+        </Title>
+        {files.length ?
+          <BatchActions repo={repo} type={type} files={files} /> :
+          null
+        }
+      </Header>
       {<Ul>
         {files.map(file =>
           <File key={file.path} file={file} repo={repo} />
