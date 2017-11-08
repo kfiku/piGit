@@ -30,6 +30,10 @@ function addAll(repo: IRepo, files: IFile[], addFile) {
   files.map(file => addFile(repo.id, repo.dir, file.path));
 }
 
+function unAddAll(repo: IRepo, files: IFile[], unAddFile) {
+  files.map(file => unAddFile(repo.id, repo.dir, file.path));
+}
+
 function checkoutAll(repo: IRepo, files: IFile[], checkoutFile, deleteFile) {
   files.map(file => {
     if (file.type === '?') {
@@ -52,34 +56,44 @@ interface IBatchActions {
 
 export function BatchActionsComponent ({
   files, repo, type,
-  addFile, checkoutFile, deleteFile
+  addFile, checkoutFile, deleteFile, unAddFile
 }: IBatchActions) {
-  if (type === 'unstaged') {
-    return (
-      <Wrapper>
-        <Action
-          onClick={() =>
-            confirmCheckoutAll() &&
-            checkoutAll(repo, files, checkoutFile, deleteFile)
-          }
-          title='Revert changes on all files'
-        >
-          <Revert />
-        </Action>
+  switch (type) {
+    case 'unstaged':
+      return (
+        <Wrapper>
+          <Action
+            onClick={() =>
+              confirmCheckoutAll() &&
+              checkoutAll(repo, files, checkoutFile, deleteFile)
+            }
+            title='Revert changes on all files'
+          >
+            <Revert />
+          </Action>
 
-        <Action
-          onClick={() => addAll(repo, files, addFile)}
-          title='Add all files to commit'
-        >
-          <Plus />
-        </Action>
-      </Wrapper>
-    );
+          <Action
+            onClick={() => addAll(repo, files, addFile)}
+            title='Add all files to commit'
+          >
+            <Plus />
+          </Action>
+        </Wrapper>
+      );
+    case 'staged':
+      return (
+        <Wrapper>
+          <Action
+            onClick={() => unAddAll(repo, files, unAddFile)}
+            title='Unstaged all changes in all files'
+          >
+            <Minus />
+          </Action>
+        </Wrapper>
+      );
+    default:
+      return null;
   }
-
-  return (
-    null
-  );
 }
 
 const mapStateToProps = () => {

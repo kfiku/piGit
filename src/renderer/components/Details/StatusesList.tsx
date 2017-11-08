@@ -31,7 +31,7 @@ class StatusesList extends React.PureComponent<StatusesListProps> {
     return (
       <div>
         <CommitBox repo={repo} />
-        <FileList files={repo.staged} repo={repo} title='Staged' />
+        <FileList files={repo.staged} repo={repo} title='Staged' type='staged' />
         <FileList files={repo.unstaged} repo={repo} title='Changed' alwaysShow type='unstaged' />
         <FileList files={repo.conflicted} repo={repo} title='CONFLICTED' />
         <StashList stashes={repo.stashes} repo={repo} title='Stashes' />
@@ -39,5 +39,6 @@ class StatusesList extends React.PureComponent<StatusesListProps> {
     );
   }
 }
+
 
 export default StatusesList;
