@@ -58,7 +58,7 @@ Sparky.task('build:renderer', () => {
         .instructions('> [index.tsx] + fuse-box-css')
 
   if (!production) {
-    app.hmr().watch()
+    app.hmr({ reload: true }).watch()
   }
 
   return fuse.run()
