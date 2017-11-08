@@ -4,14 +4,23 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { IRepo } from '../../interfaces/IRepo';
-import { lh, fileHeight, g5, red, g7 } from '../../utils/styles';
+import { g7 } from '../../utils/styles';
 import actionsToConnect from '../../actions';
 const Revert = require('react-icons/lib/md/undo');
 const Plus = require('react-icons/lib/md/add');
 const Minus = require('react-icons/lib/md/remove');
 import { IFile } from './File';
-import { Wrapper, Action } from './FileActions';
+import { Wrapper as BaseWrapper, Action as BaseAction } from './FileActions';
 
+const Wrapper = styled(BaseWrapper)`
+  display: block;
+`;
+
+const Action = styled(BaseAction)`
+  svg {
+    fill: ${g7};
+  }
+`;
 
 function confirmCheckoutAll () {
   return confirm(`Are you sure you want to discard changes in all files`);
