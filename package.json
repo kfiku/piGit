@@ -6,7 +6,7 @@
     "email": "kfiku.com@gmail.com",
     "url": "https://github.com/kfiku"
   },
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "electron app to watch git repos",
   "main": "dist/main/main.js",
   "license": "MIT",
