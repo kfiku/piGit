@@ -68,7 +68,7 @@ export const Renamed = styled.span`
 `;
 
 // const StyledNav = styled('nav')`
-const StyledStatus = styled.div`
+const StyledStats = styled.div`
   font-family: ${styledFont};
   // font-family: sans-serif;
   font-size: ${lh}px;
@@ -83,4 +83,4 @@ const StyledStatus = styled.div`
   }
 `;
 
-export default StyledStatus as any;
+export default StyledStats as any;
