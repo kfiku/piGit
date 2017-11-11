@@ -10,7 +10,7 @@ import ArrowLeft from '../Icons/ArrowLeft';
 import ArrowUp from '../Icons/ArrowUp';
 import ArrowDown from '../Icons/ArrowDown';
 import Reload from '../Icons/Reload';
-import Status from '../Repos/Status';
+import Stats from '../Repos/Stats';
 
 // import GitGuiBtn from './GitGuiBtn';
 import GitKBtn from './GitKBtn';
@@ -47,7 +47,7 @@ function Header({ repo, actions }: HeaderProps) {
 
       <h2>
         { repo.name } @ { repo.branch }
-        <Status repo={repo} inline />
+        <Stats stats={repo.stats} inline />
       </h2>
 
       <div className='buttons'>

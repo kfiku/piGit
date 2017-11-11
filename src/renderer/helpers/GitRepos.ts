@@ -26,16 +26,24 @@ export class Repo {
       dir: dir,
       name: basename(dir),
       branch: '',
-      ahead: 0,
-      behind: 0,
-      modified: [],
-      staged: [],
-      deleted: [],
-      renamed: [],
-      untracked: [],
-      conflicted: [],
-      unstaged: [],
-      stashes: []
+      id: '',
+      progressing: false,
+      stats: {
+        ahead: 0,
+        behind: 0,
+        modified: 0,
+        deleted: 0,
+        renamed: 0,
+        untracked: 0,
+        conflicted: 0,
+        stashes: 0
+      },
+      lists: {
+        staged: [],
+        unstaged: [],
+        conflicted: [],
+        stashes: []
+      }
     };
 
     this.validateDir(dir, (err) => {
@@ -53,19 +61,15 @@ export class Repo {
       const status = await this.git.status();
       const stashes = await this.stashList();
 
-      let newState = this.state;
-      // newState.lastUpdate = Date.now();
-      newState.ahead = status.ahead;
-      newState.behind = status.behind;
-      newState.modified = status.modified || [];
-      newState.deleted = status.deleted || [];
-      newState.renamed = status.renamed || [];
-      newState.untracked = status.not_added || [];
-      newState.stashes = stashes || [];
+      // let newState = clone(this.state);
 
-      const extraFiles: IFile[] = [];
-      let files: IFile[] = status.files.map(file => {
-        const fileObj = {
+      const tracking = status.tracking || 'no-tracking';
+      const branch = status.current +
+        (tracking.indexOf(status.current) > -1 ? ' → ' + tracking : '');
+
+      const files: IFile[] = [];
+      status.files.forEach(file => {
+        const fileObj: IFile = {
           path: file.path.replace(/.* -> /, ''),
           staged: ['M', 'A', 'R', 'D'].indexOf(file.index) > -1,
           type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir,
@@ -75,27 +79,39 @@ export class Repo {
         if (file.working_dir === 'M' && file.index === 'M') {
           const extraFileObj = clone(fileObj);
           extraFileObj.staged = false;
-          extraFiles.push(extraFileObj);
+          files.push(extraFileObj);
         }
 
-
-        return fileObj;
+        files.push(fileObj);
       });
 
-      if (extraFiles.length) {
-        files = [...files, ...extraFiles];
-      }
+      const conflicted: IFile[] = files.filter(f => f.conflicted);
+      const unstaged: IFile[] = files.filter(f => !f.staged && !f.conflicted);
+      const staged: IFile[] = files.filter(f => f.staged);
 
-      newState.conflicted = files
-        .filter(f => f.conflicted);
-
-      newState.unstaged = files
-        .filter(f => !f.staged && !f.conflicted);
-
-      newState.staged = files
-        .filter(f => f.staged);
-
-      newState.branch = status.tracking ? status.tracking.replace('origin/', '') : '-';
+      const newState: IRepo = {
+        id: this.state.id,
+        dir: this.state.dir,
+        name: this.state.name,
+        progressing: this.state.progressing,
+        branch,
+        stats: {
+          ahead: status.ahead,
+          behind: status.behind,
+          modified: files.filter(f => f.type === 'M').length,
+          deleted: files.filter(f => f.type === 'D').length,
+          renamed: files.filter(f => f.type === 'R').length,
+          untracked: files.filter(f => f.type === '?').length,
+          conflicted: files.filter(f => f.type === 'U').length,
+          stashes: stashes.length
+        },
+        lists: {
+          staged,
+          unstaged,
+          conflicted,
+          stashes
+        }
+      };
 
       if (newState.name === 'piGit') {
         console.log(status, newState);
@@ -198,7 +214,7 @@ export class Repo {
     }
   }
 
-  async stashList () {
+  async stashList (): Promise<IStash[]> {
     try {
       const stashes2 = await execPromise(
         `cd ${this.state.dir} && git stash list --pretty=format:%gd__%ai__%s`
