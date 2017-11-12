@@ -43,14 +43,14 @@ function Stats ({ stats, inline }: StatsProps) {
 
   return (
     <StyledStats inline={inline} title={getTitle(stats)}>
-      { ahead && <Ahead>{ ahead }</Ahead> }
-      { behind && <Behind>{ behind }</Behind> }
-      { conflicted && <Conflicted>{ conflicted }</Conflicted> }
-      { modified && <Modified>{ modified }</Modified> }
-      { untracked && <Untracked>{ untracked }</Untracked> }
-      { deleted && <Deleted>{ deleted }</Deleted> }
-      { renamed && <Renamed>{ renamed }</Renamed> }
-      { stashes && <Stashes>{ stashes }</Stashes> }
+      { !!ahead && <Ahead>{ ahead }</Ahead> }
+      { !!behind && <Behind>{ behind }</Behind> }
+      { !!conflicted && <Conflicted>{ conflicted }</Conflicted> }
+      { !!modified && <Modified>{ modified }</Modified> }
+      { !!untracked && <Untracked>{ untracked }</Untracked> }
+      { !!deleted && <Deleted>{ deleted }</Deleted> }
+      { !!renamed && <Renamed>{ renamed }</Renamed> }
+      { !!stashes && <Stashes>{ stashes }</Stashes> }
     </StyledStats>
   );
 }

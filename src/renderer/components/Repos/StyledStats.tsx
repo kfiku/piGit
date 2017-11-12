@@ -41,6 +41,10 @@ export const Conflicted = styled.span`
 
 export const Untracked = styled.span`
   color: ${g4};
+
+  :before {
+    content: ' ?';
+  }
 `;
 
 export const Deleted = styled.span`
