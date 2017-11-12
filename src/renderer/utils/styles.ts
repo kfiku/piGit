@@ -40,6 +40,7 @@ export const repoSize = 200;
 export const repoBgSize = 65;
 export const repoIconSize = 15;
 export const repoDetailsMargin = 0;
+export const detailsHeaderHeight = lh * 3;
 
 export const spin = keyframes`
 from { transform: rotate(0deg); }
