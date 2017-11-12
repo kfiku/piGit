@@ -65,7 +65,7 @@ export class Repo {
 
       const tracking = status.tracking || 'no-tracking';
       const branch = status.current +
-        (tracking.indexOf(status.current) > -1 ? ' → ' + tracking : '');
+        (tracking.indexOf(status.current) === -1 ? ' → ' + tracking : '');
 
       const files: IFile[] = [];
       status.files.forEach(file => {
