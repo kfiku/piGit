@@ -8,6 +8,8 @@ import { lh, fileHeight, g5, g2 } from '../../utils/styles';
 import Type from './FileStatusType';
 import Actions from './FileActions';
 
+import '../../css/file-icons.css';
+
 const Icon = styled.i`
   width: ${lh * 1.25}px;
   margin-right: ${lh / 2}px;

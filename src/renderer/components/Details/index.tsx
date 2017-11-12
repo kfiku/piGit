@@ -6,19 +6,18 @@ import { ResizableBox } from 'react-resizable';
 import styled from 'styled-components';
 
 import { IRepo } from '../../interfaces/IRepo';
-import actionsToConnect from '../../actions';
 import { renderLog } from '../../helpers/logger';
+import { detailsHeaderHeight } from '../../utils/styles';
+import actionsToConnect from '../../actions';
 import StyledRepoDetails from './StyledRepoDetails';
 import Diff from './Diff';
 import Header from './Header';
 import StatusesList from './StatusesList';
 
-import '../../css/file-icons.css';
-
 const Wrapper = styled.div`
   overflow: hidden;
   flex-grow: 1;
-  height: calc(100vh - 48px);
+  height: calc(100vh - ${detailsHeaderHeight}px);
 
   display: flex;
 
@@ -29,7 +28,7 @@ const Wrapper = styled.div`
 
 const DiffWrapper = styled.div`
   overflow-y: auto;
-  height: calc(100vh - 48px);
+  height: calc(100vh - ${detailsHeaderHeight}px);
 `;
 
 interface IRepoDetailsComponent {
@@ -67,34 +66,20 @@ class RepoDetailsComponent extends React.PureComponent
   }
 
   updateWindowDimensions() {
-    this.setState({ width: window.innerWidth, height: window.innerHeight - 48 });
+    this.setState({ width: window.innerWidth, height: window.innerHeight - detailsHeaderHeight });
   }
 
   render() {
     const { repo, actions } = this.props;
     const { width, height, sidebarWidth } = this.state;
-
     const diffWidth = width - sidebarWidth;
 
-    if (!repo || !width || !height) {
-      renderLog('REPO DETAILS EMPTY');
-      return null;
-    }
+    if (!repo) { return null; }
 
     renderLog('REPO DETAILS', repo.name || basename(repo.dir));
 
-    let cls = '';
-
-    if (repo.behind) {
-      cls = 'behind';
-    } else if (repo.ahead) {
-      cls = 'ahead';
-    } else if (repo.modified && repo.modified.length) {
-      cls = 'modified';
-    }
-
     return (
-      <StyledRepoDetails className={ 'repo-details ' + cls }>
+      <StyledRepoDetails>
         <Header actions={actions} repo={repo}/>
 
         <Wrapper>
