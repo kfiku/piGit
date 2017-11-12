@@ -17,7 +17,7 @@ export default function repos(state = initialState, action) {
       state.push({
         id: action.id,
         dir: action.dir
-      });
+      } as IRepo);
       return state;
 
     case RELOADING:
