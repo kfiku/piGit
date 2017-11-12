@@ -59,7 +59,13 @@ const sortableRepos = (actions, el) => {
   }
 };
 
-const ReposComponent: any = ({ group, i, actions }: { group: IGroup, i: number, actions: any }) => {
+interface IReposProps {
+  group: IGroup;
+  i: number;
+  actions: any;
+}
+
+const ReposComponent: React.SFC<IReposProps> = ({ group, i, actions }) => {
   renderLog('REPOS', group.title);
 
   let reposNodes = group.repos.map(repo => (
