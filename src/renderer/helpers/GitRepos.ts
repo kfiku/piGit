@@ -326,9 +326,9 @@ export class Repos {
   async pull (dir: string, callback) {
     try {
       const repo = await this.getRepo(dir);
-      const { ahead } = await repo.updateStatus();
-      const doRebase = ahead > 0 &&
-                       this.confirmPullWithRebase(ahead);
+      const { stats } = await repo.updateStatus();
+      const doRebase = stats.ahead > 0 &&
+        this.confirmPullWithRebase(stats.ahead);
 
       if (doRebase) {
         // pull with rebase
@@ -363,11 +363,11 @@ export class Repos {
       const newStashes = await repo.stashList();
       /** getting diff between new and old stashes */
       const stashDiff = newStashes.filter(newStash =>
-        !stashes.find(stash => stash.hash === newStash.hash));
+        !stashes.find(stash => stash.id === newStash.id));
 
-      const { ahead } = await repo.updateStatus();
-      const doRebase = ahead > 0 &&
-                       this.confirmPullWithRebase(ahead);
+      const { stats } = await repo.updateStatus();
+      const doRebase = stats.ahead > 0 &&
+                       this.confirmPullWithRebase(stats.ahead);
 
       if (doRebase) {
         // pull with rebase
