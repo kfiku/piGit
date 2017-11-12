@@ -10,7 +10,7 @@ interface IRepoHistoryComponent {
   repos: IRepo[];
 }
 
-let lastRepos = undefined;
+let lastRepos: IRepo[] = undefined;
 
 function RepoHistoryComponent ({ repos }: IRepoHistoryComponent) {
   if (!lastRepos) {
@@ -20,12 +20,12 @@ function RepoHistoryComponent ({ repos }: IRepoHistoryComponent) {
 
   const changes = repos
     .map((repo, i) =>
-      repo.behind > lastRepos[i].behind ? repo : undefined)
+      repo.stats.behind > lastRepos[i].stats.behind ? repo : undefined)
     .filter(repo => repo);
 
   if (changes.length && !isAppFocused()) {
     const msg = changes
-      .map(change => `${change.name} is ${change.behind} commits behind`)
+      .map(change => `${change.name} is ${change.stats.behind} commits behind`)
       .join(', ');
 
     notifier.notify({
