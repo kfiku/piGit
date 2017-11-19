@@ -2,6 +2,7 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
          UPDATE_REPO, SHOW_REPO, HIDE_REPO,
          DELETE_REPO, DELETE_GROUP_CONFIRM, DELETE_GROUP_CANCEL,
          REORDER_REPO,
+         SHOW_FILE,
          RELOADING, RELOADING_END, RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
          ADD_GROUP, REORDER_GROUP, DELETE_GROUP, START_EDITING_GROUP, EDIT_GROUP,
          RELOADING_GROUP, RELOADING_GROUP_END,
@@ -10,6 +11,7 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
 import * as electron from 'electron';
 import gitRepos from '../helpers/GitRepos';
 import newId from '../helpers/newId';
+import { IFile } from '../components/Details/File';
 
 const getReposFromGroup = (state, groupId: string) =>
   state.groups
@@ -171,6 +173,10 @@ const actions = {
       }
     });
   },
+
+  showFile: (file: IFile) => (
+    { type: SHOW_FILE, file }
+  ),
 
   commit: (id: string, dir: string, msg: string) => dispatch => {
     dispatch({ type: RELOADING, id });

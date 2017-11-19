@@ -1,16 +1,17 @@
 import {
   ADDING_REPO, ADDING_REPO_END, SHOW_REPO, HIDE_REPO,
-  RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END,
+  RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END, SHOW_FILE,
   MESSAGE
 } from '../constants/ActionTypes';
 
 import clone from '../helpers/Clone';
+import { IFile } from '../components/Details/File';
 
 export interface IAppState {
   addingRepos: boolean;
   reloadingAllRepos: boolean;
   repoShown: string;
-  fileShown: string;
+  fileShown: IFile;
   message: string;
 }
 
@@ -18,7 +19,7 @@ const initialState: IAppState = {
   addingRepos: false,
   reloadingAllRepos: false,
   repoShown: '',
-  fileShown: '',
+  fileShown: undefined,
   message: '',
 };
 
@@ -54,6 +55,11 @@ export default function app(state = initialState, action) {
     case HIDE_REPO:
       newState = clone(state);
       newState.repoShown = '';
+      return newState;
+
+    case SHOW_FILE:
+      newState = clone(state);
+      newState.fileShown = action.file;
       return newState;
 
     case MESSAGE:
