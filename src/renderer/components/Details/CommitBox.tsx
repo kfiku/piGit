@@ -68,7 +68,9 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
       return;
     }
 
-    if (this.props.repo.lists.staged.length > 0) {
+    console.log(this.props.repo);
+
+    if (this.props.repo.lists.staged.length === 0) {
       alert('No files to commit. Add them by clicking "+" from files below');
       return;
     }
