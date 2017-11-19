@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { IRepo } from '../../interfaces/IRepo';
 import { renderLog } from '../../helpers/logger';
-import { detailsHeaderHeight } from '../../utils/styles';
+import { lh, detailsHeaderHeight } from '../../utils/styles';
 import actionsToConnect from '../../actions';
 import StyledRepoDetails from './StyledRepoDetails';
 import Diff from './Diff';
@@ -29,6 +29,7 @@ const Wrapper = styled.div`
 const DiffWrapper = styled.div`
   overflow-y: auto;
   height: calc(100vh - ${detailsHeaderHeight}px);
+  padding: ${lh}px;
 `;
 
 interface IRepoDetailsComponent {

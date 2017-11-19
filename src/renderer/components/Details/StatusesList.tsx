@@ -14,8 +14,8 @@ function StatusesList({ repo }: StatusesListProps) {
     <div>
       <CommitBox repo={repo} />
       <FileList files={staged} repo={repo} title='Staged' type='staged' />
-      <FileList files={unstaged} repo={repo} title='Changed' alwaysShow type='unstaged' />
-      <FileList files={conflicted} repo={repo} title='CONFLICTED' />
+      <FileList files={unstaged} repo={repo} title='Changed' type='unstaged' alwaysShow />
+      <FileList files={conflicted} repo={repo} title='Conflicted' type='conflicted' />
       <StashList stashes={stashes} repo={repo} title='Stashes' />
     </div>
   );
