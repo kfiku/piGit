@@ -1,15 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import { IRepo } from '../../interfaces/IRepo';
 import { lh, fileHeight, g5, red } from '../../utils/styles';
-import actionsToConnect from '../../actions';
 const Revert = require('react-icons/lib/md/undo');
 const Plus = require('react-icons/lib/md/add');
 const Minus = require('react-icons/lib/md/remove');
-import { IFile } from './File';
+import { IFile, fileFn } from './File';
 
 const iconSize = fileHeight * 0.9;
 
@@ -55,13 +52,13 @@ interface IFileActions {
   file: IFile;
   className: string;
   repo: IRepo;
-  addFile?: any;
-  unAddFile?: any;
-  checkoutFile?: any;
-  deleteFile?: any;
+  addFile: fileFn;
+  unAddFile: fileFn;
+  checkoutFile: fileFn;
+  deleteFile: fileFn;
 }
 
-export function FileActionsComponent ({
+export function FileActions ({
   file, className, repo, addFile, unAddFile, checkoutFile, deleteFile
 }: IFileActions) {
   if (file.staged) {
@@ -114,23 +111,4 @@ export function FileActionsComponent ({
   );
 }
 
-const mapStateToProps = () => {
-  // const repo = state.repos.filter(r => r.id === state.app.repoShown)[0];
-
-  return { };
-};
-
-const mapDispatchToProps = dispatch => ({
-  addFile: bindActionCreators(actionsToConnect.addFile, dispatch),
-  unAddFile: bindActionCreators(actionsToConnect.unAddFile, dispatch),
-  checkoutFile: bindActionCreators(actionsToConnect.checkoutFile, dispatch),
-  deleteFile: bindActionCreators(actionsToConnect.deleteFile, dispatch)
-});
-
-const FileActions = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FileActionsComponent as React.SFC);
-
-export default FileActions as React.ComponentClass<IFileActions>;
-
+export default FileActions;

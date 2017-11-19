@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { lh, g2 } from '../../utils/styles';
 import { IRepo } from '../../interfaces/IRepo';
 import File, { IFile } from './File';
+import FileBox from './FileBox';
 import BatchActions from './BatchActions';
 
 export const Wrapper = styled.div`
@@ -55,7 +56,7 @@ export default function FileList ({ files, title, repo, alwaysShow, type }: IFil
       </Header>
       {<Ul>
         {files.map(file =>
-          <File key={file.path} file={file} repo={repo} />
+          <FileBox key={file.path} file={file} repo={repo} />
         )}
       </Ul>}
     </Wrapper>

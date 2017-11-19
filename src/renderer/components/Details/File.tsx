@@ -49,6 +49,10 @@ export const Li = styled.li`
   height: ${fileHeight}px;
   padding: 0 ${lh}px 0 ${lh / 2}px;
 
+  &.selected {
+    background: ${g2};
+  }
+
   &:hover {
     background: ${g2};
     .file-actions{
@@ -64,12 +68,22 @@ export interface IFile {
   conflicted: boolean;
 }
 
-interface IFileComp {
+export type fileFn = (id: string, dir: string, file: string) => void;
+export interface IFileProps {
   file: IFile;
   repo: IRepo;
+  addFile: fileFn;
+  unAddFile: fileFn;
+  checkoutFile: fileFn;
+  deleteFile: fileFn;
+  selected: boolean;
+  showFile: (file: IFile) => void;
 }
 
-export default function File ({file, repo}: IFileComp) {
+export default function File ({
+  file, repo, selected,
+  addFile, unAddFile, checkoutFile, deleteFile, showFile
+}: IFileProps) {
   if (!file || !file.path) { return null; }
 
   const baseName = basename(file.path);
@@ -77,15 +91,22 @@ export default function File ({file, repo}: IFileComp) {
   const className = fileIcons.getClassWithColor(baseName);
 
   return (
-    <Li title={file.path}>
+    <Li title={file.path} className={selected ? 'selected' : undefined}>
       <Icon className={className} />
 
-      <FileName>
+      <FileName onClick={() => showFile(file)}>
         { baseName }
         <FilePath>{ dirName }</FilePath>
       </FileName>
 
-      <Actions className='file-actions' file={file} repo={repo} />
+      <Actions
+        className='file-actions'
+        file={file} repo={repo}
+        addFile={addFile}
+        unAddFile={unAddFile}
+        checkoutFile={checkoutFile}
+        deleteFile={deleteFile}
+      />
       <Type type={ file.type } />
     </Li>
   );
