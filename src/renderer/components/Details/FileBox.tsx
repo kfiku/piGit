@@ -7,7 +7,7 @@ import actions from '../../actions';
 import { IAppState } from '../../reducers/app';
 import File, { IFileProps } from './File';
 
-export function FileBox(props: IFileProps) {
+export function FileBox(props) {
   return (
     <File {...props} />
   );
@@ -25,8 +25,10 @@ const mapDispatchToProps = dispatch => ({
   deleteFile: bindActionCreators(actions.deleteFile, dispatch)
 });
 
-export default connect(
+const connected = connect(
   mapStateToProps,
   mapDispatchToProps
 )(FileBox);
+
+export default connected as any;
 
