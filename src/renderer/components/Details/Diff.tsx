@@ -46,12 +46,10 @@ async function loadDiff (dir, wide: boolean, el: HTMLBaseElement) {
   }
 }
 
-
 interface IDiff {
   dir: string;
   wide: boolean;
 }
-
 
 class Diff extends React.PureComponent<IDiff> {
   render() {
