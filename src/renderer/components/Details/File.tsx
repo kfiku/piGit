@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const fileIcons = require('file-icons-js');
 
 import { IRepo } from '../../interfaces/IRepo';
+import { IFile } from '../../interfaces/IGit';
 import { lh, fileHeight, g5, g2 } from '../../utils/styles';
 import Type from './FileStatusType';
 import Actions from './FileActions';
@@ -60,13 +61,6 @@ export const Li = styled.li`
     }
   }
 `;
-
-export interface IFile {
-  path: string;
-  type: '?' | 'M' | 'A' | 'D' | 'R' | 'U' | 'C';
-  staged: boolean;
-  conflicted: boolean;
-}
 
 export type fileFn = (id: string, dir: string, file: string) => void;
 export interface IFileProps {

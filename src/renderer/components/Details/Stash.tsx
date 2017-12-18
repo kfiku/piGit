@@ -2,15 +2,11 @@ import * as React from 'react';
 // import { basename } from 'path';
 
 import { IRepo } from '../../interfaces/IRepo';
+import { IStash } from '../../interfaces/IGit';
 import { FileName, Li } from './File';
 // import Type from './StashStatusType';
 import Actions from './StashActions';
 
-export interface IStash {
-  message: string;
-  date: string;
-  id: string;
-}
 interface IStashComp {
   stash: IStash;
   repo: IRepo;
