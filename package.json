@@ -90,7 +90,7 @@
   "homepage": "https://github.com/kfiku/piGit",
   "devDependencies": {
     "@types/react-helmet": "^5.0.3",
-    "@types/async": "2.0.37",
+    "@types/async": "2.0.46",
     "@types/chai": "4.0.5",
     "@types/jest": "^21.1.4",
     "@types/mousetrap": "^1.5.34",
