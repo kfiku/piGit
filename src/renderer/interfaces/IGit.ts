@@ -1,4 +1,4 @@
-import { IFile } from '../components/Details/File';
+import { IFile } from '../interfaces/IGit';
 
 export interface IStash {
   message: string;

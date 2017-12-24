@@ -1,15 +1,14 @@
 import * as React from 'react';
-// import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-const Check = require('react-icons/lib/fa/check');
-const Trash = require('react-icons/lib/fa/trash-o');
 
 import { IRepo } from '../../interfaces/IRepo';
 import actionsToConnect from '../../actions';
-import { IStash } from './Stash';
+import { IStash } from '../../interfaces/IGit';
 import { Action, Wrapper } from './FileActions';
 
+const Check = require('react-icons/lib/fa/check');
+const Trash = require('react-icons/lib/fa/trash-o');
 
 function confirmDrop (stash) {
   return confirm(`Are you sure you want to drop this stash: ${stash}`);

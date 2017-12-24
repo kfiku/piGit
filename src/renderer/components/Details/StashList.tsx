@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import { IRepo } from '../../interfaces/IRepo';
 import { Wrapper, Title, Ul } from './FileList';
-import Stash, { IStash } from './Stash';
+import Stash from './Stash';
+import { IStash } from '../../interfaces/IGit';
 interface IStashListProps {
   stashes: IStash[];
   title: string;

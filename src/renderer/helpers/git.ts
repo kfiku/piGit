@@ -2,10 +2,10 @@ import { exec } from 'child_process';
 import * as promisify from 'es6-promisify';
 
 import { IStash, IStatus } from '../interfaces/IGit';
-// import { IFile } from '../components/Details/File';
+// import { IFile } from '../interfaces/IGit';
 // import { IRepo } from '../interfaces/IRepo';
 import compose from '../utils/compose';
-import { seq, filter, map, objectReducer, transduce, pushReducer } from '../utils/transducers';
+import { seq, filter, map, transduce, pushReducer } from '../utils/transducers';
 const execPromise = promisify(exec);
 
 const gitCommandsLog = [];
@@ -40,7 +40,7 @@ function parseStatusHeader(line: string) {
   };
 }
 
-function parseStatusLine(line: string) {
+function parseFile(line: string) {
   const index = line[0];
   const workspace = line[1];
   const file = line.slice(3).trim();
@@ -57,20 +57,24 @@ export async function status(dir, execFn = execPromise): Promise<IStatus> {
     );
 
     const lines = result.split('\n').filter(s => !!s.trim());
-    console.log(lines[0]);
-    const header = parseStatusHeader(lines[0]);
-    console.log(header);
+    const isHeaderLine = ((line: string) => line.indexOf('##') !== -1);
+    const header = parseStatusHeader(
+      lines.find(isHeaderLine)
+    );
     const files = transduce(
       compose(
-        filter((s: string) => !!s && !!s.trim()),
-        map()
+        filter((line: string) => !!line && !!line.trim()),
+        filter((line: string) => !isHeaderLine(line)),
+        map(parseFile)
       ),
       pushReducer,
       [],
-
+      lines
     );
 
-    return { ...header };
+    console.log(header, files);
+
+    // return { header, files };
   } catch (error) {
     console.log(error);
     return;

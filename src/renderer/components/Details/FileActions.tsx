@@ -3,10 +3,11 @@ import styled from 'styled-components';
 
 import { IRepo } from '../../interfaces/IRepo';
 import { lh, fileHeight, g5, red } from '../../utils/styles';
+import { fileFn } from './File';
+import { IFile } from '../../interfaces/IGit';
 const Revert = require('react-icons/lib/md/undo');
 const Plus = require('react-icons/lib/md/add');
 const Minus = require('react-icons/lib/md/remove');
-import { IFile, fileFn } from './File';
 
 const iconSize = fileHeight * 0.9;
 

@@ -1,5 +1,4 @@
-import { IFile } from '../components/Details/File';
-import { IStash } from '../components/Details/Stash';
+import { IFile, IStash } from '../interfaces/IGit';
 
 export interface IRepoStats {
   ahead: number;

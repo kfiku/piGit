@@ -5,7 +5,7 @@ import {
 } from '../constants/ActionTypes';
 
 import clone from '../helpers/Clone';
-import { IFile } from '../components/Details/File';
+import { IFile } from '../interfaces/IGit';
 
 export interface IAppState {
   addingRepos: boolean;

@@ -11,7 +11,7 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
 import * as electron from 'electron';
 import gitRepos from '../helpers/GitRepos';
 import newId from '../helpers/newId';
-import { IFile } from '../components/Details/File';
+import { IFile } from '../interfaces/IGit';
 
 const getReposFromGroup = (state, groupId: string) =>
   state.groups

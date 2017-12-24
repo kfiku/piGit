@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { lh, g2 } from '../../utils/styles';
 import { IRepo } from '../../interfaces/IRepo';
-import { IFile } from './File';
+import { IFile } from '../../interfaces/IGit';
 import FileBox from './FileBox';
 import BatchActions from './BatchActions';
 
