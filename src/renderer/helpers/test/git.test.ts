@@ -1,4 +1,4 @@
-import { stashList, status } from '../git';
+import { stashList/*, status*/ } from '../git';
 
 describe('stashList', () => {
   it('should work fine with empty stash', (done) => {
