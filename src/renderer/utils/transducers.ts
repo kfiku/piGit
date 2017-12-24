@@ -13,7 +13,7 @@ export function sumReducer(accumulation: number, value: number) {
   return accumulation + value;
 }
 
-export function map<T>(fx: (arg: T) => T) {
+export function map<T>(fx: (arg: T) => any) {
   return (reducer) => (accumulation: T[], value: T) => {
     return reducer(accumulation, fx(value));
   };
@@ -27,11 +27,6 @@ export function filter<T>(predicate: (arg: T) => boolean) {
     return accumulation;
   };
 }
-
-[1, 2, 3, 4].reduce(
-  map((v: number) => v * 2)(sumReducer),
-  0
-);
 
 export function transduce(fx, reducer, seed, _collection) {
   let accumulation = seed;
