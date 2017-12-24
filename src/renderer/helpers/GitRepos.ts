@@ -7,8 +7,7 @@ import * as promisify from 'es6-promisify';
 import * as gitDirsSearch from 'git-dirs-search';
 const simpleGit = require('simple-git/promise');
 
-import { IStash } from '../components/Details/Stash';
-import { IFile } from '../components/Details/File';
+import { IStash, IStatus, IFile } from '../interfaces/IGit';
 import { IRepo } from '../interfaces/IRepo';
 import clone from '../helpers/Clone';
 
