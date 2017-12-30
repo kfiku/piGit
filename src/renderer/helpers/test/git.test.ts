@@ -1,9 +1,9 @@
-import { stashList/*, status*/ } from '../git';
+import { stashList, status, getEmptyStatus } from '../git';
 
 describe('stashList', () => {
   it('should work fine with empty stash', (done) => {
-    stashList('dir', () => `
-    `)
+    stashList('dir', () => Promise.resolve(`
+    `))
     .then(stashes => {
       expect(stashes).toEqual([]);
       done();
@@ -11,11 +11,11 @@ describe('stashList', () => {
   });
 
   it('should work fine with proper, multiple data', (done) => {
-    stashList('dir', () => `
+    stashList('dir', () => Promise.resolve(`
       stash@{0}__2017.12.18 21:39__testing this shit
       stash@{1}__2017.12.18 21:40__testing this shit again
       stash@{2}__2017.12.18 21:41__testing this shit one more
-    `)
+    `))
       .then(stashes => {
         expect(stashes).toEqual([
           {
@@ -39,11 +39,11 @@ describe('stashList', () => {
   });
 
   it('should work fine with proper, multiple data + wrong', (done) => {
-    stashList('dir', () => `
+    stashList('dir', () => Promise.resolve(`
       stash@{0}__2017.12.18 21:39__testing this shit
       stash@{1}__2017.12.18 21:40_testing this shit again
       stash@{2}__2017.12.18 21:41__testing this shit one more
-    `)
+    `))
       .then(stashes => {
         expect(stashes).toEqual([
           {
@@ -63,14 +63,13 @@ describe('stashList', () => {
 });
 
 describe('status', () => {
-  // it('should work fine with empty status', (done) => {
-  //   status('dir', () => `
-  //   `)
-  //     .then(stashes => {
-  //       expect(stashes).toEqual({});
-  //       done();
-  //     });
-  // });
+  it('should work fine with empty status', (done) => {
+    status('dir', () => Promise.resolve(''))
+      .catch(e => {
+        expect(e).toBeDefined();
+        done();
+      });
+  });
 
 //   it('should work fine with some status', (done) => {
 //     status('dir', () => `

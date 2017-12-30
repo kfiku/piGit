@@ -9,9 +9,17 @@ import { seq, filter, map, transduce, pushReducer } from '../utils/transducers';
 const execPromise = promisify(exec);
 
 const gitCommandsLog = [];
+
 function logCmd (cmd) {
   gitCommandsLog.push(cmd);
   // console.log(cmd);
+}
+
+async function gitExecFn(dir, cmd): Promise<string> {
+  logCmd(cmd);
+  return await execPromise(
+    `cd ${dir} && ${cmd}`
+  );
 }
 
 function parseStatusHeader(line: string) {
@@ -48,19 +56,40 @@ function parseFile(line: string) {
   return { [`file_${file}`]: { index, workspace, file } };
 }
 
-export async function status(dir, execFn = execPromise): Promise<IStatus> {
+export function getEmptyStatus(): IStatus {
+  return {
+    stats: {
+      ahead: 0,
+      behind: 0,
+      modified: 0,
+      deleted: 0,
+      renamed: 0,
+      untracked: 0,
+      conflicted: 0
+    },
+    lists: {
+      staged: [],
+      unstaged: [],
+      conflicted: []
+    }
+  };
+}
+
+export async function status(dir, execFn = gitExecFn): Promise<IStatus> {
   try {
     const cmd = `git status --porcelain -b -u`;
-    logCmd(cmd);
-    const result = await execFn(
-      `cd ${dir} && ${cmd}`
-    );
+    const result = await execFn(dir, cmd);
 
+    const newStatus = getEmptyStatus();
     const lines = result.split('\n').filter(s => !!s.trim());
-    const isHeaderLine = ((line: string) => line.indexOf('##') !== -1);
-    const header = parseStatusHeader(
-      lines.find(isHeaderLine)
-    );
+    const isHeaderLine = ((line: string) => line && line.indexOf('##') !== -1);
+    const headLine = lines.find(isHeaderLine);
+    if (!headLine) {
+      throw new Error(
+        `Git status parsing error ("${result}")`
+      );
+    }
+    const header = parseStatusHeader(headLine);
     const files = transduce(
       compose(
         filter((line: string) => !!line && !!line.trim()),
@@ -74,20 +103,16 @@ export async function status(dir, execFn = execPromise): Promise<IStatus> {
 
     console.log(header, files);
 
-    // return { header, files };
+    return newStatus;
   } catch (error) {
-    console.log(error);
-    return;
+    throw error;
   }
 }
 
-export async function stashList(dir, execFn = execPromise): Promise<IStash[]> {
+export async function stashList(dir, execFn = gitExecFn): Promise<IStash[]> {
   try {
     const cmd = `git stash list --pretty=format:%gd__%ai__%s`;
-    logCmd(cmd);
-    const result = await execFn(
-      `cd ${dir} && ${cmd}`
-    );
+    const result = await execFn(dir, cmd);
 
     const stashesList = seq(
       compose(
