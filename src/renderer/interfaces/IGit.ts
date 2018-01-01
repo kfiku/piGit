@@ -24,6 +24,7 @@ export interface IFile {
 }
 
 export interface IStatus {
+  branch: string;
   stats: IStatusStats;
   lists: {
     staged: IFile[];
