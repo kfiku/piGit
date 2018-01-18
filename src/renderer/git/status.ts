@@ -1,5 +1,5 @@
-import { IStatus } from '../interfaces/IGit';
-import { filter, map, transduce, pushReducer } from '../utils/transducers';
+import { IStatus, IFile, IFileType } from '../interfaces/IGit';
+import { filter, map, transduce, seq, pushReducer, sumReducer } from '../utils/transducers';
 import compose from '../utils/compose';
 import exec from './exec';
 
@@ -9,6 +9,7 @@ export function getEmptyStatus(): IStatus {
     stats: {
       ahead: 0,
       behind: 0,
+      added: 0,
       modified: 0,
       deleted: 0,
       renamed: 0,
@@ -37,6 +38,9 @@ export default async function status(dir, execFn = exec): Promise<IStatus> {
       );
     }
     const header = parseStatusHeader(headLine);
+    const newStatus = getEmptyStatus();
+    newStatus.branch = header.branch;
+
     const files = transduce(
       compose(
         filter((line: string) => !!line && !!line.trim()),
@@ -48,15 +52,76 @@ export default async function status(dir, execFn = exec): Promise<IStatus> {
       lines
     );
 
-    // console.log(header, files);
+    newStatus.stats = {
+      ...header.stats,
+      modified: countTypeInFiles(filter(isModified), files),
+      untracked: countTypeInFiles(filter(isUntracked), files),
+      deleted: countTypeInFiles(filter(isDeleted), files),
+      added: countTypeInFiles(filter(isAdded), files),
+      renamed: countTypeInFiles(filter(isRenamed), files),
+      conflicted: countTypeInFiles(filter(isConflicted), files)
+    };
 
-    const newStatus = getEmptyStatus();
-    newStatus.stats = { ...newStatus.stats, ...header.stats };
+    newStatus.lists = {
+      staged: seq(filter(isStaged), files),
+      unstaged: seq(filter(isUnstaged), files),
+      conflicted: seq(filter(isConflicted), files)
+    };
 
     return newStatus;
   } catch (error) {
     throw error;
   }
+}
+
+function isModified(file: IFile) {
+  return file.index === 'M' || file.workspace === 'M';
+}
+
+function isUntracked(file: IFile) {
+  return file.index === '?' || file.workspace === '?';
+}
+
+function isDeleted(file: IFile) {
+  return file.index === 'D' || file.workspace === 'D';
+}
+
+function isAdded(file: IFile) {
+  return file.index === 'A' || file.workspace === 'A';
+}
+
+function isRenamed(file: IFile) {
+  return file.index === 'R' || file.workspace === 'R';
+}
+
+function isConflicted(file: IFile) {
+  return file.index === 'C' || file.workspace === 'C';
+}
+
+function isStaged(file: IFile) {
+  return !!file.index && file.index !== '?';
+}
+
+function isUnstaged(file: IFile) {
+  return !!file.workspace;
+}
+
+function boolTo01(bool: boolean): 1 | 0 {
+  return bool ? 1 : 0;
+}
+
+const boolTo01Map = map(boolTo01);
+
+function countTypeInFiles(filterFn, files: IFile[]) {
+  return transduce(
+    compose(
+      filterFn,
+      boolTo01Map
+    ),
+    sumReducer,
+    0,
+    files
+  );
 }
 
 function parseStatusHeader(line: string) {
@@ -85,10 +150,20 @@ function parseStatusHeader(line: string) {
   };
 }
 
-function parseFile(line: string) {
-  const index = line[0];
-  const workspace = line[1];
-  const file = line.slice(3).trim();
+function parseFile(line: string): IFile {
+  const file: IFile = {
+    index: line[0].trim() as IFileType,
+    workspace: line[1].trim() as IFileType,
+    path: line.slice(3).trim(),
+    type: '?',
+    staged: false,
+    conflicted: false
+  };
 
-  return { [`file_${file}`]: { index, workspace, file } };
+  file.index = file.index === '?' ? '' : file.index;
+  file.type = file.index || file.workspace;
+  file.staged = isStaged(file);
+  file.conflicted = isConflicted(file);
+
+  return file;
 }
