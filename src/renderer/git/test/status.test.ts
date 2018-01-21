@@ -76,7 +76,7 @@ describe('status', () => {
       });
   });
 
-  it('should work fine with modified', (done) => {
+  it('should work fine with modified workspace', (done) => {
     status('dir', () => Promise.resolve(`
 ## master...origin/master
  M test/git.test.ts
@@ -87,6 +87,22 @@ describe('status', () => {
         expected.lists.unstaged = [{
           path: 'test/git.test.ts', type: 'M', staged: false, conflicted: false,
           index: '', workspace: 'M'
+        }];
+        expect(st).toEqual(expected);
+        done();
+      });
+  });
+  it('should work fine with modified index', (done) => {
+    status('dir', () => Promise.resolve(`
+## master...origin/master
+M  test/git.test.ts
+    `))
+      .then(st => {
+        const expected = getEmptyStatus();
+        expected.stats.modified = 1;
+        expected.lists.staged = [{
+          path: 'test/git.test.ts', type: 'M', staged: true, conflicted: false,
+          index: 'M', workspace: ''
         }];
         expect(st).toEqual(expected);
         done();
@@ -146,7 +162,6 @@ D  test/git.test.ts
         done();
       });
   });
-// '?' | 'M' | 'A' | 'D' | 'R' | 'U' | 'C' | '';
   it('should work fine with renamed', (done) => {
     status('dir', () => Promise.resolve(`
 ## master...origin/master
@@ -164,6 +179,99 @@ R  test/git.test.ts -> test/git2.test.ts
         done();
       });
   });
+  it('should work fine with modified index and workspace', (done) => {
+    status('dir', () => Promise.resolve(`
+## master...origin/master
+MM test/git.test.ts
+    `))
+      .then(st => {
+        const expected = getEmptyStatus();
+        expected.stats.modified = 1;
+        expected.lists.staged = [{
+          path: 'test/git.test.ts', type: 'M',
+          staged: true, conflicted: false,
+          index: 'M', workspace: 'M'
+        }];
+        expected.lists.unstaged = [{
+          path: 'test/git.test.ts', type: 'M',
+          staged: true, conflicted: false,
+          index: 'M', workspace: 'M'
+        }];
+        expect(st).toEqual(expected);
+        done();
+      });
+  });
+  it('should work fine with added index and modified in workspace', (done) => {
+    status('dir', () => Promise.resolve(`
+## master...origin/master
+AM test/git.test.ts
+    `))
+      .then(st => {
+        const expected = getEmptyStatus();
+        expected.stats.added = 1;
+        expected.stats.modified = 1;
+        expected.lists.staged = [{
+          path: 'test/git.test.ts', type: 'A',
+          staged: true, conflicted: false,
+          index: 'A', workspace: 'M'
+        }];
+        expected.lists.unstaged = [{
+          path: 'test/git.test.ts', type: 'M',
+          staged: true, conflicted: false,
+          index: 'A', workspace: 'M'
+        }];
+        expect(st).toEqual(expected);
+        done();
+      });
+  });
+  it('should work fine with added index and modified in workspace', (done) => {
+    status('dir', () => Promise.resolve(`
+## master...origin/master
+RM test/git.test.ts -> test/git2.test.ts
+    `))
+      .then(st => {
+        const expected = getEmptyStatus();
+        expected.stats.renamed = 1;
+        expected.stats.modified = 1;
+        expected.lists.staged = [{
+          path: 'test/git.test.ts -> test/git2.test.ts', type: 'R',
+          staged: true, conflicted: false,
+          index: 'R', workspace: 'M'
+        }];
+        expected.lists.unstaged = [{
+          path: 'test/git.test.ts -> test/git2.test.ts', type: 'M',
+          staged: true, conflicted: false,
+          index: 'R', workspace: 'M'
+        }];
+        expect(st).toEqual(expected);
+        done();
+      });
+  });
+  it('should work fine with added index and modified in workspace', (done) => {
+    status('dir', () => Promise.resolve(`
+## master...origin/master
+RD test/git.test.ts -> test/git2.test.ts
+    `))
+      .then(st => {
+        const expected = getEmptyStatus();
+        expected.stats.renamed = 1;
+        expected.stats.deleted = 1;
+        expected.lists.staged = [{
+          path: 'test/git.test.ts -> test/git2.test.ts', type: 'R',
+          staged: true, conflicted: false,
+          index: 'R', workspace: 'D'
+        }];
+        expected.lists.unstaged = [{
+          path: 'test/git.test.ts -> test/git2.test.ts', type: 'D',
+          staged: true, conflicted: false,
+          index: 'R', workspace: 'D'
+        }];
+        expect(st).toEqual(expected);
+        done();
+      });
+  });
+// '?' | 'M' | 'A' | 'D' | 'R' | 'U' | 'C' | '';
+
 
 //   it('should work fine with some status', (done) => {
 //     status('dir', () => Promise.resolve(`

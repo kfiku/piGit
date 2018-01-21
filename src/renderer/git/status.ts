@@ -1,5 +1,6 @@
 import { IStatus, IFile, IFileType } from '../interfaces/IGit';
 import { filter, map, transduce, seq, pushReducer, sumReducer } from '../utils/transducers';
+import clone from '../helpers/Clone';
 import compose from '../utils/compose';
 import exec from './exec';
 
@@ -64,7 +65,12 @@ export default async function status(dir, execFn = exec): Promise<IStatus> {
 
     newStatus.lists = {
       staged: seq(filter(isStaged), files),
-      unstaged: seq(filter(isUnstaged), files),
+      unstaged: seq(
+        compose(
+          filter(isUnstaged),
+          map((file: IFile) => updateFileType(file, false))
+        ),
+        files),
       conflicted: seq(filter(isConflicted), files)
     };
 
@@ -166,4 +172,10 @@ function parseFile(line: string): IFile {
   file.conflicted = isConflicted(file);
 
   return file;
+}
+
+function updateFileType(file: IFile, staged: boolean): IFile {
+  const updatedFile = clone(file);
+  updatedFile.type = staged ? file.index : file.workspace;
+  return updatedFile;
 }
