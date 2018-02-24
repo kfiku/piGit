@@ -15,11 +15,12 @@ const iconCenter = 50 - repoIconSize / 2;
 const iconSide = (100 - repoBgSize) / 4;
 
 // const StyledNav = styled('nav')`
-const StyledGroupHeader = styled.div`
+const StyledRepo = styled.div`
   width: ${repoSize}px;
   position: relative;
 
   &:hover {
+    background: rgba(255,255,255, 0.3);
     z-index:4;
   }
 
@@ -143,21 +144,50 @@ const StyledGroupHeader = styled.div`
       box-shadow: 0 3px 20px rgba(black, 0.3);
     }
   }
+`;
 
-  ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
-    `
-      @media screen and (min-width: ${(i + 0.5) * repoSize}px)
-      and (max-width: ${(i + 1.5) * repoSize - 1}px) {
-        width: ${100 / i}%;
-        padding-bottom: ${100 / i}%;
-        margin-bottom: -${100 / i / 2}%;
+const StyledRepoWithMQ = StyledRepo.extend`
+  ${[2, 3, 4, 5, 6, 7, 8, 9].map(i => {
+    /* Size of repo in percent (i and half in line) */
+    const size = 100 / (i + 0.51);
+    const inLine = i + i;
+    const smallSize = 50;
+    return `
+      /* SIZES 4 - 18 REPOS PER LINE */
+      @media screen
+      and (min-width: ${(i + 1) * repoSize}px)
+      and (max-width: ${(i + 2) * repoSize - 1}px) {
+        width: ${size}vw;
+        height: ${size}vw;
+        padding-bottom: ${size}vw;
+        margin-right: -${size / 2}vw;
+        margin-bottom: -${size / 2}vw;
 
-        &:nth-of-type(${(i + i - 1)}n + ${i + 1}) {
-          margin-left: ${100 / i / 2}%;
+        &:nth-child(even) {
+          margin-top: ${size / 2}vw;
+        }
+
+        &:nth-of-type(${inLine}n + ${inLine}) {
+          margin-right: 0;
+        }
+      }
+
+      /* SUPER SMALL SIZES */
+      @media screen
+      and (max-width: ${3 * repoSize - 1}px) {
+        width: ${smallSize}vw;
+        height: ${smallSize}vw;
+
+        &:after {
+          top: ${5}%;
+          left: ${5}%;
+          transform: rotate(0);
+          width: ${90}%;
+          height: ${90}%;
         }
       }
     `
-  ))}
+  })}
 `;
 
-export default StyledGroupHeader as any;
+export default StyledRepoWithMQ as any;

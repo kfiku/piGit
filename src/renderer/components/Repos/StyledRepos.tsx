@@ -12,6 +12,12 @@ const StyledRepos = styled.div`
   min-height: ${repoSize / 2}px;
   margin-top: ${-repoSize / 8}px;
 
+  /* SUPER SMALL SIZES */
+  @media screen
+  and (max-width: ${3 * repoSize - 1}px) {
+    margin-top: 0;
+  }
+
 
   ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => (
     `
