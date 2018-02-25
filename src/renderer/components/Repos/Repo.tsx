@@ -84,9 +84,9 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
         active={active ? 1 : 0}
       >
         <Icons
-          active={active}
+          active={active || repo.progressing}
           repo={repo}
-          reloadRepo={actions.reloadRepo.bind(null, repo.id, group.id)}
+          reloadRepo={actions.reloadRepo.bind(null, repo.id, repo.dir)}
           pullRepo={actions.pullRepo.bind(null, repo.id, repo.dir)}
           pushRepo={actions.pushRepo.bind(null, repo.id, repo.dir)}
           deleteRepo={actions.deleteRepo.bind(null, repo.id, repo.dir)}
