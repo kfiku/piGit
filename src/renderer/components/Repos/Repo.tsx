@@ -1,90 +1,112 @@
+import * as React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+// import * as debounce from 'lodash/debounce';
+
 import { IGroup } from '../../interfaces/IGroup';
 import { IRepo, IRepoStats } from '../../interfaces/IRepo';
 
-import * as React from 'react';
-import { basename } from 'path';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
 import actionsToConnect from '../../actions';
 import { renderLog } from '../../helpers/logger';
-import Icon from '../helpers/Icon';
-import Reload from '../Icons/Reload';
-import Move from '../Icons/Move';
-import X from '../Icons/X';
-import ArrowDown from '../Icons/ArrowDown';
-import ArrowUp from '../Icons/ArrowUp';
-import Stats from './Stats';
 import StyledRepo from './StyledRepo';
+import StyledRepoBg from './StyledRepoBg';
+import HoverArea from './HoverArea';
+import Icons from './Icons';
+import Content from './Content';
 
 interface IRepoProps {
   repo: IRepo;
   group: IGroup;
   actions: any;
 }
+interface IRepoState {
+  active: boolean;
+}
 
-function getClassName(stats: IRepoStats) {
-  if (stats) {
-    if (stats.behind) {
-      return 'behind';
-    } else if (stats.ahead) {
-      return 'ahead';
-    } else if (stats.modified) {
-      return 'modified';
+class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
+  el: HTMLElement;
+
+  constructor() {
+    super();
+    this.state = { active: undefined };
+  }
+  getClassName(stats: IRepoStats) {
+    if (stats) {
+      if (stats.behind) {
+        return 'behind';
+      } else if (stats.ahead) {
+        return 'ahead';
+      } else if (stats.modified) {
+        return 'modified';
+      }
+    }
+    return '';
+  }
+
+  diamondOver() {
+    this.setState({ active: true });
+  }
+
+  isElInside(el: HTMLElement, box: HTMLElement) {
+    let parent = el.parentNode;
+    for (let i = 0; i < 3; i++) {
+      if (parent === box) {
+        return true;
+      }
+      parent = parent.parentNode
+    }
+    return false;
+  }
+
+  diamondOut(e) {
+    if (!this.isElInside(e.toElement || e.relatedTarget, this.el)) {
+      this.setState({ active: undefined });
     }
   }
 
-  return '';
-}
+  getRef(el) {
+    this.el = el;
+  }
 
-class RepoComponent extends React.PureComponent<IRepoProps> {
   render() {
     const { repo, group, actions } = this.props
+    const { active } = this.state
     if (!repo || !repo.dir) { return null; }
-    renderLog('REPO', repo.name || basename(repo.dir));
+
+    renderLog('REPO', repo.name);
 
     return (
-      <StyledRepo className={ 'repo ' + getClassName(repo.stats) } processing={repo.progressing}>
-        <Icon className='icon icon-move repo-mover' title='Reorder this repo'>
-          <Move />
-        </Icon>
+      <StyledRepo
+        innerRef={el => this.getRef(el)}
+        className={ 'repo ' + this.getClassName(repo.stats) }
+        processing={repo.progressing}
+        active={active ? 1 : 0}
+      >
+        {/* <HoverArea
+          diamondOver={() => this.diamondOver()}
+          diamondOut={(e) => this.diamondOut(e)}
+        /> */}
 
-        <Icon className='icon icon-x' title='Delete this repo'
-        onClick={ actions.deleteRepo.bind(null, repo.id, group.id) }>
-          <X />
-        </Icon>
+        <Icons
+          active={active}
+          repo={repo}
+          reloadRepo={actions.reloadRepo.bind(null, repo.id, group.id)}
+          pullRepo={actions.pullRepo.bind(null, repo.id, repo.dir)}
+          pushRepo={actions.pushRepo.bind(null, repo.id, repo.dir)}
+          deleteRepo={actions.deleteRepo.bind(null, repo.id, repo.dir)}
+        />
 
-        {!!repo.stats.behind && (
-          <Icon className='icon icon-pull' title='Pull this repo'
-            onClick={actions.pullRepo.bind(null, repo.id, repo.dir)}>
-            <ArrowDown />
-          </Icon>
-        )}
+        <Content
+          repo={repo}
+          showRepoDetails={actions.showRepoDetails.bind(null, repo.id, repo.dir)}
+        />
 
-        {!!repo.stats.ahead && !repo.stats.behind && (
-          <Icon className='icon icon-push' title='push this repo'
-          onClick={ actions.pushRepo.bind(null, repo.id, repo.dir) }>
-            <ArrowUp />
-          </Icon>
-        )}
-
-        <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo'
-        onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) }>
-          <Reload />
-        </Icon>
-
-        <div className='content'>
-          <div className='title' title={repo.dir + ' '}
-          onClick={ actions.showRepoDetails.bind(null, repo.id, repo.dir) }>
-            { repo.name ? repo.name : basename(repo.dir) }
-          </div>
-
-          <div className='branch'>
-            @{ repo.branch }
-          </div>
-
-          <Stats stats={repo.stats} />
-        </div>
+        <StyledRepoBg
+          className={this.getClassName(repo.stats)}
+          diamondOver={() => this.diamondOver()}
+          diamondOut={(e) => this.diamondOut(e)}
+          active={active ? 1 : 0}
+        />
       </StyledRepo>
     );
   }
