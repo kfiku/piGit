@@ -10,7 +10,6 @@ import actionsToConnect from '../../actions';
 import { renderLog } from '../../helpers/logger';
 import StyledRepo from './StyledRepo';
 import StyledRepoBg from './StyledRepoBg';
-import HoverArea from './HoverArea';
 import Icons from './Icons';
 import Content from './Content';
 
@@ -82,11 +81,6 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
         processing={repo.progressing}
         active={active ? 1 : 0}
       >
-        {/* <HoverArea
-          diamondOver={() => this.diamondOver()}
-          diamondOut={(e) => this.diamondOut(e)}
-        /> */}
-
         <Icons
           active={active}
           repo={repo}
