@@ -14,11 +14,14 @@ const size = 86;
 const StyledRepoBg = styled(RepoBg)`
   position: absolute;
   fill: ${g0};
-  opacity: ${p => p.active ? 1 : 0.8};
+  opacity: ${p => p.active ? 1 : 0.7};
   width: ${size}%;
   height: ${size}%;
   top: ${(100 - size) / 2}%;
   left: ${(100 - size) / 2}%;
+
+  will-change: opacity;
+  transition: opacity 0.3s;
 
   &.behind {
     fill: ${redBg};

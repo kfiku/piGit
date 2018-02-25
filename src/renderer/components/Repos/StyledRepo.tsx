@@ -63,7 +63,7 @@ const StyledRepoWithMQ = StyledRepo.extend`
           height: ${90}%;
         }
       }
-    `
+    `;
   })}
 `;
 

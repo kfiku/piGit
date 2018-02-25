@@ -100,7 +100,8 @@ export default function Icons (
         </Icon>
       )}
 
-      <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo' onClick={reloadRepo}>
+      <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo'
+      onClick={reloadRepo}>
         <Reload />
       </Icon>
     </Wrapper>

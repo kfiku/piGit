@@ -47,12 +47,14 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
   }
 
   isElInside(el: HTMLElement, box: HTMLElement) {
-    let parent = el.parentNode;
-    for (let i = 0; i < 3; i++) {
-      if (parent === box) {
-        return true;
+    if (el && el.parentNode) {
+      let parent = el.parentNode;
+      for (let i = 0; i < 3; i++) {
+        if (parent === box) {
+          return true;
+        }
+        parent = parent.parentNode;
       }
-      parent = parent.parentNode
     }
     return false;
   }
@@ -68,8 +70,8 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
   }
 
   render() {
-    const { repo, group, actions } = this.props
-    const { active } = this.state
+    const { repo, group, actions } = this.props;
+    const { active } = this.state;
     if (!repo || !repo.dir) { return null; }
 
     renderLog('REPO', repo.name);
