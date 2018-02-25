@@ -9,18 +9,6 @@ const StyledRepo = styled.div`
   width: ${repoSize}px;
   position: relative;
   pointer-events: none;
-
-  &.sortable-ghost:after {
-    border: 2px dashed ${g5};
-  }
-
-  &.sortable-fallback {
-    margin-left: 0 !important;
-
-    &:after {
-      box-shadow: 0 3px 20px rgba(black, 0.3);
-    }
-  }
 `;
 
 const StyledRepoWithMQ = StyledRepo.extend`

@@ -45,7 +45,7 @@ const sortableRepos = (actions, el) => {
         animation: 150,
         handle: '.repo-mover',
         draggable: '.repo',
-        forceFallback: true,
+        // forceFallback: true,
         group: 'shared-repos',
         onUpdate: onUpdateRepo.bind(null, actions),
         onAdd: onAddRepo.bind(null, actions),
