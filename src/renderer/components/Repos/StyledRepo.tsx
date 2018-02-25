@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import {
-  repoSize, g5
+  repoSize
 } from '../../utils/styles';
 
 // const StyledNav = styled('nav')`
