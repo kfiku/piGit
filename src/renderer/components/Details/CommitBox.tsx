@@ -36,8 +36,8 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   el: HTMLTextAreaElement;
   ctrlKey: string;
 
-  constructor() {
-    super();
+  constructor(p, c) {
+    super(p, c);
     this.ctrlKey = process.platform === 'darwin' ? 'command' : 'ctrl';
   }
 

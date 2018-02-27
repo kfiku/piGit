@@ -78,6 +78,7 @@ export default function Icons (
     reloadRepo
   }: IIconsProps
 ) {
+  // console.log(repo)
   return (
     <Wrapper active={active ? 1 : 0}>
       <Icon className='icon icon-move repo-mover' title='Reorder this repo'>

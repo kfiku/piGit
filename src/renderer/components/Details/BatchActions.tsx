@@ -115,5 +115,5 @@ const BatchActions = connect(
   mapDispatchToProps
 )(BatchActionsComponent as React.SFC);
 
-export default BatchActions as React.ComponentClass<IBatchActions>;
+export default BatchActions as any;
 

@@ -62,5 +62,5 @@ const StashActions = connect(
   mapDispatchToProps
 )(StashActionsComponent as React.SFC);
 
-export default StashActions as React.ComponentClass<IStashActions>;
+export default StashActions as any;
 

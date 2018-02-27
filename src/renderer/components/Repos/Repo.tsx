@@ -7,7 +7,7 @@ import { IGroup } from '../../interfaces/IGroup';
 import { IRepo, IRepoStats } from '../../interfaces/IRepo';
 
 import actionsToConnect from '../../actions';
-import { renderLog } from '../../helpers/logger';
+// import { renderLog } from '../../helpers/logger';
 import StyledRepo from './StyledRepo';
 import StyledRepoBg from './StyledRepoBg';
 import Icons from './Icons';
@@ -25,8 +25,8 @@ interface IRepoState {
 class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
   el: HTMLElement;
 
-  constructor() {
-    super();
+  constructor(p, c) {
+    super(p, c);
     this.state = { active: undefined };
   }
   getClassName(stats: IRepoStats) {
@@ -72,9 +72,9 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
   render() {
     const { repo, group, actions } = this.props;
     const { active } = this.state;
-    if (!repo || !repo.dir) { return null; }
+    if (!repo || !repo.dir || !repo.stats) { return null; }
 
-    renderLog('REPO', repo.name);
+    // renderLog('REPO', repo.name);
 
     return (
       <StyledRepo

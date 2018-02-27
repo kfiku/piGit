@@ -20,7 +20,9 @@ function RepoHistoryComponent ({ repos }: IRepoHistoryComponent) {
 
   const changes = repos
     .map((repo, i) =>
-      repo.stats.behind > lastRepos[i].stats.behind ? repo : undefined)
+      repo.stats &&
+      lastRepos[i].stats &&
+      (repo.stats.behind > lastRepos[i].stats.behind) ? repo : undefined)
     .filter(repo => repo);
 
   if (changes.length && !isAppFocused()) {
