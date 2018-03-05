@@ -82,6 +82,8 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
         className={ 'repo ' + this.getClassName(repo.stats) }
         processing={repo.progressing}
         active={active ? 1 : 0}
+        onMouseLeave={(e) => this.diamondOut(e)}
+        onMouseEnter={() => this.diamondOver()}
       >
         <Icons
           active={active || repo.progressing}
