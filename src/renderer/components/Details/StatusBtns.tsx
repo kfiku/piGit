@@ -34,7 +34,11 @@ function StatusBtns({ repo, actions }: StatusBtnsProps) {
   return (
     <Wrapper>
       {repo.stats.behind ? (
-        <Button inside onClick={actions.pullRepo.bind(null, repo.id, repo.dir)} title='Pull this repo'>
+        <Button
+          inside
+          onClick={actions.pullRepo.bind(null, repo.id, repo.dir)}
+          title='Pull this repo'
+        >
           <ArrowDown />
         </Button>
       ) : repo.stats.ahead ? (

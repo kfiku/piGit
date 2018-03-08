@@ -1,12 +1,6 @@
 import { IRepo } from '../../interfaces/IRepo';
 import * as React from 'react';
 
-import Button from '../helpers/Button';
-import Icon from '../helpers/Icon';
-import ArrowUp from '../Icons/ArrowUp';
-import ArrowDown from '../Icons/ArrowDown';
-import Reload from '../Icons/Reload';
-
 import FileList from './FileList';
 import StashList from './StashList';
 import CommitBox from './CommitBox';
