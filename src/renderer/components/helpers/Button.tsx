@@ -40,6 +40,10 @@ const Button = styled.button`
       fill: ${g7};
     }
   }
+
+  ${(p: any) => p.inside ? `
+    background: transparent;
+  ` : ''}
 `;
 
-export default Button;
+export default Button as any;

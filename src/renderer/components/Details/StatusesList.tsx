@@ -1,17 +1,26 @@
 import { IRepo } from '../../interfaces/IRepo';
 import * as React from 'react';
 
+import Button from '../helpers/Button';
+import Icon from '../helpers/Icon';
+import ArrowUp from '../Icons/ArrowUp';
+import ArrowDown from '../Icons/ArrowDown';
+import Reload from '../Icons/Reload';
+
 import FileList from './FileList';
 import StashList from './StashList';
 import CommitBox from './CommitBox';
+import StatusBtns from './StatusBtns';
 interface StatusesListProps {
+  actions: any;
   repo: IRepo;
 }
 
-function StatusesList({ repo }: StatusesListProps) {
+function StatusesList({ repo, actions }: StatusesListProps) {
   const { staged, unstaged, conflicted, stashes } = repo.lists;
   return (
     <div>
+      <StatusBtns repo={repo} actions={actions} />
       <CommitBox repo={repo} />
       <FileList files={staged} repo={repo} title='Staged' type='staged' />
       <FileList files={unstaged} repo={repo} title='Changed' type='unstaged' alwaysShow />

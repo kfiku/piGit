@@ -92,7 +92,7 @@ class RepoDetailsComponent extends React.PureComponent
             axis='x'
             onResize={this.resized.bind(this)}
           >
-            <StatusesList repo={repo} />
+            <StatusesList actions={actions} repo={repo} />
           </ResizableBox>
 
           <DiffWrapper style={{ width: diffWidth }}>

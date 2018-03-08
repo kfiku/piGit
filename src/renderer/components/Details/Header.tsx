@@ -5,11 +5,7 @@ import styled from 'styled-components';
 
 import { g2, lh, detailsHeaderHeight } from '../../utils/styles';
 import Button from '../helpers/Button';
-import Icon from '../helpers/Icon';
 import ArrowLeft from '../Icons/ArrowLeft';
-import ArrowUp from '../Icons/ArrowUp';
-import ArrowDown from '../Icons/ArrowDown';
-import Reload from '../Icons/Reload';
 import Stats from '../Repos/Stats';
 
 import GitKBtn from './GitKBtn';
@@ -50,26 +46,6 @@ function Header({ repo, actions }: HeaderProps) {
       </h2>
 
       <div className='buttons'>
-
-      {repo.stats.behind ? (
-          <Button onClick={actions.pullRepo.bind(null, repo.id, repo.dir)} title='Pull this repo'>
-            <ArrowDown />
-          </Button>
-        ) : repo.stats.ahead ? (
-          <Button
-            onClick={actions.pushRepo.bind(null, repo.id, repo.dir)}
-            title='Push to this repo'>
-            <ArrowUp />
-          </Button>
-        ) : null}
-
-        <Button
-          onClick={ actions.reloadRepo.bind(null, repo.id, repo.dir) } title='Refresh this repo'>
-          <Icon spin={repo.progressing} className='icon icon-refresh'>
-            <Reload />
-          </Icon>
-        </Button>
-
         <GitKBtn repo={repo} />
         <TermBtn repo={repo} />
       </div>
