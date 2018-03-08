@@ -10,9 +10,9 @@ import styled from 'styled-components';
 import * as Mousetrap from 'mousetrap';
 
 const CommitMessage = styled.textarea`
-  width: calc(100% - ${lh * 2}px);
+  width: calc(100% - ${lh}px);
   height: ${lh * 3}px;
-  margin: ${lh - 2}px;
+  margin: ${lh / 2 - 2}px;
   margin-right: ${lh - 2 + resizerWidth}px;
   padding: ${lh / 2}px;
   border: 1px solid white;

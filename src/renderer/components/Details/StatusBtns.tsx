@@ -10,7 +10,7 @@ import ArrowDown from '../Icons/ArrowDown';
 import Reload from '../Icons/Reload';
 
 const Wrapper = styled.div`
-  margin-top: ${lh}px;
+  margin-top: ${lh / 2}px;
   text-align: center;
 
   button {
