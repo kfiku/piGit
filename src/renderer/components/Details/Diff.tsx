@@ -15,12 +15,12 @@ import repos from '../../helpers/GitRepos';
 (window as any).hljs = hljs;
 (window as any).Diff2Html = Diff2Html;
 
-async function loadDiff (dir, wide: boolean, el: HTMLBaseElement) {
+async function loadDiff(dir: string, file: string, wide: boolean, el: HTMLBaseElement) {
   if (!el) {
     return;
   }
   try {
-    const diff = await repos.diff(dir);
+    const diff = await repos.diff(dir, file);
 
     if (diff.length > 10000) {
       document.getElementById('differ').innerHTML = `
@@ -48,16 +48,17 @@ async function loadDiff (dir, wide: boolean, el: HTMLBaseElement) {
 
 interface IDiff {
   dir: string;
+  fileShown: string;
   wide: boolean;
 }
 
 class Diff extends React.PureComponent<IDiff> {
   render() {
-    const { dir, wide } = this.props;
+    const { dir, wide, fileShown } = this.props;
     renderLog('DIFF', dir);
 
     return (
-      <div className='diff' id='differ' ref={ loadDiff.bind(null, dir, wide) }>
+      <div className='diff' id='differ' ref={(el: any) => loadDiff(dir, fileShown, wide, el) }>
         loading git diff for repo { dir }...
       </div>
     );

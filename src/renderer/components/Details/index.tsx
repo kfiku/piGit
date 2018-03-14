@@ -34,6 +34,7 @@ const DiffWrapper = styled.div`
 
 interface IRepoDetailsComponent {
   repo: IRepo;
+  fileShown: string;
   actions: any;
 }
 
@@ -71,7 +72,7 @@ class RepoDetailsComponent extends React.PureComponent
   }
 
   render() {
-    const { repo, actions } = this.props;
+    const { repo, actions, fileShown } = this.props;
     const { width, height, sidebarWidth } = this.state;
     const diffWidth = width - sidebarWidth;
 
@@ -98,7 +99,7 @@ class RepoDetailsComponent extends React.PureComponent
           <DiffWrapper style={{ width: diffWidth }}>
             {repo.progressing ?
               <span>Repo processing...</span> :
-              <Diff dir={ repo.dir } wide={ diffWidth > 1000 } />
+              <Diff dir={ repo.dir } fileShown={fileShown} wide={ diffWidth > 1000 } />
             }
           </DiffWrapper>
         </Wrapper>
@@ -109,7 +110,8 @@ class RepoDetailsComponent extends React.PureComponent
 
 const mapStateToProps = (state) => {
   const repo = state.repos.filter(r => r.id === state.app.repoShown)[0];
-  return { repo };
+  const fileShown = state.app.fileShown.path || ''
+  return { repo, fileShown };
 };
 
 const mapDispatchToProps = dispatch => ({
