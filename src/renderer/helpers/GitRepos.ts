@@ -175,7 +175,7 @@ export class Repo {
   }
 
   async diff (file) {
-    return await this.git.diff([file]);
+    return await this.git.diff(file ? [file] : undefined);
   }
 
   stash (msg = '') {
