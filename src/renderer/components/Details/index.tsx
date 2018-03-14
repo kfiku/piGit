@@ -113,7 +113,7 @@ class RepoDetailsComponent extends React.PureComponent
 
 const mapStateToProps = (state) => {
   const repo = state.repos.filter(r => r.id === state.app.repoShown)[0];
-  const fileShown = (state.app.fileShown && state.app.fileShown.path) || undefined
+  const fileShown = (state.app.fileShown && state.app.fileShown.path) || undefined;
   return { repo, fileShown };
 };
 
