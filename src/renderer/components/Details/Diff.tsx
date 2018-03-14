@@ -10,6 +10,7 @@ import '../../css/diff2html.min.css';
 
 import { renderLog } from '../../helpers/logger';
 import repos from '../../helpers/GitRepos';
+import { DiffLoader } from './index';
 
 (window as any).jQuery = (window as any).$ = jquery;
 (window as any).hljs = hljs;
@@ -59,7 +60,9 @@ class Diff extends React.PureComponent<IDiff> {
 
     return (
       <div className='diff' id='differ' ref={(el: any) => loadDiff(dir, fileShown, wide, el) }>
-        loading git diff for repo { dir }...
+        <DiffLoader>
+          loading git diff for repo {dir}/{fileShown}...
+        </DiffLoader>
       </div>
     );
   }

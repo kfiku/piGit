@@ -175,7 +175,6 @@ export class Repo {
   }
 
   async diff (file) {
-    console.log(file);
     return await this.git.diff([file]);
   }
 

@@ -29,6 +29,9 @@ const Wrapper = styled.div`
 const DiffWrapper = styled.div`
   overflow-y: auto;
   height: calc(100vh - ${detailsHeaderHeight}px);
+`;
+
+export const DiffLoader = styled.div`
   padding: ${lh}px;
 `;
 
@@ -98,7 +101,7 @@ class RepoDetailsComponent extends React.PureComponent
 
           <DiffWrapper style={{ width: diffWidth }}>
             {repo.progressing ?
-              <span>Repo processing...</span> :
+              <DiffLoader>Repo processing...</DiffLoader> :
               <Diff dir={ repo.dir } fileShown={fileShown} wide={ diffWidth > 1000 } />
             }
           </DiffWrapper>
@@ -110,7 +113,7 @@ class RepoDetailsComponent extends React.PureComponent
 
 const mapStateToProps = (state) => {
   const repo = state.repos.filter(r => r.id === state.app.repoShown)[0];
-  const fileShown = state.app.fileShown.path || ''
+  const fileShown = (state.app.fileShown && state.app.fileShown.path) || undefined
   return { repo, fileShown };
 };
 
