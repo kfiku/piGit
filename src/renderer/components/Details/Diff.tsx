@@ -40,7 +40,8 @@ async function loadDiff(dir: string, file: string, wide: boolean, el: HTMLBaseEl
       );
       diff2HtmlUI.highlightCode('#differ');
     } else {
-      document.getElementById('differ').innerHTML = 'nothing to diff';
+      // console.log(el.children[0]);
+      el.innerHTML = '<div style="padding: 16px;">nothing to diff</div>';
     }
   } catch (e) {
     document.getElementById('differ').innerHTML = e;
