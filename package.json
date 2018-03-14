@@ -16,7 +16,7 @@
     "start:electron": "electron .",
     "start:electron:watch": "nodemon --watch 'dist/main/*.*' --exec 'electron .'",
     "build": "npm run lint && export NODE_ENV=production && node fuse dist",
-    "lint": "tslint --type-check -p . -c tslint.json 'src/**/*.ts' 'src/**/*.tsx' 'test/**/*.ts' --fix",
+    "lint": "tslint --type-check -p . -c tslint.json 'src/**/*.ts' 'src/**/*.tsx' 'test/**/*.ts'",
     "prod": "export NODE_ENV=production && npm run build && npm run start:electron",
     "package": "npm run build && build --publish never",
     "pack-and-publish": "npm run build && build --publish always",
