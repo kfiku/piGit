@@ -50,11 +50,13 @@ export default function app(state = initialState, action) {
     case SHOW_REPO:
       newState = clone(state);
       newState.repoShown = action.id;
+      newState.fileShown = undefined;
       return newState;
 
     case HIDE_REPO:
       newState = clone(state);
       newState.repoShown = '';
+      newState.fileShown = undefined;
       return newState;
 
     case SHOW_FILE:

@@ -12,6 +12,7 @@ import * as electron from 'electron';
 import gitRepos from '../helpers/GitRepos';
 import newId from '../helpers/newId';
 import { IFile } from '../interfaces/IGit';
+import { IRepo } from '../interfaces/IRepo';
 
 const getReposFromGroup = (state, groupId: string) =>
   state.groups
@@ -77,9 +78,10 @@ const actions = {
     { type: REORDER_REPO, params }
   ),
 
-  showRepoDetails: (id: string, dir: string) => dispatch => {
-    dispatch({ type: SHOW_REPO, id });
-    actions.reloadRepo(id, dir)(dispatch);
+  showRepoDetails: (repo: IRepo) => dispatch => {
+    dispatch({ type: SHOW_REPO, id: repo.id });
+    dispatch({ type: SHOW_FILE, file: repo.lists.unstaged[0] });
+    actions.reloadRepo(repo.id, repo.dir)(dispatch);
   },
 
   hideRepoDetails: () => (

@@ -96,7 +96,7 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
 
         <Content
           repo={repo}
-          showRepoDetails={actions.showRepoDetails.bind(null, repo.id, repo.dir)}
+          showRepoDetails={actions.showRepoDetails.bind(null, repo)}
         />
 
         <StyledRepoBg
