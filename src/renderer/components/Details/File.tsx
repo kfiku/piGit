@@ -35,6 +35,7 @@ export const FileName = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: pointer;
 `;
 
 const FilePath = styled.span`
