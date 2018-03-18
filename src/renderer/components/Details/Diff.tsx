@@ -1,3 +1,5 @@
+import { IFile } from '../../interfaces/IGit';
+
 import * as React from 'react';
 import * as jquery from 'jquery';
 import { Diff2Html } from 'diff2html';
@@ -16,7 +18,7 @@ import { DiffLoader } from './index';
 (window as any).hljs = hljs;
 (window as any).Diff2Html = Diff2Html;
 
-async function loadDiff(dir: string, file: string, wide: boolean, el: HTMLBaseElement) {
+async function loadDiff(dir: string, file: IFile, wide: boolean, el: HTMLBaseElement) {
   if (!el) {
     return;
   }
@@ -50,7 +52,7 @@ async function loadDiff(dir: string, file: string, wide: boolean, el: HTMLBaseEl
 
 interface IDiff {
   dir: string;
-  fileShown: string;
+  fileShown: IFile;
   wide: boolean;
 }
 
@@ -62,7 +64,7 @@ class Diff extends React.PureComponent<IDiff> {
     return (
       <div className='diff' id='differ' ref={(el: any) => loadDiff(dir, fileShown, wide, el) }>
         <DiffLoader>
-          loading git diff for repo {dir}/{fileShown}...
+          loading git diff for {dir}/{fileShown && fileShown.path}...
         </DiffLoader>
       </div>
     );

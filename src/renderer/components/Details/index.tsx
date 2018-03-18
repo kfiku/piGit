@@ -6,6 +6,7 @@ import { ResizableBox } from 'react-resizable';
 import styled from 'styled-components';
 
 import { IRepo } from '../../interfaces/IRepo';
+import { IFile } from '../../interfaces/IGit';
 import { renderLog } from '../../helpers/logger';
 import { lh, detailsHeaderHeight } from '../../utils/styles';
 import actionsToConnect from '../../actions';
@@ -37,7 +38,7 @@ export const DiffLoader = styled.div`
 
 interface IRepoDetailsComponent {
   repo: IRepo;
-  fileShown: string;
+  fileShown: IFile;
   actions: any;
 }
 
@@ -113,7 +114,7 @@ class RepoDetailsComponent extends React.PureComponent
 
 const mapStateToProps = (state) => {
   const repo = state.repos.filter(r => r.id === state.app.repoShown)[0];
-  const fileShown = (state.app.fileShown && state.app.fileShown.path) || undefined;
+  const fileShown = state.app.fileShown
   return { repo, fileShown };
 };
 

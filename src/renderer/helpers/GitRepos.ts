@@ -174,8 +174,14 @@ export class Repo {
     clearTimeout(this.updateStatusTI);
   }
 
-  async diff (file) {
-    return await this.git.diff(file ? [file] : undefined);
+  async diff (file: IFile) {
+    if (!file) {
+      return await this.git.diff();
+    } else if (file.staged) {
+      return await this.git.diff(['--cached', file.path]);
+    }
+
+    return await this.git.diff([file.path]);
   }
 
   stash (msg = '') {
@@ -483,7 +489,7 @@ export class Repos {
             'Try to stash, pull and apply them, or you do it yourself?');
   }
 
-  async diff(dir: string, file: string) {
+  async diff(dir: string, file: IFile) {
     try {
       const repo: Repo = await this.getRepo(dir) as Repo;
       const diff: string = await repo.diff(file);
