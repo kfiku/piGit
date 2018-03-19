@@ -58,6 +58,6 @@ const Nav: React.SFC<Props> = ({ app, addRepos, addGroup, reloadAllRepos}) => {
       </Button>
     </StyledNav>
   );
-}
+};
 
 export default Nav;
