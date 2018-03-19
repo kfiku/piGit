@@ -1,38 +1,19 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import actionsToConnect from '../actions';
 import Dialog from './helpers/Dialog';
 
-const MessageComponent: any = ({msg, actions}) => {
+interface IMessageProps {
+  msg: string;
+  close: () => {};
+}
+
+function Message({ msg, close }: IMessageProps) {
   if (msg !== '') {
     // if message is there
-    return <Dialog msg={ msg } ok={ actions.message.bind(actions, '') } />;
+    return <Dialog msg={msg} ok={close} />;
   } else {
     // if message is empty
     return null;
   }
 };
-
-MessageComponent.propTypes = {
-  msg: PropTypes.string.isRequired,
-  actions: PropTypes.object.isRequired
-};
-
-
-const mapStateToProps = state => ({
-  msg: state.app.message
-});
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionsToConnect, dispatch)
-});
-
-const Message = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MessageComponent);
 
 export default Message;
