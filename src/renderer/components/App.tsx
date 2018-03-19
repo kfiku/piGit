@@ -6,6 +6,7 @@ import RepoDetails from '../components/Details';
 import History from '../components/History/RepoHistory';
 import Message from './Message';
 import MessageProvider from '../containers/MessageProvider';
+import AppProvider from '../containers/AppProvider';
 import Nav from './Nav';
 
 const App = ({ appVersion }) => {
@@ -15,7 +16,14 @@ const App = ({ appVersion }) => {
         <title>PiGit - {appVersion}</title>
       </Helmet>
 
-      <Nav/>
+      <AppProvider render={({ app, addRepos, addGroup, reloadAllRepos }) =>
+        <Nav
+          app={app}
+          addRepos={addRepos}
+          addGroup={addGroup}
+          reloadAllRepos={reloadAllRepos}
+        />
+      } />
 
       /** NAV IS POS FIXED SO THIS IS NAV HEIGHT EMPTY DIV */
       <div className='nav-h'/>
@@ -23,7 +31,9 @@ const App = ({ appVersion }) => {
       <Groups />
       <RepoDetails/>
       <History/>
-      <MessageProvider render={(msg, close) => <Message msg={msg} close={close} />} />
+      <MessageProvider render={
+        (msg, close) => <Message msg={msg} close={close} />}
+      />
     </div>
   );
 };
