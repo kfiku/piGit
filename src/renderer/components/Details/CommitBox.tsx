@@ -34,29 +34,23 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   isFocused: boolean = false;
   isBind: boolean = false;
   el: HTMLTextAreaElement;
-  ctrlKey: string;
+  key: string;
 
   constructor(p, c) {
     super(p, c);
-    this.ctrlKey = process.platform === 'darwin' ? 'command' : 'ctrl';
+    const ctrlKey = process.platform === 'darwin' ? 'command' : 'ctrl';
+    this.key = `${ctrlKey}+enter`
   }
 
   componentWillUnmount() {
-    Mousetrap.unbind(`${this.ctrlKey}+enter`);
+    Mousetrap.unbind(this.key);
   }
 
   ref(el) {
     if (el && !this.isBind) {
       this.el = el;
-
-      console.log('bind');
-      Mousetrap.unbind(`${this.ctrlKey}+enter`);
-      Mousetrap(this.el).bind(`${this.ctrlKey}+enter`, () => {
-        console.log(`${this.ctrlKey}+enter`);
-        this.commit();
-
-        return false;
-      });
+      Mousetrap.unbind(this.key);
+      Mousetrap(this.el).bind(this.key, () => this.commit());
       this.isBind = true;
     }
   }
@@ -68,15 +62,13 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
       return;
     }
 
-    console.log(this.props.repo);
-
     if (this.props.repo.lists.staged.length === 0) {
       alert('No files to commit. Add them by clicking "+" from files below');
       return;
     }
+
     const { id, dir } = this.props.repo;
     this.props.commit(id, dir, msg);
-    console.log('commit with msg', `"${msg}"`, this.props.repo.dir);
     this.el.value = '';
   }
 

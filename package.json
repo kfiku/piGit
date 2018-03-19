@@ -20,11 +20,7 @@
     "lint": "tslint --type-check -p . -c tslint.json 'src/**/*.ts' 'src/**/*.tsx' 'test/**/*.ts'",
     "prod": "export NODE_ENV=production && npm run build && npm run start:electron",
     "package": "npm run build && build --publish never",
-    "pack-and-publish": "npm run build && build --publish always",
     "pack-and-publish-all": "npm run build && build -ml --publish always",
-    "package-all": "npm run build && build -mwl",
-    "package-linux": "npm run build && build --linux",
-    "package-win": "npm run build && build --win --x64",
     "test:cov": "jest --coverage",
     "test:unit": "jest",
     "test:watch": "jest --watchAll"
