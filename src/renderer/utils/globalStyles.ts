@@ -1,5 +1,3 @@
-// import { injectGlobal } from 'styled-components';
-
 import { g3, g2, navHeight, resizerWidth, defaultFont } from './styles';
 
 export default `

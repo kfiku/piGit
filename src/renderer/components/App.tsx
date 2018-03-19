@@ -1,19 +1,14 @@
-const { app } = require('electron').remote;
-const appVersion = app.getVersion();
-
 import * as React from 'react';
-import { injectGlobal } from 'styled-components';
 import { Helmet } from 'react-helmet';
 
-import Nav from '../components/Nav';
 import Groups from '../components/Groups/Groups';
 import RepoDetails from '../components/Details';
-import Message from '../components/Message';
 import History from '../components/History/RepoHistory';
+import Message from './Message';
+import MessageProvider from '../containers/MessageProvider';
+import Nav from './Nav';
 
-import globalStyles from '../utils/globalStyles';
-
-const App = () => {
+const App = ({ appVersion }) => {
   return (
     <div>
       <Helmet>
@@ -25,7 +20,9 @@ const App = () => {
       <div className='nav-h'/>
 
       <Groups/>
-      <Message/>
+      <MessageProvider render={({ msg, close }) =>
+        <Message msg={msg} close={close} />
+      } />
       <RepoDetails/>
       <History/>
     </div>
@@ -33,5 +30,3 @@ const App = () => {
 };
 
 export default App;
-
-injectGlobal`${globalStyles}`; // tslint:disable-line:no-unused-expression
