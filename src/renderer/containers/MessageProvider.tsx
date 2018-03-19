@@ -3,12 +3,12 @@ import actions from '../actions';
 
 interface IMessageProviderProps {
   msg: string;
-  render: any;
-  message: any;
+  render: (msg: string, close: () => {}) => {};
+  message: (msg: string) => {};
 }
 
 function MessageProvider({ msg, message, render }: IMessageProviderProps) {
-  return render({ msg, ok: () => message('') });
+  return render(msg, () => message(''));
 };
 
 const mapStateToProps = state => ({

@@ -20,7 +20,7 @@ const App = ({ appVersion }) => {
       <div className='nav-h'/>
 
       <Groups/>
-      <MessageProvider render={({ msg, close }) =>
+      <MessageProvider render={(msg, close) =>
         <Message msg={msg} close={close} />
       } />
       <RepoDetails/>

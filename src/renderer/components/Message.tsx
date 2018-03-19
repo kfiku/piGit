@@ -7,13 +7,12 @@ interface IMessageProps {
 }
 
 function Message({ msg, close }: IMessageProps) {
-  if (msg !== '') {
+  if (msg === '') {
     // if message is there
-    return <Dialog msg={msg} ok={close} />;
-  } else {
-    // if message is empty
     return null;
   }
+
+  return <Dialog msg={msg} ok={close} />;
 };
 
 export default Message;
