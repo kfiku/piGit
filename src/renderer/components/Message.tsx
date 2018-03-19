@@ -13,6 +13,6 @@ function Message({ msg, close }: IMessageProps) {
   }
 
   return <Dialog msg={msg} ok={close} />;
-};
+}
 
 export default Message;
