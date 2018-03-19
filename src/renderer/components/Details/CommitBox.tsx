@@ -76,7 +76,7 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
     return (
       <CommitMessage
         innerRef={this.ref.bind(this)}
-        placeholder={`Commit message (press ${this.ctrlKey}+enter to commit)`}
+        placeholder={`Commit message (press ${this.key}+enter to commit)`}
         onBlur={() => this.isFocused = true}
         onFocus={() => this.isFocused = true}
       />
