@@ -16,15 +16,14 @@ const App = ({ appVersion }) => {
       </Helmet>
 
       <Nav/>
+
       /** NAV IS POS FIXED SO THIS IS NAV HEIGHT EMPTY DIV */
       <div className='nav-h'/>
 
-      <Groups/>
-      <MessageProvider render={(msg, close) =>
-        <Message msg={msg} close={close} />
-      } />
+      <Groups />
       <RepoDetails/>
       <History/>
+      <MessageProvider render={(msg, close) => <Message msg={msg} close={close} />} />
     </div>
   );
 };

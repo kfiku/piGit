@@ -280,7 +280,7 @@ const actions = {
     }, 1000);
   },
 
-  message: (msg) => (
+  message: (msg: string) => (
     { type: MESSAGE, msg }
   )
 };

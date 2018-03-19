@@ -1,22 +1,14 @@
 import { connect } from 'react-redux';
-import actions from '../actions';
+import { close } from '../actions/messagesActions';
 
-interface IMessageProviderProps {
-  msg: string;
-  render: (msg: string, close: () => {}) => {};
-  message: (msg: string) => {};
-}
-
-function MessageProvider({ msg, message, render }: IMessageProviderProps) {
-  return render(msg, () => message(''));
-};
+const MessageProvider = ({ msg, close, render }) => render(msg, close)
 
 const mapStateToProps = state => ({
-  msg: state.app.message
+  msg: state.app.message as string
 });
 
 const mapDispatchToProps = {
-  message: actions.message
+  close
 };
 
 export default connect(
