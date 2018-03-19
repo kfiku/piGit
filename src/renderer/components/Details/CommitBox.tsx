@@ -39,7 +39,7 @@ class CommitBoxComponent extends React.PureComponent<CommitBoxProps> {
   constructor(p, c) {
     super(p, c);
     const ctrlKey = process.platform === 'darwin' ? 'command' : 'ctrl';
-    this.key = `${ctrlKey}+enter`
+    this.key = `${ctrlKey}+enter`;
   }
 
   componentWillUnmount() {
