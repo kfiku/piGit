@@ -9,6 +9,7 @@ import ArrowLeft from '../Icons/ArrowLeft';
 import Stats from '../Repos/Stats';
 
 import GitKBtn from './GitKBtn';
+import GitGuiBtn from './GitGuiBtn';
 import TermBtn from './TermBtn';
 
 const StyledHeader = styled.header`
@@ -46,6 +47,7 @@ function Header({ repo, actions }: HeaderProps) {
       </h2>
 
       <div className='buttons'>
+        <GitGuiBtn repo={repo} />
         <GitKBtn repo={repo} />
         <TermBtn repo={repo} />
       </div>

@@ -17,7 +17,7 @@ function GitGuiBtn ({repo}: { repo: IRepo }) {
         <GitIcon />
       </Icon>
 
-      <span>GitGUI</span>
+      <span>Git GUI</span>
     </Button>
   );
 }
