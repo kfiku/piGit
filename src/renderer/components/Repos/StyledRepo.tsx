@@ -12,7 +12,7 @@ const StyledRepo = styled.div`
 `;
 
 const StyledRepoWithMQ = StyledRepo.extend`
-  ${[2, 3, 4, 5, 6, 7, 8, 9].map(i => {
+  ${[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(i => {
     /* Size of repo in percent (i and half in line) */
     const size = 100 / (i + 0.6);
     const inLine = i + i;
