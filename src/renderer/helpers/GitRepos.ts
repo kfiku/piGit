@@ -9,7 +9,7 @@ const simpleGit = require('simple-git/promise');
 
 import { IStash, IFile } from '../interfaces/IGit';
 import { IRepo } from '../interfaces/IRepo';
-import clone from '../helpers/Clone';
+import status from '../git/status';
 
 const execPromise = promisify(exec);
 const unlinkPromise = promisify(unlink);
@@ -29,6 +29,7 @@ export class Repo {
       progressing: false,
       stats: {
         ahead: 0,
+        added: 0,
         behind: 0,
         modified: 0,
         deleted: 0,
@@ -57,65 +58,14 @@ export class Repo {
 
   async updateStatus (): Promise<IRepo> {
     try {
-      const status = await this.git.status();
-      const stashes = await this.stashList();
-
-      // let newState = clone(this.state);
-
-      const tracking = status.tracking || 'no-tracking';
-      const branch = status.current +
-        (tracking.indexOf(status.current) === -1 ? ' → ' + tracking : '');
-
-      const files: IFile[] = [];
-      status.files.forEach(file => {
-        const fileObj: IFile = {
-          path: file.path.replace(/.* -> /, ''),
-          staged: ['M', 'A', 'R', 'D'].indexOf(file.index) > -1,
-          type: file.index !== ' ' && file.index !== '?' ? file.index : file.working_dir,
-          conflicted: file.working_dir === 'U'
-        };
-
-        if (file.working_dir === 'M' && file.index === 'M') {
-          const extraFileObj = clone(fileObj);
-          extraFileObj.staged = false;
-          files.push(extraFileObj);
-        }
-
-        files.push(fileObj);
-      });
-
-      const conflicted: IFile[] = files.filter(f => f.conflicted);
-      const unstaged: IFile[] = files.filter(f => !f.staged && !f.conflicted);
-      const staged: IFile[] = files.filter(f => f.staged);
-
+      const newStatus = await status(this.state.dir);
       const newState: IRepo = {
-        id: this.state.id,
+        ...newStatus,
         dir: this.state.dir,
         name: this.state.name,
+        id: this.state.id,
         progressing: this.state.progressing,
-        branch,
-        stats: {
-          ahead: status.ahead,
-          behind: status.behind,
-          modified: files.filter(f => f.type === 'M').length,
-          deleted: files.filter(f => f.type === 'D').length,
-          renamed: files.filter(f => f.type === 'R').length,
-          untracked: files.filter(f => f.type === '?').length,
-          conflicted: files.filter(f => f.type === 'U').length,
-          stashes: stashes.length
-        },
-        lists: {
-          staged,
-          unstaged,
-          conflicted,
-          stashes
-        }
       };
-
-      if (newState.name === 'piGit') {
-        console.log(status, newState);
-      }
-
       this.state = newState;
       return newState;
 
@@ -265,10 +215,11 @@ export class Repo {
 export class Repos {
   private repos: { [key: string]: Repo } = {};
 
-  searchRepos(dirs: string[],
-              steps: (dir: string) => void,
-              callback: (err: any, dirs?: string[]) => void) {
-
+  searchRepos(
+    dirs: string[],
+    steps: (dir: string) => void,
+    callback: (err: any, dirs?: string[]) => void
+  ) {
     let gitDirsToAdd = [];
 
     eachSeries(dirs, (dir, cb) => {

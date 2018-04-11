@@ -16,20 +16,24 @@ export const addRepos = () => (dispatch, getState) => {
     properties: ['openDirectory', 'multiSelections']
   });
 
+  console.log(dirs);
+
   dispatch({ type: ADDING_REPO });
 
   gitRepos.searchRepos(
     dirs,
     (gitDir) => { // steps
       const repoByDir = getState().repos.filter(repo => repo.dir === gitDir);
-      if (repoByDir.length === 0) {
-        dispatch(addRepo(gitDir));
-      } else {
+      if (repoByDir.length > 0) {
         dispatch(message(`Repo '${gitDir}' is already there ;-)`));
+        return;
       }
+
+      gitRepos.getRepo(gitDir).then(repo => {
+        dispatch(addRepo(repo.state));
+      });
     },
-    (err) => {
-      console.log(err);
+    () => {
       dispatch({ type: ADDING_REPO_END });
     }
   );
@@ -53,8 +57,8 @@ export const updateAllReposStatus = () => (dispatch, getState) => {
   );
 };
 
-export const addRepo = (dir: string) => (
-  { type: ADD_REPO, dir, id: newId() }
+export const addRepo = (repo: IRepo) => (
+  { type: ADD_REPO, repo: {...repo, id: newId()} }
 );
 
 export const addGroup = () => (

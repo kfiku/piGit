@@ -27,7 +27,7 @@ export default function repos(state = initialState, action) {
       return state.map((group, gid) => {
         if (gid === 0) {
           group = clone(group);
-          group.repos.push(action.id);
+          group.repos.push(action.repo.id);
         }
         return group;
       });

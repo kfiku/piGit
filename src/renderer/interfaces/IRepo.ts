@@ -1,16 +1,6 @@
-import { IFile, IStash } from '../interfaces/IGit';
+import { IFile, IStash, IStatusStats } from '../interfaces/IGit';
 
-export interface IRepoStats {
-  ahead: number;
-  behind: number;
-  modified: number;
-  deleted: number;
-  renamed: number;
-  untracked: number;
-  conflicted: number;
-  stashes: number;
-}
-
+export interface IRepoStats extends IStatusStats {}
 export interface IRepo {
   id: string;
   name: string;

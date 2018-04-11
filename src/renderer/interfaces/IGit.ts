@@ -7,14 +7,15 @@ export interface IStash {
 }
 
 export interface IStatusStats {
+  added: number;
   ahead: number;
   behind: number;
-  modified: number;
-  deleted: number;
-  renamed: number;
-  added: number;
-  untracked: number;
   conflicted: number;
+  deleted: number;
+  modified: number;
+  renamed: number;
+  stashes: number;
+  untracked: number;
 }
 
 
@@ -36,5 +37,6 @@ export interface IStatus {
     staged: IFile[];
     unstaged: IFile[];
     conflicted: IFile[];
+    stashes: IStash[];
   };
 }

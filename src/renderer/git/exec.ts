@@ -5,15 +5,16 @@ const execPromise = promisify(exec);
 const gitCommandsLog = [];
 
 export default async function execFn(dir, cmd): Promise<string> {
-  gitCommandsLog.push(cmd);
+  const fullCmd = `cd ${dir} && ${cmd}`;
+  gitCommandsLog.push(fullCmd);
+  return new Promise<string>((resolve, reject) => {
+    exec(fullCmd, (err, data: string) => {
+      if (err) {
+        return reject(err);
+      }
 
-  const { stdout, stderr } = await execPromise(
-    `cd ${dir} && ${cmd}`
-  );
+      resolve(data);
+    });
+  });
 
-  if (stderr) {
-    throw new Error(stderr);
-  }
-
-  return stdout;
 }

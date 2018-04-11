@@ -3,6 +3,7 @@ import { filter, map, transduce, seq, pushReducer, sumReducer } from '../utils/t
 import clone from '../helpers/Clone';
 import compose from '../utils/compose';
 import exec from './exec';
+import stashList from './stash';
 
 export function getEmptyStatus(): IStatus {
   return {
@@ -15,12 +16,14 @@ export function getEmptyStatus(): IStatus {
       deleted: 0,
       renamed: 0,
       untracked: 0,
-      conflicted: 0
+      conflicted: 0,
+      stashes: 0,
     },
     lists: {
       staged: [],
       unstaged: [],
-      conflicted: []
+      conflicted: [],
+      stashes: [],
     }
   };
 }
@@ -29,8 +32,8 @@ export default async function status(dir, execFn = exec): Promise<IStatus> {
   try {
     const cmd = `git status --porcelain -b -u`;
     const result = await execFn(dir, cmd);
-
-    const lines = result.split('\n').filter(s => !!s.trim());
+    const stashes = await stashList(dir, execFn);
+    const lines = result ? result.split('\n').filter(s => !!s.trim()) : [];
     const isHeaderLine = ((line: string) => line && line.indexOf('##') !== -1);
     const headLine = lines.find(isHeaderLine);
     if (!headLine) {
@@ -60,7 +63,8 @@ export default async function status(dir, execFn = exec): Promise<IStatus> {
       deleted: countTypeInFiles(filter(isDeleted), files),
       added: countTypeInFiles(filter(isAdded), files),
       renamed: countTypeInFiles(filter(isRenamed), files),
-      conflicted: countTypeInFiles(filter(isConflicted), files)
+      conflicted: countTypeInFiles(filter(isConflicted), files),
+      stashes: stashes.length,
     };
 
     newStatus.lists = {
@@ -71,7 +75,8 @@ export default async function status(dir, execFn = exec): Promise<IStatus> {
           map((file: IFile) => updateFileType(file, false))
         ),
         files),
-      conflicted: seq(filter(isConflicted), files)
+      conflicted: seq(filter(isConflicted), files),
+      stashes,
     };
 
     return newStatus;

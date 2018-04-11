@@ -14,10 +14,7 @@ export const initialState: IRepo[] = [];
 export default function repos(state = initialState, action) {
   switch (action.type) {
     case ADD_REPO:
-      state.push({
-        id: action.id,
-        dir: action.dir
-      } as IRepo);
+      state.push(action.repo as IRepo);
       return state;
 
     case RELOADING:
