@@ -342,8 +342,8 @@ export class Repos {
       });
 
       /** getting new status */
-      const status = await repo.updateStatus();
-      callback(null, status);
+      const newStatus = await repo.updateStatus();
+      callback(null, newStatus);
     } catch (e) {
       callback(e);
     }
@@ -405,8 +405,8 @@ export class Repos {
       await repo.stashApply(stashKey);
       await repo.stashDrop(stashKey);
       /** getting new status */
-      const status = await repo.updateStatus();
-      callback(null, status);
+      const newStatus = await repo.updateStatus();
+      callback(null, newStatus);
     } catch (e) {
       callback(e);
     }
@@ -417,8 +417,8 @@ export class Repos {
       const repo: Repo = await this.getRepo(dir) as Repo;
       await repo.stashDrop(stashKey);
       /** getting new status */
-      const status = await repo.updateStatus();
-      callback(null, status);
+      const newStatus = await repo.updateStatus();
+      callback(null, newStatus);
     } catch (e) {
       callback(e);
     }
