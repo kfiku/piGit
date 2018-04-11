@@ -16,8 +16,6 @@ export const addRepos = () => (dispatch, getState) => {
     properties: ['openDirectory', 'multiSelections']
   });
 
-  console.log(dirs);
-
   dispatch({ type: ADDING_REPO });
 
   gitRepos.searchRepos(
