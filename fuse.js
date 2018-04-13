@@ -35,7 +35,7 @@ Sparky.task('build:renderer', () => {
         target: 'electron',
         treeshake: true,
         removeExportsInterop: false,
-        uglify: true
+        // uglify: true
       })
     ]
   })
@@ -79,7 +79,7 @@ Sparky.task('build:main', () => {
         target: 'server',
         treeshake: true,
         removeExportsInterop: false,
-        uglify: true
+        // uglify: true
       })
     ]
   })
