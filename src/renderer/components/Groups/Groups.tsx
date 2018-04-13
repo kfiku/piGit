@@ -52,7 +52,8 @@ const GroupsComponent: any = ({groups, isShownRepoDetails, actions}: Props) => {
   const style: any = {};
 
   if (isShownRepoDetails) {
-    style.display = 'none';
+    // style.display = 'none';
+    style.opacity = 0;
   }
 
   return (
