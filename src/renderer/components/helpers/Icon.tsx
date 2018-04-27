@@ -1,7 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { navHeight, g4, g7, green, spin as spinAnimation } from '../../utils/styles';
+import {
+  navHeight, g4, g7, green,
+  spin as spinAnimation,
+  upAndDown as upAndDownAnimation
+} from '../../utils/styles';
 
 const StyledIcon = styled.i`
   vertical-align: top;
@@ -38,28 +42,49 @@ const StyledIcon = styled.i`
     animation: ${spinAnimation} 1s linear infinite;
   }
 
-  ${(p: any) => p.spin ? `
-    svg {
-      fill: ${green};
+  ${({ spin, upAndDown }: any) => {
+    if (spin) {
+      return `
+        svg {
+          fill: ${green};
+        }
+
+        animation: ${spinAnimation} 0.7s linear infinite;
+      }
+      `;
     }
 
-    animation: ${spinAnimation} 1s linear infinite;
-  }
-  `
-  : null}
+    if (upAndDown) {
+      return `
+        overflow: hidden;
+        svg {
+          fill: ${green};
+          animation: ${upAndDownAnimation} 0.5s linear infinite;
+        }
+      }
+      `;
+    }
+  }}
 ` as any;
 
 interface IconProps {
   spin?: boolean;
+  upAndDown?: boolean;
   className?: string;
   title?: string;
   children?: any;
   onClick?: () => {};
 }
 
-function Icon ({ spin, className, title, onClick, children }: IconProps) {
+function Icon ({ spin, upAndDown, className, title, onClick, children }: IconProps) {
   return (
-    <StyledIcon onClick={onClick} spin={spin} className={className} title={title}>
+    <StyledIcon
+      onClick={onClick}
+      spin={spin}
+      upAndDown={upAndDown}
+      className={className}
+      title={title}
+    >
       {children}
     </StyledIcon>
   );

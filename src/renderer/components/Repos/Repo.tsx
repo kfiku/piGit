@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import * as debounce from 'lodash/debounce';
 
 import { IGroup } from '../../interfaces/IGroup';
 import { IRepo, IRepoStats } from '../../interfaces/IRepo';
 
-import actionsToConnect from '../../actions';
+// import actionsToConnect from '../../reposActions';
+import {
+  reloadRepo, pullRepo, pushRepo, deleteRepo, showRepoDetails
+} from '../../actions/reposActions';
 // import { renderLog } from '../../helpers/logger';
 import StyledRepo from './StyledRepo';
 import StyledRepoBg from './StyledRepoBg';
@@ -16,7 +18,11 @@ import Content from './Content';
 interface IRepoProps {
   repo: IRepo;
   group: IGroup;
-  actions: any;
+  dispatchReloadRepo: Function;
+  dispatchPullRepo: Function;
+  dispatchPushRepo: Function;
+  dispatchDeleteRepo: Function;
+  dispatchShowRepoDetails: Function;
 }
 interface IRepoState {
   active: boolean;
@@ -70,7 +76,14 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
   }
 
   render() {
-    const { repo, group, actions } = this.props;
+    const {
+      repo, group,
+      dispatchReloadRepo,
+      dispatchPullRepo,
+      dispatchPushRepo,
+      dispatchDeleteRepo,
+      dispatchShowRepoDetails,
+    } = this.props;
     const { active } = this.state;
     if (!repo || !repo.dir || !repo.stats) { return null; }
 
@@ -86,17 +99,17 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
         onMouseEnter={() => this.diamondOver()}
       >
         <Icons
-          active={active || repo.progressing}
+          active={active || repo.progressing || repo.pulling}
           repo={repo}
-          reloadRepo={actions.reloadRepo.bind(null, repo.id, repo.dir)}
-          pullRepo={actions.pullRepo.bind(null, repo.id, repo.dir)}
-          pushRepo={actions.pushRepo.bind(null, repo.id, repo.dir)}
-          deleteRepo={actions.deleteRepo.bind(null, repo.id, group.id)}
+          reloadRepo={() => dispatchReloadRepo(repo.id, repo.dir)}
+          pullRepo={() => dispatchPullRepo(repo.id, repo.dir)}
+          pushRepo={() => dispatchPushRepo(repo.id, repo.dir)}
+          deleteRepo={() => dispatchDeleteRepo(repo.id, group.id)}
         />
 
         <Content
           repo={repo}
-          showRepoDetails={actions.showRepoDetails.bind(null, repo)}
+          showRepoDetails={() => dispatchShowRepoDetails(repo)}
         />
 
         <StyledRepoBg
@@ -117,9 +130,13 @@ const mapStateToProps = (state, ownProps) => {
   return { repo, group };
 };
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionsToConnect, dispatch)
-});
+const mapDispatchToProps = {
+  dispatchReloadRepo: reloadRepo,
+  dispatchPullRepo: pullRepo,
+  dispatchPushRepo: pushRepo,
+  dispatchDeleteRepo: deleteRepo,
+  dispatchShowRepoDetails: showRepoDetails
+};
 
 const Repo = connect(
   mapStateToProps,

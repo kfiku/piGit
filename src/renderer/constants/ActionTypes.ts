@@ -12,6 +12,8 @@ export const RELOADING = 'RELOADING';
 export const RELOADING_END = 'RELOADING_END';
 export const RELOADING_ALL_REPOS = 'RELOADING_ALL_REPOS';
 export const RELOADING_ALL_REPOS_END = 'RELOADING_ALL_REPOS_END';
+export const PULLING = 'PULLING';
+export const PULLING_END = 'PULLING_END';
 
 export const ADD_GROUP = 'ADD_GROUP';
 export const REORDER_GROUP = 'REORDER_GROUP';

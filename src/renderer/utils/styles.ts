@@ -46,3 +46,12 @@ export const spin = keyframes`
 from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 `;
+
+export const upAndDown = keyframes`
+  0%   { transform: translate3d(0, 0, 0); }
+  50%  { transform: translate3d(0, 50px, 0); }
+  50.2%  { transform: translate3d(50px, 50px, 0); }
+  50.4%  { transform: translate3d(50px, -50px, 0); }
+  50.6%  { transform: translate3d(0, -50px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+`;

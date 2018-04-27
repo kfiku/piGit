@@ -32,10 +32,6 @@ const Wrapper = styled.div`
     pointer-events: all;
   }
 
-  i svg {
-    fill: ${g3};
-  }
-
   .icon-move {
     top: ${iconSide}%;
     left: ${iconCenter}%;
@@ -78,33 +74,52 @@ export default function Icons (
     reloadRepo
   }: IIconsProps
 ) {
-  // console.log(repo)
+
+  const pulling = repo.pulling;
+
   return (
     <Wrapper active={active ? 1 : 0}>
       <Icon className='icon icon-move repo-mover' title='Reorder this repo'>
         <Move />
       </Icon>
 
-      <Icon className='icon icon-x' title='Delete this repo' onClick={deleteRepo}>
-        <X />
-      </Icon>
+      {!pulling && (
+        <Icon className='icon icon-x' title='Delete this repo' onClick={deleteRepo}>
+          <X />
+        </Icon>
+      )}
 
       {!!repo.stats.behind && (
-        <Icon className='icon icon-pull' title='Pull this repo' onClick={pullRepo}>
+        <Icon
+          upAndDown={pulling}
+          className='icon icon-pull'
+          title='Pull this repo'
+          onClick={pullRepo}
+        >
           <ArrowDown />
         </Icon>
       )}
 
       {!!repo.stats.ahead && !repo.stats.behind && (
-        <Icon className='icon icon-push' title='push this repo' onClick={pushRepo}>
+        <Icon
+          className='icon icon-push'
+          title='push this repo'
+          onClick={pushRepo}
+        >
           <ArrowUp />
         </Icon>
       )}
 
-      <Icon spin={repo.progressing} className='icon icon-refresh ' title='Refresh this repo'
-      onClick={reloadRepo}>
-        <Reload />
-      </Icon>
+      {!pulling && (
+        <Icon
+          spin={repo.progressing}
+          className='icon icon-refresh '
+          title='Refresh this repo'
+          onClick={reloadRepo}
+        >
+          <Reload />
+        </Icon>
+      )}
     </Wrapper>
   );
 }

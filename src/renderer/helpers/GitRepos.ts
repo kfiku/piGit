@@ -9,7 +9,7 @@ const simpleGit = require('simple-git/promise');
 
 import { IStash, IFile } from '../interfaces/IGit';
 import { IRepo } from '../interfaces/IRepo';
-import status from '../git/status';
+import gitStatus from '../git/status';
 
 const execPromise = promisify(exec);
 const unlinkPromise = promisify(unlink);
@@ -27,6 +27,7 @@ export class Repo {
       branch: '',
       id: '',
       progressing: false,
+      pulling: false,
       stats: {
         ahead: 0,
         added: 0,
@@ -58,13 +59,14 @@ export class Repo {
 
   async updateStatus (): Promise<IRepo> {
     try {
-      const newStatus = await status(this.state.dir);
+      const newStatus = await gitStatus(this.state.dir);
       const newState: IRepo = {
         ...newStatus,
         dir: this.state.dir,
         name: this.state.name,
         id: this.state.id,
         progressing: this.state.progressing,
+        pulling: this.state.pulling,
       };
       this.state = newState;
       return newState;
@@ -282,36 +284,61 @@ export class Repos {
   async pull (dir: string, callback) {
     try {
       const repo = await this.getRepo(dir);
-      const { stats } = await repo.updateStatus();
-      const doRebase = stats.ahead > 0 &&
-        this.confirmPullWithRebase(stats.ahead);
+      const status = await repo.updateStatus();
+      const { stats } = status;
+      const isBehind = stats.behind > 0;
+      if (!isBehind) {
+        /** nothing behind, no need to pull */
+        return callback(null, status);
+      }
 
-      if (doRebase) {
-        // pull with rebase
-        console.info('pull with rebase');
-        const newStatus = await repo.pullWithRebase();
-        return callback(null, newStatus);
-      } else {
-        // Regular pull
-        console.info('regular pull');
-        const newStatus = await repo.pull();
-        return callback(null, newStatus);
+      const isAhead = stats.ahead > 0;
+      const isModified = stats.modified > 0 || stats.deleted > 0 || stats.deleted;
+
+      if (isAhead && isModified) {
+        const stashPullRebase = confirm(`
+          This repo is ${stats.ahead} commits ahead and has moditications.
+          Do you wan't automatic pull with rebase?
+          (stash, pull rebase, apply stash)
+        `);
+
+        if (stashPullRebase) {
+          return this.pullWithStash(dir, true, callback);
+        } else {
+          const pullWithMerge = confirm(`So you won't pull with merge?`);
+          if (!pullWithMerge) {
+            return callback(null, status);
+          }
+        }
+      } else if (isAhead) {
+        const doRebase = confirm(`
+          This repo is ${stats.ahead} commits ahead.
+          Do you want to pull with rebase?
+        `);
+
+        if (doRebase) {
+          // pull with rebase
+          console.info('pull with rebase');
+          const stateAfterRebase = await repo.pullWithRebase();
+          return callback(null, stateAfterRebase);
+        } else {
+          const pullWithMerge = confirm(`So you won't pull with merge?`);
+          if (!pullWithMerge) {
+            return callback(null, status);
+          }
+        }
       }
+
+      console.info('regular pull');
+      const statusAfterPull = await repo.pull();
+      return callback(null, statusAfterPull);
+
     } catch (err) {
-      const errMsg = err.message || err + '';
-      if (errMsg.indexOf('You have unstaged changes') > -1 &&
-      this.confirmPullWithStash()) {
-        this.pullWithStash(dir, callback);
-      } else if (errMsg.indexOf('Please commit your changes or stash them') > -1 &&
-      this.confirmPullWithStash()) {
-        this.pullWithStash(dir, callback);
-      } else {
-        return callback(err);
-      }
+      return callback(err);
     }
   }
 
-  async pullWithStash (dir: string, callback) {
+  async pullWithStash(dir: string, doRebase: boolean, callback) {
     try {
       const repo: Repo = await this.getRepo(dir);
       const stashes = await repo.stashList();
@@ -320,10 +347,6 @@ export class Repos {
       /** getting diff between new and old stashes */
       const stashDiff = newStashes.filter(newStash =>
         !stashes.find(stash => stash.id === newStash.id));
-
-      const { stats } = await repo.updateStatus();
-      const doRebase = stats.ahead > 0 &&
-                       this.confirmPullWithRebase(stats.ahead);
 
       if (doRebase) {
         // pull with rebase
@@ -336,10 +359,12 @@ export class Repos {
       }
 
       /** applying and dropping stashes */
-      stashDiff.map(async function(stashToApply) {
+      const promises = stashDiff.map(async function(stashToApply) {
         console.log('applying and drop stash: ', stashToApply, stashToApply.id);
-        await repo.stashApplyWithDrop(stashToApply.id);
+        return await repo.stashApplyWithDrop(stashToApply.id);
       });
+      /** waiting until all stash drop finished */
+      await Promise.all(promises);
 
       /** getting new status */
       const newStatus = await repo.updateStatus();
@@ -429,10 +454,6 @@ export class Repos {
     .then((repo: Repo) => repo.push())
     .then(data => callback(null, data))
     .catch(err => callback(err));
-  }
-
-  confirmPullWithRebase(ahead) {
-    return confirm(`You are ${ahead} commits ahead. Do you want to pull with rebase?`);
   }
 
   confirmPullWithStash() {

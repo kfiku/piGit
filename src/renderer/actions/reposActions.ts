@@ -1,6 +1,7 @@
 import {
   ADD_REPO, ADDING_REPO, ADDING_REPO_END, UPDATE_REPO, SHOW_REPO, HIDE_REPO,
   DELETE_REPO, REORDER_REPO, SHOW_FILE, RELOADING, RELOADING_END,
+  PULLING, PULLING_END,
   RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END, ADD_GROUP
 } from '../constants/ActionTypes';
 
@@ -40,9 +41,12 @@ export const addRepos = () => (dispatch, getState) => {
 export const reloadAllRepos = () => (dispatch, getState) => {
   dispatch({ type: RELOADING_ALL_REPOS });
 
-  getState().repos.map((repo, i) => setTimeout(
-    () => reloadRepo(repo.id, repo.dir)(dispatch), 100 * i)
-  );
+  (getState().repos as IRepo[])
+    .filter(repo => !repo.pulling)
+    .map((repo, i) => setTimeout(
+      () => reloadRepo(repo.id, repo.dir)(dispatch),
+      100 * i
+    ));
 
   setTimeout(() => {
     dispatch({ type: RELOADING_ALL_REPOS_END });
@@ -50,9 +54,12 @@ export const reloadAllRepos = () => (dispatch, getState) => {
 };
 
 export const updateAllReposStatus = () => (dispatch, getState) => {
-  getState().repos.map((repo, i) => setTimeout(
-    () => updateRepoStatus(repo.id, repo.dir)(dispatch), 100 * i)
-  );
+  (getState().repos as IRepo[])
+    .filter(repo => !repo.pulling)
+    .map((repo, i) => setTimeout(
+      () => updateRepoStatus(repo.id, repo.dir)(dispatch),
+      100 * i
+    ));
 };
 
 export const addRepo = (repo: IRepo) => (
@@ -106,12 +113,14 @@ export const updateRepoStatus = (id: string, dir: string) => dispatch => {
 };
 
 export const pullRepo = (id: string, dir: string) => dispatch => {
-  dispatch({ type: RELOADING, id });
+  dispatch({ type: PULLING, id });
   gitRepos.pull(dir, (err, data) => {
     if (err) {
-      dispatch({ type: RELOADING_END, data, id });
+      console.log('err', 2, err);
+      dispatch({ type: PULLING_END, data, id });
       dispatch(message(dir + ': ' + err.message || err + ''));
     } else {
+      console.log(2);
       dispatch({ type: UPDATE_REPO, data, id });
     }
   });

@@ -7,6 +7,7 @@ export interface IRepo {
   branch: string;
   dir: string;
   progressing: boolean;
+  pulling?: boolean;
   stats: IRepoStats;
   lists: {
     staged: IFile[];

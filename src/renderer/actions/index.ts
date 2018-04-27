@@ -51,9 +51,12 @@ const actions = {
   reloadAllRepos: () => (dispatch, getState) => {
     dispatch({ type: RELOADING_ALL_REPOS });
 
-    getState().repos.map((repo, i) => setTimeout(
-      () => actions.reloadRepo(repo.id, repo.dir)(dispatch), 100 * i)
-    );
+    (getState().repos as IRepo[])
+      .filter(repo => !repo.pulling)
+      .map((repo, i) => setTimeout(
+        () => actions.reloadRepo(repo.id, repo.dir)(dispatch),
+        100 * i
+      ));
 
     setTimeout(() => {
       dispatch({ type: RELOADING_ALL_REPOS_END });
@@ -61,9 +64,12 @@ const actions = {
   },
 
   updateAllReposStatus: () => (dispatch, getState) => {
-    getState().repos.map((repo, i) => setTimeout(
-      () => actions.updateRepoStatus(repo.id, repo.dir)(dispatch), 100 * i)
-    );
+    getState().repos
+      .filter(repo => !repo.pulling)
+      .map((repo, i) => setTimeout(
+        () => actions.updateRepoStatus(repo.id, repo.dir)(dispatch),
+        100 * i
+      ));
   },
 
   addRepo: (dir: string) => (

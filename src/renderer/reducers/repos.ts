@@ -1,10 +1,7 @@
 import { IRepo } from '../interfaces/IRepo';
 import {
-  ADD_REPO,
-  RELOADING,
-  RELOADING_END,
-  UPDATE_REPO,
-  DELETE_REPO
+  ADD_REPO, RELOADING, RELOADING_END, UPDATE_REPO, DELETE_REPO,
+  PULLING, PULLING_END
 } from '../constants/ActionTypes';
 import clone from '../helpers/Clone';
 import equals from '../helpers/Equals';
@@ -32,6 +29,26 @@ export default function repos(state = initialState, action) {
         if (repo.id === action.id) {
           repo = clone(repo);
           repo.progressing = false;
+        }
+
+        return repo;
+      });
+
+    case PULLING:
+      return state.map(repo => {
+        if (repo.id === action.id) {
+          repo = clone(repo);
+          repo.pulling = true;
+        }
+
+        return repo;
+      });
+
+    case PULLING_END:
+      return state.map(repo => {
+        if (repo.id === action.id) {
+          repo = clone(repo);
+          repo.pulling = false;
         }
 
         return repo;
