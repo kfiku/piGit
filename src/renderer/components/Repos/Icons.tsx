@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import { IRepo } from '../../interfaces/IRepo';
 import {
   repoIconSize,
-  repoBgSize,
-  g3
+  repoBgSize
 } from '../../utils/styles';
 
 import Icon from '../helpers/Icon';
