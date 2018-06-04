@@ -15,7 +15,7 @@
     "start": "node fuse",
     "start:electron": "electron .",
     "start:electron:watch": "nodemon --watch 'dist/main/*.*' --exec 'electron .'",
-    "release": "release-it --src.tagName='%s' --no-npm.publish",
+    "release": "release-it --src.tagName='v%s' --no-npm.publish",
     "build": "npm run lint && export NODE_ENV=production && node fuse dist",
     "lint": "tslint --type-check -p . -c tslint.json 'src/**/*.ts' 'src/**/*.tsx' 'test/**/*.ts'",
     "prod": "export NODE_ENV=production && npm run build && npm run start:electron",
