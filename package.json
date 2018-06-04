@@ -21,6 +21,7 @@
     "prod": "export NODE_ENV=production && npm run build && npm run start:electron",
     "package": "npm run build && build --publish never",
     "pack-and-publish-all": "npm run build && build -ml --publish always",
+    "pack-and-publish-linux": "npm run build && build -l --publish always",
     "test:cov": "jest --coverage",
     "test:unit": "jest",
     "test:watch": "jest --watchAll"
