@@ -270,6 +270,35 @@ RD test/git.test.ts -> test/git2.test.ts
         done();
       });
   });
+  it('should work fine with no origin', (done) => {
+    status('dir', () => Promise.resolve(`
+## no-tracking-branch
+    `))
+      .then(st => {
+        const expected = getEmptyStatus();
+        expected.branch = 'no-tracking-branch → no-tracking';
+        expect(st).toEqual(expected);
+        done();
+      });
+  });
+  it('should work fine with no origin with modified file', (done) => {
+    status('dir', () => Promise.resolve(`
+## no-tracking-branch
+ M modifiedFile.php
+    `))
+      .then(st => {
+        const expected = getEmptyStatus();
+        expected.branch = 'no-tracking-branch → no-tracking';
+        expected.stats.modified = 1;
+        expected.lists.unstaged = [{
+          path: 'modifiedFile.php', type: 'M',
+          staged: false, conflicted: false,
+          index: '', workspace: 'M'
+        }];
+        expect(st).toEqual(expected);
+        done();
+      });
+  });
 // '?' | 'M' | 'A' | 'D' | 'R' | 'U' | 'C' | '';
 
 

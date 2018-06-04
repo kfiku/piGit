@@ -153,7 +153,7 @@ function parseStatusHeader(line: string) {
   const current = regexResult && regexResult[1];
 
   regexResult = trackingReg.exec(line);
-  const tracking = regexResult && regexResult[1];
+  const tracking = regexResult && regexResult[1] || 'no-tracking';
 
   return {
     branch: current + (tracking.indexOf(current) === -1 ? ' → ' + tracking : ''),
