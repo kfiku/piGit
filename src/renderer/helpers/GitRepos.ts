@@ -122,6 +122,12 @@ export class Repo {
     .then(() => this.updateStatus());
   }
 
+  checkoutAllFiles () {
+    return this.git.checkout(['--', '.'])
+    .then(() => this.git.clean('f', ['-d']))
+    .then(() => this.updateStatus());
+  }
+
   deleteFile (file: string) {
     return unlinkPromise(file)
     .then(() => this.updateStatus());
@@ -426,6 +432,16 @@ export class Repos {
   checkoutFile (dir: string, file: string, callback) {
     this.getRepo(dir)
     .then((repo: Repo) => repo.checkoutFile(dir + '/' + file))
+    .then(data => callback(null, data))
+    .catch(err => {
+      console.log(err);
+      callback(err);
+    });
+  }
+
+  checkoutAllFiles (dir: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.checkoutAllFiles())
     .then(data => callback(null, data))
     .catch(err => {
       console.log(err);

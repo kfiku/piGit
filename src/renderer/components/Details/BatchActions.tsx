@@ -9,8 +9,8 @@ import { Wrapper as BaseWrapper, Action as BaseAction } from './FileActions';
 import {
   addAllFiles,
   unAddAllFiles,
-  checkoutFile,
-  deleteFile,
+  checkoutAllFiles,
+  // deleteFile,
 } from '../../actions/fileActions';
 
 const Revert = require('react-icons/lib/md/undo');
@@ -31,29 +31,18 @@ function confirmCheckoutAll () {
   return confirm(`Are you sure you want to discard changes in all files`);
 }
 
-function checkoutAll(repo: IRepo, files: IFile[], dispatchCheckoutFile, dispatchDeleteFile) {
-  files.map(file => {
-    if (file.type === '?') {
-      dispatchDeleteFile(repo.id, repo.dir, file.path);
-    } else {
-      dispatchCheckoutFile(repo.id, repo.dir, file.path);
-    }
-  });
-}
-
 interface IBatchActions {
   repo: IRepo;
   files: IFile[];
   type: string;
   dispatchAddAllFiles?: Function;
   dispatchUnAddAllFiles?: Function;
-  dispatchCheckoutFile?: Function;
-  dispatchDeleteFile?: Function;
+  dispatchCheckoutAllFiles?: Function;
 }
 
 export function BatchActionsComponent ({
   files, repo, type,
-  dispatchCheckoutFile, dispatchDeleteFile, dispatchUnAddAllFiles,
+  dispatchCheckoutAllFiles, dispatchUnAddAllFiles,
   dispatchAddAllFiles
 }: IBatchActions) {
   // console.log(dispatchAddFile, dispatchCheckoutFile, dispatchDeleteFile, dispatchUnAddAllFiles);
@@ -64,7 +53,7 @@ export function BatchActionsComponent ({
           <Action
             onClick={() =>
               confirmCheckoutAll() &&
-              checkoutAll(repo, files, dispatchCheckoutFile, dispatchDeleteFile)
+              dispatchCheckoutAllFiles(repo.id, repo.dir)
             }
             title='Revert changes on all files'
           >
@@ -96,16 +85,13 @@ export function BatchActionsComponent ({
 }
 
 const mapStateToProps = () => {
-  // const repo = state.repos.filter(r => r.id === state.app.repoShown)[0];
-
   return { };
 };
 
 const mapDispatchToProps = {
   dispatchAddAllFiles: addAllFiles,
   dispatchUnAddAllFiles: unAddAllFiles,
-  dispatchCheckoutFile: checkoutFile,
-  dispatchDeleteFile: deleteFile,
+  dispatchCheckoutAllFiles: checkoutAllFiles
 };
 
 const BatchActions = connect(

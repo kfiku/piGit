@@ -43,7 +43,6 @@ export const addAllFiles = (id: string, dir: string) => dispatch => {
   });
 };
 
-
 export const unAddAllFiles = (id: string, dir: string) => dispatch => {
   dispatch({ type: RELOADING, id });
   gitRepos.unAddAllFiles(dir, (err, data) => {
@@ -71,6 +70,18 @@ export const checkoutFile = (id: string, dir: string, file: string) => dispatch 
 export const deleteFile = (id: string, dir: string, file: string) => dispatch => {
   dispatch({ type: RELOADING, id });
   gitRepos.deleteFile(dir, file, (err, data) => {
+    if (err) {
+      dispatch({ type: RELOADING_END, data, id });
+      dispatch(actions.message(dir + ': ' + err.message || err + ''));
+    } else {
+      dispatch({ type: UPDATE_REPO, data, id });
+    }
+  });
+};
+
+export const checkoutAllFiles = (id: string, dir: string) => dispatch => {
+  dispatch({ type: RELOADING, id });
+  gitRepos.checkoutAllFiles(dir, (err, data) => {
     if (err) {
       dispatch({ type: RELOADING_END, data, id });
       dispatch(actions.message(dir + ': ' + err.message || err + ''));
