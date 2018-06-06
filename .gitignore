@@ -46,6 +46,7 @@ coverage
 
 #sublime
 *.sublime-wo*
+*.code-*
 
 .vscode
 
