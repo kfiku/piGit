@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { IRepo } from '../../interfaces/IRepo';
 import { g7 } from '../../utils/styles';
-import { IFile } from '../../interfaces/IGit';
 import { Wrapper as BaseWrapper, Action as BaseAction } from './FileActions';
 import {
   addAllFiles,
@@ -33,7 +32,6 @@ function confirmCheckoutAll () {
 
 interface IBatchActions {
   repo: IRepo;
-  files: IFile[];
   type: string;
   dispatchAddAllFiles?: Function;
   dispatchUnAddAllFiles?: Function;
@@ -41,7 +39,7 @@ interface IBatchActions {
 }
 
 export function BatchActionsComponent ({
-  files, repo, type,
+  repo, type,
   dispatchCheckoutAllFiles, dispatchUnAddAllFiles,
   dispatchAddAllFiles
 }: IBatchActions) {

@@ -50,7 +50,7 @@ export default function FileList ({ files, title, repo, alwaysShow, type }: IFil
           {title} ({files.length}):
         </Title>
         {files.length ?
-          <BatchActions repo={repo} type={type} files={files} /> :
+          <BatchActions repo={repo} type={type} /> :
           null
         }
       </Header>
