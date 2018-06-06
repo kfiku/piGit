@@ -14,7 +14,7 @@ import newId from '../helpers/newId';
 import { IFile } from '../interfaces/IGit';
 import { IRepo } from '../interfaces/IRepo';
 
-const getReposFromGroup = (state, groupId: string) =>
+const getReposFromGroup = (state, groupId: string): IRepo[] =>
   state.groups
   .filter(g => g.id === groupId)
   .map(g => g.repos)
