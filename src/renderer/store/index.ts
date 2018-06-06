@@ -10,7 +10,8 @@ const settings = require('electron-settings');
 
 const createAppStore = (callback) => {
   let state: IRootReducer = settings.get('state');
-  state = undefined;
+  console.log(state);
+  // state = undefined;
 
   if (state) {
     if (state.app) {
