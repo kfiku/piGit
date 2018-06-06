@@ -112,6 +112,10 @@ export class Repo {
     return this.git.reset(['--', file])
     .then(() => this.updateStatus());
   }
+  unAddAllFiles () {
+    return this.git.reset(['--', '.'])
+    .then(() => this.updateStatus());
+  }
 
   checkoutFile (file: string) {
     return this.git.checkout(file)
@@ -403,6 +407,15 @@ export class Repos {
   unAddFile (dir: string, file: string, callback) {
     this.getRepo(dir)
     .then((repo: Repo) => repo.unAddFile(dir + '/' + file))
+    .then(data => callback(null, data))
+    .catch(err => {
+      console.log(err);
+      callback(err);
+    });
+  }
+  unAddAllFiles (dir: string, callback) {
+    this.getRepo(dir)
+    .then((repo: Repo) => repo.unAddAllFiles())
     .then(data => callback(null, data))
     .catch(err => {
       console.log(err);

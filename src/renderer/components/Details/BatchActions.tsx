@@ -7,9 +7,8 @@ import { g7 } from '../../utils/styles';
 import { IFile } from '../../interfaces/IGit';
 import { Wrapper as BaseWrapper, Action as BaseAction } from './FileActions';
 import {
-  addFile,
   addAllFiles,
-  unAddFile,
+  unAddAllFiles,
   checkoutFile,
   deleteFile,
 } from '../../actions/fileActions';
@@ -32,14 +31,6 @@ function confirmCheckoutAll () {
   return confirm(`Are you sure you want to discard changes in all files`);
 }
 
-function addAll(repo: IRepo, files: IFile[], dispatchAddFile) {
-  files.map(file => dispatchAddFile(repo.id, repo.dir, file.path, false));
-}
-
-function unAddAll(repo: IRepo, files: IFile[], dispatchUnAddFile) {
-  files.map(file => dispatchUnAddFile(repo.id, repo.dir, file.path));
-}
-
 function checkoutAll(repo: IRepo, files: IFile[], dispatchCheckoutFile, dispatchDeleteFile) {
   files.map(file => {
     if (file.type === '?') {
@@ -54,19 +45,18 @@ interface IBatchActions {
   repo: IRepo;
   files: IFile[];
   type: string;
-  dispatchAddFile?: Function;
   dispatchAddAllFiles?: Function;
-  dispatchUnAddFile?: Function;
+  dispatchUnAddAllFiles?: Function;
   dispatchCheckoutFile?: Function;
   dispatchDeleteFile?: Function;
 }
 
 export function BatchActionsComponent ({
   files, repo, type,
-  dispatchAddFile, dispatchCheckoutFile, dispatchDeleteFile, dispatchUnAddFile,
+  dispatchCheckoutFile, dispatchDeleteFile, dispatchUnAddAllFiles,
   dispatchAddAllFiles
 }: IBatchActions) {
-  // console.log(dispatchAddFile, dispatchCheckoutFile, dispatchDeleteFile, dispatchUnAddFile);
+  // console.log(dispatchAddFile, dispatchCheckoutFile, dispatchDeleteFile, dispatchUnAddAllFiles);
   switch (type) {
     case 'unstaged':
       return (
@@ -93,7 +83,7 @@ export function BatchActionsComponent ({
       return (
         <Wrapper>
           <Action
-            onClick={() => unAddAll(repo, files, dispatchUnAddFile)}
+            onClick={() => dispatchUnAddAllFiles(repo.id, repo.dir)}
             title='Unstaged all changes in all files'
           >
             <Minus />
@@ -112,9 +102,8 @@ const mapStateToProps = () => {
 };
 
 const mapDispatchToProps = {
-  dispatchAddFile: addFile,
   dispatchAddAllFiles: addAllFiles,
-  dispatchUnAddFile: unAddFile,
+  dispatchUnAddAllFiles: unAddAllFiles,
   dispatchCheckoutFile: checkoutFile,
   dispatchDeleteFile: deleteFile,
 };
