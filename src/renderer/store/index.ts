@@ -3,38 +3,16 @@ const env = process.env.NODE_ENV || 'production';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer, { IRootReducer } from '../reducers';
-import newId from '../helpers/newId';
+// import newId from '../helpers/newId';
 import asyncActions from '../asyncActions';
 
 const settings = require('electron-settings');
 
 const createAppStore = (callback) => {
   let state: IRootReducer = settings.get('state');
-  let composeEnhancers = compose;
-  if (env === 'development' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-    composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-  }
+  state = undefined;
 
   if (state) {
-    if (state.repos && state.repos[0] && (<any>state.repos[0]).repos) {
-      // OLD STRUCTURE
-      let newState: any = { groups: [], repos: [], app: state.app };
-      newState.groups = (<any>state).repos.map(group => ({
-        id: newId(),
-        title: group.title,
-        editing: false,
-        confirmDelete: false,
-        progressing: false,
-        repos: group.repos.map((repo => {
-          repo.id = newId();
-          newState.repos.push(repo);
-          return repo.id;
-        })),
-      }));
-
-      state = newState;
-    }
-
     if (state.app) {
       state.app.addingRepos = false;
       state.app.reloadingAllRepos = false;
@@ -62,6 +40,11 @@ const createAppStore = (callback) => {
     .filter(r => !!r.dir)
     .filter(r => repoIdsInGroups.indexOf(r.id) > -1);
 
+  }
+
+  let composeEnhancers = compose;
+  if (env === 'development' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+    composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   }
 
   let store = createStore(
