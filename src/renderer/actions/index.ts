@@ -11,15 +11,17 @@ import { ADD_REPO, ADDING_REPO, ADDING_REPO_END,
 import * as electron from 'electron';
 import gitRepos from '../helpers/GitRepos';
 import newId from '../helpers/newId';
+import { IRootReducer } from '../reducers/index';
 import { IFile } from '../interfaces/IGit';
 import { IRepo } from '../interfaces/IRepo';
 
-const getReposFromGroup = (state, groupId: string): IRepo[] =>
+const getReposFromGroup = (state: IRootReducer, groupId: string): IRepo[] =>
   state.groups
   .filter(g => g.id === groupId)
   .map(g => g.repos)
   .reduce((g, r) => g.concat(r))
-  .map(repoId => state.repos.filter(r => r.id === repoId)[0])
+  .map(repoId => state.repos.find(r => r.id === repoId))
+  .filter(repo => repo && !!repo.dir)
   ;
 
 const actions = {
@@ -52,7 +54,7 @@ const actions = {
     dispatch({ type: RELOADING_ALL_REPOS });
 
     (getState().repos as IRepo[])
-      .filter(repo => !repo.pulling)
+      .filter(repo => !repo.pulling && !!repo.dir)
       .map((repo, i) => setTimeout(
         () => actions.reloadRepo(repo.id, repo.dir)(dispatch),
         100 * i
