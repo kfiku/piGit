@@ -31,13 +31,13 @@ const StyledHeader = styled.header`
 
 interface HeaderProps {
   repo: IRepo;
-  actions: any;
+  hideRepoDetails: Function;
 }
 
-function Header({ repo, actions }: HeaderProps) {
+function Header({ repo, hideRepoDetails }: HeaderProps) {
   return (
     <StyledHeader>
-      <Button onClick={ actions.hideRepoDetails.bind(null) } title='Close' className='back'>
+      <Button onClick={() => hideRepoDetails() } title='Close' className='back'>
         <ArrowLeft />
       </Button>
 

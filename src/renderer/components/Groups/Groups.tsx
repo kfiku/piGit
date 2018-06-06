@@ -1,33 +1,28 @@
-import { IGroup } from '../../interfaces/IGroup';
-
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Sortable = require('sortablejs');
 
-import actionsToConnect from '../../actions';
+import { IGroup } from '../../interfaces/IGroup';
+import { reorderGroup } from '../../actions/groupsActions';
 import Group from './Group';
 import { renderLog } from '../../helpers/logger';
 
-// import { IRepo } from '../interfaces/IRepo';
-// import { Repo } from './Repo';
-import Sortable = require('sortablejs');
 
-const onUpdateGroup = (actions, event) => {
-  actions.reorderGroup({
+const onUpdateGroup = (dispatchReorderGroup, event) => {
+  dispatchReorderGroup({
     oldIndex: event.oldIndex,
     newIndex: event.newIndex
   });
 };
 
-const sortableGroups = (actions, el) => {
+const sortableGroups = (dispatchReorderGroup, el) => {
   if (el) {
     let options = {
       animation: 150,
       handle: '.group-mover',
       draggable: '.group',
       forceFallback: true,
-      onUpdate: onUpdateGroup.bind(null, actions),
+      onUpdate: onUpdateGroup.bind(null, dispatchReorderGroup),
     };
 
     Sortable.create(el, options);
@@ -37,10 +32,10 @@ const sortableGroups = (actions, el) => {
 interface Props {
   groups: IGroup[];
   isShownRepoDetails: boolean;
-  actions: any;
+  dispatchReorderGroup: any;
 }
 
-const GroupsComponent: any = ({groups, isShownRepoDetails, actions}: Props) => {
+const GroupsComponent: any = ({ groups, isShownRepoDetails, dispatchReorderGroup}: Props) => {
   renderLog('GROUPS', groups.length);
 
   const groupsNodes = groups.map((group, i) => {
@@ -57,26 +52,20 @@ const GroupsComponent: any = ({groups, isShownRepoDetails, actions}: Props) => {
   }
 
   return (
-    <div style={style} ref={ sortableGroups.bind(null, actions) }>
+    <div style={style} ref={(el) => sortableGroups(dispatchReorderGroup, el) }>
       { groupsNodes }
     </div>
   );
 };
-
-GroupsComponent.propTypes = {
-  groups: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
-};
-
 
 const mapStateToProps = state => ({
   groups: state.groups,
   isShownRepoDetails: !!state.app.repoShown
 });
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionsToConnect, dispatch)
-});
+const mapDispatchToProps = {
+  dispatchReorderGroup: reorderGroup
+};
 
 export default connect(
   mapStateToProps,

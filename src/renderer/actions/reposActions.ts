@@ -42,7 +42,7 @@ export const reloadAllRepos = () => (dispatch, getState) => {
   dispatch({ type: RELOADING_ALL_REPOS });
 
   (getState().repos as IRepo[])
-    .filter(repo => !repo.pulling)
+    .filter(repo => !repo.pulling && !!repo.dir)
     .map((repo, i) => setTimeout(
       () => reloadRepo(repo.id, repo.dir)(dispatch),
       100 * i
@@ -55,7 +55,7 @@ export const reloadAllRepos = () => (dispatch, getState) => {
 
 export const updateAllReposStatus = () => (dispatch, getState) => {
   (getState().repos as IRepo[])
-    .filter(repo => !repo.pulling)
+    .filter(repo => !repo.pulling && !!repo.dir)
     .map((repo, i) => setTimeout(
       () => updateRepoStatus(repo.id, repo.dir)(dispatch),
       100 * i

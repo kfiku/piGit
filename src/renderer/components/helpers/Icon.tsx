@@ -73,7 +73,7 @@ interface IconProps {
   className?: string;
   title?: string;
   children?: any;
-  onClick?: () => {};
+  onClick?: any;
 }
 
 function Icon ({ spin, upAndDown, className, title, onClick, children }: IconProps) {

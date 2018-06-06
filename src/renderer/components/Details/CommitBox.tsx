@@ -1,10 +1,8 @@
-import { IRepo } from '../../interfaces/IRepo';
-
 import * as React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import actionsToConnect from '../../actions';
+import { IRepo } from '../../interfaces/IRepo';
+import { commit } from '../../actions/reposActions';
 import { lh, g3, resizerWidth } from '../../utils/styles';
 import styled from 'styled-components';
 import * as Mousetrap from 'mousetrap';
@@ -90,9 +88,9 @@ const mapStateToProps = (state) => {
   return { repo };
 };
 
-const mapDispatchToProps = dispatch => ({
-  commit: bindActionCreators(actionsToConnect.commit, dispatch)
-});
+const mapDispatchToProps = {
+  commit
+};
 
 const CommitBox = connect(
   mapStateToProps,

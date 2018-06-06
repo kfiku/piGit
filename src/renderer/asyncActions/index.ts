@@ -1,6 +1,6 @@
 // const { globalShortcut } = require('electron').remote;
 
-import actions from '../actions';
+import { reloadAllRepos, updateAllReposStatus } from '../actions/reposActions';
 import isAppFocused from '../helpers/isAppFocused';
 
 export default function asyncFunctions(store) {
@@ -15,13 +15,13 @@ export default function asyncFunctions(store) {
   });
 
   window.addEventListener('focus', function () {
-    store.dispatch(actions.updateAllReposStatus());
+    store.dispatch(updateAllReposStatus());
   });
 
   function refresh() {
     if (isAppFocused()) {
       console.log('refresh');
-      store.dispatch(actions.reloadAllRepos());
+      store.dispatch(reloadAllRepos());
     }
   }
 
@@ -30,7 +30,7 @@ export default function asyncFunctions(store) {
 
     fetchToId = setTimeout(() => {
       console.log('fetchTimeout');
-      store.dispatch(actions.reloadAllRepos());
+      store.dispatch(reloadAllRepos());
       fetchTimeout();
     }, 5 * 60 * 1000); // 5 minutes
   }
@@ -39,7 +39,7 @@ export default function asyncFunctions(store) {
     clearTimeout(updateStatusToId);
     updateStatusToId = setTimeout(() => {
       console.log('updateStatusTimeout');
-      store.dispatch(actions.updateAllReposStatus());
+      store.dispatch(updateAllReposStatus());
       updateStatusTimeout();
     }, 60 * 1000); // 1 min
   }

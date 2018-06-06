@@ -26,17 +26,19 @@ const Wrapper = styled.div`
 `;
 
 interface StatusBtnsProps {
-  actions: any;
+  pullRepo: Function;
+  pushRepo: Function;
+  reloadRepo: Function;
   repo: IRepo;
 }
 
-function StatusBtns({ repo, actions }: StatusBtnsProps) {
+function StatusBtns({ repo, pullRepo, pushRepo, reloadRepo }: StatusBtnsProps) {
   return (
     <Wrapper>
       {repo.stats.behind ? (
         <Button
           inside
-          onClick={actions.pullRepo.bind(null, repo.id, repo.dir)}
+          onClick={() => pullRepo(repo.id, repo.dir)}
           title='Pull this repo'
         >
           <ArrowDown />
@@ -44,7 +46,7 @@ function StatusBtns({ repo, actions }: StatusBtnsProps) {
       ) : repo.stats.ahead ? (
         <Button
           inside
-          onClick={actions.pushRepo.bind(null, repo.id, repo.dir)}
+          onClick={() => pushRepo(repo.id, repo.dir)}
           title='Push to this repo'>
           <ArrowUp />
         </Button>
@@ -52,7 +54,7 @@ function StatusBtns({ repo, actions }: StatusBtnsProps) {
 
       <Button
         inside
-        onClick={actions.reloadRepo.bind(null, repo.id, repo.dir)}
+        onClick={() => reloadRepo(repo.id, repo.dir)}
         title='Refresh this repo'
       >
         <Icon spin={repo.progressing} className='icon icon-refresh'>

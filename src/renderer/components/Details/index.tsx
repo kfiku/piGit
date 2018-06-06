@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { basename } from 'path';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ResizableBox } from 'react-resizable';
 import styled from 'styled-components';
@@ -9,7 +8,12 @@ import { IRepo } from '../../interfaces/IRepo';
 import { IFile } from '../../interfaces/IGit';
 import { renderLog } from '../../helpers/logger';
 import { lh, detailsHeaderHeight } from '../../utils/styles';
-import actionsToConnect from '../../actions';
+import {
+  hideRepoDetails,
+  pullRepo,
+  pushRepo,
+  reloadRepo,
+} from '../../actions/reposActions';
 import StyledRepoDetails from './StyledRepoDetails';
 import Diff from './Diff';
 import Header from './Header';
@@ -38,8 +42,11 @@ export const DiffLoader = styled.div`
 
 interface IRepoDetailsComponent {
   repo: IRepo;
+  hideRepoDetails: Function;
+  pullRepo: Function;
+  pushRepo: Function;
+  reloadRepo: Function;
   fileShown: IFile;
-  actions: any;
 }
 
 interface IRepoDetailsComponentState {
@@ -76,7 +83,7 @@ class RepoDetailsComponent extends React.PureComponent
   }
 
   render() {
-    const { repo, actions, fileShown } = this.props;
+    const { repo, fileShown } = this.props;
     const { width, height, sidebarWidth } = this.state;
     const diffWidth = width - sidebarWidth;
 
@@ -86,7 +93,7 @@ class RepoDetailsComponent extends React.PureComponent
 
     return (
       <StyledRepoDetails>
-        <Header actions={actions} repo={repo}/>
+        <Header hideRepoDetails={this.props.hideRepoDetails} repo={repo}/>
 
         <Wrapper>
           <ResizableBox
@@ -97,7 +104,12 @@ class RepoDetailsComponent extends React.PureComponent
             axis='x'
             onResize={this.resized.bind(this)}
           >
-            <StatusesList actions={actions} repo={repo} />
+            <StatusesList
+              repo={repo}
+              pullRepo={this.props.pullRepo}
+              pushRepo={this.props.pushRepo}
+              reloadRepo={this.props.reloadRepo}
+            />
           </ResizableBox>
 
           <DiffWrapper style={{ width: diffWidth }}>
@@ -118,9 +130,12 @@ const mapStateToProps = (state) => {
   return { repo, fileShown };
 };
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionsToConnect, dispatch)
-});
+const mapDispatchToProps = {
+  hideRepoDetails,
+  pullRepo,
+  pushRepo,
+  reloadRepo,
+};
 
 const RepoDetails = connect(
   mapStateToProps,

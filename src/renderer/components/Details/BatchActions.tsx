@@ -1,13 +1,18 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { IRepo } from '../../interfaces/IRepo';
 import { g7 } from '../../utils/styles';
 import { IFile } from '../../interfaces/IGit';
 import { Wrapper as BaseWrapper, Action as BaseAction } from './FileActions';
-import actionsToConnect from '../../actions';
+import {
+  addFile,
+  addAllFiles,
+  unAddFile,
+  checkoutFile,
+  deleteFile,
+} from '../../actions/fileActions';
 
 const Revert = require('react-icons/lib/md/undo');
 const Plus = require('react-icons/lib/md/add');
@@ -27,20 +32,20 @@ function confirmCheckoutAll () {
   return confirm(`Are you sure you want to discard changes in all files`);
 }
 
-function addAll(repo: IRepo, files: IFile[], addFile) {
-  files.map(file => addFile(repo.id, repo.dir, file.path));
+function addAll(repo: IRepo, files: IFile[], dispatchAddFile) {
+  files.map(file => dispatchAddFile(repo.id, repo.dir, file.path, false));
 }
 
-function unAddAll(repo: IRepo, files: IFile[], unAddFile) {
-  files.map(file => unAddFile(repo.id, repo.dir, file.path));
+function unAddAll(repo: IRepo, files: IFile[], dispatchUnAddFile) {
+  files.map(file => dispatchUnAddFile(repo.id, repo.dir, file.path));
 }
 
-function checkoutAll(repo: IRepo, files: IFile[], checkoutFile, deleteFile) {
+function checkoutAll(repo: IRepo, files: IFile[], dispatchCheckoutFile, dispatchDeleteFile) {
   files.map(file => {
     if (file.type === '?') {
-      deleteFile(repo.id, repo.dir, file.path);
+      dispatchDeleteFile(repo.id, repo.dir, file.path);
     } else {
-      checkoutFile(repo.id, repo.dir, file.path);
+      dispatchCheckoutFile(repo.id, repo.dir, file.path);
     }
   });
 }
@@ -49,16 +54,19 @@ interface IBatchActions {
   repo: IRepo;
   files: IFile[];
   type: string;
-  addFile?: any;
-  unAddFile?: any;
-  checkoutFile?: any;
-  deleteFile?: any;
+  dispatchAddFile?: Function;
+  dispatchAddAllFiles?: Function;
+  dispatchUnAddFile?: Function;
+  dispatchCheckoutFile?: Function;
+  dispatchDeleteFile?: Function;
 }
 
 export function BatchActionsComponent ({
   files, repo, type,
-  addFile, checkoutFile, deleteFile, unAddFile
+  dispatchAddFile, dispatchCheckoutFile, dispatchDeleteFile, dispatchUnAddFile,
+  dispatchAddAllFiles
 }: IBatchActions) {
+  // console.log(dispatchAddFile, dispatchCheckoutFile, dispatchDeleteFile, dispatchUnAddFile);
   switch (type) {
     case 'unstaged':
       return (
@@ -66,7 +74,7 @@ export function BatchActionsComponent ({
           <Action
             onClick={() =>
               confirmCheckoutAll() &&
-              checkoutAll(repo, files, checkoutFile, deleteFile)
+              checkoutAll(repo, files, dispatchCheckoutFile, dispatchDeleteFile)
             }
             title='Revert changes on all files'
           >
@@ -74,7 +82,7 @@ export function BatchActionsComponent ({
           </Action>
 
           <Action
-            onClick={() => addAll(repo, files, addFile)}
+            onClick={() => dispatchAddAllFiles(repo.id, repo.dir)}
             title='Add all files to commit'
           >
             <Plus />
@@ -85,7 +93,7 @@ export function BatchActionsComponent ({
       return (
         <Wrapper>
           <Action
-            onClick={() => unAddAll(repo, files, unAddFile)}
+            onClick={() => unAddAll(repo, files, dispatchUnAddFile)}
             title='Unstaged all changes in all files'
           >
             <Minus />
@@ -103,12 +111,13 @@ const mapStateToProps = () => {
   return { };
 };
 
-const mapDispatchToProps = dispatch => ({
-  addFile: bindActionCreators(actionsToConnect.addFile, dispatch),
-  unAddFile: bindActionCreators(actionsToConnect.unAddFile, dispatch),
-  checkoutFile: bindActionCreators(actionsToConnect.checkoutFile, dispatch),
-  deleteFile: bindActionCreators(actionsToConnect.deleteFile, dispatch)
-});
+const mapDispatchToProps = {
+  dispatchAddFile: addFile,
+  dispatchAddAllFiles: addAllFiles,
+  dispatchUnAddFile: unAddFile,
+  dispatchCheckoutFile: checkoutFile,
+  dispatchDeleteFile: deleteFile,
+};
 
 const BatchActions = connect(
   mapStateToProps,

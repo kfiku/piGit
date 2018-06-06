@@ -6,15 +6,22 @@ import StashList from './StashList';
 import CommitBox from './CommitBox';
 import StatusBtns from './StatusBtns';
 interface StatusesListProps {
-  actions: any;
+  pullRepo: Function;
+  pushRepo: Function;
+  reloadRepo: Function;
   repo: IRepo;
 }
 
-function StatusesList({ repo, actions }: StatusesListProps) {
+function StatusesList({ repo, pullRepo, pushRepo, reloadRepo }: StatusesListProps) {
   const { staged, unstaged, conflicted, stashes } = repo.lists;
   return (
     <div>
-      <StatusBtns repo={repo} actions={actions} />
+      <StatusBtns
+        repo={repo}
+        pullRepo={pullRepo}
+        pushRepo={pushRepo}
+        reloadRepo={reloadRepo}
+      />
       <CommitBox repo={repo} />
       <FileList files={staged} repo={repo} title='Staged' type='staged' />
       <FileList files={unstaged} repo={repo} title='Changed' type='unstaged' alwaysShow />
@@ -23,6 +30,5 @@ function StatusesList({ repo, actions }: StatusesListProps) {
     </div>
   );
 }
-
 
 export default StatusesList;
