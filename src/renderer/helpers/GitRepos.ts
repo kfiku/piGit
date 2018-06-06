@@ -50,7 +50,10 @@ export class Repo {
     this.validateDir(dir, (err) => {
       if (!err) {
         this.git = simpleGit(dir);
-        callback(null);
+        this.updateStatus()
+          .then(() => callback(null))
+          .catch(err2 => callback(err2));
+        // callback(null);
       } else {
         callback(err);
       }
