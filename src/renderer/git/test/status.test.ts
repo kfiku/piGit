@@ -194,7 +194,7 @@ MM test/git.test.ts
         }];
         expected.lists.unstaged = [{
           path: 'test/git.test.ts', type: 'M',
-          staged: true, conflicted: false,
+          staged: false, conflicted: false,
           index: 'M', workspace: 'M'
         }];
         expect(st).toEqual(expected);
@@ -217,7 +217,7 @@ AM test/git.test.ts
         }];
         expected.lists.unstaged = [{
           path: 'test/git.test.ts', type: 'M',
-          staged: true, conflicted: false,
+          staged: false, conflicted: false,
           index: 'A', workspace: 'M'
         }];
         expect(st).toEqual(expected);
@@ -240,7 +240,7 @@ RM test/git.test.ts -> test/git2.test.ts
         }];
         expected.lists.unstaged = [{
           path: 'test/git.test.ts -> test/git2.test.ts', type: 'M',
-          staged: true, conflicted: false,
+          staged: false, conflicted: false,
           index: 'R', workspace: 'M'
         }];
         expect(st).toEqual(expected);
@@ -263,7 +263,7 @@ RD test/git.test.ts -> test/git2.test.ts
         }];
         expected.lists.unstaged = [{
           path: 'test/git.test.ts -> test/git2.test.ts', type: 'D',
-          staged: true, conflicted: false,
+          staged: false, conflicted: false,
           index: 'R', workspace: 'D'
         }];
         expect(st).toEqual(expected);

@@ -3,7 +3,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import equals from '../../helpers/Equals';
-import actions from '../../actions';
+import {
+  showFile,
+  addFile,
+  unAddFile,
+  checkoutFile,
+  deleteFile
+} from '../../actions/fileActions';
 import { IAppState } from '../../reducers/app';
 import File, { IFileProps } from './File';
 
@@ -18,11 +24,11 @@ const mapStateToProps = ({ app }: { app: IAppState }, props: IFileProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  showFile: bindActionCreators(actions.showFile, dispatch),
-  addFile: bindActionCreators(actions.addFile, dispatch),
-  unAddFile: bindActionCreators(actions.unAddFile, dispatch),
-  checkoutFile: bindActionCreators(actions.checkoutFile, dispatch),
-  deleteFile: bindActionCreators(actions.deleteFile, dispatch)
+  showFile: bindActionCreators(showFile, dispatch),
+  addFile: bindActionCreators(addFile, dispatch),
+  unAddFile: bindActionCreators(unAddFile, dispatch),
+  checkoutFile: bindActionCreators(checkoutFile, dispatch),
+  deleteFile: bindActionCreators(deleteFile, dispatch)
 });
 
 const connected = connect(

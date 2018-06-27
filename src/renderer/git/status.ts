@@ -181,6 +181,7 @@ function parseFile(line: string): IFile {
 
 function updateFileType(file: IFile, staged: boolean): IFile {
   const updatedFile = clone(file);
+  updatedFile.staged = staged;
   updatedFile.type = staged ? file.index : file.workspace;
   return updatedFile;
 }

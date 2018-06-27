@@ -3,17 +3,16 @@ import { IGroup } from '../../interfaces/IGroup';
 
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Sortable = require('sortablejs');
 
 import { renderLog } from '../../helpers/logger';
-import actionsToConnect from '../../actions';
+import { reorderRepo } from '../../actions/reposActions';
 import Repo from './Repo';
 import StyledRepos from './StyledRepos';
 
 
-const onAddRepo = (actions, event) => {
+const onAddRepo = (action, event) => {
   /**
    * Put dragged element back to `from` node.
    * It's needed to avoid React VIRTUAL DOM cleanup.
@@ -21,7 +20,7 @@ const onAddRepo = (actions, event) => {
    */
   event.from.appendChild(event.item);
 
-  actions.reorderRepo({
+  action({
     from: Number(event.from.getAttribute('data-group-i')),
     to: Number(event.to.getAttribute('data-group-i')),
     oldIndex: event.oldIndex,
@@ -29,8 +28,8 @@ const onAddRepo = (actions, event) => {
   });
 };
 
-const onUpdateRepo = (actions, event) => {
-  actions.reorderRepo({
+const onUpdateRepo = (action, event) => {
+  action({
     from: Number(event.from.getAttribute('data-group-i')),
     to: Number(event.to.getAttribute('data-group-i')),
     oldIndex: event.oldIndex,
@@ -38,7 +37,7 @@ const onUpdateRepo = (actions, event) => {
   });
 };
 
-const sortableRepos = (actions, el) => {
+const sortableRepos = (action: Function, el) => {
   if (el) {
     setTimeout(() => {
       let options = {
@@ -47,8 +46,8 @@ const sortableRepos = (actions, el) => {
         draggable: '.repo',
         // forceFallback: true,
         group: 'shared-repos',
-        onUpdate: onUpdateRepo.bind(null, actions),
-        onAdd: onAddRepo.bind(null, actions),
+        onUpdate: onUpdateRepo.bind(null, action),
+        onAdd: onAddRepo.bind(null, action),
         onClone: function (evt) {
           evt.clone.parentNode.appendChild(evt.clone);
         }
@@ -62,10 +61,10 @@ const sortableRepos = (actions, el) => {
 interface IReposProps {
   group: IGroup;
   i: number;
-  actions: any;
+  dispatchReorderRepo: Function;
 }
 
-const ReposComponent: React.SFC<IReposProps> = ({ group, i, actions }) => {
+const ReposComponent: React.SFC<IReposProps> = ({ group, i, dispatchReorderRepo }) => {
   renderLog('REPOS', group.title);
 
   let reposNodes = group.repos.map(repo => (
@@ -74,14 +73,14 @@ const ReposComponent: React.SFC<IReposProps> = ({ group, i, actions }) => {
 
   return (
     <StyledRepos className='repos' data-group-i={ i }
-    innerRef={ sortableRepos.bind(null, actions) }>
+      innerRef={(el) => sortableRepos(dispatchReorderRepo, el) }>
       { reposNodes }
     </StyledRepos>
   );
 };
 
 ReposComponent.propTypes = {
-  actions: PropTypes.object.isRequired,
+  dispatchReorderRepo: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   i: PropTypes.number.isRequired
 };
@@ -92,9 +91,9 @@ const mapStateToProps = (state, ownProps ) => {
   return { group, i: ownProps['group-i'] };
 };
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionsToConnect, dispatch)
-});
+const mapDispatchToProps = {
+  dispatchReorderRepo: reorderRepo
+};
 
 const Repos = connect(
   mapStateToProps,
