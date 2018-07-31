@@ -2,7 +2,8 @@ import {
   ADD_REPO, ADDING_REPO, ADDING_REPO_END, UPDATE_REPO, SHOW_REPO, HIDE_REPO,
   DELETE_REPO, REORDER_REPO, SHOW_FILE, RELOADING, RELOADING_END,
   PULLING, PULLING_END,
-  RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END, ADD_GROUP
+  RELOADING_ALL_REPOS, RELOADING_ALL_REPOS_END, ADD_GROUP,
+  RELOADING_ALL_REPOS_STATUS, RELOADING_ALL_REPOS_STATUS_END
 } from '../constants/ActionTypes';
 
 import * as electron from 'electron';
@@ -38,28 +39,37 @@ export const addRepos = () => (dispatch, getState) => {
   );
 };
 
-export const reloadAllRepos = () => (dispatch, getState) => {
+export const reloadAllRepos = () => async (dispatch, getState) => {
+  const repos = (getState().repos as IRepo[])
+    .filter(repo => !repo.pulling && !!repo.dir);
+
   dispatch({ type: RELOADING_ALL_REPOS });
+  console.time('updateAllRepos');
+  for (const repo of repos) {
+    const { id, dir } = repo;
+    await reloadRepoAsync(id, dir)(dispatch);
+  }
 
-  (getState().repos as IRepo[])
-    .filter(repo => !repo.pulling && !!repo.dir)
-    .map((repo, i) => setTimeout(
-      () => reloadRepo(repo.id, repo.dir)(dispatch),
-      100 * i
-    ));
-
-  setTimeout(() => {
-    dispatch({ type: RELOADING_ALL_REPOS_END });
-  }, 1000);
+  dispatch({ type: RELOADING_ALL_REPOS_END });
+  console.timeEnd('updateAllRepos');
 };
 
-export const updateAllReposStatus = () => (dispatch, getState) => {
-  (getState().repos as IRepo[])
-    .filter(repo => !repo.pulling && !!repo.dir)
-    .map((repo, i) => setTimeout(
-      () => updateRepoStatus(repo.id, repo.dir)(dispatch),
-      100 * i
-    ));
+export const updateAllReposStatus = () => async (dispatch, getState) => {
+  const repos = (getState().repos as IRepo[])
+    .filter(repo => !repo.pulling && !!repo.dir);
+
+  dispatch({ type: RELOADING_ALL_REPOS_STATUS });
+  console.time('updateAllReposStatus');
+  for (const repo of repos) {
+    try {
+      const data = await gitRepos.updateStatusAsync(repo.dir);
+      dispatch({ type: UPDATE_REPO, data, id : repo.id });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  dispatch({ type: RELOADING_ALL_REPOS_STATUS_END });
+  console.timeEnd('updateAllReposStatus');
 };
 
 export const addRepo = (repo: IRepo) => (
@@ -92,7 +102,7 @@ export const reloadRepo = (id: string, dir: string) => dispatch => {
   dispatch({ type: RELOADING, id });
   gitRepos.refresh(dir, (err, data) => {
     if (err) {
-      dispatch({ type: RELOADING_END, data, id });
+      dispatch({ type: RELOADING_END, id });
       dispatch(message(dir + ': ' + err.message || err + ''));
     } else {
       dispatch({ type: UPDATE_REPO, data, id });
@@ -100,11 +110,25 @@ export const reloadRepo = (id: string, dir: string) => dispatch => {
   });
 };
 
+export const reloadRepoAsync = (id: string, dir: string) => async (dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    dispatch({ type: RELOADING, id });
+    try {
+      const data = await gitRepos.refreshAsync(dir);
+      dispatch({ type: UPDATE_REPO, data, id });
+      resolve();
+    } catch (err) {
+      dispatch(message(dir + ': ' + err.message || err + ''));
+      reject();
+    }
+    dispatch({ type: RELOADING_END, id });
+  });
+};
+
 export const updateRepoStatus = (id: string, dir: string) => dispatch => {
   // dispatch({ type: RELOADING, id });
   gitRepos.updateStatus(dir, (err, data) => {
     if (err) {
-      dispatch({ type: RELOADING_END, data, id });
       dispatch(message(dir + ': ' + err.message || err + ''));
     } else {
       dispatch({ type: UPDATE_REPO, data, id });
@@ -126,11 +150,39 @@ export const pullRepo = (id: string, dir: string) => dispatch => {
   });
 };
 
+export const pullRepoAsync = (id: string, dir: string) => dispatch => {
+  return new Promise(async (resolve, reject) => {
+    dispatch({ type: PULLING, id });
+    try {
+      const data = await gitRepos.pull(dir, () => {});
+      dispatch({ type: UPDATE_REPO, data, id });
+      resolve();
+    } catch (err) {
+      dispatch(message(dir + ': ' + err.message || err + ''));
+      reject();
+    }
+    dispatch({ type: PULLING_END, id });
+  });
+
+
+  // dispatch({ type: PULLING, id });
+  // gitRepos.pull(dir, (err, data) => {
+  //   if (err) {
+  //     console.log('err', 2, err);
+  //     dispatch({ type: PULLING_END, data, id });
+  //     dispatch(message(dir + ': ' + err.message || err + ''));
+  //   } else {
+  //     console.log(2);
+  //     dispatch({ type: UPDATE_REPO, data, id });
+  //   }
+  // });
+};
+
 export const commit = (id: string, dir: string, msg: string) => dispatch => {
   dispatch({ type: RELOADING, id });
   gitRepos.commit(dir, msg, (err, data) => {
     if (err) {
-      dispatch({ type: RELOADING_END, data, id });
+      dispatch({ type: RELOADING_END, id });
       dispatch(message(dir + ': ' + err.message || err + ''));
     } else {
       dispatch({ type: UPDATE_REPO, data, id });
@@ -142,7 +194,7 @@ export const stashDrop = (id: string, dir: string, stashKey: string) => dispatch
   dispatch({ type: RELOADING, id });
   gitRepos.stashDrop(dir, stashKey, (err, data) => {
     if (err) {
-      dispatch({ type: RELOADING_END, data, id });
+      dispatch({ type: RELOADING_END, id });
       dispatch(message(dir + ': ' + err.message || err + ''));
     } else {
       dispatch({ type: UPDATE_REPO, data, id });
@@ -154,7 +206,7 @@ export const stashApplyWithDrop = (id: string, dir: string, stashKey: string) =>
   dispatch({ type: RELOADING, id });
   gitRepos.stashApplyWithDrop(dir, stashKey, (err, data) => {
     if (err) {
-      dispatch({ type: RELOADING_END, data, id });
+      dispatch({ type: RELOADING_END, id });
       dispatch(message(dir + ': ' + err.message || err + ''));
     } else {
       dispatch({ type: UPDATE_REPO, data, id });
@@ -166,7 +218,7 @@ export const pushRepo = (id: string, dir: string) => dispatch => {
   dispatch({ type: RELOADING, id });
   gitRepos.push(dir, (err, data) => {
     if (err) {
-      dispatch({ type: RELOADING_END, data, id });
+      dispatch({ type: RELOADING_END, id });
       dispatch(message(dir + ': ' + err.message || err + ''));
     } else {
       dispatch({ type: UPDATE_REPO, data, id });
@@ -233,7 +285,7 @@ export const pushRepo = (id: string, dir: string) => dispatch => {
 //   dispatch({ type: RELOADING, id });
 //   gitRepos.addFile(dir, file, (err, data) => {
 //     if (err) {
-//       dispatch({ type: RELOADING_END, data, id });
+//       dispatch({ type: RELOADING_END, id });
 //       dispatch(message(dir + ': ' + err.message || err + ''));
 //     } else {
 //       dispatch({ type: UPDATE_REPO, data, id });
@@ -245,7 +297,7 @@ export const pushRepo = (id: string, dir: string) => dispatch => {
 //   dispatch({ type: RELOADING, id });
 //   gitRepos.unAddFile(dir, file, (err, data) => {
 //     if (err) {
-//       dispatch({ type: RELOADING_END, data, id });
+//       dispatch({ type: RELOADING_END, id });
 //       dispatch(message(dir + ': ' + err.message || err + ''));
 //     } else {
 //       dispatch({ type: UPDATE_REPO, data, id });
@@ -257,7 +309,7 @@ export const pushRepo = (id: string, dir: string) => dispatch => {
 //   dispatch({ type: RELOADING, id });
 //   gitRepos.checkoutFile(dir, file, (err, data) => {
 //     if (err) {
-//       dispatch({ type: RELOADING_END, data, id });
+//       dispatch({ type: RELOADING_END, id });
 //       dispatch(message(dir + ': ' + err.message || err + ''));
 //     } else {
 //       dispatch({ type: UPDATE_REPO, data, id });
@@ -269,7 +321,7 @@ export const pushRepo = (id: string, dir: string) => dispatch => {
 //   dispatch({ type: RELOADING, id });
 //   gitRepos.deleteFile(dir, file, (err, data) => {
 //     if (err) {
-//       dispatch({ type: RELOADING_END, data, id });
+//       dispatch({ type: RELOADING_END, id });
 //       dispatch(message(dir + ': ' + err.message || err + ''));
 //     } else {
 //       dispatch({ type: UPDATE_REPO, data, id });
