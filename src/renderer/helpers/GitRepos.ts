@@ -284,11 +284,23 @@ export class Repos {
     .catch(err => callback(err));
   }
 
+  async updateStatusAsync(dir: string) {
+    const repo = await this.getRepo(dir);
+    const status = await repo.updateStatus();
+    return status;
+  }
+
   refresh (dir: string, callback) {
     this.getRepo(dir)
     .then((repo: Repo) => repo.refresh())
     .then(data => callback(null, data))
     .catch(err => callback(err));
+  }
+
+  async refreshAsync (dir: string) {
+    const repo = await this.getRepo(dir);
+    const status = await repo.refresh();
+    return status;
   }
 
   fetch (dir: string, callback) {
@@ -306,7 +318,8 @@ export class Repos {
       const isBehind = stats.behind > 0;
       if (!isBehind) {
         /** nothing behind, no need to pull */
-        return callback(null, status);
+        callback(null, status);
+        return status;
       }
 
       const isAhead = stats.ahead > 0;
@@ -324,7 +337,8 @@ export class Repos {
         } else {
           const pullWithMerge = confirm(`So you won't pull with merge?`);
           if (!pullWithMerge) {
-            return callback(null, status);
+            callback(null, status);
+            return status;
           }
         }
       } else if (isAhead) {
@@ -337,18 +351,22 @@ export class Repos {
           // pull with rebase
           console.info('pull with rebase');
           const stateAfterRebase = await repo.pullWithRebase();
-          return callback(null, stateAfterRebase);
+          callback(null, stateAfterRebase);
+          return stateAfterRebase;
         } else {
           const pullWithMerge = confirm(`So you won't pull with merge?`);
           if (!pullWithMerge) {
-            return callback(null, status);
+            callback(null, status);
+            return status;
           }
         }
       }
 
       console.info('regular pull');
       const statusAfterPull = await repo.pull();
-      return callback(null, statusAfterPull);
+      console.info('after regular pull');
+      callback(null, statusAfterPull);
+      return statusAfterPull;
 
     } catch (err) {
       return callback(err);
@@ -386,6 +404,7 @@ export class Repos {
       /** getting new status */
       const newStatus = await repo.updateStatus();
       callback(null, newStatus);
+      return newStatus;
     } catch (e) {
       callback(e);
     }

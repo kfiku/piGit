@@ -15,7 +15,7 @@ export default function asyncFunctions(store) {
   });
 
   window.addEventListener('focus', function () {
-    store.dispatch(updateAllReposStatus());
+    updateStatus();
   });
 
   function refresh() {
@@ -29,8 +29,7 @@ export default function asyncFunctions(store) {
     clearTimeout(fetchToId);
 
     fetchToId = setTimeout(() => {
-      console.log('fetchTimeout');
-      store.dispatch(reloadAllRepos());
+      fetch();
       fetchTimeout();
     }, 5 * 60 * 1000); // 5 minutes
   }
@@ -38,10 +37,31 @@ export default function asyncFunctions(store) {
   function updateStatusTimeout() {
     clearTimeout(updateStatusToId);
     updateStatusToId = setTimeout(() => {
-      console.log('updateStatusTimeout');
-      store.dispatch(updateAllReposStatus());
+      updateStatus();
       updateStatusTimeout();
     }, 60 * 1000); // 1 min
+  }
+
+  function isGitBusy() {
+    const { repos, app } = store.getState();
+    const busyGits = repos && repos.filter(r => r.progressing || r.pulling).length;
+    const isBusy = busyGits > 0 || app.reloadingAllRepos || app.reloadingAllReposStatus;
+    console.log('ASYNC ACTIONS busyGits: ', isBusy);
+    return isBusy;
+  }
+
+  function updateStatus() {
+    if (!isGitBusy()) {
+      console.log('ASYNC ACTIONS updateStatus');
+      store.dispatch(updateAllReposStatus());
+    }
+  }
+
+  function fetch() {
+    if (!isGitBusy()) {
+      console.log('ASYNC ACTIONS fetch');
+      store.dispatch(reloadAllRepos());
+    }
   }
 
   fetchTimeout();

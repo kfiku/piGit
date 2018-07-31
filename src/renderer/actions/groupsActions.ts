@@ -7,7 +7,7 @@ import {
 import { IRepo } from '../interfaces/IRepo';
 import { IRootReducer } from '../reducers/index';
 
-import { pullRepo, reloadRepo } from './reposActions';
+import { pullRepoAsync, reloadRepoAsync } from './reposActions';
 
 const getReposFromGroup = (state: IRootReducer, groupId: string): IRepo[] =>
   state.groups
@@ -42,32 +42,22 @@ export const editGroup = (id: string, title) => (
   { type: EDIT_GROUP, id, title }
 );
 
-export const reloadGroup = (id: string) => (dispatch, getState) => {
+export const reloadGroup = (id: string) => async (dispatch, getState) => {
   dispatch({ type: RELOADING_GROUP, id });
-
-  getReposFromGroup(getState(), id)
-  .map((r, i) => setTimeout(
-    () => reloadRepo(r.id, r.dir)(dispatch),
-    100 * i
-  ));
-
-  setTimeout(() => {
-    dispatch({ type: RELOADING_GROUP_END, id });
-  }, 1000);
+  const repos = getReposFromGroup(getState(), id);
+  for (const repo of repos) {
+    await reloadRepoAsync(repo.id, repo.dir)(dispatch);
+  }
+  dispatch({ type: RELOADING_GROUP_END, id });
 };
 
-export const pullGroup = (id: string) => (dispatch, getState) => {
+export const pullGroup = (id: string) => async (dispatch, getState) => {
   dispatch({ type: RELOADING_GROUP, id });
-
-  getReposFromGroup(getState(), id)
-  .map((r, i) => setTimeout(
-    () => pullRepo(r.id, r.dir)(dispatch),
-    100 * i
-  ));
-
-  setTimeout(() => {
-    dispatch({ type: RELOADING_GROUP_END, id });
-  }, 1000);
+  const repos = getReposFromGroup(getState(), id);
+  for (const repo of repos) {
+    await pullRepoAsync(repo.id, repo.dir)(dispatch);
+  }
+  dispatch({ type: RELOADING_GROUP_END, id });
 };
 
 
@@ -77,7 +67,7 @@ export const pullGroup = (id: string) => (dispatch, getState) => {
 //   dispatch({ type: RELOADING, id });
 //   gitRepos.addFile(dir, file, (err, data) => {
 //     if (err) {
-//       dispatch({ type: RELOADING_END, data, id });
+//       dispatch({ type: RELOADING_END, id });
 //       dispatch(message(dir + ': ' + err.message || err + ''));
 //     } else {
 //       dispatch({ type: UPDATE_REPO, data, id });
@@ -89,7 +79,7 @@ export const pullGroup = (id: string) => (dispatch, getState) => {
 //   dispatch({ type: RELOADING, id });
 //   gitRepos.unAddFile(dir, file, (err, data) => {
 //     if (err) {
-//       dispatch({ type: RELOADING_END, data, id });
+//       dispatch({ type: RELOADING_END, id });
 //       dispatch(message(dir + ': ' + err.message || err + ''));
 //     } else {
 //       dispatch({ type: UPDATE_REPO, data, id });
@@ -101,7 +91,7 @@ export const pullGroup = (id: string) => (dispatch, getState) => {
 //   dispatch({ type: RELOADING, id });
 //   gitRepos.checkoutFile(dir, file, (err, data) => {
 //     if (err) {
-//       dispatch({ type: RELOADING_END, data, id });
+//       dispatch({ type: RELOADING_END, id });
 //       dispatch(message(dir + ': ' + err.message || err + ''));
 //     } else {
 //       dispatch({ type: UPDATE_REPO, data, id });
@@ -113,7 +103,7 @@ export const pullGroup = (id: string) => (dispatch, getState) => {
 //   dispatch({ type: RELOADING, id });
 //   gitRepos.deleteFile(dir, file, (err, data) => {
 //     if (err) {
-//       dispatch({ type: RELOADING_END, data, id });
+//       dispatch({ type: RELOADING_END, id });
 //       dispatch(message(dir + ': ' + err.message || err + ''));
 //     } else {
 //       dispatch({ type: UPDATE_REPO, data, id });
