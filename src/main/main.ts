@@ -22,14 +22,14 @@ function createWindow() {
   }
 
   if (dev) {
-    const installExtension = require('electron-devtools-installer');
-    installExtension.default(installExtension.REDUX_DEVTOOLS)
-      .then((name) => console.log(`Added Extension:  ${name}`))
-      .catch((err) => console.log('An error occurred: ', err));
+    // const installExtension = require('electron-devtools-installer');
+    // installExtension.default(installExtension.REDUX_DEVTOOLS)
+    //   .then((name) => console.log(`Added Extension:  ${name}`))
+    //   .catch((err) => console.log('An error occurred: ', err));
 
-    installExtension.default(installExtension.REACT_DEVELOPER_TOOLS)
-      .then((name) => console.log(`Added Extension:  ${name}`))
-      .catch((err) => console.log('An error occurred: ', err));
+    // installExtension.default(installExtension.REACT_DEVELOPER_TOOLS)
+    //   .then((name) => console.log(`Added Extension:  ${name}`))
+    //   .catch((err) => console.log('An error occurred: ', err));
 
     require('electron-debug')({showDevTools: true});
   }
