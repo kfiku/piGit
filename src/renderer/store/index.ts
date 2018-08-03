@@ -44,13 +44,13 @@ const createAppStore = (callback) => {
   }
 
   let composeEnhancers = compose;
-  if (env === 'development' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-    composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-  }
+  // if (env === 'development' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+  //   composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+  // }
 
   let store = createStore(
     rootReducer,
-    state,
+    state as any,
     composeEnhancers(
       applyMiddleware(
         thunkMiddleware, // lets us dispatch() functions
