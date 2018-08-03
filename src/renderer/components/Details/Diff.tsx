@@ -25,7 +25,7 @@ async function loadDiff(dir: string, file: IFile, wide: boolean, el: HTMLBaseEle
   try {
     const diff = await repos.diff(dir, file);
 
-    if (diff.length > 10000) {
+    if (diff.length > 50000) {
       document.getElementById('differ').innerHTML = `
         <pre><code>${diff.replace(/</gm, '&lt;').replace(/>/gm, '&gt;')}</code></pre>
       `;
