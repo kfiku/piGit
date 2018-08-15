@@ -23,6 +23,8 @@ interface IRepoProps {
   dispatchPushRepo: Function;
   dispatchDeleteRepo: Function;
   dispatchShowRepoDetails: Function;
+  innerRef: Function;
+  dragHandleProps: any;
 }
 interface IRepoState {
   active: boolean;
@@ -73,6 +75,9 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
 
   getRef(el) {
     this.el = el;
+    if (this.props.innerRef) {
+      this.props.innerRef(el);
+    }
   }
 
   render() {
@@ -83,6 +88,8 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
       dispatchPushRepo,
       dispatchDeleteRepo,
       dispatchShowRepoDetails,
+      dragHandleProps,
+      ...rest
     } = this.props;
     const { active } = this.state;
     if (!repo || !repo.dir || !repo.stats) { return null; }
@@ -97,6 +104,7 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
         active={active ? 1 : 0}
         onMouseLeave={(e) => this.diamondOut(e)}
         onMouseEnter={() => this.diamondOver()}
+        {...rest}
       >
         <Icons
           active={active || repo.progressing || repo.pulling}
@@ -105,6 +113,7 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
           pullRepo={() => dispatchPullRepo(repo.id, repo.dir)}
           pushRepo={() => dispatchPushRepo(repo.id, repo.dir)}
           deleteRepo={() => dispatchDeleteRepo(repo.id, group.id)}
+          dragHandleProps={dragHandleProps}
         />
 
         <Content

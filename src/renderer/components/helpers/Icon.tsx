@@ -76,7 +76,7 @@ interface IconProps {
   onClick?: any;
 }
 
-function Icon ({ spin, upAndDown, className, title, onClick, children }: IconProps) {
+function Icon ({ spin, upAndDown, className, title, onClick, children, ...rest }: IconProps) {
   return (
     <StyledIcon
       onClick={onClick}
@@ -84,6 +84,7 @@ function Icon ({ spin, upAndDown, className, title, onClick, children }: IconPro
       upAndDown={upAndDown}
       className={className}
       title={title}
+      {...rest}
     >
       {children}
     </StyledIcon>

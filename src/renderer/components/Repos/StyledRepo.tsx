@@ -25,16 +25,16 @@ const StyledRepoWithMQ = StyledRepo.extend`
         width: ${size}vw;
         height: ${size}vw;
         padding-bottom: ${size}vw;
-        margin-right: -${size / 2}vw;
-        margin-bottom: -${size / 2}vw;
+        // margin-right: -${size / 2}vw;
+        // margin-bottom: -${size / 2}vw;
 
-        &:nth-child(even) {
-          margin-top: ${size / 2}vw;
-        }
+        // &:nth-child(even) {
+        //   margin-top: ${size / 2}vw;
+        // }
 
-        &:nth-of-type(${inLine}n + ${inLine}) {
-          margin-right: 0;
-        }
+        // &:nth-of-type(${inLine}n + ${inLine}) {
+        //   margin-right: 0;
+        // }
       }
 
       /* SUPER SMALL SIZES */

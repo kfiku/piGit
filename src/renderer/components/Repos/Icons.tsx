@@ -34,7 +34,6 @@ const Wrapper = styled.div`
   .icon-move {
     top: ${iconSide}%;
     left: ${iconCenter}%;
-    cursor: move;
   }
 
   .icon-refresh {
@@ -57,6 +56,7 @@ const Wrapper = styled.div`
 interface IIconsProps {
   active: boolean;
   repo: IRepo;
+  dragHandleProps: any;
   deleteRepo: () => {};
   pullRepo: () => {};
   pushRepo: () => {};
@@ -70,15 +70,19 @@ export default function Icons (
     deleteRepo,
     pullRepo,
     pushRepo,
-    reloadRepo
+    reloadRepo,
+    dragHandleProps
   }: IIconsProps
 ) {
 
   const pulling = repo.pulling;
-
   return (
     <Wrapper active={active ? 1 : 0}>
-      <Icon className='icon icon-move repo-mover' title='Reorder this repo'>
+      <Icon
+        className='icon icon-move repo-mover'
+        title='Reorder this repo'
+        {...dragHandleProps}
+      >
         <Move />
       </Icon>
 
