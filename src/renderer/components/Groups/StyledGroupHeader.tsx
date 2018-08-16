@@ -6,19 +6,15 @@ import { groupHeaderHeight, g1, g6, g7, styledFont, scriptFont } from '../../uti
 const StyledGroupHeader = styled.div`
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  /* align-items: center; */
+  flex-direction: column;
   // padding: ${groupHeaderHeight / 2}px 0;
-  height: ${groupHeaderHeight * 2}px;
 
   position: relative;
   z-index: 3;
 
-  &.editing {
-    background: ${g1};
-  }
-
   .icon {
-    display: block;
+    /* display: block; */
     width: ${groupHeaderHeight}px;
     height: ${groupHeaderHeight}px;
     margin-right: ${groupHeaderHeight / 2}px;
@@ -33,26 +29,22 @@ const StyledGroupHeader = styled.div`
   }
 
   .title-box {
+    display: block;
     flex-grow: 1;
-  }
-
-  .title {
-    height: ${groupHeaderHeight}px;
-
-    font-size: ${groupHeaderHeight}px;
-    line-height: ${groupHeaderHeight}px;
-
-    font-family: ${styledFont};
-    word-break: break-all;
-    font-weight: 400;
-
-    color: ${g7};
-  }
-
-  .title {
     height: ${groupHeaderHeight * 2}px;
+  }
+
+  .title {
+    cursor: text;
+    display: block;
+    width: 100%;
+    height: ${groupHeaderHeight * 2}px;
+
     font-family: ${scriptFont};
     font-size: ${groupHeaderHeight * 2}px;
+    line-height: ${groupHeaderHeight * 2}px;
+    word-break: break-all;
+    font-weight: 400;
     color: ${g6};
   }
 
@@ -61,8 +53,9 @@ const StyledGroupHeader = styled.div`
     margin: 0;
     border: 0;
     outline: 0;
-    background: none;
+    background: ${g1};
 
+    max-width: 100%;
   }
 `;
 

@@ -5,6 +5,7 @@ import Sortable = require('sortablejs');
 import { IGroup } from '../../interfaces/IGroup';
 import { reorderGroup } from '../../actions/groupsActions';
 import Group from './Group';
+import StyledGroups from './StyledGroups';
 import { renderLog } from '../../helpers/logger';
 
 
@@ -44,17 +45,10 @@ const GroupsComponent: any = ({ groups, isShownRepoDetails, dispatchReorderGroup
     );
   });
 
-  const style: any = {};
-
-  if (isShownRepoDetails) {
-    // style.display = 'none';
-    style.opacity = 0;
-  }
-
   return (
-    <div style={style} ref={(el) => sortableGroups(dispatchReorderGroup, el) }>
+    <StyledGroups innerRef={(el) => sortableGroups(dispatchReorderGroup, el) }>
       { groupsNodes }
-    </div>
+    </StyledGroups>
   );
 };
 

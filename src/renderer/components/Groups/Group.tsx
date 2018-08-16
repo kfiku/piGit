@@ -21,6 +21,7 @@ import Reload from '../Icons/Reload';
 import Save from '../Icons/Save';
 import ArrowDown from '../Icons/ArrowDown';
 import { renderLog } from '../../helpers/logger';
+import StyledGroup from './StyledGroup';
 import StyledGroupHeader from './StyledGroupHeader';
 
 const onChangeGroupName = (dispatchEditGroup, id: string) => {
@@ -76,9 +77,9 @@ const GroupComponent: any = ({
     /** ON GROUP EDITING */
     header = (
       <StyledGroupHeader className='group-header editing'>
-        <Icon className='icon icon-edit'>
+        {/* <Icon className='icon icon-edit'>
           <Edit />
-        </Icon>
+        </Icon> */}
 
         <div className='title-box'>
           <input id={ 'groupInput_' + group.id } className='title' defaultValue={ group.title }
@@ -101,9 +102,9 @@ const GroupComponent: any = ({
   } else {
     header = (
       <StyledGroupHeader>
-        <Icon className='icon icon-move group-mover' title='Reorder this group'>
+        {/* <Icon className='icon icon-move group-mover' title='Reorder this group'>
           <Sort />
-        </Icon>
+        </Icon> */}
 
         <div className='title-box'>
           <span className='title'
@@ -113,38 +114,40 @@ const GroupComponent: any = ({
           </span>
         </div>
 
-        <Icon className='icon icon-pull' title='Pull all in this group'
-        onClick={ dispatchPullGroup.bind(null, group.id) }
-        >
-          <ArrowDown />
-        </Icon>
+        <div>
+          <Icon className='icon icon-pull' title='Pull all in this group'
+          onClick={ dispatchPullGroup.bind(null, group.id) }
+          >
+            <ArrowDown />
+          </Icon>
 
-        <Icon
-          spin={group.progressing}
-          className='icon icon-refresh'
-          title='Reload all in this group'
-          onClick={ dispatchReloadGroup.bind(null, group.id) }
-        >
-          <Reload />
-        </Icon>
+          <Icon
+            spin={group.progressing}
+            className='icon icon-refresh'
+            title='Reload all in this group'
+            onClick={ dispatchReloadGroup.bind(null, group.id) }
+          >
+            <Reload />
+          </Icon>
 
-        <Icon className='icon icon-edit' title='Edit this group'
-        onClick={ dispatchStartEditGroup.bind(null, group.id) }
-        >
-          <Edit />
-        </Icon>
+          <Icon className='icon icon-edit' title='Edit this group'
+          onClick={ dispatchStartEditGroup.bind(null, group.id) }
+          >
+            <Edit />
+          </Icon>
 
-        <Icon className='icon icon-x' title='Remove this group with all repos'
-        onClick={ dispatchConfirmDeleteGroup.bind(null, group.id) }
-        >
-          <Garbage />
-        </Icon>
+          <Icon className='icon icon-x' title='Remove this group with all repos'
+          onClick={ dispatchConfirmDeleteGroup.bind(null, group.id) }
+          >
+            <Garbage />
+          </Icon>
+        </div>
       </StyledGroupHeader>
     );
   }
 
   return (
-    <div className='group'>
+    <StyledGroup>
       { group.confirmDelete
         ? <Confirm
             yes={ dispatchDeleteGroup.bind(null, group.id) }
@@ -156,7 +159,7 @@ const GroupComponent: any = ({
       { header }
 
       <Repos key={ group.id } group-id={ group.id } group-i={ i } />
-    </div>
+    </StyledGroup>
   );
 };
 
