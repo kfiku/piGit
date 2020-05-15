@@ -135,7 +135,7 @@
     "jquery": "^3.5.0",
     "lodash": "^4.17.12",
     "moment": "^2.22.1",
-    "mousetrap": "^1.6.1",
+    "mousetrap": "^1.6.5",
     "node-notifier": "^5.2.1",
     "prop-types": "^15.6.1",
     "react": "^16.13.1",
