@@ -137,7 +137,7 @@
     "moment": "^2.22.1",
     "mousetrap": "^1.6.1",
     "node-notifier": "^5.2.1",
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^5.2.0",
