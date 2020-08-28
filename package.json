@@ -133,7 +133,7 @@
     "git-dirs-search": "^1.1.1",
     "highlight.js": "^9.18.1",
     "jquery": "^3.5.0",
-    "lodash": "^4.17.12",
+    "lodash": "^4.17.17",
     "moment": "^2.22.1",
     "mousetrap": "^1.6.1",
     "node-notifier": "^5.2.1",
