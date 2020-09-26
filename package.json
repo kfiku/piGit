@@ -149,7 +149,7 @@
     "simple-git": "^1.132.0",
     "sortablejs": "~1.7.0",
     "styled-components": "^4.0.0",
-    "snyk": "^1.320.2"
+    "snyk": "^1.389.0"
   },
   "snyk": true
 }
