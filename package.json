@@ -148,7 +148,7 @@
     "redux-thunk": "^2.2.0",
     "simple-git": "^1.132.0",
     "sortablejs": "~1.7.0",
-    "styled-components": "^4.0.0",
+    "styled-components": "^4.4.1",
     "snyk": "^1.320.2"
   },
   "snyk": true
