@@ -128,7 +128,7 @@
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.14",
     "electron-settings": "^3.2.0",
-    "es6-promisify": "^6.0.0",
+    "es6-promisify": "^6.1.1",
     "file-icons-js": "github:websemantics/file-icons-js",
     "git-dirs-search": "^1.1.1",
     "highlight.js": "^9.18.1",
