@@ -15,7 +15,7 @@
     "start": "node fuse",
     "start:electron": "electron .",
     "start:electron:watch": "nodemon --watch 'dist/main/*.*' --exec 'electron .'",
-    "release": "release-it --src.tagName='v%s' --no-npm.publish",
+    "release": "release-it --src.tagName='%s' --no-npm.publish",
     "build": "npm run lint && export NODE_ENV=production && node fuse dist",
     "lint": "tslint --type-check -p . -c tslint.json 'src/**/*.ts' 'src/**/*.tsx' 'test/**/*.ts'",
     "prod": "export NODE_ENV=production && npm run build && npm run start:electron",
@@ -46,6 +46,10 @@
   "build": {
     "productName": "PiGit",
     "appId": "org.kfiku.PiGit",
+    "publish": {
+      "provider": "github",
+      "vPrefixedTagName": false
+    },
     "files": [
       "dist/",
       "node_modules/",
@@ -108,7 +112,7 @@
     "chai": "^4.1.2",
     "devtron": "~1.4.0",
     "electron": "^10",
-    "electron-builder": "^20.15.3",
+    "electron-builder": "^22.8.1",
     "electron-debug": "~1.5.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-updater": "^2.21.8",
