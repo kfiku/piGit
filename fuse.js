@@ -16,7 +16,7 @@ let production = false
 Sparky.task('build:renderer', () => {
   const fuse = FuseBox.init({
     homeDir: 'src/renderer',
-    sourceMaps: { project: true, vendor: true },
+    sourceMaps: production ? false : { project: true, vendor: true },
     output: 'dist/renderer/$name.js',
     hash: production,
     target: 'electron',
@@ -24,7 +24,7 @@ Sparky.task('build:renderer', () => {
     cache: !production,
     plugins: [
       EnvPlugin({ NODE_ENV: production ? 'production' : 'development' }),
-            [CSSPlugin()],
+      [CSSPlugin()],
       WebIndexPlugin({
         title: 'FuseBox electron demo',
         template: 'src/renderer/index.html',
