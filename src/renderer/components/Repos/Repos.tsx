@@ -71,7 +71,7 @@ const ReposComponent: React.FC<IReposProps> = ({ group, i, dispatchReorderRepo }
 
   return (
     <StyledRepos className='repos' data-group-i={ i }
-      innerRef={(el) => sortableRepos(dispatchReorderRepo, el) }>
+      ref={(el) => sortableRepos(dispatchReorderRepo, el) }>
       { reposNodes }
     </StyledRepos>
   );

@@ -3,7 +3,7 @@ import { join, basename } from 'path';
 
 import { eachSeries } from 'async';
 import { exec } from 'child_process';
-import { promisify } from 'es6-promisify';
+import * as promisify from 'es6-promisify';
 import * as gitDirsSearch from 'git-dirs-search';
 const simpleGit = require('simple-git/promise');
 

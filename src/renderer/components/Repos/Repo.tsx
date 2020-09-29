@@ -91,7 +91,7 @@ class RepoComponent extends React.PureComponent<IRepoProps, IRepoState> {
 
     return (
       <StyledRepo
-        innerRef={el => this.getRef(el)}
+        ref={el => this.getRef(el)}
         className={ 'repo ' + this.getClassName(repo.stats) }
         processing={repo.progressing}
         active={active ? 1 : 0}
