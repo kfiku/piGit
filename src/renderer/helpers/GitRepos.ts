@@ -1,10 +1,10 @@
 import { stat, unlink } from 'fs';
 import { join, basename } from 'path';
-
+import { promisify } from 'util';
 import { eachSeries } from 'async';
 import { exec } from 'child_process';
-import * as promisify from 'es6-promisify';
 import * as gitDirsSearch from 'git-dirs-search';
+
 const simpleGit = require('simple-git/promise');
 
 import { IStash, IFile } from '../interfaces/IGit';
@@ -193,7 +193,7 @@ export class Repo {
       const stashes2 = await execPromise(
         `cd ${this.state.dir} && git stash list --pretty=format:%gd__%ai__%s`
       );
-      const stashesList = stashes2
+      const stashesList = stashes2.stdout
       .split('\n')
       .filter(s => s)
       .map(s => {
