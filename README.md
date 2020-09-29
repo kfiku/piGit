@@ -1,5 +1,12 @@
-# GIT Watch
-electron app, written in typescript, react, redux, fusebox to watch git repos
+# PiGit
+
+UI App to watch git repos changes in ease
+
+![Icon](screenshots/icon.png)
+![Icon](screenshots/main.png)
+![Icon](screenshots/details.png)
+
+electron app, written in typescript, react, redux.
 
 [![Build Status](https://travis-ci.org/kfiku/piGit.svg?branch=master)](https://travis-ci.org/kfiku/piGit)
 
@@ -22,12 +29,12 @@ and
 npm run prod
 ```
 
-
 #### FOR DEV ENV - with simple HRM on renderer and main process
 
 ```
 npm start
 ```
+
 ### Build package for your os (tested on latest macos and ubuntu-linux)
 
 ```
