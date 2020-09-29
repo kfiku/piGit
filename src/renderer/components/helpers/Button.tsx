@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { navHeight, g1, g2, g4, g7, defaultFont } from '../../utils/styles';
 
 // const StyledNav = styled('nav')`
@@ -41,7 +41,7 @@ const Button = styled.button`
     }
   }
 
-  ${(p: any) => p.inside ? `
+  ${(p: any) => p.inside ? css`
     background: transparent;
   ` : ''}
 `;

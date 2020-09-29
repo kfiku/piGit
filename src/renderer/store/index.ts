@@ -8,8 +8,8 @@ import asyncActions from '../asyncActions';
 
 const settings = require('electron-settings');
 
-const createAppStore = (callback) => {
-  let state: IRootReducer = settings.get('state');
+const createAppStore = async (callback) => {
+  let state: IRootReducer = await settings.get('state');
   console.log(state);
   // state = undefined;
 
@@ -44,9 +44,9 @@ const createAppStore = (callback) => {
   }
 
   let composeEnhancers = compose;
-  // if (env === 'development' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-  //   composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
-  // }
+  if (env === 'development' && (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
+    composeEnhancers = (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+  }
 
   let store = createStore(
     rootReducer,

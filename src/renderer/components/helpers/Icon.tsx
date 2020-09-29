@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import {
   navHeight, g4, g7, green,
@@ -44,7 +44,7 @@ const StyledIcon = styled.i`
 
   ${({ spin, upAndDown }: any) => {
     if (spin) {
-      return `
+      return css`
         svg {
           fill: ${green};
         }
@@ -55,7 +55,7 @@ const StyledIcon = styled.i`
     }
 
     if (upAndDown) {
-      return `
+      return css`
         overflow: hidden;
         svg {
           fill: ${green};

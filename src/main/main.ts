@@ -38,6 +38,10 @@ function createWindow() {
 
   mainWindow = new BrowserWindow({
     ...windowBounds.get(),
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true
+    },
     icon: getIcon()
   });
 

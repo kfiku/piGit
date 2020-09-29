@@ -1,11 +1,9 @@
-import { IGroup } from '../../interfaces/IGroup';
-// import { IRepo } from '../../interfaces/IRepo';
-
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Sortable = require('sortablejs');
 
+import { IGroup } from '../../interfaces/IGroup';
 import { renderLog } from '../../helpers/logger';
 import { reorderRepo } from '../../actions/reposActions';
 import Repo from './Repo';
@@ -64,7 +62,7 @@ interface IReposProps {
   dispatchReorderRepo: Function;
 }
 
-const ReposComponent: React.SFC<IReposProps> = ({ group, i, dispatchReorderRepo }) => {
+const ReposComponent: React.FC<IReposProps> = ({ group, i, dispatchReorderRepo }) => {
   renderLog('REPOS', group.title);
 
   let reposNodes = group.repos.map(repo => (
@@ -81,7 +79,7 @@ const ReposComponent: React.SFC<IReposProps> = ({ group, i, dispatchReorderRepo 
 
 ReposComponent.propTypes = {
   dispatchReorderRepo: PropTypes.func.isRequired,
-  group: PropTypes.object.isRequired,
+  // group: PropTypes.object.isRequired,
   i: PropTypes.number.isRequired
 };
 

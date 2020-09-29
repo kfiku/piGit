@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import {
   repoSize
@@ -11,13 +11,13 @@ const StyledRepo = styled.div`
   pointer-events: none;
 `;
 
-const StyledRepoWithMQ = StyledRepo.extend`
+const StyledRepoWithMQ = styled(StyledRepo)`
   ${[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(i => {
     /* Size of repo in percent (i and half in line) */
     const size = 100 / (i + 0.6);
     const inLine = i + i;
     const smallSize = 50;
-    return `
+    return css`
       /* SIZES 4 - 18 REPOS PER LINE */
       @media screen
       and (min-width: ${(i + 1) * repoSize}px)

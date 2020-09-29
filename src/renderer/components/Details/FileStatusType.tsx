@@ -14,19 +14,19 @@ const Type = styled.span`
   border-radius: ${lh}px;
 `;
 
-const Modified = Type.extend`
+const Modified = styled(Type)`
   background: ${blue};
 `;
 
-const Added = Type.extend`
+const Added = styled(Type)`
   background: ${green};
 `;
 
-const Deleted = Type.extend`
+const Deleted = styled(Type)`
   background: ${red};
 `;
 
-const Renamed = Type.extend`
+const Renamed = styled(Type)`
   background: ${orange};
 `;
 

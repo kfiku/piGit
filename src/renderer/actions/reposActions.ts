@@ -14,7 +14,7 @@ import { message } from './messagesActions';
 
 
 export const addRepos = () => (dispatch, getState) => {
-  let dirs = electron.remote.dialog.showOpenDialog({
+  let dirs = electron.remote.dialog.showOpenDialogSync({
     properties: ['openDirectory', 'multiSelections']
   });
 

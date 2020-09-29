@@ -1,5 +1,3 @@
-import { IFile } from '../interfaces/IGit';
-
 export interface IStash {
   message: string;
   date: string;

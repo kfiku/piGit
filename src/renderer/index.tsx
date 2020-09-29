@@ -2,13 +2,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { injectGlobal } from 'styled-components';
+import { remote } from 'electron';
 
 import App from './components/App';
 import createAppStore from './store';
-import globalStyles from './utils/globalStyles';
 
-const { app } = require('electron').remote;
+const { app } = remote;
 const appVersion = app.getVersion();
 
 console.log(
@@ -30,5 +29,3 @@ createAppStore((err, store) => {
     );
   }
 });
-
-injectGlobal`${globalStyles}`; // tslint:disable-line:no-unused-expression
