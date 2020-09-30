@@ -145,7 +145,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-helmet": "^5.2.0",
+    "react-helmet": "^5.2.1",
     "react-icons": "^2.2.7",
     "react-redux": "^7.2.1",
     "react-resizable": "^1.11.0",
