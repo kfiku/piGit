@@ -136,7 +136,7 @@
     "electron-settings": "^3.2.0",
     "file-icons-js": "github:websemantics/file-icons-js",
     "git-dirs-search": "^1.1.1",
-    "highlight.js": "^9.18.3",
+    "highlight.js": "^10.4.1",
     "jquery": "^3.5.0",
     "lodash": "^4.17.21",
     "moment": "^2.22.1",
