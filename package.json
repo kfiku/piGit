@@ -148,7 +148,7 @@
     "react-helmet": "^5.2.1",
     "react-icons": "^2.2.7",
     "react-redux": "^7.2.6",
-    "react-resizable": "^1.11.0",
+    "react-resizable": "^1.11.1",
     "redux": "~4.1.2",
     "redux-thunk": "^2.3.0",
     "simple-git": "^1.132.0",
