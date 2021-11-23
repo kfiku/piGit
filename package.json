@@ -137,7 +137,7 @@
     "file-icons-js": "github:websemantics/file-icons-js",
     "git-dirs-search": "^1.1.1",
     "highlight.js": "^10.7.3",
-    "jquery": "^3.5.0",
+    "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "moment": "^2.22.1",
     "mousetrap": "^1.6.1",
