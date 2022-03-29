@@ -151,7 +151,7 @@
     "react-resizable": "^1.11.0",
     "redux": "~4.1.2",
     "redux-thunk": "^2.3.0",
-    "simple-git": "^1.132.0",
+    "simple-git": "^3.5.0",
     "sortablejs": "~1.14.0",
     "styled-components": "^4.4.0",
     "snyk": "^1.748.0"
