@@ -129,7 +129,7 @@
     "uglify-js": "^3.3.22"
   },
   "dependencies": {
-    "async": "^2.6.3",
+    "async": "^3.2.2",
     "diff2html": "^2.12.2",
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.17",
